@@ -96,8 +96,16 @@ module tb_measure;
       if ((dut.rvpipe.FaultValidE && in_kernel(dut.rvpipe.FaultPCE)) ||
           (fault && in_kernel(faultpc))) w_stall_fault_hold=w_stall_fault_hold+1;
       if (dut.rvpipe.PCSrcE) w_flush_taken=w_flush_taken+1;
-      if (we) w_stores=w_stores+1;
-      if (dut.rvpipe.MemReadM) w_loads=w_loads+1;
+      // The data address trace the pilot compares, and the outputs a kernel
+      // must produce; both are traced together with retirements.
+      if (we) begin
+        w_stores=w_stores+1;
+        if (trace!=0) $display("STORE|%08h|%08h",address,wd);
+      end
+      if (dut.rvpipe.MemReadM) begin
+        w_loads=w_loads+1;
+        if (trace!=0) $display("LOAD|%08h",address);
+      end
       // Retirement counts instructions; a register write is reported apart so
       // the two are never conflated, and a stall never yields two retirements.
       if (retire) begin

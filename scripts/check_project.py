@@ -500,6 +500,61 @@ def check_measurement():
     return len(cases)
 
 
+def check_kernels():
+    sys.path.insert(0, str(ROOT / "benchmarks"))
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from verify_kernels import sources, SHAPES, SEEDS, SETTINGS, CUSTOM0
+    from tensors import tensors, zero_points, expected_outputs
+    state = json.loads((ROOT / "docs/KERNEL_STATE.json").read_text())
+    assert state["status"] == "d_and_b3_kernels_verified"
+    assert state["variants_implemented"] == ["B3", "D"] and state["variants_pending"] == ["B1", "B2"]
+    assert state["campaign_executed"] is state["pilot_executed"] is False
+    assert state["speedup_computed"] is state["performance_comparison_drawn"] is False
+    assert state["development_timings_observed"] is True
+
+    def verify_report(path, digest):
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == digest
+        run = json.loads(path.read_text())
+        assert run["status"] == "pass"
+        assert set(run["sources_sha256"]) == {str(p.relative_to(ROOT)) for p in sources()}
+        for name, source_hash in run["sources_sha256"].items():
+            assert hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == source_hash, f"Stale kernels: {name}"
+        assert run["paired_agreements"] == len(SHAPES) * len(SEEDS) * len(SETTINGS) == 24
+        assert len(run["cases"]) == 48
+        for name, case in run["cases"].items():
+            # Recompute the oracle instead of trusting the recorded outputs.
+            activations, weights = tensors(case["seed"], case["rows"], run["k"])
+            zeros = zero_points(case["profile"], case["setting"], case["rows"], run["k"] // run["g"])
+            assert case["outputs"] == expected_outputs(weights, activations, zeros), name
+            assert [row[0] for row in zeros] == case["zero_points"], name
+            multiplies = case["instruction_mix"].get("0x33/mul", 0)
+            if case["variant"] == "D":
+                assert multiplies == 0 and f"{CUSTOM0:#04x}" in case["instruction_mix"], name
+            else:
+                shared = len(set(case["zero_points"])) == 1
+                assert multiplies == (1 if shared else case["rows"]), name
+        # The gate M4 requires: for one case the variants return the same integers.
+        for rows in SHAPES:
+            for seed in SEEDS:
+                for profile, setting in SETTINGS:
+                    tail = f"n{rows}_s{seed}_{profile}_{setting}"
+                    assert run["cases"][f"D_{tail}"]["outputs"] == run["cases"][f"B3_{tail}"]["outputs"], tail
+        artifacts = {str(p.relative_to(path.parent)) for p in path.parent.rglob("*")
+                     if p.is_file() and p != path}
+        assert artifacts == set(run["artifacts_sha256"])
+        for name, artifact_hash in run["artifacts_sha256"].items():
+            assert hashlib.sha256((path.parent / name).read_bytes()).hexdigest() == artifact_hash, name
+        return run
+
+    report = verify_report(ROOT / state["evidence"], state["evidence_sha256"])
+    repeated = verify_report(ROOT / state["repeat_evidence"], state["repeat_evidence_sha256"])
+    for key in ("sources_sha256", "tools", "platform", "cases", "paired_agreements"):
+        assert report[key] == repeated[key], f"Kernel repeat differs: {key}"
+    print("OK: D and B3 kernels, 24 paired agreements over 48 cases in two simulators.")
+    print("Kernel correctness only; B1/B2 pending, campaign blocked and no speedup computed.")
+    return len(report["cases"])
+
+
 def main():
     metadata = (ROOT / "paper/metadata.tex").read_text()
     def macro(name):
@@ -563,6 +618,7 @@ def main():
     packed_vectors = check_packed()
     packed_programs = check_packed_integration()
     check_measurement()
+    check_kernels()
     from check_campaign import check as check_campaign
     check_campaign()
 

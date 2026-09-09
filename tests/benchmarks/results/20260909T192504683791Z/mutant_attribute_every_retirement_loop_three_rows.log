@@ -1,0 +1,27 @@
+RETIRED|00000000
+STORE|00000000|00000002
+RETIRED|00000004
+RETIRED|00000008
+RETIRED|0000000c
+STORE|00000000|00000001
+RETIRED|00000004
+RETIRED|00000008
+RETIRED|0000000c
+STORE|00000000|00000000
+RETIRED|00000004
+RETIRED|00000008
+RETIRED|0000000c
+WINDOW|2|16
+MEASURE|cycles|15
+MEASURE|retired|9
+MEASURE|retired_kernel|9
+MEASURE|retired_stores|3
+MEASURE|retired_loads|0
+MEASURE|register_writes|4
+MEASURE|stall_load_use|0
+MEASURE|stall_fault_hold|0
+MEASURE|flush_taken_control|2
+MEASURE|data_read_bytes|0
+MEASURE|data_write_bytes|12
+MEASURE_PASS window closed
+/tmp/xqdot4z-measure-pchaehms/mutant_attribute_every_retirement.sv:74: $finish called at 221000 (1ps)

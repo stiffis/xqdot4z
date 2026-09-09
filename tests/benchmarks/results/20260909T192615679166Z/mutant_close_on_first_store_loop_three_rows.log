@@ -1,0 +1,27 @@
+RETIRED|00000000
+STORE|00000000|00000002
+RETIRED|00000004
+RETIRED|00000008
+RETIRED|0000000c
+STORE|00000000|00000001
+RETIRED|00000004
+RETIRED|00000008
+RETIRED|0000000c
+STORE|00000000|00000000
+RETIRED|00000004
+RETIRED|00000008
+RETIRED|0000000c
+WINDOW|2|6
+MEASURE|cycles|5
+MEASURE|retired|3
+MEASURE|retired_kernel|2
+MEASURE|retired_stores|1
+MEASURE|retired_loads|0
+MEASURE|register_writes|2
+MEASURE|stall_load_use|0
+MEASURE|stall_fault_hold|0
+MEASURE|flush_taken_control|1
+MEASURE|data_read_bytes|0
+MEASURE|data_write_bytes|4
+MEASURE_PASS window closed
+/tmp/xqdot4z-measure-a4nmgl6z/mutant_close_on_first_store.sv:74: $finish called at 221000 (1ps)

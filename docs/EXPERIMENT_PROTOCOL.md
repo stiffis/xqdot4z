@@ -48,6 +48,17 @@ Los parámetros (MUL, XQDot4Zi, XQDot4) permiten B1=(0,0,0), B2=(1,0,0),
 B3=(1,0,1) y D=(1,1,0). (1,1,1) prueba convivencia, no es D causal.
 Falta cerrar kernels, memoria común y eventos de medición antes de comparar.
 
+Actualización de kernels (2026-09-09): existen kernels pareados **D y B3**
+para K=G=32 y N∈{1,4,16}, verificados contra el oráculo entero y entre sí, con
+lista blanca de opcodes por variante y evidencia en `docs/KERNEL_STATE.json`.
+**B1 y B2 siguen sin implementar**, así que el bloqueador de kernels continúa
+abierto y la campaña sigue bloqueada. Al desarrollarlos se observaron
+contadores de esas corridas de corrección; se registran como tiempos de
+desarrollo observados, no como resultados, y no se ha comparado ni calculado
+ningún speedup. Bajo especialización estática el zero-point es un inmediato,
+así que las filas se emiten rectilíneas: un bucle no puede llevar un inmediato
+distinto por fila. El tamaño de código crece con N y se reporta como métrica.
+
 Estado: planificación. No existen aún mediciones de XQDot4Z.
 Las configuraciones siguientes son propuestas concretas; cualquier revisión
 se registra antes de comparar resultados.
