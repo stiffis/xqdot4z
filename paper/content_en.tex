@@ -122,29 +122,24 @@ with the correction in~\eqref{eq:factor}, and XQDot4Z
 the core corrections. Measurement will include loads, loops, correction,
 and metadata delivery, in addition to the arithmetic kernel.
 
-Dimensions, configurations, and aggregation criteria will be agreed upon
-before the measurement campaign. Programs, versions, seeds, expected
-outputs, and logs will be retained. Unfavorable results will also be
-reported. The detailed working protocol remains outside the paper until
-these decisions are settled.
+The initial manifest sweeps row counts with one group of 32 elements and
+separates constant controls from U4 codes balanced across phases. It distinguishes
+zero, one, other powers of two, and remaining codes; mixed-program times are
+not apportioned to these strata by frequency. It evaluates static specialization,
+without extrapolation to dynamic metadata. Unrolling, register allocation,
+scheduling, and correction reuse must be fixed before measurement. All cases,
+including failures and slowdowns, will be reported. Performance kernels remain unavailable.
 
 \balance
 \section{Results and Discussion}
-The isolated unit matches the reference in 556\,734 comparisons per
-simulator. Both simulators detect eight negative controls; Icarus detects
-four RTL mutations. Strict lint passes without waivers. Exhaustiveness is
-limited to single-term tuples, not all complete operands. Artifacts and hashes
-are retained in the repository.
-
-The immediate integration passes 25 programs in both simulators, including
-a campaign of 1056 operations. Retirement, writeback, stores, and operands
-are compared; dependencies, branches, reset, and the disabled configuration
-are tested. Two integration mutations are detected in Icarus.
-
-MUL matches its reference on 86\,704 vectors per simulator and passes
-49 programs in both, covering the four MUL/XQDot4Zi configurations.
-Eight negative controls per simulator and four Icarus mutations are detected,
-two arithmetic and two forwarding faults.
+Isolated XQDot4Z passes 556\,734 comparisons per simulator, eight negative
+controls, and four Icarus mutations; lint requires no waivers. Exhaustiveness
+only covers single-term tuples. Immediate integration passes 25 programs,
+including 1056 numerical operations, comparing retirement, writeback, stores,
+and operands, and detecting two mutations. MUL passes 86\,704 vectors per
+simulator and 49 programs with four configurations, eight negative controls
+per simulator, and four Icarus mutations. Artifacts, logs, and hashes of these
+test suites are retained.
 
 The packed unit without correction passes 67\,910 vectors per simulator,
 with ten negative controls per simulator and four Icarus mutations.
@@ -162,6 +157,15 @@ dynamic-metadata tests.
 
 \textit{Performance evaluation pending.} These results do not establish
 acceleration, resource usage, physical timing, or efficient dynamic metadata delivery.
+
+\subsection{Threats to Validity}
+The shared skeleton reduces optimization bias but does not establish
+optimality or eliminate software--architecture interaction.
+The synthetic distribution does not necessarily represent a real network.
+With z=0, separate correction can be omitted without establishing equal
+performance. Dispatch among immediates would support dynamic z without
+a new encoding, but still has no implementation or measured cost. Counters
+require validation; RTL cycles do not establish physical timing.
 
 \section{Conclusion}
 \textit{Pending evaluation.} The question and scope are defined, but whether

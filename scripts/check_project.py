@@ -515,6 +515,8 @@ def main():
     scalar_programs = check_scalar()
     packed_vectors = check_packed()
     packed_programs = check_packed_integration()
+    from check_campaign import check as check_campaign
+    check_campaign()
 
     bodies = []
     for language in ("es", "en"):
@@ -540,6 +542,8 @@ def main():
         keywords = re.search(r"\\begin\{IEEEkeywords\}(.*?)\\end\{IEEEkeywords\}", body, re.S).group(1)
         assert 3 <= len(keywords.split(",")) <= 5
         assert r"\input{comparison_figure}" in body
+        threats = "Amenazas a la validez" if language == "es" else "Threats to Validity"
+        assert "\\subsection{" + threats + "}" in body, "Missing explicit threats-to-validity subsection"
         print(f"OK: {language.upper()} IEEE draft; abstract {len(abstract.split())} words.")
     for pattern in (r"\\cite\{([^}]+)\}", r"\\label\{([^}]+)\}",
                     r"\\begin\{equation\}(.*?)\\end\{equation\}"):
@@ -549,7 +553,7 @@ def main():
     for tex in (ROOT / "paper").rglob("*.tex"):
         for name in re.findall(r"\\input\{([^}]+)\}", tex.read_text()):
             assert (ROOT / "paper" / (name + ".tex")).is_file(), name
-    documents = [ROOT / "README.md", ROOT / "paper/README.md",
+    documents = [ROOT / "README.md", ROOT / "paper/README.md", ROOT / "benchmarks/README.md",
                  clone / "README.md", clone / "docs/CORE_CORRECTIONS.md",
                  clone / "verification/README.md", ROOT / "model/README.md",
                  ROOT / "model/SPEC.md", ROOT / "model/results/README.md",

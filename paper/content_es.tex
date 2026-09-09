@@ -121,29 +121,24 @@ variantes recibirán los mismos datos y compartirán las correcciones del core.
 Se contará el trabajo de cargas, bucles, corrección y suministro de metadatos,
 además del núcleo aritmético.
 
-Las dimensiones, configuraciones y criterios de agregación se acordarán
-antes de la campaña de medición. Se conservarán programas, versiones,
-semillas, salidas esperadas y logs. Los resultados desfavorables también
-se reportarán. El protocolo de trabajo detallado se mantiene fuera del
-artículo hasta que esas decisiones estén cerradas.
+El manifiesto inicial barre filas con un grupo de 32 elementos y separa
+controles constantes de códigos U4 equilibrados entre fases. Distingue cero,
+uno, otras potencias de dos y demás códigos; no atribuye tiempos de programas
+mixtos a esos estratos por frecuencia. Evalúa especialización estática,
+sin extrapolar a metadatos dinámicos. Desenrollado, registros, planificación
+y reutilización de correcciones deben fijarse antes de medir. Se reportarán
+todos los casos, incluidos fallos y degradaciones. Aún no hay kernels de rendimiento.
 
 \balance
 \section{Resultados y discusión}
-La unidad aislada coincide con la referencia en 556\,734 comparaciones por
-simulador. Se detectan ocho controles negativos por simulador y cuatro
-mutaciones del RTL en Icarus; el lint estricto no requiere excepciones.
-La exhaustividad se limita a ternas de un término, no a todos los operandos
-completos. Los artefactos y hashes se conservan en el repositorio.
-
-La integración inmediata supera 25 programas en ambos simuladores, incluida
-una campaña de 1056 operaciones. Se comparan retiros, writeback, stores y
-operandos; se prueban dependencias, saltos, reset y configuración desactivada.
-Dos mutaciones de integración se detectan en Icarus.
-
-MUL coincide con su referencia en 86\,704 vectores por simulador y supera
-49 programas en ambos, con las cuatro configuraciones MUL/XQDot4Zi.
-Se detectan ocho controles negativos por simulador y cuatro mutaciones
-en Icarus, dos aritméticas y dos de forwarding.
+XQDot4Z aislada supera 556\,734 comparaciones por simulador, ocho controles
+negativos y cuatro mutaciones en Icarus; el lint no requiere excepciones.
+La exhaustividad solo corresponde a ternas de un término. La integración
+inmediata supera 25 programas, incluidas 1056 operaciones numéricas, con
+comparación de retiros, writeback, stores y operandos, y dos mutaciones detectadas.
+MUL supera 86\,704 vectores por simulador y 49 programas con cuatro
+configuraciones, ocho controles negativos por simulador y cuatro mutaciones
+en Icarus. Se conservan artefactos, logs y hashes de estas baterías.
 
 La unidad empacada sin corrección supera 67\,910 vectores por simulador,
 con diez controles negativos por simulador y cuatro mutaciones en Icarus.
@@ -161,6 +156,15 @@ no benchmarks optimizados ni pruebas de metadatos dinámicos.
 
 \textit{Evaluación de rendimiento pendiente.} Estos resultados no prueban
 aceleración, recursos, tiempo físico ni suministro eficiente de metadatos dinámicos.
+
+\subsection{Amenazas a la validez}
+El esqueleto compartido reduce el sesgo de optimización pero no demuestra
+optimalidad ni elimina la interacción software--arquitectura.
+La distribución sintética no representa necesariamente una red real.
+Con z=0 puede omitirse la corrección separada, sin demostrar igualdad de
+rendimiento. Despachar entre inmediatos permitiría z dinámico sin otro
+encoding, pero sigue sin implementación ni costo medido. Los contadores
+requieren validación; ciclos RTL no demuestran timing físico.
 
 \section{Conclusiones}
 \textit{Pendiente de evaluación.} La pregunta y el alcance están delimitados,

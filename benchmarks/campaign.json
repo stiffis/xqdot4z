@@ -1,0 +1,76 @@
+{
+  "manifest_version": "0.1",
+  "campaign_id": "static-z-initial",
+  "status": "design_only",
+  "protocol": "docs/EXPERIMENT_PROTOCOL.md",
+  "protocol_version": "0.2",
+  "interpretation": "Evaluation under static zero-point specialization; no extrapolation to ZR and no proven upper bound on D's advantage.",
+  "grid": {
+    "variants": ["B1", "B2", "B3", "D"],
+    "N": [1, 4, 16],
+    "K": [32],
+    "G": 32,
+    "tensor_seeds": [20260908, 20260909, 20260910, 20260911, 20260912, 20260913, 20260914, 20260915, 20260916, 20260917]
+  },
+  "zero_point_profiles": [
+    {
+      "id": "zc_controls",
+      "regime": "ZC",
+      "assignment": "constant",
+      "values": [0, 8, 15],
+      "rationale": "Preserve the protocol's three separate controls: removable correction, power-of-two correction, and the upper U4 endpoint. These are not population frequencies."
+    },
+    {
+      "id": "zs_balanced_u4",
+      "regime": "ZS",
+      "assignment": "cyclic_affine_modulo",
+      "modulus": 16,
+      "row_stride": 1,
+      "group_stride": 5,
+      "phases": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "rationale": "Use z[r,g]=(phase+row_stride*r+group_stride*g) modulo 16. All phases give equal frequency to every U4 code at each shape/seed. Coprime strides cover rows/groups without random imbalance; the initial K=G has only one group. This synthetic schedule is not a model-derived distribution."
+    }
+  ],
+  "zero_point_strata": {
+    "zero": [0],
+    "one": [1],
+    "powers_of_two_gt_one": [2, 4, 8],
+    "remaining_u4_codes": [3, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15]
+  },
+  "pairing": {
+    "weights_and_activations": "identical_across_variants_profiles_and_phases_for_each_shape_and_tensor_seed",
+    "zero_points": "identical_across_variants_for_each_profile_phase_and_shape",
+    "persist_before_measurement": ["packed_weights", "packed_activations", "zero_point_matrix", "effective_z_histogram", "expected_group_outputs", "sha256"]
+  },
+  "reporting": {
+    "retain_every_planned_case": true,
+    "terminal_statuses": ["pass", "fail", "timeout", "unsupported"],
+    "retain_failed_attempts": true,
+    "report_zc_and_zs_separately": true,
+    "report_each_profile_and_phase": true,
+    "global_speedup_across_z_profiles": false,
+    "mixed_zs_runs": "Report full-kernel metrics with the effective z histogram; never apportion cycles to strata by frequency.",
+    "missing_case": "incomplete_campaign_not_silent_exclusion",
+    "unsupported_or_failed_speedup": null
+  },
+  "optimization": {
+    "shared_b3_d_skeleton_required": true,
+    "common_policy_for_all_variants_required": true,
+    "allow_semantically_valid_constant_specializations": true,
+    "force_runtime_correction_for_z_zero": false,
+    "allow_compile_time_tensor_arithmetic": false,
+    "logical_elements_per_unrolled_iteration": null,
+    "row_group_traversal": null,
+    "register_allocation_and_spill_policy": null,
+    "equal_z_correction_reuse_policy": null,
+    "strength_reduction_and_scheduling_policy": null
+  },
+  "execution_blockers": [
+    "freeze the pending optimization policies before writing performance kernels",
+    "implement and verify paired kernels and their disassembly allowlist checks",
+    "fix common memory capacities and the initialized data layout",
+    "define and test the concrete measurement events and all protocol counters",
+    "materialize tensors and the complete case inventory with hashes",
+    "record the pre-measurement revision and any observed development timings"
+  ]
+}

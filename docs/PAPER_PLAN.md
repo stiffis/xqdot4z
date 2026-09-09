@@ -1,4 +1,4 @@
-# Estructura del artículo IEEE — versión 0.8
+# Estructura del artículo IEEE — versión 0.9
 
 El artículo es un borrador breve, no el protocolo interno completo. Se mantienen
 `paper/main_es.tex` y `paper/main_en.tex`, con bibliografía, ecuaciones y figura
@@ -11,7 +11,7 @@ compartidas o comprobadas para evitar divergencias.
 | II. Fundamentos y trabajo relacionado | Cuantización, factorización y antecedentes pertinentes | Comparación más completa de trabajos |
 | III. Pregunta y alcance | Pregunta central, simulación primero, límites | Cambios de alcance acordados antes de medir |
 | IV. Método propuesto | Base común con MUL, contrato v0.1, referencia Python, RTL e integración opcional D/B3 | Kernels comparables y método de medición efectivamente ejecutado |
-| V. Resultados y discusión | Verificación M2/M3a, MUL, B3 aislado e integrado, con rendimiento explícitamente pendiente | Medidas comparativas, interpretación y limitaciones |
+| V. Resultados y discusión | Verificación M2/M3a, MUL, B3 aislado e integrado; amenazas a la validez y rendimiento pendiente | Medidas comparativas e interpretación |
 | VI. Conclusiones | Marcador explícito de pendiente | Respuesta respaldada a la pregunta |
 | Referencias | Solo trabajos citados | Fuentes primarias relevantes, sin rellenar por cantidad |
 
@@ -50,3 +50,9 @@ La integración B3 se fija aparte en `docs/PACKED_INTEGRATION_STATE.json`:
 123 programas y cuatro pares de fixtures con ocho salidas comprobadas en
 Kuntur. Se distingue de la reconstrucción anterior en el host y de los
 benchmarks aún no implementados. Se permite obtener Sa con pesos iguales a uno.
+
+La revisión 0.9 incorpora especialización estática, factores de zero-point y
+amenazas a la validez como subsección, no nota al pie. La distribución y
+selección de casos se concretan en `benchmarks/campaign.json`, subordinado al
+único protocolo `docs/EXPERIMENT_PROTOCOL.md`. Su checker verifica cobertura
+de diseño, no coherencia semántica completa ni preparación para medir.

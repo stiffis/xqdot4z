@@ -1,10 +1,13 @@
 # XQDot4Z — productos punto cuantizados en RV32
 
-Estado 0.8, 2026-09-08 (evidencia 2026-09-09 UTC): **B3 integrada en Kuntur
+Estado 0.9, 2026-09-09: **B3 integrada en Kuntur
 como XQDot4 opcional, con corrección y reutilización de Sa ejecutadas en el
 procesador en fixtures pequeños**. M3b sigue parcial. M1/M2 y la unidad B3
 aislada se conservan sin cambios; se repitieron las regresiones afectadas.
 Los comparadores completos y los benchmarks todavía no están implementados.
+El protocolo ahora explicita distribución de z, especialización estática y
+amenazas a la validez; el manifiesto inicial es de diseño y no autoriza medir
+mientras sus políticas e instrumentación sigan pendientes.
 El proyecto original `/home/stiff/kirky-arqui` se conserva intacto.
 
 ## Por dónde leer
@@ -26,6 +29,8 @@ El proyecto original `/home/stiff/kirky-arqui` se conserva intacto.
 11. [ISA de B3](isa/packed/SPEC.md), [cambios de integración](kuntur/docs/PACKED_INTEGRATION.md),
     [pruebas en el procesador](tests/packed_integration/README.md) y
     [evidencia](docs/PACKED_INTEGRATION_STATE.json).
+12. [Manifiesto inicial y comprobaciones](benchmarks/README.md), con el
+    [protocolo experimental único](docs/EXPERIMENT_PROTOCOL.md).
 
 Los dos artículos son versiones equivalentes del mismo borrador. Usan
 IEEEtran en modo conferencia: dos columnas, fondo blanco y diagrama TikZ

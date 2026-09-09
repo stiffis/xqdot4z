@@ -27,6 +27,8 @@
 | D23 | Integración B3: XQDot4 en custom-1, 32 bits y h inmediato | Mantiene intacto custom-0 de XQDot4Zi. `ENABLE_XQDOT4=0` por defecto, dos GPR, forwarding y flush/reset comunes; ocho configuraciones verificadas. `docs/PACKED_INTEGRATION_STATE.json` |
 | D24 | Adoptada antes de medir: B3 puede obtener Sa con XQDot4 y W=0x11111111 | Dos productos punto suman ocho activaciones; Sa se calcula una vez por vector/grupo y se reutiliza entre filas. Los fixtures ejecutan MUL/SUB de corrección en Kuntur. No se fuerza una suma escalar más costosa ni se atribuye aceleración a estos tests |
 | D25 | Adoptada 2026-09-09: repositorio raíz en `main`, un commit inicial y futuros commits Karma en inglés | Kuntur se incluye como archivos normales. Historial previo preservado en `baseline/kuntur-history.bundle` y metadatos locales; sin submódulo, remoto ni publicación. `docs/VERSION_CONTROL.md` |
+| D26 | Adoptada antes de medir: z como factor experimental, protocolo 0.2 y manifiesto inicial | ZC separado de ZS equilibrado, estratos explícitos, barrido N y reporte de todos los casos. Especialización estática sin extrapolar a ZR ni afirmar cota superior; despacho con inmediatos posible pero no implementado |
+| D27 | Políticas pendientes bloquean kernels de rendimiento | Esqueleto común B3/D; desenrollado lógico, registros, planificación y reutilización de correcciones deben fijarse antes de escribirlos. Amenazas a la validez explícitas: el control de optimización no demuestra optimalidad |
 
 El core tiene correcciones verificadas, registradas en
 `kuntur/docs/CORE_CORRECTIONS.md` y fijadas en `docs/CORE_STATE.json`.

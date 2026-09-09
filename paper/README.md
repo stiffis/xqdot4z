@@ -1,9 +1,10 @@
 # Dos versiones del mismo borrador IEEE
 
-Versión editorial 0.8: incorpora la integración B3 y cuatro pares de fixtures
-con corrección y reutilización de Sa ejecutadas en Kuntur, con evidencia en
-[PACKED_INTEGRATION_STATE.json](../docs/PACKED_INTEGRATION_STATE.json).
-Conserva la reconstrucción anterior en el host como prueba aislada distinta.
+Versión editorial 0.9: explicita especialización estática, distribución del
+zero-point y amenazas a la validez como subsección. Se compactó el resumen
+de verificación sin alterar sus evidencias ni conclusiones. El
+[protocolo único](../docs/EXPERIMENT_PROTOCOL.md) y el
+[manifiesto de diseño](../benchmarks/campaign.json) contienen el detalle.
 Los kernels comparables siguen pendientes; no se confunde verificación con aceleración.
 
 - `main_es.tex` → `main_es.pdf`: versión en español para trabajo y discusión.
@@ -38,9 +39,9 @@ La evaluación de rendimiento y las conclusiones siguen pendientes; no se llena 
 alcanzar un número artificial de páginas. Los campos de autoría son marcadores
 de borrador, no autores ni afiliaciones reales.
 
-Revisión local v0.8, 2026-09-08: ambos PDF tienen dos páginas Letter y fuentes
+Revisión local v0.9, 2026-09-09: ambos PDF tienen dos páginas Letter y fuentes
 Type 1 incrustadas. Se revisaron visualmente las cuatro páginas después de
-incorporar B3 integrado, sin recortes ni solapamientos.
+incorporar las amenazas a la validez, sin recortes ni solapamientos.
 No hay citas indefinidas ni avisos Overfull. Quedan siete avisos Underfull
 de espaciado en párrafos españoles; el ajuste editorial final sigue pendiente
 antes de un eventual envío. En inglés no aparecen esos avisos.
