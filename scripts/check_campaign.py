@@ -32,10 +32,10 @@ def zero_points(profile, setting, n, groups):
 
 
 def validate(manifest):
-    require(manifest["manifest_version"] == "0.2", "Unsupported manifest version")
+    require(manifest["manifest_version"] == "0.3", "Unsupported manifest version")
     require(manifest["status"] == "design_only", "This checker does not certify runnable campaigns")
     require(manifest["protocol"] == "docs/EXPERIMENT_PROTOCOL.md" and
-            manifest["protocol_version"] == "0.3", "Protocol reference mismatch")
+            manifest["protocol_version"] == "0.4", "Protocol reference mismatch")
     grid = manifest["grid"]
     integer_list(grid["N"], "N", 1, 16)
     integer_list(grid["K"], "K", 1, 512)
@@ -138,17 +138,54 @@ def validate(manifest):
         require(b1[key] == expected, "Selected B1 policy changed: " + key)
     require(bool(b1["selection_basis"].strip()) and b1["performance_driven_algorithm_search"] is False,
             "B1 is a bounded contextual baseline, not an optimization search")
-    freeze = manifest["b1_freeze"]
-    require(freeze["required_before"] == "first_kernel_timing_including_pilot", "B1 must freeze before the pilot")
-    require(freeze["policy_id"] == b1["id"], "B1 freeze policy mismatch")
-    require(freeze["record"] == ["policy", "generator", "assembly", "disassembly", "text_hash", "tests", "git_revision"], "Incomplete B1 freeze record")
-    require(freeze["post_measurement_change"] == "new_version_with_reason_prior_observations_retained_and_affected_pairs_rerun", "B1 changes must preserve history")
-    pending = ("logical_elements_per_unrolled_iteration", "row_group_traversal", "register_allocation_and_spill_policy",
-               "equal_z_correction_reuse_policy", "strength_reduction_and_scheduling_policy")
-    require(all(optimization[key] is None for key in pending), "Version 0.2 has unresolved common policies; revise before selecting them")
-    require(len(manifest["execution_blockers"]) >= len(pending), "Missing explicit execution blockers")
-    require("freeze B1 policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot"
-            in manifest["execution_blockers"], "Missing B1-specific freeze blocker")
+    common = optimization["common_kernel_policy"]
+    for key, expected in {
+        "id": "shared_group_resident_skeleton_v1",
+        "status": "selected_before_performance_measurement",
+        "role": "common_codegen_policy_for_all_four_variants",
+    }.items():
+        require(common[key] == expected, "Selected common policy changed: " + key)
+    require(bool(common["selection_basis"].strip()), "Common policy selection basis required")
+    require(len(common["declared_consequences"]) == 3 and
+            all(bool(text.strip()) for text in common["declared_consequences"]),
+            "Common policy must declare its unroll, residency and reuse consequences")
+    elements = optimization["logical_elements_per_unrolled_iteration"]
+    require(type(elements) is int and elements == 8,
+            "Initial iteration is eight logical elements: one packed weight word and two activation words")
+    require(all(k % elements == 0 for k in grid["K"]), "Unrolled iteration must divide every K")
+    for key, expected in {
+        "row_group_traversal": "group_outer_row_inner_activations_resident_across_rows",
+        "register_allocation_and_spill_policy": "reserve_the_group_activation_words_and_the_row_accumulator_for_the_whole_group_no_inner_loop_spills_identical_reservation_for_every_variant",
+        "equal_z_correction_reuse_policy": "hoist_the_shared_z_correction_only_when_the_declared_zero_point_schedule_repeats_z_never_from_tensor_or_measured_value_inspection",
+        "strength_reduction_and_scheduling_policy": "reduce_only_on_statically_declared_constants_and_apply_one_common_scheduling_pass_to_every_variant_without_manual_per_variant_reordering",
+    }.items():
+        require(optimization[key] == expected, "Selected common policy changed: " + key)
+    require(optimization["row_group_traversal_exercised_in_initial_grid"] is False,
+            "K=G leaves the traversal order unexercised")
+    # The reuse policy only pays off where the declared schedule repeats z, so
+    # check the schedules themselves rather than trusting the prose.
+    for profile in profiles:
+        settings = profile["values"] if profile["regime"] == "ZC" else profile["phases"]
+        for setting in settings:
+            for n in grid["N"]:
+                rows = [row[0] for row in zero_points(profile, setting, n, 1)]
+                repeats = len(set(rows)) < len(rows)
+                require(repeats is (profile["regime"] == "ZC" and n > 1),
+                        "Reuse across rows must follow the declared schedule: " + profile["id"])
+    for freeze, policy_id in ((manifest["b1_freeze"], b1["id"]), (manifest["common_policy_freeze"], common["id"])):
+        require(freeze["required_before"] == "first_kernel_timing_including_pilot", "Policies must freeze before the pilot")
+        require(freeze["policy_id"] == policy_id, "Freeze policy mismatch")
+        require(freeze["record"] == ["policy", "generator", "assembly", "disassembly", "text_hash", "tests", "git_revision"], "Incomplete freeze record")
+        require(freeze["post_measurement_change"] == "new_version_with_reason_prior_observations_retained_and_affected_pairs_rerun", "Policy changes must preserve history")
+    require(manifest["execution_blockers"] == [
+        "implement and verify paired kernels and their disassembly allowlist checks",
+        "fix common memory capacities and the initialized data layout",
+        "define and test the concrete measurement events and all protocol counters",
+        "materialize tensors and the complete case inventory with hashes",
+        "freeze B1 policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",
+        "freeze the common kernel policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",
+        "record the pre-measurement revision and any observed development timings",
+    ], "Execution blockers changed; selecting the common policies does not unblock measurement")
     return dict(planned_cases=len(case_ids), profile_cases=dict(profile_cases),
                 balanced_shape_seed_checks=distribution_checks, pilot_subset_cases=len(pilot_ids), execution_ready=False)
 

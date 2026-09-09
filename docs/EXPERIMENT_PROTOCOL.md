@@ -1,4 +1,4 @@
-# Protocolo experimental — versión 0.3
+# Protocolo experimental — versión 0.4
 
 Nota editorial 0.2: estas matrices e hipótesis se conservan como notas internas,
 fuera del artículo IEEE breve. No obligan a implementar todas las alternativas.
@@ -10,6 +10,10 @@ de casos, no redefine la frontera, métricas ni política de codegen de aquí.
 Revisión 0.3, 2026-09-09: se selecciona la regla aritmética acotada de B1,
 se hace explícita su congelación y se separan los fines de las semillas.
 No se han escrito kernels de rendimiento ni ejecutado el piloto.
+Revisión 0.4, 2026-09-09: se seleccionan y congelan las cinco políticas
+comunes de codegen —desenrollado, recorrido, registros, reutilización de la
+corrección y planificación— con sus consecuencias declaradas. Seleccionarlas
+no desbloquea la campaña; los demás bloqueadores siguen vigentes.
 El core corregido Kuntur está en `kuntur/`; aún no están completos los
 comparadores B2/B3/D con sus kernels y fronteras de medida.
 
@@ -206,12 +210,54 @@ z·Sa separado; no se afirma que toda especialización por fila sea exclusiva de
 
 ### Control del esfuerzo de optimización
 
-Antes de escribir kernels de rendimiento se fijarán en el manifiesto el
+Antes de escribir kernels de rendimiento se fijan en el manifiesto el
 desenrollado en elementos lógicos, el recorrido de filas/grupos, la política
 de asignación de registros y spills, y las reglas de especialización,
-reutilización de correcciones y planificación. Los campos aún pendientes
-bloquean la ejecución de la campaña; no se elegirá su valor después de mirar
-speedups. No basta con que un JSON sea válido para declarar listo el experimento.
+reutilización de correcciones y planificación. Estos valores quedan
+seleccionados en la sección siguiente; no se eligen después de mirar speedups.
+No basta con que un JSON sea válido para declarar listo el experimento: los
+demás bloqueadores de ejecución siguen vigentes.
+
+### Política común: regla seleccionada y consecuencias declaradas
+
+La política `shared_group_resident_skeleton_v1` se selecciona antes de medir a
+partir de la forma de los operandos de la campaña inicial y del presupuesto de
+registros RV32, no de resultados de tiempo ni de una búsqueda sobre kernels. No
+se afirma óptima. Rige por igual para B1, B2, B3 y D, y se congela en Git —
+política, generador, ensamblado, desensamblado, hash del `.text`, pruebas y
+revisión — antes del primer cronometraje, incluido el piloto.
+
+1. Desenrollado: ocho elementos lógicos por iteración. Con K=32 son cuatro
+   iteraciones por fila. Ocho elementos son exactamente una palabra de pesos
+   empacados, ocho códigos U4, y dos palabras de activaciones, cuatro S8 cada
+   una; así una iteración consume palabras completas y emite dos operaciones
+   empacadas en B3 y D. No se elige por su efecto medido.
+2. Recorrido: grupo externo, fila interna, con las palabras de activación del
+   grupo residentes entre filas. Esa residencia es la condición de la que
+   dependen RQ2 y H2. Con K=G la rejilla inicial tiene un solo grupo, así que
+   **el orden de recorrido en sí no queda ejercitado**; sí queda ejercitada la
+   residencia. El orden se declara para K>G, no se reporta como cobertura.
+3. Registros y spills: se reservan las palabras de activación del grupo y el
+   acumulador de fila durante todo el grupo, sin spills en el bucle interno y
+   con idéntica reserva en las cuatro variantes. Si una variante necesitara
+   spill, se reporta como diferencia arquitectónica y no se compensa añadiendo
+   trabajo inútil a las demás.
+4. Reutilización de la corrección: B3 puede izar `z*Sa` compartido **solo
+   cuando el calendario declarado de zero-points repite z**, nunca inspeccionando
+   tensores ni valores medidos. Esto tiene una consecuencia que debe leerse en
+   el reporte: en ZC el z es constante entre filas, así que B3 iza `z*Sa` una
+   vez por caso y corrige con una resta por fila; en ZS el calendario da un z
+   distinto a cada fila para N≤16, así que B3 paga una multiplicación y una
+   resta por fila. La diferencia proviene del calendario declarado y de esta
+   política, no de la arquitectura, y es otra razón para reportar ZC y ZS por
+   separado y para no agregar un speedup entre regímenes.
+5. Reducción de fuerza y planificación: se reduce solo sobre constantes
+   declaradas estáticamente, y se aplica una única pasada de planificación
+   común a todas las variantes, sin reordenamientos manuales por variante.
+
+Estas cinco reglas no vuelven ejecutable la campaña. Los kernels, las
+capacidades de memoria, los eventos de medición, los contadores y la
+materialización de tensores siguen pendientes y bloqueados.
 
 B3 y D compartirán un generador/esqueleto de recorrido, packing, cargas y
 salidas. Las diferencias permitidas serán la operación interna y el trabajo

@@ -128,7 +128,10 @@ separates constant controls from U4 codes balanced across phases. It distinguish
 zero, one, other powers of two, and remaining codes; mixed-program times are
 not apportioned to these strata by frequency. It evaluates static specialization,
 without extrapolation to dynamic metadata. Unrolling, register allocation,
-scheduling, and correction reuse must be fixed before measurement. All cases,
+scheduling, and correction reuse are fixed before measurement and shared by all
+four variants. Under that schedule B3 corrects with one subtraction per row when
+z repeats and with a multiply and a subtraction when it varies: the difference
+comes from policy and schedule, not architecture. All cases,
 including failures and slowdowns, will be reported. Performance kernels remain unavailable.
 Seeds cover inputs, not statistical repetitions; the pilot will examine
 control, addresses, and stalls, not only equal cycle totals.

@@ -44,11 +44,12 @@ se buscará esa tendencia sin forzar monotonicidad ni ocultar contraejemplos.
 observada con constantes; se comparan regímenes explícitos, no se asume gratis.
 H1–H3 son expectativas de trabajo, no hallazgos ni pruebas de significancia.
 
-La revisión del [protocolo 0.3](EXPERIMENT_PROTOCOL.md) trata valores,
+La revisión del [protocolo 0.4](EXPERIMENT_PROTOCOL.md) trata valores,
 distribución y repetición de z como factores, separa especialización estática
 de ZR y declara amenazas a la validez. H3 no implica una cota superior de
 ventaja. El [manifiesto inicial](../benchmarks/campaign.json) conserva el
-barrido N, pero sigue en diseño con políticas e instrumentación pendientes.
+barrido N y ya fija las políticas comunes de codegen, pero sigue en diseño:
+faltan kernels, memoria común, instrumentación y eventos de medida.
 B1 es contexto, no la respuesta a RQ1/RQ2: se selecciona una sola regla
 aritmética acotada, sin búsqueda de rendimiento, y se exige congelar su
 implementación antes de medir. Las semillas cubren entradas; no son

@@ -52,12 +52,30 @@ class CampaignTests(unittest.TestCase):
             lambda m: m["optimization"].update(allow_compile_time_tensor_arithmetic=True),
             lambda m: m.update(status="ready"),
         ]
-        for index, mutate in enumerate(mutations):
-            with self.subTest(mutation=index):
-                changed = copy.deepcopy(self.manifest)
-                mutate(changed)
-                with self.assertRaises(ValueError):
-                    validate(changed)
+        self._assert_all_rejected(mutations)
+
+    def test_common_policy_matches_the_operand_word_shape(self):
+        optimization = self.manifest["optimization"]
+        elements = optimization["logical_elements_per_unrolled_iteration"]
+        # Eight logical elements is one packed weight word and two activation
+        # words, so an iteration consumes whole operands and divides every K.
+        self.assertEqual(elements, 8)
+        self.assertEqual(elements % 8, 0)
+        self.assertEqual(elements % 4, 0)
+        for k in self.manifest["grid"]["K"]:
+            self.assertEqual(k % elements, 0)
+        self.assertIs(optimization["row_group_traversal_exercised_in_initial_grid"], False)
+        self.assertEqual(len(optimization["common_kernel_policy"]["declared_consequences"]), 3)
+
+    def test_correction_reuse_follows_the_declared_schedule(self):
+        zc, zs = self.manifest["zero_point_profiles"]
+        for n in self.manifest["grid"]["N"]:
+            # ZC repeats z across rows, so B3 may hoist z*Sa once per case.
+            self.assertEqual(len({row[0] for row in zero_points(zc, 8, n, 1)}), 1)
+            # ZS gives each row a distinct z for N<=16, so B3 corrects per row.
+            for phase in zs["phases"]:
+                rows = [row[0] for row in zero_points(zs, phase, n, 1)]
+                self.assertEqual(len(set(rows)), n)
 
     def test_reject_seed_and_b1_policy_regressions(self):
         mutations = [
@@ -79,6 +97,37 @@ class CampaignTests(unittest.TestCase):
             lambda m: m["b1_freeze"]["record"].remove("text_hash"),
             lambda m: m["execution_blockers"].pop(-2),
         ]
+        self._assert_all_rejected(mutations)
+
+    def test_reject_common_policy_regressions(self):
+        mutations = [
+            lambda m: m["optimization"].update(logical_elements_per_unrolled_iteration=None),
+            lambda m: m["optimization"].update(logical_elements_per_unrolled_iteration=6),
+            lambda m: m["optimization"].update(logical_elements_per_unrolled_iteration=True),
+            lambda m: m["optimization"].update(row_group_traversal="row_outer_group_inner"),
+            lambda m: m["optimization"].update(row_group_traversal_exercised_in_initial_grid=True),
+            lambda m: m["optimization"].update(register_allocation_and_spill_policy="per_variant_manual"),
+            lambda m: m["optimization"].update(
+                equal_z_correction_reuse_policy="hoist_whenever_measured_values_repeat"),
+            lambda m: m["optimization"].update(
+                strength_reduction_and_scheduling_policy="per_variant_manual_reordering"),
+            lambda m: m["optimization"]["common_kernel_policy"].update(id="tuned_after_timing_v2"),
+            lambda m: m["optimization"]["common_kernel_policy"].update(status="selected_after_pilot"),
+            lambda m: m["optimization"]["common_kernel_policy"].update(selection_basis="  "),
+            lambda m: m["optimization"]["common_kernel_policy"]["declared_consequences"].pop(),
+            lambda m: m["common_policy_freeze"].update(required_before="after_pilot"),
+            lambda m: m["common_policy_freeze"].update(policy_id="bounded_masked_bit_decomposition_v1"),
+            lambda m: m["common_policy_freeze"]["record"].remove("text_hash"),
+            # Selecting the policies must not retire an unrelated blocker.
+            lambda m: m["execution_blockers"].remove(
+                "define and test the concrete measurement events and all protocol counters"),
+            lambda m: m["execution_blockers"].remove(
+                "freeze the common kernel policy, generator, assembly, disassembly,"
+                " text hash and tests in Git before any kernel timing, including the pilot"),
+        ]
+        self._assert_all_rejected(mutations)
+
+    def _assert_all_rejected(self, mutations):
         for index, mutate in enumerate(mutations):
             with self.subTest(mutation=index):
                 changed = copy.deepcopy(self.manifest)

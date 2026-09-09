@@ -1,9 +1,9 @@
 {
-  "manifest_version": "0.2",
+  "manifest_version": "0.3",
   "campaign_id": "static-z-initial",
   "status": "design_only",
   "protocol": "docs/EXPERIMENT_PROTOCOL.md",
-  "protocol_version": "0.3",
+  "protocol_version": "0.4",
   "interpretation": "Evaluation under static zero-point specialization; no extrapolation to ZR and no proven upper bound on D's advantage.",
   "grid": {
     "variants": ["B1", "B2", "B3", "D"],
@@ -95,11 +95,23 @@
       "specialization_policy": "static_z_materialization_and_z0_subtraction_elision_with_declared_width_folding_only_no_tensor_shortcuts_or_cross_row_factoring",
       "performance_driven_algorithm_search": false
     },
-    "logical_elements_per_unrolled_iteration": null,
-    "row_group_traversal": null,
-    "register_allocation_and_spill_policy": null,
-    "equal_z_correction_reuse_policy": null,
-    "strength_reduction_and_scheduling_policy": null
+    "common_kernel_policy": {
+      "id": "shared_group_resident_skeleton_v1",
+      "status": "selected_before_performance_measurement",
+      "role": "common_codegen_policy_for_all_four_variants",
+      "selection_basis": "Derived from the operand word shape of the initial K=G=32 campaign and the RV32 register budget, not from timing results or a search over kernels; no claim of optimality. Applies identically to B1, B2, B3 and D.",
+      "declared_consequences": [
+        "Eight logical elements are exactly one packed weight word (eight U4 codes) and two activation words (four S8 each), so an unrolled iteration consumes whole operand words and issues two packed operations for B3 and D.",
+        "With K=G the initial grid has a single group, so the traversal order itself is not exercised; what is exercised is activation residency across the N rows, which is the condition RQ2 and H2 depend on.",
+        "The declared ZC schedule repeats z across rows, so B3 may hoist z*Sa once per case and correct with a single subtraction per row; the declared ZS schedule gives every row a distinct z for N<=16, so B3 pays a multiply and a subtraction per row. This difference follows from the declared schedule and this reuse policy, not from the architecture, and is a further reason ZC and ZS are reported separately."
+      ]
+    },
+    "logical_elements_per_unrolled_iteration": 8,
+    "row_group_traversal": "group_outer_row_inner_activations_resident_across_rows",
+    "row_group_traversal_exercised_in_initial_grid": false,
+    "register_allocation_and_spill_policy": "reserve_the_group_activation_words_and_the_row_accumulator_for_the_whole_group_no_inner_loop_spills_identical_reservation_for_every_variant",
+    "equal_z_correction_reuse_policy": "hoist_the_shared_z_correction_only_when_the_declared_zero_point_schedule_repeats_z_never_from_tensor_or_measured_value_inspection",
+    "strength_reduction_and_scheduling_policy": "reduce_only_on_statically_declared_constants_and_apply_one_common_scheduling_pass_to_every_variant_without_manual_per_variant_reordering"
   },
   "b1_freeze": {
     "required_before": "first_kernel_timing_including_pilot",
@@ -107,13 +119,19 @@
     "record": ["policy", "generator", "assembly", "disassembly", "text_hash", "tests", "git_revision"],
     "post_measurement_change": "new_version_with_reason_prior_observations_retained_and_affected_pairs_rerun"
   },
+  "common_policy_freeze": {
+    "required_before": "first_kernel_timing_including_pilot",
+    "policy_id": "shared_group_resident_skeleton_v1",
+    "record": ["policy", "generator", "assembly", "disassembly", "text_hash", "tests", "git_revision"],
+    "post_measurement_change": "new_version_with_reason_prior_observations_retained_and_affected_pairs_rerun"
+  },
   "execution_blockers": [
-    "freeze the pending optimization policies before writing performance kernels",
     "implement and verify paired kernels and their disassembly allowlist checks",
     "fix common memory capacities and the initialized data layout",
     "define and test the concrete measurement events and all protocol counters",
     "materialize tensors and the complete case inventory with hashes",
     "freeze B1 policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",
+    "freeze the common kernel policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",
     "record the pre-measurement revision and any observed development timings"
   ]
 }
