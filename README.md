@@ -1,6 +1,6 @@
 # XQDot4Z — productos punto cuantizados en RV32
 
-Estado 0.9, 2026-09-09: **B3 integrada en Kuntur
+Estado 0.10, 2026-09-09: **B3 integrada en Kuntur
 como XQDot4 opcional, con corrección y reutilización de Sa ejecutadas en el
 procesador en fixtures pequeños**. M3b sigue parcial. M1/M2 y la unidad B3
 aislada se conservan sin cambios; se repitieron las regresiones afectadas.
@@ -8,6 +8,9 @@ Los comparadores completos y los benchmarks todavía no están implementados.
 El protocolo ahora explicita distribución de z, especialización estática y
 amenazas a la validez; el manifiesto inicial es de diseño y no autoriza medir
 mientras sus políticas e instrumentación sigan pendientes.
+B1 tiene una regla aritmética acotada seleccionada antes de medir y comprobada
+en el host; no hay aún ensamblado de rendimiento. Las semillas tienen fin de
+cobertura, con un piloto prefijado pero bloqueado, sin reducir la rejilla.
 El proyecto original `/home/stiff/kirky-arqui` se conserva intacto.
 
 ## Por dónde leer
@@ -85,7 +88,7 @@ xqdot4z/
 ├── isa/            # contrato ISA inmediato, encoder y macro GNU
 ├── rtl/            # unidades XQDot4Z y packed/XQDot4; no otro core
 ├── tests/          # pruebas del modelo, unidad y programas de integración
-├── benchmarks/     # reservado para kernels
+├── benchmarks/     # manifiesto y aritmética B1 en host; kernels pendientes
 ├── results/        # esquema; sin mediciones de aceleración
 └── scripts/        # auditoría y comprobaciones del proyecto
 ```

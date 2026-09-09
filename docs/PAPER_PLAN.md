@@ -1,4 +1,4 @@
-# Estructura del artículo IEEE — versión 0.9
+# Estructura del artículo IEEE — versión 0.10
 
 El artículo es un borrador breve, no el protocolo interno completo. Se mantienen
 `paper/main_es.tex` y `paper/main_en.tex`, con bibliografía, ecuaciones y figura
@@ -56,3 +56,9 @@ amenazas a la validez como subsección, no nota al pie. La distribución y
 selección de casos se concretan en `benchmarks/campaign.json`, subordinado al
 único protocolo `docs/EXPERIMENT_PROTOCOL.md`. Su checker verifica cobertura
 de diseño, no coherencia semántica completa ni preparación para medir.
+
+La revisión 0.10 delimita B1 como contexto y exige congelar su regla y código
+antes del piloto. D/B2 y D/B3 siguen siendo las comparaciones de las preguntas.
+Se distingue cobertura por semillas de repeticiones estadísticas. La prueba
+aritmética B1 en el host se documenta fuera del artículo; no se presenta como
+kernel ejecutado en Kuntur ni como resultado de rendimiento.

@@ -1,4 +1,4 @@
-# Protocolo experimental — versión 0.2
+# Protocolo experimental — versión 0.3
 
 Nota editorial 0.2: estas matrices e hipótesis se conservan como notas internas,
 fuera del artículo IEEE breve. No obligan a implementar todas las alternativas.
@@ -7,6 +7,9 @@ zero-point, especialización y amenazas a la validez. Este documento sigue
 siendo la fuente normativa; no se crea otro contrato reducido en benchmarks.
 El [manifiesto inicial](../benchmarks/campaign.json) concreta una selección
 de casos, no redefine la frontera, métricas ni política de codegen de aquí.
+Revisión 0.3, 2026-09-09: se selecciona la regla aritmética acotada de B1,
+se hace explícita su congelación y se separan los fines de las semillas.
+No se han escrito kernels de rendimiento ni ejecutado el piloto.
 El core corregido Kuntur está en `kuntur/`; aún no están completos los
 comparadores B2/B3/D con sus kernels y fronteras de medida.
 
@@ -53,6 +56,9 @@ se registra antes de comparar resultados.
 | D | Base normalizada + XQDot4Z | Producto punto con corrección fusionada |
 
 B2, B3 y D tendrán el mismo MUL escalar para la corrección y el epílogo.
+B1 aporta contexto frente a un core sin multiplicador: no responde por sí
+solo RQ1 (D/B2) ni RQ2 (D/B3, central). No se dedicará una búsqueda de
+algoritmos de multiplicación a maximizar su rendimiento o el speedup de D.
 Añadir MUL no equivale a implementar M completo. Para aislar la corrección,
 B3 y D usarán el mismo número de vías, protocolo y selección de mitades;
 el resultado B3 será `sum(qw*qa)`, no una operación S4 accidentalmente distinta.
@@ -78,6 +84,9 @@ Colas K en {1,3,5,31,33,127} pertenecen primero a corrección; no se mezclan
 silenciosamente en el agregado principal de rendimiento.
 
 Semillas propuestas: enteros 20260908 a 20260917, generador y versión fijados.
+Su función primaria es cobertura de entradas para corrección, no repeticiones
+independientes de tiempo. Por ahora se conservan las diez y se recogerán todas
+sus métricas; distinguir su función no reduce silenciosamente la rejilla.
 Conservar tensores empaquetados y hashes evita depender solo del generador.
 Casos dirigidos: ceros, códigos extremos, activaciones -128/127, cancelaciones
 y resultados negativos. La cuantización de una red real se evaluará después.
@@ -88,6 +97,30 @@ demostrar sensibilidad a variación entre grupos. Las ampliaciones de K de
 la matriz principal se registrarán antes de ejecutarse. Los campos operativos
 del manifiesto son la referencia de esa selección; la matriz principal
 anterior sigue delimitando el alcance prospectivo, no una campaña ya realizada.
+
+### Piloto de sensibilidad a los tensores
+
+Después de verificar kernels y eventos de medida, el piloto del manifiesto
+comparará las dos primeras semillas con N=4, K=G=32, en las cuatro variantes:
+los tres controles ZC y la fase ZS=0. Esta fase mezcla z=0,1,2,3 entre filas.
+Son 32 casos de la rejilla existente (64 ejecuciones si se usa cada simulador),
+no una nueva dimensión ni mediciones ya realizadas. Se fijan ahora para no
+seleccionar el piloto según resultados favorables. Las ejecuciones válidas
+podrán reutilizarse en la campaña solo si coinciden todas sus entradas y revisiones.
+
+Por cada par de semillas se mantendrán binario, direcciones base/disposición de datos,
+z, configuración, memoria y eventos. Además de ciclos se contrastarán retiros,
+traza de PC/opcodes retirados, resultados de branches, stalls y direcciones de
+datos; los valores aritméticos y salidas se verifican con sus propios oráculos,
+no se exige que sean iguales entre semillas. Una diferencia exige investigar
+su causa, no declararla automáticamente un bug ni descartar la semilla.
+
+Dos totales iguales no demuestran independencia respecto de todos los datos.
+Reducir después semillas de rendimiento requiere una revisión explícita y
+análisis de código, control, direcciones, latencias y contadores; se conserva
+aparte la cobertura de corrección y el historial observado. No se elige una
+semilla por el speedup que produzca. La simulación determinista tampoco implica
+que distintas entradas deban tardar igual.
 
 ## Zero-point: tres regímenes que no se deben mezclar
 
@@ -194,6 +227,52 @@ los pases de optimización y sus cambios; una exploración posterior de mejores
 kernels por variante será otra campaña con espacio de búsqueda explícito,
 no un reemplazo silencioso de los resultados controlados.
 
+### B1: regla seleccionada y esfuerzo acotado
+
+La política `bounded_masked_bit_decomposition_v1` se selecciona antes de
+medir por simplicidad, rango conocido y auditabilidad; no se afirma óptima
+ni que una regla única garantice neutralidad. No se implementará una búsqueda
+de Booth, variantes shift-add o rutinas genéricas como subproyecto de B1.
+Se fijan estos cinco aspectos en el manifiesto:
+
+1. Formulación y operando recorrido: calcular directamente `(w-z)*a`,
+   recorriendo los bits de `w-z`. B1 no factoriza Sa entre filas en esta campaña.
+2. Anchos y signo: `w-z` está en [-15,15], S5; `a` es S8 extendido a RV32.
+   Se aprovechan dos límites conocidos estáticamente: con z=0 el peso es U4;
+   con z=8 es S4. El resto usa S5. No se inspeccionan valores de A/W para elegir ancho.
+   Los pesos siguen almacenados como U4; la resta se ejecuta en el kernel,
+   no se recodifican los tensores previamente.
+3. Iteraciones: expansión rectilínea de los bits del ancho declarado;
+   contribuciones positivas y, en S4/S5, resta del bit de signo. Sin salida
+   anticipada ni bucle software de 32 iteraciones.
+4. Selección: cada bit produce máscara cero o todos unos; se selecciona
+   `a << bit` mediante AND y se acumula con ADD/SUB. No hay rama por bit,
+   rama de signo ni tabla indexada por valores del tensor.
+5. Especialización: materializar z estático, omitir `w-0` y aplicar solo las
+   reducciones de ancho anteriores en la multiplicación. No cambiar de algoritmo
+   por semilla, introducir atajos por valores A/W o factorizar entre filas.
+   Otras decisiones de recorrido, registros y planificación siguen sujetas a
+   la política común pendiente. Esta limitación de B1 se reportará, no se
+   interpretará D/B1 como comparación contra el mejor software posible.
+
+Para un operando firmado de b bits, la identidad utilizada es
+`x = sum_{j=0}^{b-2} bit_j(x)*2^j - bit_{b-1}(x)*2^(b-1)`.
+En U4 se suman los cuatro bits sin término negativo. Multiplicar esa identidad
+por `a` da la regla de máscaras; selección y acumulación se modelan en 32 bits.
+El producto exacto está en [-1920,1920]. El
+[modelo ejecutable de la política](../benchmarks/b1_arithmetic.py) y sus
+[pruebas](../tests/benchmarks/test_b1_arithmetic.py) comprueban las 65 536 ternas
+U4/U4/S8 en el host; no validan ensamblado, ejecución en Kuntur ni ciclos.
+Los cuatro o cinco pasos por producto no fijan el desenrollado del bucle de
+elementos del kernel, que permanece pendiente y será común a las variantes.
+
+La política y su materialización futura (generador, ensamblado, desensamblado,
+hash del código y pruebas) deben quedar en una revisión Git anterior a la
+primera medida del kernel, incluido el piloto. Este documento selecciona el
+algoritmo; no finge que exista ya el binario congelado. Cualquier cambio tras
+observar tiempos requiere nueva versión, motivo, conservación de observaciones
+y repetición de los pares afectados; no sustituye silenciosamente el baseline.
+
 Para z=8 también se documentará la alternativa de recodificar pesos a S4.
 Cambiar esa codificación sería otra comparación, no un resultado con el mismo
 formato U4. No se afirmará que todas las rutas W4A8 requieren restas de 5 bits.
@@ -254,6 +333,11 @@ repetir el mismo binario y tensor. Las semillas exploran entradas; las
 configuraciones exploran cargas. Si no cambia el control, ciclos idénticos
 son un resultado esperado. Cualquier intervalo estadístico debe identificar
 su unidad de muestreo; no usar barras de error de repeticiones idénticas.
+Una unidad combinacional no demuestra independencia del kernel completo.
+Tampoco es requisito necesario: una unidad multiciclo con latencia fija podría
+mantener esa propiedad. La condición relevante incluye el control, las
+direcciones/latencia de memoria, las latencias de instrucciones y los eventos
+de medida del programa completo. Ninguna variante tiene aún esa comprobación.
 
 Tiempo físico: `cycles/f`, con timing sustentado para cada diseño. Recursos:
 LUT/FF/DSP/BRAM del dispositivo y flujo concretos. No convertir ciclos o LUT
@@ -301,6 +385,8 @@ optimalidad ni elimina la interacción software–arquitectura.
   pueden favorecer una implementación. Se congelan políticas, se revisan
   diferencias de código y se conserva el desglose causal de eventos, sin
   presentar esa mitigación como una prueba de optimalidad.
+  B1 está condicionado a una sola regla aritmética de alcance acotado; se
+  congela explícitamente antes del piloto y no reemplaza D/B2 o D/B3.
 - Validez externa: ZC/ZS no resuelven ZR; la distribución sintética U4, sus
   correlaciones y repetición de z no representan necesariamente una red real.
   K=G en el arranque no evalúa variación entre grupos. Los resultados quedan

@@ -1,8 +1,9 @@
 # Dos versiones del mismo borrador IEEE
 
-Versión editorial 0.9: explicita especialización estática, distribución del
-zero-point y amenazas a la validez como subsección. Se compactó el resumen
-de verificación sin alterar sus evidencias ni conclusiones. El
+Versión editorial 0.10: delimita B1 como contexto y exige congelar regla y código
+antes del piloto; distingue cobertura por semillas de repeticiones estadísticas.
+Mantiene especialización estática y amenazas a la validez sin alterar las
+evidencias anteriores ni anticipar rendimiento. El
 [protocolo único](../docs/EXPERIMENT_PROTOCOL.md) y el
 [manifiesto de diseño](../benchmarks/campaign.json) contienen el detalle.
 Los kernels comparables siguen pendientes; no se confunde verificación con aceleración.
@@ -39,10 +40,10 @@ La evaluación de rendimiento y las conclusiones siguen pendientes; no se llena 
 alcanzar un número artificial de páginas. Los campos de autoría son marcadores
 de borrador, no autores ni afiliaciones reales.
 
-Revisión local v0.9, 2026-09-09: ambos PDF tienen dos páginas Letter y fuentes
+Revisión local v0.10, 2026-09-09: ambos PDF tienen dos páginas Letter y fuentes
 Type 1 incrustadas. Se revisaron visualmente las cuatro páginas después de
-incorporar las amenazas a la validez, sin recortes ni solapamientos.
-No hay citas indefinidas ni avisos Overfull. Quedan siete avisos Underfull
+incorporar el alcance de B1 y las semillas, sin recortes ni solapamientos.
+No hay citas indefinidas ni avisos Overfull. Quedan cinco avisos Underfull
 de espaciado en párrafos españoles; el ajuste editorial final sigue pendiente
 antes de un eventual envío. En inglés no aparecen esos avisos.
 Esto no sustituye la validación exigida por un venue.

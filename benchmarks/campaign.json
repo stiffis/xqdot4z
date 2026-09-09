@@ -1,9 +1,9 @@
 {
-  "manifest_version": "0.1",
+  "manifest_version": "0.2",
   "campaign_id": "static-z-initial",
   "status": "design_only",
   "protocol": "docs/EXPERIMENT_PROTOCOL.md",
-  "protocol_version": "0.2",
+  "protocol_version": "0.3",
   "interpretation": "Evaluation under static zero-point specialization; no extrapolation to ZR and no proven upper bound on D's advantage.",
   "grid": {
     "variants": ["B1", "B2", "B3", "D"],
@@ -11,6 +11,28 @@
     "K": [32],
     "G": 32,
     "tensor_seeds": [20260908, 20260909, 20260910, 20260911, 20260912, 20260913, 20260914, 20260915, 20260916, 20260917]
+  },
+  "seed_policy": {
+    "primary_role": "input_correctness_coverage",
+    "collect_metrics_for_all_grid_seeds": true,
+    "independent_timing_repetitions": false,
+    "full_kernel_cycle_invariance": "unverified",
+    "reduce_grid_after_two_equal_cycle_totals": false,
+    "reduction_gate": "New version after reviewing generated control, addresses, instruction latency and measurement events; retain prior cases and observations.",
+    "pilot": {
+      "status": "blocked_until_kernels_and_counters_are_verified",
+      "N": 4,
+      "K": 32,
+      "G": 32,
+      "variants": ["B1", "B2", "B3", "D"],
+      "tensor_seeds": [20260908, 20260909],
+      "zc_values": [0, 8, 15],
+      "zs_phases": [0],
+      "inventory_relation": "subset_of_grid_no_new_case_ids",
+      "hold_fixed": ["text_hash", "data_layout", "zero_point_matrix", "core_configuration", "memory_model", "measurement_events"],
+      "compare": ["cycles", "retired_instructions", "retired_pc_opcode_trace", "branch_outcomes", "stall_breakdown", "data_address_trace"],
+      "equal_totals_prove_input_independence": false
+    }
   },
   "zero_point_profiles": [
     {
@@ -27,8 +49,9 @@
       "modulus": 16,
       "row_stride": 1,
       "group_stride": 5,
+      "group_stride_exercised_in_initial_grid": false,
       "phases": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-      "rationale": "Use z[r,g]=(phase+row_stride*r+group_stride*g) modulo 16. All phases give equal frequency to every U4 code at each shape/seed. Coprime strides cover rows/groups without random imbalance; the initial K=G has only one group. This synthetic schedule is not a model-derived distribution."
+      "rationale": "Use z[r,g]=(phase+row_stride*r+group_stride*g) modulo 16. All phases give equal frequency to every U4 code at each shape/seed. The initial K=G has only g=0: group_stride has no effect and declares a rule for future K>G, not measured group coverage. This synthetic schedule is not a model-derived distribution."
     }
   ],
   "zero_point_strata": {
@@ -38,6 +61,7 @@
     "remaining_u4_codes": [3, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15]
   },
   "pairing": {
+    "text": "identical_across_tensor_seeds_for_each_variant_shape_and_z_assignment",
     "weights_and_activations": "identical_across_variants_profiles_and_phases_for_each_shape_and_tensor_seed",
     "zero_points": "identical_across_variants_for_each_profile_phase_and_shape",
     "persist_before_measurement": ["packed_weights", "packed_activations", "zero_point_matrix", "effective_z_histogram", "expected_group_outputs", "sha256"]
@@ -59,11 +83,29 @@
     "allow_semantically_valid_constant_specializations": true,
     "force_runtime_correction_for_z_zero": false,
     "allow_compile_time_tensor_arithmetic": false,
+    "b1_software_multiply_policy": {
+      "id": "bounded_masked_bit_decomposition_v1",
+      "status": "selected_before_performance_measurement",
+      "role": "context_baseline_not_fusion_causal_comparator",
+      "selection_basis": "One width-aware arithmetic rule chosen for simplicity and auditability, not from timing results or an optimization search; no claim of optimality or guaranteed neutrality.",
+      "formulation_and_scanned_operand": "direct_(w-z)*a_scan_weight_difference_bits",
+      "width_and_sign": "U4_for_z0_S4_for_z8_S5_otherwise_S8_activation_RV32_arithmetic",
+      "iteration_policy": "straight_line_positive_bit_additions_then_signed_top_bit_subtraction_no_early_exit",
+      "selection_policy": "zero_or_all_one_masks_no_operand_dependent_branches_or_lookups",
+      "specialization_policy": "static_z_materialization_and_z0_subtraction_elision_with_declared_width_folding_only_no_tensor_shortcuts_or_cross_row_factoring",
+      "performance_driven_algorithm_search": false
+    },
     "logical_elements_per_unrolled_iteration": null,
     "row_group_traversal": null,
     "register_allocation_and_spill_policy": null,
     "equal_z_correction_reuse_policy": null,
     "strength_reduction_and_scheduling_policy": null
+  },
+  "b1_freeze": {
+    "required_before": "first_kernel_timing_including_pilot",
+    "policy_id": "bounded_masked_bit_decomposition_v1",
+    "record": ["policy", "generator", "assembly", "disassembly", "text_hash", "tests", "git_revision"],
+    "post_measurement_change": "new_version_with_reason_prior_observations_retained_and_affected_pairs_rerun"
   },
   "execution_blockers": [
     "freeze the pending optimization policies before writing performance kernels",
@@ -71,6 +113,7 @@
     "fix common memory capacities and the initialized data layout",
     "define and test the concrete measurement events and all protocol counters",
     "materialize tensors and the complete case inventory with hashes",
+    "freeze B1 policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",
     "record the pre-measurement revision and any observed development timings"
   ]
 }

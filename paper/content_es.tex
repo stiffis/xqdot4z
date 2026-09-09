@@ -115,11 +115,12 @@ dos GPR fuente, \(h\) inmediato y el mismo forwarding. Con pesos iguales a
 uno, también permite obtener la suma de activaciones reutilizable entre filas.
 
 \subsection{Comparación prevista}
-Se compararán multiplicación escalar, producto punto empacado con la
-corrección de~\eqref{eq:factor} y XQDot4Z (Fig.~\ref{fig:comparison}). Las
-variantes recibirán los mismos datos y compartirán las correcciones del core.
-Se contará el trabajo de cargas, bucles, corrección y suministro de metadatos,
-además del núcleo aritmético.
+Se comparará D con MUL escalar (B2) y, centralmente, con B3 y la corrección
+de~\eqref{eq:factor} (Fig.~\ref{fig:comparison}). B1 aporta contexto sin MUL:
+usará descomposición por bits con máscaras y ancho acotado, cuya política
+y código deben congelarse antes del piloto. No representa software óptimo.
+Todas las variantes compartirán datos y correcciones del core. Se contarán
+cargas, bucles, corrección y metadatos, además del núcleo aritmético.
 
 El manifiesto inicial barre filas con un grupo de 32 elementos y separa
 controles constantes de códigos U4 equilibrados entre fases. Distingue cero,
@@ -128,6 +129,8 @@ mixtos a esos estratos por frecuencia. Evalúa especialización estática,
 sin extrapolar a metadatos dinámicos. Desenrollado, registros, planificación
 y reutilización de correcciones deben fijarse antes de medir. Se reportarán
 todos los casos, incluidos fallos y degradaciones. Aún no hay kernels de rendimiento.
+Las semillas cubren entradas, no repeticiones estadísticas; el piloto revisará
+control, direcciones y stalls, no solo igualdad de ciclos.
 
 \balance
 \section{Resultados y discusión}
@@ -167,7 +170,6 @@ encoding, pero sigue sin implementación ni costo medido. Los contadores
 requieren validación; ciclos RTL no demuestran timing físico.
 
 \section{Conclusiones}
-\textit{Pendiente de evaluación.} La pregunta y el alcance están delimitados,
-pero aún no se puede concluir que la fusión mejore el rendimiento. El siguiente
-paso es cerrar las condiciones de comparación y desarrollar kernels sobre
-la base común con MUL y las dos operaciones empacadas, antes de medir.
+\textit{Evaluación pendiente.} No puede concluirse aún que la fusión mejore
+el rendimiento. Se cerrarán las condiciones de comparación y se verificarán
+kernels e instrumentación antes de medir.

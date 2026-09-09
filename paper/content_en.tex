@@ -116,11 +116,12 @@ two source GPRs, immediate \(h\), and the same forwarding. With weights set
 to one, it also computes activation sums that can be reused across rows.
 
 \subsection{Planned Comparison}
-The comparison will include scalar multiplication, a packed dot product
-with the correction in~\eqref{eq:factor}, and XQDot4Z
-(Fig.~\ref{fig:comparison}). Variants will receive the same data and share
-the core corrections. Measurement will include loads, loops, correction,
-and metadata delivery, in addition to the arithmetic kernel.
+D will be compared with scalar MUL (B2) and, centrally, B3 with the correction
+in~\eqref{eq:factor} (Fig.~\ref{fig:comparison}). B1 provides context without MUL:
+it will use bounded-width masked bit decomposition, with its policy and code
+frozen before the pilot. It does not represent optimal software. All variants
+will share data and core corrections. Loads, loops, correction, and metadata
+will be counted in addition to the arithmetic kernel.
 
 The initial manifest sweeps row counts with one group of 32 elements and
 separates constant controls from U4 codes balanced across phases. It distinguishes
@@ -129,6 +130,8 @@ not apportioned to these strata by frequency. It evaluates static specialization
 without extrapolation to dynamic metadata. Unrolling, register allocation,
 scheduling, and correction reuse must be fixed before measurement. All cases,
 including failures and slowdowns, will be reported. Performance kernels remain unavailable.
+Seeds cover inputs, not statistical repetitions; the pilot will examine
+control, addresses, and stalls, not only equal cycle totals.
 
 \balance
 \section{Results and Discussion}
@@ -168,7 +171,6 @@ a new encoding, but still has no implementation or measured cost. Counters
 require validation; RTL cycles do not establish physical timing.
 
 \section{Conclusion}
-\textit{Pending evaluation.} The question and scope are defined, but whether
-fusion improves performance remains unproven. The next step is to finalize
-comparison conditions and develop kernels on the common baseline with MUL
-and both packed operations, before measurement.
+\textit{Evaluation pending.} Whether fusion improves performance remains
+unproven. Comparison conditions will be finalized, and kernels and
+instrumentation verified, before measurement.
