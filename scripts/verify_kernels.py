@@ -1,5 +1,12 @@
 """Verify that the paired kernels compute the contract's subtotals.
 
+These kernels implement the superseded policy shared_group_resident_skeleton_v1:
+activation residency at group scope, K unrolled, and rows emitted straight-line
+in every variant. That policy was withdrawn for internal contradiction and for
+being unimplementable at K=128 and K=512, so this is kept as a declared
+diagnostic arm -- the control that quantifies the unroll bonus -- and not as the
+campaign's headline codegen. Its correctness evidence stands on its own.
+
 This checks correctness and the instruction mix, which is the gate M4 requires
 before any comparison: every variant must return the same integers for the same
 tensors. Counters are recorded because the harness reports them, not because a
@@ -67,6 +74,8 @@ def main():
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%f") + "Z"
     report = dict(status="fail", timestamp_utc=stamp,
                   scope="Paired kernel correctness and instruction mix, not a performance comparison",
+                  arm="inline_resident", policy_implemented="shared_group_resident_skeleton_v1",
+                  role="diagnostic_arm_superseded_policy_not_headline_codegen",
                   python=sys.version, platform=__import__("platform").platform(),
                   shapes=SHAPES, k=K, g=G, seeds=SEEDS,
                   settings=[list(s) for s in SETTINGS], variants=sorted(VARIANTS))

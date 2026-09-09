@@ -1,17 +1,17 @@
 {
   "milestone": "M3b-partial",
-  "protocol_version": "0.5",
+  "protocol_version": "0.6",
   "updated_on": "2026-09-09",
   "component": "paired_kernels",
   "specification": "docs/EXPERIMENT_PROTOCOL.md",
   "generator": "benchmarks/kernels.py",
   "tensors": "benchmarks/tensors.py",
   "runner": "scripts/verify_kernels.py",
-  "evidence": "tests/benchmarks/kernel_results/20260909T192006686567Z/summary.json",
-  "evidence_sha256": "d2c3efbae6972cc2e49dd9d02cef8059ceb464d51c8ef97aff1753954e3b4eb9",
-  "repeat_evidence": "tests/benchmarks/kernel_results/20260909T192118651598Z/summary.json",
-  "repeat_evidence_sha256": "068da5637e35bbdd5be8d8ab35373cf20ca88330480cf89fc240e25621e9955b",
-  "status": "d_and_b3_kernels_verified",
+  "evidence": "tests/benchmarks/kernel_results/20260909T211826271777Z/summary.json",
+  "evidence_sha256": "d3ff924e1a35bc469f15c0956b7033a494c0e6d5f0f5b58abc29d7f2b54ab038",
+  "repeat_evidence": "tests/benchmarks/kernel_results/20260909T211925440382Z/summary.json",
+  "repeat_evidence_sha256": "0225b09175339859e8fd0789b5ef4db0f3dcf229ce50143e1ce051e2f63351b5",
+  "status": "inline_resident_arm_verified",
   "variants_implemented": [
     "B3",
     "D"
@@ -32,10 +32,15 @@
     20260909
   ],
   "paired_agreements": 24,
-  "rows_emitted_straight_line_because_z_is_immediate": true,
   "development_timings_observed": true,
   "campaign_executed": false,
   "pilot_executed": false,
   "speedup_computed": false,
-  "performance_comparison_drawn": false
+  "performance_comparison_drawn": false,
+  "arm": "inline_resident",
+  "policy_implemented": "shared_group_resident_skeleton_v1",
+  "policy_superseded_by": "shared_tile_resident_skeleton_v2",
+  "role": "diagnostic_arm_not_headline_codegen",
+  "headline_kernels_pending": true,
+  "retained_reason": "Quantifies the unroll bonus that the headline codegen removes; its correctness evidence stands on its own."
 }

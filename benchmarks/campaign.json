@@ -1,9 +1,9 @@
 {
-  "manifest_version": "0.4",
+  "manifest_version": "0.5",
   "campaign_id": "static-z-initial",
   "status": "design_only",
   "protocol": "docs/EXPERIMENT_PROTOCOL.md",
-  "protocol_version": "0.5",
+  "protocol_version": "0.6",
   "interpretation": "Evaluation under static zero-point specialization; no extrapolation to ZR and no proven upper bound on D's advantage.",
   "grid": {
     "variants": ["B1", "B2", "B3", "D"],
@@ -96,20 +96,31 @@
       "performance_driven_algorithm_search": false
     },
     "common_kernel_policy": {
-      "id": "shared_group_resident_skeleton_v1",
+      "id": "shared_tile_resident_skeleton_v2",
+      "supersedes": "shared_group_resident_skeleton_v1",
       "status": "selected_before_performance_measurement",
       "role": "common_codegen_policy_for_all_four_variants",
-      "selection_basis": "Derived from the operand word shape of the initial K=G=32 campaign and the RV32 register budget, not from timing results or a search over kernels; no claim of optimality. Applies identically to B1, B2, B3 and D.",
+      "selection_basis": "Derived from the operand word shape and the RV32 register budget across the protocol's whole K matrix, not from timing results or a search over kernels; no claim of optimality. Applies identically to B1, B2, B3 and D.",
+      "revision_reason": "Version 1 overloaded one field with two independent decisions and became self-contradictory: eight logical elements per iteration implies a K loop, while group-scope activation residency requires distinct register names per iteration and therefore forbids one. Group scope is also unimplementable beyond the initial shape, since K/4 activation words is 32 at K=128 and 128 at K=512 against 31 usable registers, so it would have failed RQ3 regardless of this revision. Residency moves to tile scope, K stays unrolled, and row traversal becomes a consequence of each variant's ISA rather than a shared choice.",
       "declared_consequences": [
-        "Eight logical elements are exactly one packed weight word (eight U4 codes) and two activation words (four S8 each), so an unrolled iteration consumes whole operand words and issues two packed operations for B3 and D.",
-        "With K=G the initial grid has a single group, so the traversal order itself is not exercised; what is exercised is activation residency across the N rows, which is the condition RQ2 and H2 depend on.",
+        "A body is eight logical elements: one packed weight word of eight U4 codes and two activation words of four S8 each, issuing two packed operations and two accumulations for B3 and D. Every variant emits a whole number of identically shaped bodies, which the disassembly audit can count.",
+        "Activation residency is scoped to the tile, not the group. Group scope survives only at K=32 and would be unimplementable at K=128 and K=512, which RQ3 requires. Losing it costs two activation loads per body in every variant alike.",
+        "Row traversal is derived from each variant's ISA, not chosen: a variant loops over rows unless its encoding cannot express the row body with a single copy of code. Under ZS only D is forced to specialize, because its zero point is an instruction immediate; that forced specialization is the cost of supplying z and is reported as required_row_bodies.",
+        "The two corrections introduced by this revision oppose each other in the D/B3 ratio: giving the baselines a row loop raises it, while removing group residency from D and B3 alike lowers it. Neither direction was selected for its effect and both are reported.",
         "The declared ZC schedule repeats z across rows, so B3 may hoist z*Sa once per case and correct with a single subtraction per row; the declared ZS schedule gives every row a distinct z for N<=16, so B3 pays a multiply and a subtraction per row. This difference follows from the declared schedule and this reuse policy, not from the architecture, and is a further reason ZC and ZS are reported separately."
       ]
     },
-    "logical_elements_per_unrolled_iteration": 8,
-    "row_group_traversal": "group_outer_row_inner_activations_resident_across_rows",
-    "row_group_traversal_exercised_in_initial_grid": false,
-    "register_allocation_and_spill_policy": "reserve_the_group_activation_words_and_the_row_accumulator_for_the_whole_group_no_inner_loop_spills_identical_reservation_for_every_variant",
+    "logical_elements_per_body": 8,
+    "body_shape": "one_packed_weight_word_two_activation_words_two_packed_operations_two_accumulations",
+    "activation_register_window_words": 2,
+    "activation_residency_scope": "tile_not_group",
+    "k_traversal": "bodies_unrolled_within_a_row_identically_in_every_variant",
+    "row_traversal": "loop_over_rows_unless_the_variant_encoding_cannot_express_the_row_body_with_one_code_copy",
+    "row_traversal_exercised_in_initial_grid": true,
+    "required_row_bodies": {"ZC": {"B1": 1, "B2": 1, "B3": 1, "D": 1},
+                            "ZS": {"B1": 1, "B2": 1, "B3": 1, "D": 16}},
+    "specialization_rule": "take_a_statically_valid_specialization_if_and_only_if_it_does_not_require_dispatch_the_same_rule_for_every_variant",
+    "register_allocation_and_spill_policy": "reserve_the_tile_activation_window_the_row_accumulator_and_the_traversal_pointers_no_inner_loop_spills_identical_reservation_for_every_variant",
     "equal_z_correction_reuse_policy": "hoist_the_shared_z_correction_only_when_the_declared_zero_point_schedule_repeats_z_never_from_tensor_or_measured_value_inspection",
     "strength_reduction_and_scheduling_policy": "reduce_only_on_statically_declared_constants_and_apply_one_common_scheduling_pass_to_every_variant_without_manual_per_variant_reordering"
   },
@@ -121,7 +132,7 @@
   },
   "common_policy_freeze": {
     "required_before": "first_kernel_timing_including_pilot",
-    "policy_id": "shared_group_resident_skeleton_v1",
+    "policy_id": "shared_tile_resident_skeleton_v2",
     "record": ["policy", "generator", "assembly", "disassembly", "text_hash", "tests", "git_revision"],
     "post_measurement_change": "new_version_with_reason_prior_observations_retained_and_affected_pairs_rerun"
   },

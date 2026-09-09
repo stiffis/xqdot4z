@@ -457,7 +457,7 @@ def check_measurement():
     sys.path.insert(0, str(ROOT / "scripts"))
     from verify_measurement import programs, sources, identities, DEPTH
     state = json.loads((ROOT / "docs/MEASUREMENT_STATE.json").read_text())
-    assert state["status"] == "measurement_contract_verified" and state["protocol_version"] == "0.5"
+    assert state["status"] == "measurement_contract_verified" and state["protocol_version"] == "0.6"
     assert state["component"] == "measurement_window_and_counters"
     assert state["expectations_derived_from_structure_not_runs"] is True
     assert state["kernels_implemented"] is state["campaign_executed"] is False
@@ -506,7 +506,10 @@ def check_kernels():
     from verify_kernels import sources, SHAPES, SEEDS, SETTINGS, CUSTOM0
     from tensors import tensors, zero_points, expected_outputs
     state = json.loads((ROOT / "docs/KERNEL_STATE.json").read_text())
-    assert state["status"] == "d_and_b3_kernels_verified"
+    assert state["status"] == "inline_resident_arm_verified"
+    assert state["role"] == "diagnostic_arm_not_headline_codegen"
+    assert state["headline_kernels_pending"] is True
+    assert state["policy_superseded_by"] == "shared_tile_resident_skeleton_v2"
     assert state["variants_implemented"] == ["B3", "D"] and state["variants_pending"] == ["B1", "B2"]
     assert state["campaign_executed"] is state["pilot_executed"] is False
     assert state["speedup_computed"] is state["performance_comparison_drawn"] is False
@@ -550,8 +553,8 @@ def check_kernels():
     repeated = verify_report(ROOT / state["repeat_evidence"], state["repeat_evidence_sha256"])
     for key in ("sources_sha256", "tools", "platform", "cases", "paired_agreements"):
         assert report[key] == repeated[key], f"Kernel repeat differs: {key}"
-    print("OK: D and B3 kernels, 24 paired agreements over 48 cases in two simulators.")
-    print("Kernel correctness only; B1/B2 pending, campaign blocked and no speedup computed.")
+    print("OK: inline-resident arm, 24 paired agreements over 48 cases in two simulators.")
+    print("Diagnostic arm of a superseded policy; headline kernels, B1/B2 and the campaign remain pending.")
     return len(report["cases"])
 
 

@@ -1,4 +1,4 @@
-# Protocolo experimental — versión 0.5
+# Protocolo experimental — versión 0.6
 
 Nota editorial 0.2: estas matrices e hipótesis se conservan como notas internas,
 fuera del artículo IEEE breve. No obligan a implementar todas las alternativas.
@@ -17,6 +17,10 @@ no desbloquea la campaña; los demás bloqueadores siguen vigentes.
 Revisión 0.5, 2026-09-09: se fijan y verifican los eventos de medición y los
 contadores en el testbench, con oráculo estructural, controles negativos y
 mutaciones. Siguen sin existir kernels de las variantes ni mediciones.
+Revisión 0.6, 2026-09-09: la política común pasa a `shared_tile_resident_skeleton_v2`
+por contradicción interna e inviabilidad en K=128/512; el recorrido de filas se
+deriva del ISA y aparece `required_row_bodies`. El comprobador gana invariantes
+cruzados entre campos congelados.
 El core corregido Kuntur está en `kuntur/`; aún no están completos los
 comparadores B2/B3/D con sus kernels y fronteras de medida.
 
@@ -51,13 +55,22 @@ Falta cerrar kernels, memoria común y eventos de medición antes de comparar.
 Actualización de kernels (2026-09-09): existen kernels pareados **D y B3**
 para K=G=32 y N∈{1,4,16}, verificados contra el oráculo entero y entre sí, con
 lista blanca de opcodes por variante y evidencia en `docs/KERNEL_STATE.json`.
-**B1 y B2 siguen sin implementar**, así que el bloqueador de kernels continúa
-abierto y la campaña sigue bloqueada. Al desarrollarlos se observaron
-contadores de esas corridas de corrección; se registran como tiempos de
-desarrollo observados, no como resultados, y no se ha comparado ni calculado
-ningún speedup. Bajo especialización estática el zero-point es un inmediato,
-así que las filas se emiten rectilíneas: un bucle no puede llevar un inmediato
-distinto por fila. El tamaño de código crece con N y se reporta como métrica.
+Implementan la política **superada** `shared_group_resident_skeleton_v1`, así
+que se conservan como **brazo diagnóstico declarado** —el control que cuantifica
+la bonificación de desenrollado— y no como codegen de titular. Su evidencia de
+corrección se sostiene por sí sola. Faltan los kernels de titular bajo la
+política v2, y **B1 y B2 siguen sin implementar**, así que el bloqueador de
+kernels continúa abierto y la campaña sigue bloqueada.
+
+Al desarrollar ese brazo se observaron contadores de sus corridas de corrección;
+se registran como tiempos de desarrollo observados, no como resultados, y no se
+ha comparado ni calculado ningún speedup. Tres defectos de ese brazo, detectados
+en revisión y corregidos por la política v2, se declaran aquí porque afectan a
+cómo debe leerse: materializa z como inmediato también en B3, que no lo necesita;
+direcciona los pesos con desplazamiento absoluto, horneando la estructura
+rectilínea en el plan de direcciones; y **no toma ninguna reducción de fuerza**,
+de modo que con z=0 emite Sa completo más una multiplicación y restas por cero
+que la línea 215 de este protocolo le permite omitir.
 
 Estado: planificación. No existen aún mediciones de XQDot4Z.
 Las configuraciones siguientes son propuestas concretas; cualquier revisión
@@ -234,42 +247,69 @@ demás bloqueadores de ejecución siguen vigentes.
 
 ### Política común: regla seleccionada y consecuencias declaradas
 
-La política `shared_group_resident_skeleton_v1` se selecciona antes de medir a
-partir de la forma de los operandos de la campaña inicial y del presupuesto de
-registros RV32, no de resultados de tiempo ni de una búsqueda sobre kernels. No
-se afirma óptima. Rige por igual para B1, B2, B3 y D, y se congela en Git —
-política, generador, ensamblado, desensamblado, hash del `.text`, pruebas y
-revisión — antes del primer cronometraje, incluido el piloto.
+La política `shared_tile_resident_skeleton_v2` sustituye a
+`shared_group_resident_skeleton_v1`, que era **internamente contradictoria**:
+ocho elementos lógicos por iteración implican un bucle de K, mientras que la
+residencia de activaciones a escala de grupo exige nombres de registro distintos
+por iteración y por tanto lo prohíbe. La contradicción sobrevivió porque el
+comprobador validaba la forma del manifiesto y no la coherencia entre sus campos.
 
-1. Desenrollado: ocho elementos lógicos por iteración. Con K=32 son cuatro
-   iteraciones por fila. Ocho elementos son exactamente una palabra de pesos
-   empacados, ocho códigos U4, y dos palabras de activaciones, cuatro S8 cada
-   una; así una iteración consume palabras completas y emite dos operaciones
-   empacadas en B3 y D. No se elige por su efecto medido.
-2. Recorrido: grupo externo, fila interna, con las palabras de activación del
-   grupo residentes entre filas. Esa residencia es la condición de la que
-   dependen RQ2 y H2. Con K=G la rejilla inicial tiene un solo grupo, así que
-   **el orden de recorrido en sí no queda ejercitado**; sí queda ejercitada la
-   residencia. El orden se declara para K>G, no se reporta como cobertura.
-3. Registros y spills: se reservan las palabras de activación del grupo y el
-   acumulador de fila durante todo el grupo, sin spills en el bucle interno y
-   con idéntica reserva en las cuatro variantes. Si una variante necesitara
-   spill, se reporta como diferencia arquitectónica y no se compensa añadiendo
-   trabajo inútil a las demás.
-4. Reutilización de la corrección: B3 puede izar `z*Sa` compartido **solo
-   cuando el calendario declarado de zero-points repite z**, nunca inspeccionando
-   tensores ni valores medidos. Esto tiene una consecuencia que debe leerse en
-   el reporte: en ZC el z es constante entre filas, así que B3 iza `z*Sa` una
-   vez por caso y corrige con una resta por fila; en ZS el calendario da un z
-   distinto a cada fila para N≤16, así que B3 paga una multiplicación y una
-   resta por fila. La diferencia proviene del calendario declarado y de esta
-   política, no de la arquitectura, y es otra razón para reportar ZC y ZS por
-   separado y para no agregar un speedup entre regímenes.
-5. Reducción de fuerza y planificación: se reduce solo sobre constantes
-   declaradas estáticamente, y se aplica una única pasada de planificación
-   común a todas las variantes, sin reordenamientos manuales por variante.
+La escala de grupo además **no era implementable más allá de la forma inicial**:
+las palabras de activación son K/4, es decir 32 con K=128 y 128 con K=512, contra
+31 registros utilizables. Habría fallado en RQ3 con independencia de esta
+revisión. Esa es la razón de fondo del cambio, no un resultado observado.
 
-Estas cinco reglas no vuelven ejecutable la campaña. Los kernels, las
+Se selecciona antes de medir a partir de la forma de los operandos y del
+presupuesto de registros **sobre toda la matriz K del protocolo**, no de tiempos
+ni de una búsqueda sobre kernels. No se afirma óptima. Rige por igual para las
+cuatro variantes y se congela en Git —política, generador, ensamblado,
+desensamblado, hash del `.text`, pruebas y revisión— antes del primer cronometraje.
+
+1. Cuerpo: ocho elementos lógicos, exactamente una palabra de pesos empacados
+   —ocho códigos U4— y dos palabras de activaciones —cuatro S8 cada una—, con
+   dos operaciones empacadas y dos acumulaciones en B3 y D. Cada variante emite
+   un número entero de cuerpos de forma idéntica, y la auditoría de desensamblado
+   puede contarlos. No se elige por su efecto medido.
+2. Recorrido de K: los cuerpos se desenrollan dentro de la fila, igual en las
+   cuatro variantes. Un bucle de K costaría ~6 ciclos de control sobre un cuerpo
+   de ~7 instrucciones: contaminaría más de lo que ordena.
+3. Residencia y registros: la ventana de activaciones es de **dos palabras, a
+   escala de cuerpo, no de grupo**. Se reservan esa ventana, el acumulador de
+   fila y los punteros de recorrido, sin spills internos y con idéntica reserva
+   en las cuatro. Perder la residencia de grupo cuesta dos cargas de activación
+   por cuerpo, por igual en todas.
+4. Recorrido de filas: **se deriva del ISA de cada variante, no se elige**. Una
+   variante recorre filas en bucle salvo que su codificación no pueda expresar
+   el cuerpo de fila con una sola copia de código. Bajo ZS solo D está forzada a
+   especializar, porque su zero-point es un inmediato; ese piso obligatorio se
+   reporta como `required_row_bodies` —bajo ZC uno en las cuatro; bajo ZS uno en
+   B1, B2 y B3, y dieciséis en D— y es el costo de suministrar z. Todo cuerpo
+   adicional que una variante emita por elección va a `text_bytes`, no aquí.
+5. Especializaciones: se toma una especialización estáticamente válida **si y
+   solo si no exige despacho**, con la misma regla en las cuatro. Con filas
+   rectilíneas son gratis y se toman todas; con filas en bucle solo compensan
+   cuando lo ahorrado supera el despacho. Que B3 emita un solo cuerpo pasa a ser
+   derivado de la regla y no una decisión del implementador, que es lo que cierra
+   la objeción de haberla lastrado.
+6. Reutilización de la corrección: B3 puede izar `z*Sa` compartido **solo cuando
+   el calendario declarado repite z**, nunca inspeccionando tensores ni valores
+   medidos. En ZC el z es constante entre filas, así que iza una vez por caso y
+   corrige con una resta por fila; en ZS cada fila tiene su z, así que paga una
+   multiplicación y una resta por fila. La diferencia proviene del calendario y
+   de esta política, no de la arquitectura, y es otra razón para reportar ZC y ZS
+   por separado y no agregar un speedup entre regímenes.
+7. Reducción de fuerza y planificación: se reduce solo sobre constantes
+   declaradas estáticamente, con una única pasada común a todas las variantes y
+   sin reordenamientos manuales por variante.
+
+**Dirección declarada de esta revisión.** Sus dos correcciones se oponen en el
+ratio D/B3: dar bucle de filas a los baselines lo sube, y quitar la residencia de
+grupo a D y B3 por igual lo baja. Ninguna se eligió por su efecto y ambas se
+reportan. La revisión se hizo después de observar contadores de corridas de
+desarrollo, que se conservan; su justificación —la contradicción interna y la
+inviabilidad en K=128/512— no depende de ellos.
+
+Estas siete reglas no vuelven ejecutable la campaña. Los kernels, las
 capacidades de memoria, los eventos de medición, los contadores y la
 materialización de tensores siguen pendientes y bloqueados.
 

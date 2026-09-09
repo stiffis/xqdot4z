@@ -11,6 +11,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
+# RV32I has x1..x31; the traversal pointers, accumulator and scratch are reserved
+# before any activation word can stay resident.
+USABLE_REGISTERS = 31
+RESERVED_REGISTERS = 8
+# The protocol's main matrix, not the current campaign's selection: a residency
+# scope has to survive RQ3's K sweep or it will fail later instead of now.
+PROTOCOL_K = (32, 128, 512)
+
 
 def require(condition, message):
     if not condition:
@@ -32,10 +40,10 @@ def zero_points(profile, setting, n, groups):
 
 
 def validate(manifest):
-    require(manifest["manifest_version"] == "0.4", "Unsupported manifest version")
+    require(manifest["manifest_version"] == "0.5", "Unsupported manifest version")
     require(manifest["status"] == "design_only", "This checker does not certify runnable campaigns")
     require(manifest["protocol"] == "docs/EXPERIMENT_PROTOCOL.md" and
-            manifest["protocol_version"] == "0.5", "Protocol reference mismatch")
+            manifest["protocol_version"] == "0.6", "Protocol reference mismatch")
     grid = manifest["grid"]
     integer_list(grid["N"], "N", 1, 16)
     integer_list(grid["K"], "K", 1, 512)
@@ -140,28 +148,55 @@ def validate(manifest):
             "B1 is a bounded contextual baseline, not an optimization search")
     common = optimization["common_kernel_policy"]
     for key, expected in {
-        "id": "shared_group_resident_skeleton_v1",
+        "id": "shared_tile_resident_skeleton_v2",
         "status": "selected_before_performance_measurement",
         "role": "common_codegen_policy_for_all_four_variants",
     }.items():
         require(common[key] == expected, "Selected common policy changed: " + key)
     require(bool(common["selection_basis"].strip()), "Common policy selection basis required")
-    require(len(common["declared_consequences"]) == 3 and
+    require(bool(common["revision_reason"].strip()) and
+            common["supersedes"] == "shared_group_resident_skeleton_v1",
+            "A superseding policy must record what it replaces and why")
+    require(len(common["declared_consequences"]) == 5 and
             all(bool(text.strip()) for text in common["declared_consequences"]),
-            "Common policy must declare its unroll, residency and reuse consequences")
-    elements = optimization["logical_elements_per_unrolled_iteration"]
+            "Common policy must declare its body, residency, traversal, direction and reuse consequences")
+    elements = optimization["logical_elements_per_body"]
+    window = optimization["activation_register_window_words"]
     require(type(elements) is int and elements == 8,
-            "Initial iteration is eight logical elements: one packed weight word and two activation words")
-    require(all(k % elements == 0 for k in grid["K"]), "Unrolled iteration must divide every K")
+            "A body is eight logical elements: one packed weight word and two activation words")
+    require(all(k % elements == 0 for k in grid["K"]), "A body must divide every K")
+    # Cross-field invariants. Version 1 of this policy stated the body size and
+    # the residency scope in separate fields that contradicted each other, and a
+    # shape-only checker could not see it. These are the checks that would have.
+    require(type(window) is int and window * 4 == elements,
+            "The activation register window and the body size must describe the same tile")
+    scope = optimization["activation_residency_scope"]
+    require(scope in ("tile_not_group", "group"), "Unknown residency scope")
+    resident = window if scope == "tile_not_group" else max(PROTOCOL_K) // 4
+    require(resident <= USABLE_REGISTERS - RESERVED_REGISTERS,
+            f"Residency scope {scope} needs {resident} activation registers at K={max(PROTOCOL_K)}, "
+            f"more than this ISA has; the scope must survive the whole K matrix")
     for key, expected in {
-        "row_group_traversal": "group_outer_row_inner_activations_resident_across_rows",
-        "register_allocation_and_spill_policy": "reserve_the_group_activation_words_and_the_row_accumulator_for_the_whole_group_no_inner_loop_spills_identical_reservation_for_every_variant",
+        "body_shape": "one_packed_weight_word_two_activation_words_two_packed_operations_two_accumulations",
+        "k_traversal": "bodies_unrolled_within_a_row_identically_in_every_variant",
+        "row_traversal": "loop_over_rows_unless_the_variant_encoding_cannot_express_the_row_body_with_one_code_copy",
+        "specialization_rule": "take_a_statically_valid_specialization_if_and_only_if_it_does_not_require_dispatch_the_same_rule_for_every_variant",
+        "register_allocation_and_spill_policy": "reserve_the_tile_activation_window_the_row_accumulator_and_the_traversal_pointers_no_inner_loop_spills_identical_reservation_for_every_variant",
         "equal_z_correction_reuse_policy": "hoist_the_shared_z_correction_only_when_the_declared_zero_point_schedule_repeats_z_never_from_tensor_or_measured_value_inspection",
         "strength_reduction_and_scheduling_policy": "reduce_only_on_statically_declared_constants_and_apply_one_common_scheduling_pass_to_every_variant_without_manual_per_variant_reordering",
     }.items():
         require(optimization[key] == expected, "Selected common policy changed: " + key)
-    require(optimization["row_group_traversal_exercised_in_initial_grid"] is False,
-            "K=G leaves the traversal order unexercised")
+    require(optimization["row_traversal_exercised_in_initial_grid"] is True,
+            "The initial grid does exercise row traversal")
+    # required_row_bodies is a floor derived from each ISA, never a choice: only
+    # D cannot express a ZS row body once, and its count is the schedule's modulus.
+    bodies = optimization["required_row_bodies"]
+    require(set(bodies) == {"ZC", "ZS"}, "Row-body floors are declared per regime")
+    schedule = next(p for p in profiles if p["regime"] == "ZS")
+    require(bodies["ZC"] == {v: 1 for v in grid["variants"]},
+            "A constant zero point needs one row body in every variant")
+    require(bodies["ZS"] == {**{v: 1 for v in grid["variants"]}, "D": schedule["modulus"]},
+            "Only D is forced to specialize under ZS, once per U4 code")
     # The reuse policy only pays off where the declared schedule repeats z, so
     # check the schedules themselves rather than trusting the prose.
     for profile in profiles:

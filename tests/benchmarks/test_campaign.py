@@ -56,16 +56,26 @@ class CampaignTests(unittest.TestCase):
 
     def test_common_policy_matches_the_operand_word_shape(self):
         optimization = self.manifest["optimization"]
-        elements = optimization["logical_elements_per_unrolled_iteration"]
-        # Eight logical elements is one packed weight word and two activation
-        # words, so an iteration consumes whole operands and divides every K.
+        elements = optimization["logical_elements_per_body"]
+        window = optimization["activation_register_window_words"]
+        # A body is one packed weight word and two activation words, and both
+        # fields must describe that same tile. Version 1 stated them
+        # independently and they contradicted each other.
         self.assertEqual(elements, 8)
-        self.assertEqual(elements % 8, 0)
-        self.assertEqual(elements % 4, 0)
+        self.assertEqual(window * 4, elements)
         for k in self.manifest["grid"]["K"]:
             self.assertEqual(k % elements, 0)
-        self.assertIs(optimization["row_group_traversal_exercised_in_initial_grid"], False)
-        self.assertEqual(len(optimization["common_kernel_policy"]["declared_consequences"]), 3)
+        self.assertEqual(optimization["activation_residency_scope"], "tile_not_group")
+        self.assertIs(optimization["row_traversal_exercised_in_initial_grid"], True)
+        self.assertEqual(len(optimization["common_kernel_policy"]["declared_consequences"]), 5)
+
+    def test_row_body_floor_is_derived_from_each_isa(self):
+        """Only D cannot express a ZS row body once; the floor is never a choice."""
+        bodies = self.manifest["optimization"]["required_row_bodies"]
+        schedule = self.manifest["zero_point_profiles"][1]
+        for variant in self.manifest["grid"]["variants"]:
+            self.assertEqual(bodies["ZC"][variant], 1)
+            self.assertEqual(bodies["ZS"][variant], schedule["modulus"] if variant == "D" else 1)
 
     def test_correction_reuse_follows_the_declared_schedule(self):
         zc, zs = self.manifest["zero_point_profiles"]
@@ -101,22 +111,31 @@ class CampaignTests(unittest.TestCase):
 
     def test_reject_common_policy_regressions(self):
         mutations = [
-            lambda m: m["optimization"].update(logical_elements_per_unrolled_iteration=None),
-            lambda m: m["optimization"].update(logical_elements_per_unrolled_iteration=6),
-            lambda m: m["optimization"].update(logical_elements_per_unrolled_iteration=True),
-            lambda m: m["optimization"].update(row_group_traversal="row_outer_group_inner"),
-            lambda m: m["optimization"].update(row_group_traversal_exercised_in_initial_grid=True),
+            lambda m: m["optimization"].update(logical_elements_per_body=None),
+            lambda m: m["optimization"].update(logical_elements_per_body=6),
+            lambda m: m["optimization"].update(logical_elements_per_body=True),
+            # The contradiction version 1 could not see.
+            lambda m: m["optimization"].update(activation_register_window_words=8),
+            lambda m: m["optimization"].update(activation_residency_scope="group"),
+            lambda m: m["optimization"]["required_row_bodies"]["ZS"].update(D=1),
+            lambda m: m["optimization"]["required_row_bodies"]["ZS"].update(B3=16),
+            lambda m: m["optimization"]["common_kernel_policy"].update(revision_reason="  "),
+            lambda m: m["optimization"].update(k_traversal="looped_per_variant"),
+            lambda m: m["optimization"].update(specialization_rule="implementer_choice"),
+            lambda m: m["optimization"]["common_kernel_policy"].update(supersedes="none"),
+            lambda m: m["optimization"].update(row_traversal="always_straight_line"),
+            lambda m: m["optimization"].update(row_traversal_exercised_in_initial_grid=False),
             lambda m: m["optimization"].update(register_allocation_and_spill_policy="per_variant_manual"),
             lambda m: m["optimization"].update(
                 equal_z_correction_reuse_policy="hoist_whenever_measured_values_repeat"),
             lambda m: m["optimization"].update(
                 strength_reduction_and_scheduling_policy="per_variant_manual_reordering"),
-            lambda m: m["optimization"]["common_kernel_policy"].update(id="tuned_after_timing_v2"),
+            lambda m: m["optimization"]["common_kernel_policy"].update(id="tuned_after_timing_v3"),
             lambda m: m["optimization"]["common_kernel_policy"].update(status="selected_after_pilot"),
             lambda m: m["optimization"]["common_kernel_policy"].update(selection_basis="  "),
             lambda m: m["optimization"]["common_kernel_policy"]["declared_consequences"].pop(),
             lambda m: m["common_policy_freeze"].update(required_before="after_pilot"),
-            lambda m: m["common_policy_freeze"].update(policy_id="bounded_masked_bit_decomposition_v1"),
+            lambda m: m["common_policy_freeze"].update(policy_id="shared_group_resident_skeleton_v1"),
             lambda m: m["common_policy_freeze"]["record"].remove("text_hash"),
             # Selecting the policies must not retire an unrelated blocker.
             lambda m: m["execution_blockers"].remove(
