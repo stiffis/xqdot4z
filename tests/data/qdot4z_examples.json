@@ -1,0 +1,41 @@
+{
+  "contract_version": "0.1",
+  "cases": [
+    {
+      "name": "low_half_signed_example",
+      "weights_word": "00004a95",
+      "activations_word": "0102fd04",
+      "zero_point": 8,
+      "half": 0,
+      "expected_signed": -15,
+      "expected_u32": "fffffff1"
+    },
+    {
+      "name": "high_half_signed_example",
+      "weights_word": "78f04a95",
+      "activations_word": "02ff7f80",
+      "zero_point": 8,
+      "half": 1,
+      "expected_signed": 1911,
+      "expected_u32": "00000777"
+    },
+    {
+      "name": "minimum_subtotal",
+      "weights_word": "0000ffff",
+      "activations_word": "80808080",
+      "zero_point": 0,
+      "half": 0,
+      "expected_signed": -7680,
+      "expected_u32": "ffffe200"
+    },
+    {
+      "name": "maximum_subtotal",
+      "weights_word": "00000000",
+      "activations_word": "80808080",
+      "zero_point": 15,
+      "half": 0,
+      "expected_signed": 7680,
+      "expected_u32": "00001e00"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+FATAL: /home/stiff/stuff/xqdot4z/tests/scalar/tb_scalar_mul.sv:16: MUL_FAIL cannot open vectors
+       Time: 0  Scope: tb_scalar_mul

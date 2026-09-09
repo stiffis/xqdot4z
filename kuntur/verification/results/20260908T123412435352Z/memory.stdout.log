@@ -1,0 +1,2 @@
+PASS memory boundaries/alignment
+/home/stiff/stuff/xqdot4z/kirky-arqui/verification/tb_memory.sv:33: $finish called at 41000 (1ps)

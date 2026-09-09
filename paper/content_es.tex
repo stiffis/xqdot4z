@@ -1,0 +1,169 @@
+\title{XQDot4Z: productos punto cuantizados\\en un procesador RISC-V}
+\author{\IEEEauthorblockN{Autoría por definir}
+\IEEEauthorblockA{Borrador de trabajo v\PaperVersion\ --- no destinado a envío}}
+\maketitle
+\begin{abstract}
+El almacenamiento de pesos con pocos bits reduce el tamaño de los datos,
+pero su procesamiento puede requerir extracción, conversión y corrección
+del origen numérico. Este trabajo plantea estudiar una operación que combine
+cuatro productos entre pesos de cuatro bits sin signo y activaciones de ocho
+bits con signo, con corrección del punto cero. La pregunta es cuándo esa
+fusión resulta útil frente a multiplicación escalar y frente a un producto
+punto empacado con corrección separada. Se propone utilizar un procesador
+docente de treinta y dos bits, verificar primero la operación y evaluar
+después productos punto y multiplicaciones matriz--vector. Este documento
+es un borrador inicial: presenta la pregunta y el método previsto, pero no
+reporta resultados de aceleración. Las conclusiones se redactarán cuando
+existan implementaciones verificadas y comparaciones reproducibles.
+\end{abstract}
+\begin{IEEEkeywords}
+inferencia cuantizada, aritmética de baja precisión, extensiones de instrucciones,
+verificación de hardware
+\end{IEEEkeywords}
+% Keep the abstract first; a top float may start in the next column instead.
+\suppressfloats[t]
+
+\section{Introducción}
+Las capas de una red neuronal realizan productos y sumas entre pesos y
+activaciones. La cuantización permite representar parte de ese cálculo con
+enteros y parámetros de escala~\cite{jacob}. Sin embargo, almacenar más pesos
+por palabra no elimina el trabajo necesario para consumirlos en un procesador.
+La extracción de campos y la preparación de los operandos pueden ser relevantes.
+
+Se propone estudiar XQDot4Z sobre Kuntur, un procesador docente RISC-V
+con un pipeline de cinco etapas. La intención es
+investigar una operación acotada y sus costos, no desarrollar todavía un
+acelerador completo ni ejecutar un modelo de lenguaje de gran tamaño.
+
+\input{comparison_figure}
+\section{Fundamentos y trabajo relacionado}
+En cuantización afín, un código entero \(q\) representa aproximadamente
+\(r=s(q-z)\), donde \(s>0\) es la escala y \(z\) el punto cero o
+\emph{zero-point}. Con activaciones cuyo punto cero es cero, el núcleo
+aritmético estudiado es
+\begin{equation}
+d=\sum_{i=0}^{3}(q_{w,i}-z_w)q_{a,i}.
+\label{eq:dot}
+\end{equation}
+Los pesos se almacenan como U4 (cuatro bits sin signo) y las activaciones
+como S8 (ocho bits con signo). La salida propuesta es un subtotal INT32
+(entero de 32 bits con signo); escalas, sesgo y acumulación de otros
+subtotales se mantienen fuera de esta operación.
+
+Entre los antecedentes están XpulpNN y Dustin, con instrucciones de baja
+precisión y aritmética mixta en RISC-V~\cite{xpulpnn,dustin}. Por ello, no se considera
+inédito el uso de productos punto de pocos bits. La contribución específica
+deberá establecerse mediante una comparación más detallada de antecedentes
+y los resultados propios.
+
+Una alternativa importante a la fusión es
+\begin{equation}
+d=\sum_i q_{w,i}q_{a,i}-z_w\sum_i q_{a,i}.
+\label{eq:factor}
+\end{equation}
+La suma de activaciones puede reutilizarse entre filas de una matriz. Una
+comparación válida debe permitir esa optimización.
+
+\section{Pregunta y alcance}
+\textit{¿Bajo qué condiciones fusionar la corrección del punto cero en un
+producto punto U4 por S8 reduce su costo de ejecución frente a multiplicación
+escalar y corrección factorizada, considerando reutilización de activaciones
+y suministro del punto cero?}
+
+El alcance inicial es un solo core, batch uno y kernels de producto punto
+y matriz--vector pequeños. La primera fase evaluará corrección y ciclos de
+simulación. La síntesis y la evaluación en una placa se consideran etapas
+posteriores. No se deducirá energía ni tiempo físico únicamente del número
+de instrucciones o ciclos.
+
+\section{Método propuesto}
+\subsection{Plataforma y verificación}
+Se preserva el procesador original y se trabaja en un clon independiente.
+Las correcciones del core se verifican por separado y formarán una base común
+para las variantes. Las instrucciones no implementadas deberán detectarse,
+sin atribuir al procesador conformidad completa con una ISA que aún no cubre.
+
+El contrato numérico v0.1 fija una palabra \(W\) de 32 bits con ocho pesos U4
+y una palabra \(A\) con cuatro activaciones S8. Un selector \(h\) elige los
+cuatro pesos bajos o altos de \(W\), sin cambiar las activaciones. El índice
+cero ocupa los bits menos significativos y \(z_w\) es común a los cuatro
+términos. El subtotal está en \([-7680,7680]\) y se representa en complemento
+a dos de 32 bits, sin acumulación implícita.
+
+Se dispone de una referencia Python con enteros sin ancho fijo, comprobada
+mediante ejemplos, pruebas de packing, ternas exhaustivas de un término y
+productos punto aleatorios contrastados con~\eqref{eq:factor}. La unidad RTL
+aislada es combinacional, con cuatro vías, productos S13 y un árbol de sumas
+con extensión explícita de signo, verificada en Icarus Verilog y Verilator.
+La interfaz experimental XQDot4Zi la integra opcionalmente en Kuntur, con
+dos registros fuente y \(z_w,h\) inmediatos. Reutiliza el forwarding y
+transporta los metadatos con la instrucción. No añade una espera propia en E,
+pero no se ha comprobado timing físico. El punto cero leído en ejecución
+sigue pendiente; un inmediato no lo sustituye gratuitamente.
+
+La base incorpora MUL escalar opcional, independiente de XQDot4Zi, que
+devuelve los 32 bits bajos del producto~\cite{riscvm}. No implementa M ni
+Zmmul completos. Es combinacional, reutiliza forwarding y se cancela con
+flush/reset; su disponibilidad funcional no demuestra timing físico.
+
+El comparador empacado (B3) dispone de una unidad de cuatro vías sin
+resta del punto cero, con el mismo packing y selector que la variante
+fusionada XQDot4Z (D).
+Su subtotal está en \([-7680,7620]\); la corrección de~\eqref{eq:factor}
+queda fuera de esa unidad. La instrucción opcional XQDot4 la integra con
+dos GPR fuente, \(h\) inmediato y el mismo forwarding. Con pesos iguales a
+uno, también permite obtener la suma de activaciones reutilizable entre filas.
+
+\subsection{Comparación prevista}
+Se compararán multiplicación escalar, producto punto empacado con la
+corrección de~\eqref{eq:factor} y XQDot4Z (Fig.~\ref{fig:comparison}). Las
+variantes recibirán los mismos datos y compartirán las correcciones del core.
+Se contará el trabajo de cargas, bucles, corrección y suministro de metadatos,
+además del núcleo aritmético.
+
+Las dimensiones, configuraciones y criterios de agregación se acordarán
+antes de la campaña de medición. Se conservarán programas, versiones,
+semillas, salidas esperadas y logs. Los resultados desfavorables también
+se reportarán. El protocolo de trabajo detallado se mantiene fuera del
+artículo hasta que esas decisiones estén cerradas.
+
+\balance
+\section{Resultados y discusión}
+La unidad aislada coincide con la referencia en 556\,734 comparaciones por
+simulador. Se detectan ocho controles negativos por simulador y cuatro
+mutaciones del RTL en Icarus; el lint estricto no requiere excepciones.
+La exhaustividad se limita a ternas de un término, no a todos los operandos
+completos. Los artefactos y hashes se conservan en el repositorio.
+
+La integración inmediata supera 25 programas en ambos simuladores, incluida
+una campaña de 1056 operaciones. Se comparan retiros, writeback, stores y
+operandos; se prueban dependencias, saltos, reset y configuración desactivada.
+Dos mutaciones de integración se detectan en Icarus.
+
+MUL coincide con su referencia en 86\,704 vectores por simulador y supera
+49 programas en ambos, con las cuatro configuraciones MUL/XQDot4Zi.
+Se detectan ocho controles negativos por simulador y cuatro mutaciones
+en Icarus, dos aritméticas y dos de forwarding.
+
+La unidad empacada sin corrección supera 67\,910 vectores por simulador,
+con diez controles negativos por simulador y cuatro mutaciones en Icarus.
+A partir de 1680 respuestas RTL se reconstruyen 336 salidas por fila/grupo
+en 24 casos matriz--vector, reutilizando la suma de activaciones entre filas.
+En esa batería aislada, la acumulación y corrección se realizan en el verificador.
+
+La integración de XQDot4 supera 123 programas en ambos simuladores, con las
+ocho configuraciones de MUL y las dos instrucciones empacadas, y detecta tres
+mutaciones en Icarus. Cuatro pares de fixtures de dos filas producen ocho
+salidas iguales en B3 y D. En B3, Kuntur calcula una sola suma de activaciones,
+la reutiliza y corrige mediante MUL/SUB; D acumula subtotales fusionados.
+Son pruebas de exactitud con punto cero conocido al generar el código,
+no benchmarks optimizados ni pruebas de metadatos dinámicos.
+
+\textit{Evaluación de rendimiento pendiente.} Estos resultados no prueban
+aceleración, recursos, tiempo físico ni suministro eficiente de metadatos dinámicos.
+
+\section{Conclusiones}
+\textit{Pendiente de evaluación.} La pregunta y el alcance están delimitados,
+pero aún no se puede concluir que la fusión mejore el rendimiento. El siguiente
+paso es cerrar las condiciones de comparación y desarrollar kernels sobre
+la base común con MUL y las dos operaciones empacadas, antes de medir.

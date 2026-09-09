@@ -1,0 +1,568 @@
+{
+  "status": "pass",
+  "timestamp_utc": "20260909T035610026868Z",
+  "seed": 20260912,
+  "contract_version": "0.1",
+  "scope": "Isolated B3 arithmetic and host-side reconstruction; no CPU integration or performance",
+  "python": "3.14.7 (main, Aug 10 2026, 07:46:56) [GCC 16.1.1 20260728]",
+  "platform": "Linux-7.1.9-arch1-2-x86_64-with-glibc2.44",
+  "commands": [
+    {
+      "name": "version_iverilog",
+      "argv": [
+        "iverilog",
+        "-V"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_verilator",
+      "argv": [
+        "verilator",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_make",
+      "argv": [
+        "make",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_g++",
+      "argv": [
+        "g++",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "lint",
+      "argv": [
+        "verilator",
+        "--lint-only",
+        "-Wall",
+        "--top-module",
+        "xqdot4",
+        "/home/stiff/stuff/xqdot4z/rtl/packed/xqdot4.v"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "iverilog_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_packed",
+        "-o",
+        "/tmp/xqdot4z-packed-1n1qmcal/packed.vvp",
+        "/home/stiff/stuff/xqdot4z/rtl/packed/xqdot4.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "verilator_build",
+      "argv": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--top-module",
+        "tb_packed",
+        "--Mdir",
+        "/tmp/xqdot4z-packed-1n1qmcal/obj",
+        "-j",
+        "2",
+        "/home/stiff/stuff/xqdot4z/rtl/packed/xqdot4.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/packed.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/vectors.txt",
+        "+COUNT=67910",
+        "+TRACE_FROM=66230"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "negative_wrong_p_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/packed.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_wrong_p.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_wrong_d_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/packed.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_wrong_d.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_empty_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/packed.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_empty.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_truncated_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/packed.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_truncated.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_trailing_partial_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/packed.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_trailing_partial.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_extra_field_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/packed.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_extra_field.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_bad_hex_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/packed.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_bad_hex.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_bad_half_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/packed.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_bad_half.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_count_mismatch_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/packed.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_count_mismatch.txt",
+        "+COUNT=2"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_missing_file_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/packed.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_missing_file.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "verilator",
+      "argv": [
+        "/tmp/xqdot4z-packed-1n1qmcal/obj/Vtb_packed",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/vectors.txt",
+        "+COUNT=67910",
+        "+TRACE_FROM=66230"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "negative_wrong_p_verilator",
+      "argv": [
+        "/tmp/xqdot4z-packed-1n1qmcal/obj/Vtb_packed",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_wrong_p.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_wrong_d_verilator",
+      "argv": [
+        "/tmp/xqdot4z-packed-1n1qmcal/obj/Vtb_packed",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_wrong_d.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_empty_verilator",
+      "argv": [
+        "/tmp/xqdot4z-packed-1n1qmcal/obj/Vtb_packed",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_empty.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_truncated_verilator",
+      "argv": [
+        "/tmp/xqdot4z-packed-1n1qmcal/obj/Vtb_packed",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_truncated.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_trailing_partial_verilator",
+      "argv": [
+        "/tmp/xqdot4z-packed-1n1qmcal/obj/Vtb_packed",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_trailing_partial.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_extra_field_verilator",
+      "argv": [
+        "/tmp/xqdot4z-packed-1n1qmcal/obj/Vtb_packed",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_extra_field.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_bad_hex_verilator",
+      "argv": [
+        "/tmp/xqdot4z-packed-1n1qmcal/obj/Vtb_packed",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_bad_hex.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_bad_half_verilator",
+      "argv": [
+        "/tmp/xqdot4z-packed-1n1qmcal/obj/Vtb_packed",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_bad_half.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_count_mismatch_verilator",
+      "argv": [
+        "/tmp/xqdot4z-packed-1n1qmcal/obj/Vtb_packed",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_count_mismatch.txt",
+        "+COUNT=2"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "negative_missing_file_verilator",
+      "argv": [
+        "/tmp/xqdot4z-packed-1n1qmcal/obj/Vtb_packed",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/negative_missing_file.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "signed_u4_weights_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_packed",
+        "-o",
+        "/tmp/xqdot4z-packed-1n1qmcal/mutant.vvp",
+        "/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/mutant_signed_u4_weights.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "signed_u4_weights",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/mutant.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/vectors.txt",
+        "+COUNT=67910"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "unsigned_activations_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_packed",
+        "-o",
+        "/tmp/xqdot4z-packed-1n1qmcal/mutant.vvp",
+        "/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/mutant_unsigned_activations.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "unsigned_activations",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/mutant.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/vectors.txt",
+        "+COUNT=67910"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "ignore_half_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_packed",
+        "-o",
+        "/tmp/xqdot4z-packed-1n1qmcal/mutant.vvp",
+        "/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/mutant_ignore_half.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "ignore_half",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/mutant.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/vectors.txt",
+        "+COUNT=67910"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "zero_extend_result_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_packed",
+        "-o",
+        "/tmp/xqdot4z-packed-1n1qmcal/mutant.vvp",
+        "/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/mutant_zero_extend_result.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "zero_extend_result",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-packed-1n1qmcal/mutant.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/tests/packed/results/20260909T035610026868Z/vectors.txt",
+        "+COUNT=67910"
+      ],
+      "returncode": 1
+    }
+  ],
+  "simulators": {
+    "iverilog": {
+      "checked": 67910,
+      "matrix_reconstruction": {
+        "cases": 24,
+        "group_outputs": 336,
+        "distinct_vector_group_sums": 48,
+        "rtl_blocks": 1680
+      },
+      "negative_controls_detected": {
+        "wrong_p": "packed mismatch",
+        "wrong_d": "fused mismatch",
+        "empty": "vector count",
+        "truncated": "malformed",
+        "trailing_partial": "malformed",
+        "extra_field": "malformed",
+        "bad_hex": "malformed",
+        "bad_half": "out-of-range",
+        "count_mismatch": "vector count",
+        "missing_file": "cannot open"
+      }
+    },
+    "verilator": {
+      "checked": 67910,
+      "matrix_reconstruction": {
+        "cases": 24,
+        "group_outputs": 336,
+        "distinct_vector_group_sums": 48,
+        "rtl_blocks": 1680
+      },
+      "negative_controls_detected": {
+        "wrong_p": "packed mismatch",
+        "wrong_d": "fused mismatch",
+        "empty": "vector count",
+        "truncated": "malformed",
+        "trailing_partial": "malformed",
+        "extra_field": "malformed",
+        "bad_hex": "malformed",
+        "bad_half": "out-of-range",
+        "count_mismatch": "vector count",
+        "missing_file": "cannot open"
+      }
+    }
+  },
+  "sources_sha256": {
+    "model/__init__.py": "9d543d3fb77725103879b1e835cb0d4a71fa170a79d448dd973757eb0256a31f",
+    "model/xqdot4z.py": "ab2e5fc262f706306fcbb482ae7feff171459b56522b51972ff11f8904cb95f1",
+    "rtl/packed/SPEC.md": "013d341c69145477a818b53bc7da4b571db4adb71538ba09aee7672ef49e3e82",
+    "rtl/packed/xqdot4.v": "a4b7827d48efbd49270027aff62f2373490bb3f1046c54d772adb61a17c66b75",
+    "rtl/xqdot4z.v": "bd8756402cd7b9e3bb72c353f3cd8f828d1cd1dd38306731d1d3d735615e7e5c",
+    "scripts/verify_packed.py": "145dc7e8cc2b7aae56699c4e889d0558d0bd8669824db287d0af6c11edadc623",
+    "scripts/verify_rtl.py": "f9a5be49175ed42e8c9d0f6f82ed5688a2a3e59aab57bdaab7745e6303707d72",
+    "tests/packed/tb_packed.sv": "7d0a740fbfa2400a28dd7833e9684b8aa37e94709bbb017ca8b1664b582aa394"
+  },
+  "reference": {
+    "state": "docs/MODEL_STATE.json",
+    "state_sha256": "aa662baa926f4e0dce2294679cdd611ded4f86a7bf63064713a9dc169311401f",
+    "evidence": "model/results/20260908T131153442155Z/summary.json",
+    "evidence_sha256": "f6ee14985774d627876d2435340435e5a130fe529e684f06e7355e61e0987ff0",
+    "vectors": "model/results/20260908T131153442155Z/vectors.txt",
+    "vectors_sha256": "37504ea105f7bf8d593ed1d39b36ace0257b05a99f3eaea17a1496495c847956",
+    "sources_sha256": {
+      "model/SPEC.md": "8a984f93ce61ba6d347e668ae5dcaecf719819b3eea13257c084545a18aa4ec4",
+      "model/__init__.py": "9d543d3fb77725103879b1e835cb0d4a71fa170a79d448dd973757eb0256a31f",
+      "model/xqdot4z.py": "ab2e5fc262f706306fcbb482ae7feff171459b56522b51972ff11f8904cb95f1",
+      "scripts/verify_model.py": "34d7303b5cd3d9989943e5c0aab9390c93ccf522c9a67316deb196bb92a1834f",
+      "tests/data/qdot4z_examples.json": "7be9dfafbd06f20154a08ea44ea59f5eaf1deabebbd2668a71f3c113c8906487",
+      "tests/test_xqdot4z.py": "317e7e6054d5075673ab61d9a1ce9e4572b4786a5d16e38554ae27252872d641"
+    }
+  },
+  "fused_reference": {
+    "state": "docs/RTL_STATE.json",
+    "state_sha256": "8bdab35b4a6caf5165f74efceb45d46f339b8d58b1014b3a90cb6a4230dd8149",
+    "evidence": "rtl/results/20260908T175106508019Z/summary.json",
+    "evidence_sha256": "0e95eb0bc228ddbd6096b46895ac9310d661311bf96a0f3e5864175e886157fd"
+  },
+  "tools": {
+    "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0-dirty)",
+    "verilator": "Verilator 5.050 2026-07-01 rev v5.050",
+    "make": "GNU Make 4.4.1",
+    "g++": "g++ (GCC) 16.2.1 20260810"
+  },
+  "completed_counts": {
+    "m1_vectors": 2068,
+    "single_term_lane_placements": 32768,
+    "mixed_extrema": 8192,
+    "random_dot_products": 20000,
+    "unused_half_vectors": 2048,
+    "single_input_bit_transitions": 130,
+    "z_sweep": 1024,
+    "matrix_blocks": 1680
+  },
+  "vectors_count": 67910,
+  "matrix_trace_start": 66230,
+  "lint": "pass_no_waivers",
+  "matrix_controls_detected": {
+    "wrong_group_sum": "Wrong activation group sum",
+    "missing_block": "Missing matrix block"
+  },
+  "mutations_detected": {
+    "signed_u4_weights": "packed arithmetic mismatch",
+    "unsigned_activations": "packed arithmetic mismatch",
+    "ignore_half": "packed arithmetic mismatch",
+    "zero_extend_result": "packed arithmetic mismatch"
+  },
+  "artifacts_sha256": {
+    "ignore_half.log": "ef00decc0805b5f2906458befbad1552bfbc388b12715c968171ac709ed086a6",
+    "ignore_half_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "iverilog.log": "aa88c8e7fceba2c2da2292b929639e377c38c7115bc6b32a6d62f892a53359b5",
+    "iverilog_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lint.log": "0478ab1b1bbfec28a621c6584b83e5806b0d6b42a5c0f3d1ed16eead15c6879c",
+    "matrix_cases.json": "82091f41f648532ab29b1d75c288edf5448c30e6e84912a601a22f06ac135a8f",
+    "mutant_ignore_half.v": "1bd9f0d57dcafed320d0e530afcf4c548bb98a80d3b7036827c5943ee9de6f6f",
+    "mutant_signed_u4_weights.v": "387ad007d6ac9e7a5d513e102ff18c9167564d38c8480611b15a3100222ca6b5",
+    "mutant_unsigned_activations.v": "92ae12c30d518dc97a020e8163f9643899f9239e993f724dc526f8889af886f0",
+    "mutant_zero_extend_result.v": "b2572ffd9dc6de64942f7b45540f71cf30fd0cbc591b83e48a5d6200ff943ccb",
+    "negative_bad_half.txt": "41b396e757683918533323b716b2fc5401b6935818587cfe5be170f0acd2df3c",
+    "negative_bad_half_iverilog.log": "96447a4dc8d7f199f3b476d4968a1bc5882a652b60fa6b6b0e522e01febc2bca",
+    "negative_bad_half_verilator.log": "2a4a4b8a3e0054affd935eaac3f38dd4fe6171576f67b801733950b089a00af9",
+    "negative_bad_hex.txt": "3c7fab6801e64b9827815d4e1d1d0e647d8d468fd938fbd10bb988d838aa9474",
+    "negative_bad_hex_iverilog.log": "e0bfbeef26ff58b5e98014705f7089d76f06778f1b604882622b285eaf8f607f",
+    "negative_bad_hex_verilator.log": "91d86c0185101395e2c89ccf119ce68ad38f678c591c89337be97b14f42649ca",
+    "negative_count_mismatch.txt": "743b4ce42cff49051c7ab476262779be003e2eca5ce66f2cdd573bd2bdf8bc95",
+    "negative_count_mismatch_iverilog.log": "4744b1cd33707a72af473872dfe58a07889c74940ac540b7034d672d2d213c89",
+    "negative_count_mismatch_verilator.log": "f462de352edf79096d447a092442e5039af1c0410e66c353b704cb8ebcb7e51e",
+    "negative_empty.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "negative_empty_iverilog.log": "f4617a1b1b28144bf06bf938480626de267701b876f8ad78b924c87b7c5bf6bb",
+    "negative_empty_verilator.log": "b97e2ab28553b45bafadf45c935a5e5a798acfb5049d1e1f2605398661c1565c",
+    "negative_extra_field.txt": "b549c6a16d649f8e8180726b1c883017e762bdbdb2c477be4514b087193232ef",
+    "negative_extra_field_iverilog.log": "d1533d846d20eff3890ff3651da6ebd5f821cacda4d8c1946b4f2fa1c7da13d1",
+    "negative_extra_field_verilator.log": "11b930097a89a93030c1ba057222fc25fda2ddfcaa1a01a4c2beff899897f055",
+    "negative_matrix_missing_block.json": "a85a8e0421a2a998c4a7bdf1e9ddb638f93ae07d66b2c998e349050f8820d1ad",
+    "negative_matrix_wrong_group_sum.json": "0a9028fbf5f42902ba86abc2629e35ddd2d3ff1d1409e793cc48e7315913c000",
+    "negative_missing_file_iverilog.log": "5f26ca63174ca93ad4140b72bcd7d4c8645f723cb23ee25c3ab5b64afc434956",
+    "negative_missing_file_verilator.log": "be5fef4a88bed273deb988fdb79defc762bef04102f08e96285615e9ebf2d01c",
+    "negative_trailing_partial.txt": "4bbc14d996a6d0455324b9cc034fdfc458c2c49ce3bae2679cc1f2039bf3f225",
+    "negative_trailing_partial_iverilog.log": "8a5477d6bbb98f8ddb2a4a421506c8f7363e3b4d839d7977a5e86302d2c252fa",
+    "negative_trailing_partial_verilator.log": "f4d646a4f0972d76202b29c3addce17afd90d2ce609512bf5c4d73076cf3498c",
+    "negative_truncated.txt": "3b38e3ac08bf8c088716aeb1d89932fe6107fb6803ce76cd293723baec7a9dbb",
+    "negative_truncated_iverilog.log": "d1533d846d20eff3890ff3651da6ebd5f821cacda4d8c1946b4f2fa1c7da13d1",
+    "negative_truncated_verilator.log": "11b930097a89a93030c1ba057222fc25fda2ddfcaa1a01a4c2beff899897f055",
+    "negative_wrong_d.txt": "1ba2ca9e05efef2a1eb5dcf891be4d67b361dd9fe67520306537fb2f86d48ca0",
+    "negative_wrong_d_iverilog.log": "cfccec6b9d607142cdf7b0958dfa0d4538ee8c4a141afa5afd29bc7f7265174e",
+    "negative_wrong_d_verilator.log": "42ac5b8cdbaae10377b35eb0f65290981edbbb62c0226abbe6c2e68535b7c42f",
+    "negative_wrong_p.txt": "f10da2c8950acd917602115720c29a33b1f795a10182021ab63d8f4c03afb04e",
+    "negative_wrong_p_iverilog.log": "f088902624d92d854e9dfb66d0006ccff33f5b8b1c5bfd89883448a2d4d77066",
+    "negative_wrong_p_verilator.log": "18c313576b98ab6a61699d109667bc2ef8f60671827feca88ea1f094af47fb12",
+    "signed_u4_weights.log": "f088902624d92d854e9dfb66d0006ccff33f5b8b1c5bfd89883448a2d4d77066",
+    "signed_u4_weights_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sources/model/__init__.py": "9d543d3fb77725103879b1e835cb0d4a71fa170a79d448dd973757eb0256a31f",
+    "sources/model/xqdot4z.py": "ab2e5fc262f706306fcbb482ae7feff171459b56522b51972ff11f8904cb95f1",
+    "sources/rtl/packed/SPEC.md": "013d341c69145477a818b53bc7da4b571db4adb71538ba09aee7672ef49e3e82",
+    "sources/rtl/packed/xqdot4.v": "a4b7827d48efbd49270027aff62f2373490bb3f1046c54d772adb61a17c66b75",
+    "sources/rtl/xqdot4z.v": "bd8756402cd7b9e3bb72c353f3cd8f828d1cd1dd38306731d1d3d735615e7e5c",
+    "sources/scripts/verify_packed.py": "145dc7e8cc2b7aae56699c4e889d0558d0bd8669824db287d0af6c11edadc623",
+    "sources/scripts/verify_rtl.py": "f9a5be49175ed42e8c9d0f6f82ed5688a2a3e59aab57bdaab7745e6303707d72",
+    "sources/tests/packed/tb_packed.sv": "7d0a740fbfa2400a28dd7833e9684b8aa37e94709bbb017ca8b1664b582aa394",
+    "unsigned_activations.log": "f088902624d92d854e9dfb66d0006ccff33f5b8b1c5bfd89883448a2d4d77066",
+    "unsigned_activations_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "vectors.txt": "cc93b7008660825a87961aac303bc3f5e9814317955c364bf78199102c81b55c",
+    "verilator.log": "368e4bb65089c334376a13495d609f01301bf231af94b72694f7b7648bef2562",
+    "verilator_build.log": "5a5ec1f3ba8381aa579f8ea5fbe8c8120345ec1c6040f841283957f061d13ddb",
+    "version_g++.log": "ddba3d014b73deb2a8869cad4ab507e29a48630c8cd280adf2559e0e10891d23",
+    "version_iverilog.log": "3adef901b030d47bf8160ed2b8fbb00f1b47ec8998dc35c1ddedc6debd4865d1",
+    "version_make.log": "cb84250d994234272d0a465014ce2931be76e9e0cb114b9bffa078c3c211e8eb",
+    "version_verilator.log": "46aedd5b30efdd94426c9eebbcf4a6ae7a9680526cc90ce8fec95977c2d6b12d",
+    "zero_extend_result.log": "4f626bf0142467502b14abeefc0bced9fd4bd3d681593ca4450835ff06975c7f",
+    "zero_extend_result_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

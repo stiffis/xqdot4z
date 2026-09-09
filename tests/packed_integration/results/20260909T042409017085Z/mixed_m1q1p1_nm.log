@@ -1,0 +1,8 @@
+00000000 T _start
+000010bc T __BSS_END__
+000010bc T __DATA_BEGIN__
+000010bc T __SDATA_BEGIN__
+000010bc T __bss_start
+000010bc T _edata
+000010bc T _end
+000018bc A __global_pointer$

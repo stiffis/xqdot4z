@@ -1,0 +1,168 @@
+{
+  "status": "fail",
+  "timestamp_utc": "20260908T230803158106Z",
+  "seed": 20260911,
+  "scope": "M3b partial: functional scalar MUL, not full comparison variants",
+  "sources_sha256": {
+    "isa/SPEC.md": "1a3164220b6dca89dc911b9e3615a52906b04bff68acecd23849ad377eb06632",
+    "isa/scalar/SPEC.md": "099350878c33fa80672be4222803ae8a23630f86e1f7bbaa3c66f03359e187ca",
+    "isa/xqdot4zi.inc": "80231d27cfcb0241024f01da6ff9a6b847c9f58a9d5068c06464e65f28f06d67",
+    "isa/xqdot4zi.py": "e638f76ca7bb57653aacea50616a4f3df3d959b5d3d34da5c9ea0132f39ef3ac",
+    "kuntur/rtl/adder.v": "271b639e9f8f68a242393f9556fb89ea49311995cf802b7946bd513d99271991",
+    "kuntur/rtl/alu.v": "83b9a9b7247b50e9c065d0a2778dfe507248ad65ad468d7b584a3dcef83ef2ff",
+    "kuntur/rtl/aludec.v": "93b0a2b06a4040663ba9c6844215b314f0c5f0764004160d367d76b3a684abc5",
+    "kuntur/rtl/controller.v": "86058afd26cb2e7640aa953047c218f2f2fd227d74e799dd05abbfa999649ab2",
+    "kuntur/rtl/datapath.v": "1b1dfa670a054c22984b17bcbb6757ca224f393fbd873f2389777de75ec6388c",
+    "kuntur/rtl/decompressor.v": "598173f0aae8d95ee21e593f6de8e1c9d9965ef78c3e405fc1c6530916234584",
+    "kuntur/rtl/dmem.v": "ed6e9a8ec07cd7d3b5d597f99c0143d66380cb69141ab60c1493b7c98fe8b61c",
+    "kuntur/rtl/extend.v": "3e2a5006643158bf7ee7e91c2961dc09a1b9402c5278733e60bc45851dd0a51b",
+    "kuntur/rtl/flopenr.v": "dfd976c389215782e875c0624bb268f0ed04eab98420fd0bf04aeec51b738cac",
+    "kuntur/rtl/flopenrc.v": "c4da89bb4027a4053a0db0f658a8e827f74b952919d615109f2936d0ac0224b6",
+    "kuntur/rtl/flopr.v": "5de43c8c8e9c34c8e2379d4ecef22a9904194a58e7c7baf7ea8a0dbc6144470e",
+    "kuntur/rtl/hazardunit.v": "d8e1e51ff1abefb4f9890b9ab779e1fbed8fdfe17ffd8d2ad03a716f6d0d0c0b",
+    "kuntur/rtl/imem.v": "c080ab3be980afbff56dbd3a64e6f1efab4e2bf4c52a6b573bfd831f419ecf0c",
+    "kuntur/rtl/instruction_policy.v": "1a603a4ff148b0cb498cef3653fc064cd309a5fa0f115eb6e91f27d733e06fd3",
+    "kuntur/rtl/maindec.v": "dcda5499cc1b565477949fc3cf1952380a828ddc3371b3a6e0e7a82a23316b32",
+    "kuntur/rtl/mux2.v": "13bdda83eb966692cbb49e1978067409a52979d8882094a5b0c70098b4d7efb1",
+    "kuntur/rtl/mux3.v": "13ae44fabf17e29d147a243a4006c5da3a1a5e32472987291eb1e91784c2b6e3",
+    "kuntur/rtl/regfile.v": "d7ce1aa44106d220e5f3187f045cf0318420b60ff008c3214d86d45f958f70cb",
+    "kuntur/rtl/riscvpipe.v": "14e7d5342559183924da056c0b4635eddbd01c4c892648e0224b207cb3c20c0c",
+    "kuntur/rtl/scalar_mul.v": "220a98f5df5798aa980418d6d09e180b833606e0736befb225e08b6e7c184fb7",
+    "kuntur/rtl/top.v": "2bcd0571c079b2275c5d31ad51ec76d911c712f48abfe9f0a30ea081f7708c7d",
+    "model/__init__.py": "9d543d3fb77725103879b1e835cb0d4a71fa170a79d448dd973757eb0256a31f",
+    "model/xqdot4z.py": "ab2e5fc262f706306fcbb482ae7feff171459b56522b51972ff11f8904cb95f1",
+    "rtl/xqdot4z.v": "bd8756402cd7b9e3bb72c353f3cd8f828d1cd1dd38306731d1d3d735615e7e5c",
+    "scripts/verify_integration.py": "6e7dfb8f1835bfda6baf69662b1f2714b7aa734419ab51574f2c5d1b6e14675a",
+    "scripts/verify_scalar.py": "c62f3f4a74b138fe1218b4369175a1d4a87f09753d36824f7a334fa70322fd99",
+    "tests/integration/oracle.py": "9ed3b0893d2d62525478d3cc61031115669e105cc90e5bd972d75065bbd51818",
+    "tests/integration/tb_decode.sv": "0ad41107c29272fa7e4ca7f4055210762b42418249a6b4730b607f1c4a032ac4",
+    "tests/integration/tb_integration.sv": "ba894814f2109ba336b1f25a9db24eef9bb96bfbe01cc661dfbfee23f2b8c658",
+    "tests/scalar/tb_mul_decode.sv": "cfa52be81c8004b6abd9670ac28fe59e48ad7f42d807de9ea676b7ff1554ace6",
+    "tests/scalar/tb_scalar_mul.sv": "77deb089bf1a1373ac99846f01f92c338959ebbd2edd1782e9123d84280a862b"
+  },
+  "commands": [
+    {
+      "name": "version_iverilog",
+      "argv": [
+        "iverilog",
+        "-V"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_verilator",
+      "argv": [
+        "verilator",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_riscv64-linux-gnu-as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_riscv64-linux-gnu-ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_riscv64-linux-gnu-objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_riscv64-linux-gnu-nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "unit_lint",
+      "argv": [
+        "verilator",
+        "--lint-only",
+        "-Wall",
+        "--top-module",
+        "scalar_mul",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/scalar_mul.v"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "unit_iverilog_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_scalar_mul",
+        "-o",
+        "/tmp/xqdot4z-mul-t425akdd/unit.vvp",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/scalar_mul.v",
+        "/home/stiff/stuff/xqdot4z/tests/scalar/tb_scalar_mul.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "unit_verilator_build",
+      "argv": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--timescale",
+        "1ns/1ps",
+        "--top-module",
+        "tb_scalar_mul",
+        "--Mdir",
+        "/tmp/xqdot4z-mul-t425akdd/unitobj",
+        "-j",
+        "2",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/scalar_mul.v",
+        "/home/stiff/stuff/xqdot4z/tests/scalar/tb_scalar_mul.sv"
+      ],
+      "returncode": 1
+    }
+  ],
+  "unit": {},
+  "programs": {},
+  "tools": {
+    "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0-dirty)",
+    "verilator": "Verilator 5.050 2026-07-01 rev v5.050",
+    "riscv64-linux-gnu-as": "GNU assembler (GNU Binutils) 2.45",
+    "riscv64-linux-gnu-ld": "GNU ld (GNU Binutils) 2.45",
+    "riscv64-linux-gnu-objcopy": "GNU objcopy (GNU Binutils) 2.45",
+    "riscv64-linux-gnu-nm": "GNU nm (GNU Binutils) 2.45"
+  },
+  "unit_counts": {
+    "s8_pairs": 65536,
+    "edge_pairs": 144,
+    "power_pairs": 1024,
+    "random_pairs": 20000
+  },
+  "unit_lint": "pass_no_waivers",
+  "error": "RuntimeError: unit_verilator_build: unexpected exit; see log",
+  "artifacts_sha256": {
+    "unit_iverilog_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unit_lint.log": "20d63c698f87fe7375c8f245fa305eb13d76d24c1971743a33eefeb009d01e44",
+    "unit_verilator_build.log": "b1eb092b4ebf687e495146a10a136b3f065578cc9d5077c03d17c139584d61fa",
+    "vectors.txt": "076eb6ba4a27d2916efafdd6d87253c81cd84e2ad9f4332d8be64a0143448c0a",
+    "version_iverilog.log": "3adef901b030d47bf8160ed2b8fbb00f1b47ec8998dc35c1ddedc6debd4865d1",
+    "version_riscv64-linux-gnu-as.log": "8de3d82daf4ae709dcc07c1e2757141c293ca4cca9c95ef8f8a3a89093bc3b45",
+    "version_riscv64-linux-gnu-ld.log": "c506c903a09e56dd2c9f3fda411207807b3fb0dfa6378d209e3f40aab6f1f387",
+    "version_riscv64-linux-gnu-nm.log": "35f8929bb3cedc4383210518d21802cea3c175985a4dc3820b6f2517fd1a037e",
+    "version_riscv64-linux-gnu-objcopy.log": "4756c3362ad1ccb162272ae0e200a56411d68862eafa509072b04f21d9471500",
+    "version_verilator.log": "46aedd5b30efdd94426c9eebbcf4a6ae7a9680526cc90ce8fec95977c2d6b12d"
+  }
+}

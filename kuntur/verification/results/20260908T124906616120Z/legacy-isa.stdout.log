@@ -1,0 +1,3 @@
+WARNING: /home/stiff/stuff/xqdot4z/kuntur/rtl/imem.v:10: $readmemh(riscvtest.mem): Not enough words in the file for the requested range [0:63].
+Simulation succeeded
+/home/stiff/stuff/xqdot4z/kuntur/tests/testbench_isa.v:43: $finish called at 145 (1s)

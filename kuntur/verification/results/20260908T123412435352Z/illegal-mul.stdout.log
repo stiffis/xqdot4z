@@ -1,0 +1,8 @@
+WARNING: /home/stiff/stuff/xqdot4z/kirky-arqui/rtl/imem.v:10: $readmemh(riscvtest.mem): Not enough words in the file for the requested range [0:63].
+RETIRE|00000000
+RETIRE|00000004
+RETIRE|00000008
+FAULT|2|0000000c
+REG3|00000009
+PASS pipeline completed diagnostic stop
+/home/stiff/stuff/xqdot4z/kirky-arqui/verification/tb_pipeline.sv:24: $finish called at 112000 (1ps)

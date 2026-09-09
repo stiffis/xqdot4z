@@ -1,0 +1,40 @@
+# Decisiones de diseño y gestión
+
+| ID | Decisión / estado | Motivo y condición de revisión |
+|---|---|---|
+| D01 | Implementada inicialmente: Kuntur, clon Git independiente en `kuntur/`, con correcciones comunes | Historial de `research/core-corrections` preservado; organización Git actual en D25. Original y snapshot intactos; no se prevé otro core activo en `rtl/core/` |
+| D02 | Adoptada: snapshot histórico separado de baselines causales | Las correcciones no se atribuyen a XQDot4Z |
+| D03 | Adoptada: U4/S8, za=0, subtotal exacto INT32 | Contrato inicial acotado, independiente de calidad ML |
+| D04 | Adoptada: unidad aislada antes de integrar | Separar fallos aritméticos de control; sin FPGA |
+| D05 | Fijada en contrato numérico v0.1: selección lo/hi de W | Ocho U4 en W y cuatro S8 en A; h solo selecciona pesos. Fuentes y encoding inmediato se concretan en D06/D07; ZR sigue abierto |
+| D06 | M3a: inmediato z de cuatro bits; ZR sigue abierto | Dos GPR fuente, sin estado oculto. No representa gratuitamente z leído en ejecución; alternativas en `isa/SPEC.md` |
+| D07 | Prototipo ISA v0.1: custom-0, instrucción de 32 bits | `xqdot4zi`, z[31:28], h[27], reservados [26:25]=00 y funct3=000; encoding comprobado contra GNU |
+| D08 | Adoptada: comparación B3 con Sa reutilizable | Aislar el valor real de fusionar corrección |
+| D09 | Implementada: política ISA explícita en RTL; pruebas con ensamblador | Se rechazan instrucciones no implementadas; no se afirma RV32I completo |
+| D10 | Implementada: memoria parametrizable; 256 B + 256 B por defecto | La propuesta de 64 KiB + 64 KiB NO se adoptó; decidir capacidad común tras generar kernels |
+| D11 | Abierta: FPGA, herramienta de síntesis y frecuencia | Depende de acceso universitario; no bloquea M1/M2 |
+| D12 | Sustituida en v0.2: IEEEtran conference, dos columnas, ES/EN, sin tema visual | Por indicación del autor: blanco y negro, también en TikZ; sin Nord ni otra paleta; convocatoria todavía abierta |
+| D13 | Abierta: autores, contribuciones, afiliación y licencia | Confirmar con participantes; no inventar ni asignar automáticamente |
+| D14 | Adoptada: resultados experimentales vacíos hasta medir | Separar protocolo, evidencia de auditoría y conclusiones |
+| D15 | Propuesta: kernels primarios con instrucciones de 32 bits | Desactivar compresión/relajación automática; conservar pruebas C por separado y una política igual en todos los baselines |
+| D16 | Adoptada: el core derivado se llama Kuntur; carpeta `kuntur/` | Renombrado a petición del autor; kirky-arqui identifica únicamente el origen y la evidencia histórica. XQDot4Z conserva su nombre como operación propuesta. |
+| D17 | Verificada: referencia numérica v0.1 y pruebas M1 | `model/SPEC.md` y `docs/MODEL_STATE.json`; resultado exacto, sin acumulador, saturación ni truncamiento de entrada. No prueba RTL ni aceleración |
+| D18 | Verificada: unidad aislada combinacional de cuatro vías, M2 | Restas S5, productos S13, parejas S14 y subtotal S15 con extensión explícita. Dos simuladores, lint y controles; `docs/RTL_STATE.json`. No fija ciclos, encoding ni recursos físicos |
+| D19 | Verificada M3a: integración opcional, apagada por defecto | `ENABLE_XQDOT4Z`, metadatos D/E con flush/reset, operandos reenviados y resultado E→M→W. No introduce espera propia ni prueba timing físico |
+| D20 | Conservada la base anterior a M3a | Archivo de entradas verificado por `docs/CORE_PRE_M3.json`; la regresión actual base y la integración tienen evidencias separadas |
+| D21 | Verificada, M3b parcial: MUL opcional común, sin completar M/Zmmul | `ENABLE_MUL=0` por defecto, independiente de XQDot4Zi; low32 combinacional con forwarding y flush/reset. Mismo hardware para futuros B2/B3/D, sin timing ni speedup medidos |
+| D22 | Verificada, M3b parcial: B3 aritmético aislado, `rtl/packed/xqdot4.v` | Cuatro vías U4×S8 sin restadores, mismo packing/h y anchos conservadores que D. P∈[−7680,7620]. Esta evidencia de unidad aislada no cubre encoding ni integración; se conserva sin reescribirla |
+| D23 | Integración B3: XQDot4 en custom-1, 32 bits y h inmediato | Mantiene intacto custom-0 de XQDot4Zi. `ENABLE_XQDOT4=0` por defecto, dos GPR, forwarding y flush/reset comunes; ocho configuraciones verificadas. `docs/PACKED_INTEGRATION_STATE.json` |
+| D24 | Adoptada antes de medir: B3 puede obtener Sa con XQDot4 y W=0x11111111 | Dos productos punto suman ocho activaciones; Sa se calcula una vez por vector/grupo y se reutiliza entre filas. Los fixtures ejecutan MUL/SUB de corrección en Kuntur. No se fuerza una suma escalar más costosa ni se atribuye aceleración a estos tests |
+| D25 | Adoptada 2026-09-09: repositorio raíz en `main`, un commit inicial y futuros commits Karma en inglés | Kuntur se incluye como archivos normales. Historial previo preservado en `baseline/kuntur-history.bundle` y metadatos locales; sin submódulo, remoto ni publicación. `docs/VERSION_CONTROL.md` |
+
+El core tiene correcciones verificadas, registradas en
+`kuntur/docs/CORE_CORRECTIONS.md` y fijadas en `docs/CORE_STATE.json`.
+Se implementaron la referencia Python y la unidad aritmética RTL aislada.
+La interfaz inmediata, su integración opcional y MUL escalar están verificadas.
+La unidad B3 aislada conserva su propia evidencia de reconstrucción en el host.
+Una batería posterior comprueba su integración y cuatro pares de fixtures
+matriz–vector con suma, acumulación y corrección ejecutadas en Kuntur.
+Los comparadores completos y los benchmarks de aceleración siguen pendientes.
+La decisión D06 puede cambiar la viabilidad del régimen ZR: debe resolverse
+antes de afirmar utilidad con metadatos dinámicos.

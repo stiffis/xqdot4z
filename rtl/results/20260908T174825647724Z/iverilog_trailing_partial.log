@@ -1,0 +1,2 @@
+FATAL: /home/stiff/stuff/xqdot4z/tests/rtl/tb_xqdot4z.sv:49: RTL_FAIL malformed vector after 1 checks
+       Time: 1000  Scope: tb_xqdot4z

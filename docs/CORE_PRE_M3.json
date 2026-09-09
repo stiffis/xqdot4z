@@ -1,0 +1,8 @@
+{
+  "description": "Verified corrected-core inputs before the optional M3 integration",
+  "archive": "baseline/kuntur-pre-m3-inputs.tar.gz",
+  "archive_sha256": "f624eb9afeea6887618f9f85d5faf7d9e85f72821dc6bd0fe5a44c3d04383069",
+  "evidence": "kuntur/verification/results/20260908T124906616120Z/summary.json",
+  "evidence_sha256": "d565c42d9830bcf25f8faf14b7538503ba694fef40ab5e07a3906d87e336a228",
+  "scope": "Exact source inventory in the correction report; not another active core"
+}

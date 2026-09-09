@@ -1,0 +1,74 @@
+{
+  "status": "pass",
+  "timestamp_utc": "20260908T074626577657Z",
+  "tests": {
+    "historical": 26,
+    "assembler_pairs": 28461,
+    "decompression_vectors": 28483,
+    "signed_comparisons": 10036,
+    "policy-hazards": "pass",
+    "memory": "pass",
+    "integration": {
+      "retired": 21,
+      "stores": 6,
+      "load_use_stalls": 1,
+      "fault_cause": 3,
+      "fault_pc": 82
+    },
+    "illegal-mul": {
+      "retired": 3,
+      "stores": 0,
+      "load_use_stalls": 0,
+      "fault_cause": 2,
+      "fault_pc": 12
+    },
+    "illegal-compressed": {
+      "retired": 1,
+      "stores": 0,
+      "load_use_stalls": 0,
+      "fault_cause": 2,
+      "fault_pc": 4
+    },
+    "fetch-boundary": {
+      "retired": 3,
+      "stores": 0,
+      "load_use_stalls": 0,
+      "fault_cause": 1,
+      "fault_pc": 8
+    }
+  },
+  "tools": {
+    "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0-dirty)",
+    "riscv64-linux-gnu-as": "GNU assembler (GNU Binutils) 2.45",
+    "riscv64-linux-gnu-ld": "GNU ld (GNU Binutils) 2.45"
+  },
+  "sources_sha256": {
+    "rtl/adder.v": "271b639e9f8f68a242393f9556fb89ea49311995cf802b7946bd513d99271991",
+    "rtl/alu.v": "83b9a9b7247b50e9c065d0a2778dfe507248ad65ad468d7b584a3dcef83ef2ff",
+    "rtl/aludec.v": "93b0a2b06a4040663ba9c6844215b314f0c5f0764004160d367d76b3a684abc5",
+    "rtl/controller.v": "86058afd26cb2e7640aa953047c218f2f2fd227d74e799dd05abbfa999649ab2",
+    "rtl/datapath.v": "87682958c872cf27d59ba4a3d128a6e80332ae5e1f48dd85fb5de3a2c8cbee81",
+    "rtl/decompressor.v": "598173f0aae8d95ee21e593f6de8e1c9d9965ef78c3e405fc1c6530916234584",
+    "rtl/dmem.v": "8f65ac6cb96c19c50a25f140ccb27ce540b52985c1348fb56a3f908c57903e52",
+    "rtl/extend.v": "3e2a5006643158bf7ee7e91c2961dc09a1b9402c5278733e60bc45851dd0a51b",
+    "rtl/flopenr.v": "dfd976c389215782e875c0624bb268f0ed04eab98420fd0bf04aeec51b738cac",
+    "rtl/flopenrc.v": "c4da89bb4027a4053a0db0f658a8e827f74b952919d615109f2936d0ac0224b6",
+    "rtl/flopr.v": "5de43c8c8e9c34c8e2379d4ecef22a9904194a58e7c7baf7ea8a0dbc6144470e",
+    "rtl/hazardunit.v": "d8e1e51ff1abefb4f9890b9ab779e1fbed8fdfe17ffd8d2ad03a716f6d0d0c0b",
+    "rtl/imem.v": "89b8c664feb7a7704d84c7622cb595c84d2939f087ed9f05a70aa49a93901eb0",
+    "rtl/instruction_policy.v": "68b84fe093a28e1d44627dc19965d520f3090ed15ff463be07b9eb0d55ab91bc",
+    "rtl/maindec.v": "f9bca2307b2abbec2a5ea75501c8b3a497b3d1bb579871acdc0168af4ccf5f5e",
+    "rtl/mux2.v": "13bdda83eb966692cbb49e1978067409a52979d8882094a5b0c70098b4d7efb1",
+    "rtl/mux3.v": "13ae44fabf17e29d147a243a4006c5da3a1a5e32472987291eb1e91784c2b6e3",
+    "rtl/regfile.v": "d7ce1aa44106d220e5f3187f045cf0318420b60ff008c3214d86d45f958f70cb",
+    "rtl/riscvpipe.v": "91f77f2d0a4bd219ab91c4c4ae5f8d92553be931908263b3dc451cc0b8951237",
+    "rtl/top.v": "27ae13b348c2b2fb63b98b3032966ab7fb85556f1a426cd722abb96faa77e026",
+    "verification/run.py": "06b452a51a5d067665d5c607e38bc7f990b39aa69998356cc136ed508ed5199b",
+    "verification/tb_memory.sv": "e590de141e7f0395749529ce9c92e8286f8e50867be6fb3e1309a13e0a7d3325",
+    "verification/tb_pipeline.sv": "a8be2792f01ad876171aea3df30c54eb4ee29f3fbc9b2fdff7b97147ae59f76f",
+    "verification/tb_policy_hazards.sv": "a781f5effd527cb2586c45c63898b2b6aa44adddfd0719095972d563b267f1a3",
+    "verification/tb_slt.sv": "4e2015833db30a8abc4cac16900ee85076c82eb5c7e61ea488528a12119ef1d3",
+    "verification/tb_vectors.sv": "0c21b8ac6d824855802677429a3d7668e407c802832fd67136650ea506ac9c3b"
+  },
+  "decompression_vectors_sha256": "0c156095de837c60a9015969520fca048edbc806c6c15c40de8ca93a7b79e599"
+}

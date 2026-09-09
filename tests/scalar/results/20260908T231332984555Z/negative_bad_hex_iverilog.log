@@ -1,0 +1,2 @@
+FATAL: /home/stiff/stuff/xqdot4z/tests/scalar/tb_scalar_mul.sv:27: MUL_FAIL malformed vector
+       Time: 0  Scope: tb_scalar_mul

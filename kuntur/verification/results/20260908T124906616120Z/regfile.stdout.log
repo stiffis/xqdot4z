@@ -1,0 +1,2 @@
+PASS regfile x0 and falling-edge writes
+/home/stiff/stuff/xqdot4z/kuntur/verification/tb_regfile.sv:26: $finish called at 31000 (1ps)

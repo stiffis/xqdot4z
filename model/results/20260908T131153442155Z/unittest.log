@@ -1,0 +1,21 @@
+test_activation_packing_all_values_and_positions (test_xqdot4z.ContractTests.test_activation_packing_all_values_and_positions) ... ok
+test_documented_examples (test_xqdot4z.ContractTests.test_documented_examples) ... ok
+test_exhaustive_single_term_in_every_physical_lane (test_xqdot4z.ContractTests.test_exhaustive_single_term_in_every_physical_lane)
+All 16*16*256 tuples embedded at each of eight W positions. ... ok
+test_joint_lane_permutation (test_xqdot4z.ContractTests.test_joint_lane_permutation) ... ok
+test_lane_lengths_and_ranges (test_xqdot4z.ContractTests.test_lane_lengths_and_ranges) ... ok
+test_little_endian_example (test_xqdot4z.ContractTests.test_little_endian_example) ... ok
+test_neutral_activation_padding_for_tails (test_xqdot4z.ContractTests.test_neutral_activation_padding_for_tails) ... ok
+test_random_full_dot_products_and_factorization (test_xqdot4z.ContractTests.test_random_full_dot_products_and_factorization) ... ok
+test_selector_ignores_only_the_unselected_weight_half (test_xqdot4z.ContractTests.test_selector_ignores_only_the_unselected_weight_half) ... ok
+test_subtotal_bounds_and_output_encoding (test_xqdot4z.ContractTests.test_subtotal_bounds_and_output_encoding) ... ok
+test_weight_packing_all_codes_and_positions (test_xqdot4z.ContractTests.test_weight_packing_all_codes_and_positions) ... ok
+test_word_range_errors (test_xqdot4z.ContractTests.test_word_range_errors) ... ok
+test_wrong_types_are_not_coerced (test_xqdot4z.ContractTests.test_wrong_types_are_not_coerced) ... ok
+test_zero_activations_and_centered_weights (test_xqdot4z.ContractTests.test_zero_activations_and_centered_weights) ... ok
+test_zero_point_affine_identity (test_xqdot4z.ContractTests.test_zero_point_affine_identity) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 11.008s
+
+OK

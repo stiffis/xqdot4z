@@ -1,0 +1,281 @@
+{
+  "status": "fail",
+  "timestamp_utc": "20260908T174825647724Z",
+  "contract_version": "0.1",
+  "scope": "M2 isolated combinational RTL; no ISA integration, synthesis or performance",
+  "command": "python3 scripts/verify_rtl.py",
+  "python": "3.14.7 (main, Aug 10 2026, 07:46:56) [GCC 16.1.1 20260728]",
+  "platform": "Linux-7.1.9-arch1-2-x86_64-with-glibc2.44",
+  "seed": 20260909,
+  "sources_sha256": {
+    "rtl/xqdot4z.v": "bd8756402cd7b9e3bb72c353f3cd8f828d1cd1dd38306731d1d3d735615e7e5c",
+    "tests/rtl/tb_xqdot4z.sv": "fbd091792321bbfa0786285949be8d0b255092c6f0cb4881bc5c1538eb7c36d4",
+    "scripts/verify_rtl.py": "752830f9ec4100ffc0187fc707979e56391ac34dfd1dfbc813b1bccce714a32f"
+  },
+  "commands": [
+    {
+      "name": "version_iverilog",
+      "argv": [
+        "iverilog",
+        "-V"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_vvp",
+      "argv": [
+        "vvp",
+        "-V"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_verilator",
+      "argv": [
+        "verilator",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_g++",
+      "argv": [
+        "g++",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_make",
+      "argv": [
+        "make",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "lint",
+      "argv": [
+        "verilator",
+        "--lint-only",
+        "--Wall",
+        "--top-module",
+        "xqdot4z",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "iverilog_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-Wall",
+        "-s",
+        "tb_xqdot4z",
+        "-o",
+        "/tmp/xqdot4z-m2-cepw_5uv/sim.vvp",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/rtl/tb_xqdot4z.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "verilator_build",
+      "argv": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--timescale",
+        "1ns/1ps",
+        "--top-module",
+        "tb_xqdot4z",
+        "--Mdir",
+        "/tmp/xqdot4z-m2-cepw_5uv/obj",
+        "-j",
+        "2",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/rtl/tb_xqdot4z.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-cepw_5uv/sim.vvp",
+        "+VECTORS=/tmp/xqdot4z-m2-cepw_5uv/vectors.txt",
+        "+COUNT=556734"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "iverilog_wrong_expected",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-cepw_5uv/sim.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T174825647724Z/control_wrong_expected.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "iverilog_empty",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-cepw_5uv/sim.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T174825647724Z/control_empty.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "iverilog_truncated",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-cepw_5uv/sim.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T174825647724Z/control_truncated.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "iverilog_trailing_partial",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-cepw_5uv/sim.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T174825647724Z/control_trailing_partial.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "iverilog_extra_field",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-cepw_5uv/sim.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T174825647724Z/control_extra_field.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "iverilog_out_of_range",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-cepw_5uv/sim.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T174825647724Z/control_out_of_range.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "iverilog_count_mismatch",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-cepw_5uv/sim.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T174825647724Z/control_count_mismatch.txt",
+        "+COUNT=2"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "iverilog_missing_file",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-cepw_5uv/sim.vvp",
+        "+VECTORS=/tmp/xqdot4z-m2-cepw_5uv/absent.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "verilator",
+      "argv": [
+        "/tmp/xqdot4z-m2-cepw_5uv/obj/Vtb_xqdot4z",
+        "+VECTORS=/tmp/xqdot4z-m2-cepw_5uv/vectors.txt",
+        "+COUNT=556734"
+      ],
+      "returncode": 1
+    }
+  ],
+  "reference": {
+    "state": "docs/MODEL_STATE.json",
+    "state_sha256": "aa662baa926f4e0dce2294679cdd611ded4f86a7bf63064713a9dc169311401f",
+    "evidence": "model/results/20260908T131153442155Z/summary.json",
+    "evidence_sha256": "f6ee14985774d627876d2435340435e5a130fe529e684f06e7355e61e0987ff0",
+    "vectors": "model/results/20260908T131153442155Z/vectors.txt",
+    "vectors_sha256": "37504ea105f7bf8d593ed1d39b36ace0257b05a99f3eaea17a1496495c847956",
+    "sources_sha256": {
+      "model/SPEC.md": "8a984f93ce61ba6d347e668ae5dcaecf719819b3eea13257c084545a18aa4ec4",
+      "model/__init__.py": "9d543d3fb77725103879b1e835cb0d4a71fa170a79d448dd973757eb0256a31f",
+      "model/xqdot4z.py": "ab2e5fc262f706306fcbb482ae7feff171459b56522b51972ff11f8904cb95f1",
+      "scripts/verify_model.py": "34d7303b5cd3d9989943e5c0aab9390c93ccf522c9a67316deb196bb92a1834f",
+      "tests/data/qdot4z_examples.json": "7be9dfafbd06f20154a08ea44ea59f5eaf1deabebbd2668a71f3c113c8906487",
+      "tests/test_xqdot4z.py": "317e7e6054d5075673ab61d9a1ce9e4572b4786a5d16e38554ae27252872d641"
+    }
+  },
+  "tools": {
+    "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0-dirty)",
+    "vvp": "Icarus Verilog runtime version 13.0 (stable) (v13_0-dirty)",
+    "verilator": "Verilator 5.050 2026-07-01 rev v5.050",
+    "g++": "g++ (GCC) 16.2.1 20260810",
+    "make": "GNU Make 4.4.1"
+  },
+  "completed_counts": {
+    "m1_vectors": 2068,
+    "single_term_lane_placements": 524288,
+    "mixed_extrema": 8192,
+    "random_dot_products": 20000,
+    "unused_half_vectors": 2048,
+    "single_input_bit_transitions": 138
+  },
+  "vectors_count": 556734,
+  "vectors_uncompressed_sha256": "04a226400e867b3fccd2289ca3877dd0e42788286054b12aab9bc1b46ae7c2ba",
+  "lint": "pass_no_waivers",
+  "simulators": {
+    "iverilog": {
+      "status": "pass",
+      "checked": 556734,
+      "negative_controls_detected": [
+        "wrong_expected",
+        "empty",
+        "truncated",
+        "trailing_partial",
+        "extra_field",
+        "out_of_range",
+        "count_mismatch",
+        "missing_file"
+      ]
+    }
+  },
+  "error": "RuntimeError: verilator: command failed; see log",
+  "artifacts_sha256": {
+    "control_count_mismatch.txt": "fe42fff3e7ff3a02c8ec43e1a85844f2841929f4f2d52f0379db87cf4c00661b",
+    "control_empty.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "control_extra_field.txt": "83a53de6ed81b5f229fcb955a9302e0fddf6b7b955620be864b7e6686907c81f",
+    "control_out_of_range.txt": "f8f826f7325f540f9d2d3246bb8a7feb10bad543c88a207ce78c7a8e17ed9aab",
+    "control_trailing_partial.txt": "5edb0a01db98b13245e3ba405c0ad32150d11c0364dbf01e1c49234edbfaabec",
+    "control_truncated.txt": "adb640ed8012c92ab42d0114e4930da247489ad87427ed7ef04fea40286843e4",
+    "control_wrong_expected.txt": "2e2f1595f4fb56c1884edcaac64646b3eaeddc76cdd643a76cabec87001a5977",
+    "iverilog.log": "f977f1428e2df9349037e6418ffeaaadfeb2d3bd48e5cbce545215aa01162db3",
+    "iverilog_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "iverilog_count_mismatch.log": "e4376bfed358d298753df7ae82aec8117d9a15089a82d4301396f3376ce81eb8",
+    "iverilog_empty.log": "448ad3085bc28be3f0a922eeb790651ac85984e2144b3ca6055ccfe6809510aa",
+    "iverilog_extra_field.log": "4a54ef76686df572bf7e40f15d84ffddd52b4a045f06b54c7e4ed23adf66d77e",
+    "iverilog_missing_file.log": "310b34040af339ddf62539e5645c1df73ddea485cda04d08c2361e32241c7606",
+    "iverilog_out_of_range.log": "b518073716e1764a60591c63470cae3ee6f9e1857815216f4484408b662ed4b5",
+    "iverilog_trailing_partial.log": "8ee43aa54ee0fc6bdcf48a21a22ec0fdaeeab016e2f8a14763615d4c5f1187ae",
+    "iverilog_truncated.log": "4a54ef76686df572bf7e40f15d84ffddd52b4a045f06b54c7e4ed23adf66d77e",
+    "iverilog_wrong_expected.log": "167e1bc282d7057a0bee6321a86d2485110d831100308602cae29ff1cf17bfe9",
+    "lint.log": "6795a5d94dedaa76ac25cb39dc98d2451edc6b0b59200ebbf0d8ed7a97867100",
+    "vectors.txt.gz": "ca0b47f041fa31054286fdd850dda316b40a7ff6ae02f1b1a7b7fc1225d299f0",
+    "verilator.log": "0fb5543e1d9d386874099bbc886beeb3829a7327ef4815be6f896de0320a2293",
+    "verilator_build.log": "7a1543a9308934d498c1271f9137d17bb830a4289ce895d0aa539140690f110f",
+    "version_g++.log": "ddba3d014b73deb2a8869cad4ab507e29a48630c8cd280adf2559e0e10891d23",
+    "version_iverilog.log": "3adef901b030d47bf8160ed2b8fbb00f1b47ec8998dc35c1ddedc6debd4865d1",
+    "version_make.log": "cb84250d994234272d0a465014ce2931be76e9e0cb114b9bffa078c3c211e8eb",
+    "version_verilator.log": "46aedd5b30efdd94426c9eebbcf4a6ae7a9680526cc90ce8fec95977c2d6b12d",
+    "version_vvp.log": "a05ca10e0d2d7a3cf16c0ee904848a6c4ef398ebaba2fb42b61f6cbda75c3ec2"
+  }
+}

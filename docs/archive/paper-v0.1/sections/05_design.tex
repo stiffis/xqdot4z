@@ -1,0 +1,67 @@
+\section{Contrato y diseño propuesto}
+\subsection{Semántica de la unidad aritmética}
+Un registro de pesos \(W\) de 32 bits contiene ocho códigos U4. Un registro
+\(A\) contiene cuatro activaciones S8. El selector \(h\in\{0,1\}\) elige
+cuatro nibbles bajos o altos de \(W\), mientras \(z\in[0,15]\) es común a
+los cuatro términos. Para \(i=0,\ldots,3\):
+\begin{align}
+q_{w,i}&=(W\gg4(i+4h))\mathbin{\&}15,\\
+b_i&=(A\gg8i)\mathbin{\&}255,\\
+q_{a,i}&=\begin{cases}b_i,&b_i<128,\\b_i-256,&b_i\ge128,\end{cases}\\
+d&=\sum_{i=0}^{3}(q_{w,i}-z)q_{a,i}.
+\end{align}
+La salida es la representación INT32 de \(d\), sin saturación, escalas, bias
+ni acumulador como tercer operando. El índice cero ocupa los bits bajos.
+La elección lo/hi es independiente del orden de bytes en memoria; los programas
+del proyecto usarán little-endian documentado.
+
+\begin{evidencebox}{Ejemplo de contrato, no medición}
+Con \(W=\code{0x00004A95}\), \(A=\code{0x0102FD04}\), \(z=8\) y \(h=0\),
+los pesos corregidos son \([-3,1,2,-4]\) y las activaciones \([4,-3,2,1]\).
+El subtotal es \(-15\), representado por \code{0xFFFFFFF1}. Es un ejemplo
+matemático de la guía previa, no evidencia de una unidad RTL implementada.
+\end{evidencebox}
+
+\subsection{Rangos y diseño directo}
+La resta de dos U4 abarca \([-15,15]\): requiere cinco bits con signo si
+\(z\) es arbitrario. Un producto tiene valor absoluto máximo 1920 y cuatro
+términos tienen cota 7680. Catorce bits con signo bastan para el subtotal;
+se permite un árbol conservador de mayor anchura y extensión final a 32 bits.
+
+\begin{center}
+\begin{tikzpicture}[node distance=5mm]
+\node[block,text width=28mm] (pick) {Seleccionar\\cuatro U4};
+\node[block,fill=nord13,text width=28mm,right=of pick] (center) {Centrar\\U4 $-$ U4};
+\node[block,fill=nord8,text width=28mm,right=of center] (mul) {Productos\\S5 $\times$ S8};
+\node[block,fill=nord14,text width=28mm,right=of mul] (sum) {Reducir y\\extender signo};
+\draw[arrow] (pick)--(center);\draw[arrow] (center)--(mul);\draw[arrow] (mul)--(sum);
+\node[note,below=8mm of center,text width=125mm,xshift=18mm] {Ruta directa conceptual; el almacenamiento W4 no obliga a un multiplicador físico de 4 bits.};
+\end{tikzpicture}
+\captionof{figure}{Operaciones del datapath inicial. Las anchuras útiles deben verificarse antes de optimizar recursos.}
+\end{center}
+Con \(z=8\), el peso corregido sí cabe en S4. Esa especialización y la
+factorización de la ecuación~\eqref{eq:factored} son alternativas legítimas;
+no se descartan para favorecer la propuesta.
+
+\subsection{Interfaz ISA abierta y control}
+El nombre XQDot4Z y las variantes lo/hi son provisionales. Una instrucción
+de 32 bits en espacio personalizado es una opción; el encoding no se congela
+en esta versión. En particular, \(z\) será entrada de cuatro bits de la unidad,
+pero su transporte desde el ISA sigue abierto.
+
+Un inmediato solo representa un valor presente en el programa. Para zero-points
+leídos en ejecución se necesitará despacho, especialización previa o una interfaz
+adicional. Cualquier estado nuevo exige definir hazards, reset y cancelación;
+su costo no se omite del experimento.
+
+La primera unidad aislada será combinacional. Más adelante se podrán comparar
+cuatro, dos y una vía. Número de pasos, latencia e intervalo de iniciación
+son conceptos distintos. La integración deberá capturar operandos resueltos
+por forwarding, retener una operación pendiente y transferir su resultado
+una sola vez. Detener F/D/E mientras M/W drenan requiere burbujas o validez
+equivalente; copiar repetidamente controles no es un protocolo correcto.
+
+Se verificarán \(rd=x0\), fuentes/destino solapados, dependencias load-use,
+consumo inmediato del resultado, stores, instrucciones consecutivas y flush/reset.
+La corrección del RTL se comprobará contra una referencia entera independiente,
+no contra la salida aproximada de una red neuronal.

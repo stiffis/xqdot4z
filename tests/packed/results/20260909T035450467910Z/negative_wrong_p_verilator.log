@@ -1,0 +1,3 @@
+[1000] %Fatal: tb_packed.sv:56: Assertion failed in tb_packed: PACKED_FAIL packed mismatch vector=0
+%Error: /home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv:56: Verilog $stop
+Aborting...

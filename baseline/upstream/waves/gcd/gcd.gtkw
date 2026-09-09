@@ -1,0 +1,49 @@
+[*]
+[*] GTKWave Analyzer save file - gcd (Euclides por resta, gcd(48,18)=6)
+[*]
+[dumpfile] "/home/stiff/kirky-arqui/waves/gcd/gcd.vcd"
+[timestart] 0
+[size] 1600 900
+[pos] -1 -1
+*-16.0
+[treeopen] testbench.
+[treeopen] testbench.dut.
+[treeopen] testbench.dut.rvpipe.
+[treeopen] testbench.dut.rvpipe.dp.
+[sst_width] 280
+[signals_width] 340
+[sst_expanded] 1
+[sst_vpaned_height] 300
+@28
+testbench.clk
+testbench.reset
+@22
+testbench.dut.rvpipe.dp.PCF[31:0]
+testbench.dut.rvpipe.dp.InstrF[31:0]
+@28
+testbench.dut.rvpipe.dp.compressedF
+@22
+testbench.dut.rvpipe.dp.InstrDecF[31:0]
+testbench.dut.rvpipe.dp.PCD[31:0]
+testbench.dut.rvpipe.dp.InstrD[31:0]
+@28
+testbench.dut.rvpipe.StallF
+testbench.dut.rvpipe.StallD
+testbench.dut.rvpipe.FlushD
+testbench.dut.rvpipe.FlushE
+@22
+testbench.dut.rvpipe.dp.PCE[31:0]
+@28
+testbench.dut.rvpipe.PCSrcE
+@22
+testbench.dut.rvpipe.dp.ALUResultE[31:0]
+testbench.dut.rvpipe.dp.ResultM[31:0]
+testbench.dut.rvpipe.dp.ResultW[31:0]
+@28
+testbench.MemWrite
+@22
+testbench.dut.DataAdr[31:0]
+@24
+testbench.dut.WriteData[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

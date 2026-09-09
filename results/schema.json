@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Future XQDot4Z experiment record (not a measurement)",
+  "type": "object",
+  "required": ["run_id", "timestamp_utc", "core_revision", "protocol_version", "variant", "status", "config", "artifacts", "tools", "command"],
+  "properties": {
+    "run_id": {"type": "string"},
+    "timestamp_utc": {"type": "string"},
+    "core_revision": {"type": "string"},
+    "protocol_version": {"type": "string"},
+    "variant": {"enum": ["B1", "B2", "B3", "D"]},
+    "status": {"enum": ["pass", "fail", "timeout", "unsupported"]},
+    "config": {
+      "type": "object",
+      "required": ["N", "K", "G", "seed", "zero_point_policy", "lanes", "memory_model", "measurement_scope"],
+      "properties": {
+        "N": {"type": "integer", "minimum": 1},
+        "K": {"type": "integer", "minimum": 1},
+        "G": {"type": "integer", "minimum": 1},
+        "seed": {"type": "integer"},
+        "zero_point_policy": {"enum": ["ZC", "ZS", "ZR"]},
+        "lanes": {"enum": [1, 2, 4]},
+        "memory_model": {"type": "string"},
+        "measurement_scope": {"enum": ["arithmetic", "integer_kernel", "complete_layer"]}
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "required": ["program_sha256", "tensors_sha256", "expected_sha256", "observed_sha256", "raw_log"],
+      "additionalProperties": {"type": "string"}
+    },
+    "tools": {"type": "object"},
+    "command": {"type": "string"},
+    "cycles": {"type": "integer", "minimum": 0},
+    "retired_instructions": {"type": "integer", "minimum": 0},
+    "code_bytes": {"type": "integer", "minimum": 0},
+    "frequency_hz": {"type": ["number", "null"], "exclusiveMinimum": 0},
+    "frequency_evidence": {"type": ["string", "null"]}
+  },
+  "allOf": [{
+    "if": {"properties": {"status": {"const": "pass"}}},
+    "then": {"required": ["cycles", "retired_instructions", "code_bytes"]}
+  }]
+}

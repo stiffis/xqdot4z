@@ -1,0 +1,2 @@
+FATAL: /home/stiff/stuff/xqdot4z/tests/rtl/tb_xqdot4z.sv:32: RTL_FAIL out-of-range vector 0
+       Time: 0  Scope: tb_xqdot4z

@@ -1,0 +1,3 @@
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260909T041316148935Z/bad_macro_3.S: Assembler messages:
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260909T041316148935Z/bad_macro_3.S:7: Error: xqdot4zi: half must be an immediate in [0,1]
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260909T041316148935Z/bad_macro_3.S:2:  Info: macro invoked from here

@@ -1,0 +1,2 @@
+PASS policy/hazards cases=21
+/home/stiff/stuff/xqdot4z/kirky-arqui/verification/tb_policy_hazards.sv:46: $finish called at 21000 (1ps)

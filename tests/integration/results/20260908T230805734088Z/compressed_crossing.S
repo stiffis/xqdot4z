@@ -1,0 +1,53 @@
+.include "xqdot4zi.inc"
+.option norelax
+.option norvc
+.text
+.global _start
+_start:
+addi x1,x0,0
+addi x2,x0,0
+addi x3,x0,0
+addi x4,x0,0
+addi x5,x0,0
+addi x6,x0,0
+addi x7,x0,0
+addi x8,x0,0
+addi x9,x0,0
+addi x10,x0,0
+addi x11,x0,0
+addi x12,x0,0
+addi x13,x0,0
+addi x14,x0,0
+addi x15,x0,0
+addi x16,x0,0
+addi x17,x0,0
+addi x18,x0,0
+addi x19,x0,0
+addi x20,x0,0
+addi x21,x0,0
+addi x22,x0,0
+addi x23,x0,0
+addi x24,x0,0
+addi x25,x0,0
+addi x26,x0,0
+addi x27,x0,0
+addi x28,x0,0
+addi x29,x0,0
+addi x30,x0,0
+addi x31,x0,0
+lui x1,0x78f05
+addi x1,x1,-1387
+lui x2,0x2ff8
+addi x2,x2,-128
+.option rvc
+c.nop
+.option norvc
+xqdot4zi x3,x1,x2,8,0
+.option rvc
+c.li x8,-7
+c.addi x8,1
+.option norvc
+xqdot4zi x4,x1,x8,15,1
+sw x3,0(x0)
+sw x4,4(x0)
+ebreak

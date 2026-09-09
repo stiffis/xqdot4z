@@ -1,0 +1,3 @@
+[0] %Fatal: tb_scalar_mul.sv:16: Assertion failed in tb_scalar_mul: MUL_FAIL cannot open vectors
+%Error: /home/stiff/stuff/xqdot4z/tests/scalar/tb_scalar_mul.sv:16: Verilog $stop
+Aborting...

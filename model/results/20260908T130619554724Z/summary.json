@@ -1,0 +1,45 @@
+{
+  "status": "pass",
+  "timestamp_utc": "20260908T130619554724Z",
+  "contract_version": "0.1",
+  "scope": "Python numerical reference only; no RTL or performance verification",
+  "python": "3.14.7 (main, Aug 10 2026, 07:46:56) [GCC 16.1.1 20260728]",
+  "platform": "Linux-7.1.9-arch1-2-x86_64-with-glibc2.44",
+  "command": "python3 scripts/verify_model.py",
+  "sources_sha256": {
+    "model/SPEC.md": "8a984f93ce61ba6d347e668ae5dcaecf719819b3eea13257c084545a18aa4ec4",
+    "model/__init__.py": "9d543d3fb77725103879b1e835cb0d4a71fa170a79d448dd973757eb0256a31f",
+    "model/xqdot4z.py": "ab2e5fc262f706306fcbb482ae7feff171459b56522b51972ff11f8904cb95f1",
+    "scripts/verify_model.py": "34d7303b5cd3d9989943e5c0aab9390c93ccf522c9a67316deb196bb92a1834f",
+    "tests/data/qdot4z_examples.json": "7be9dfafbd06f20154a08ea44ea59f5eaf1deabebbd2668a71f3c113c8906487",
+    "tests/test_xqdot4z.py": "317e7e6054d5075673ab61d9a1ce9e4572b4786a5d16e38554ae27252872d641"
+  },
+  "unittest": {
+    "tests_run": 15,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "test_seed": 20260908,
+  "completed_counts": {
+    "activation_value_positions": 1024,
+    "documented_examples": 4,
+    "single_term_tuples": 65536,
+    "single_term_lane_placements": 524288,
+    "joint_permutations": 24,
+    "random_inputs": 10000,
+    "random_dot_products": 20000,
+    "selector_invariance_inputs": 1000,
+    "bounded_result_encodings": 15361,
+    "weight_code_positions": 128,
+    "zero_point_pairs": 256
+  },
+  "exported_vectors": 2068,
+  "vector_seed": 20260908,
+  "vector_random_word_pairs": 1024,
+  "artifacts_sha256": {
+    "unittest.log": "503c45658351c4ab153a8de8b40498ff50b43180792896844bacf344ed268a43",
+    "vectors.txt": "37504ea105f7bf8d593ed1d39b36ace0257b05a99f3eaea17a1496495c847956",
+    "vectors.jsonl": "4db1c6b00a05da2d4c87d7d74a29201fa63862e04b60f6e7ffcc6260f450a730"
+  }
+}

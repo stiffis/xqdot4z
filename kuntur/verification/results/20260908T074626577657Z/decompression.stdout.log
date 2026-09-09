@@ -1,0 +1,2 @@
+PASS decompressor vectors=28483
+/home/stiff/stuff/xqdot4z/kirky-arqui/verification/tb_vectors.sv:21: $finish called at 28483000 (1ps)

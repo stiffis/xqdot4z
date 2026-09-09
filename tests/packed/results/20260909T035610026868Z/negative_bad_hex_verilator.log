@@ -1,0 +1,3 @@
+[0] %Fatal: tb_packed.sv:45: Assertion failed in tb_packed: PACKED_FAIL malformed vector
+%Error: /home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv:45: Verilog $stop
+Aborting...

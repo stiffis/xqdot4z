@@ -1,0 +1,3 @@
+WARNING: /home/stiff/stuff/xqdot4z/kirky-arqui/rtl/imem.v:8: $readmemh(riscvtest.mem): Not enough words in the file for the requested range [0:63].
+LUI subset ok: Mem[96] = 0x12345000
+/home/stiff/stuff/xqdot4z/kirky-arqui/tests/testbench_lui.v:39: $finish called at 135 (1s)

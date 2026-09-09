@@ -1,0 +1,71 @@
+\documentclass[11pt]{article}
+\input{metadata}
+\input{style}
+\begin{document}
+\thispagestyle{empty}
+{\sffamily\small\color{nord10} ARQUITECTURA DE COMPUTADORES\hfill PROTOCOLO v\ProjectVersion\par}
+\vspace{8mm}
+{\raggedright\sffamily\bfseries\fontsize{25}{30}\selectfont Productos punto U4\,×\,S8\\con corrección de zero-point\\en un pipeline RV32\par}
+\vspace{4mm}
+{\sffamily\Large\color{nord3} Diseño y evaluación de XQDot4Z\par}
+\vspace{4mm}
+{\sffamily\small\ProjectDate\par}
+{\small Autoría, afiliación y destino editorial: por acordar con el equipo.\par}
+\begin{statusbox}{Estado del manuscrito}
+Documento de trabajo: pregunta, diseño propuesto, protocolo y auditoría inicial.
+La extensión aún no está implementada. No se han medido sus ciclos, recursos,
+frecuencia ni energía. Los únicos resultados ejecutados de esta versión
+corresponden a la auditoría del procesador original.
+\end{statusbox}
+\subsection*{Resumen}
+El almacenamiento de pesos en cuatro bits reduce su tamaño, pero su consumo
+en un procesador escalar exige extraer códigos y preparar la aritmética. Este
+trabajo propone evaluar XQDot4Z, una operación de cuatro productos entre pesos
+U4 y activaciones S8 con corrección de zero-point y resultado INT32. La pregunta
+central es cuándo la fusión aporta una ventaja frente a multiplicación escalar
+y frente a un producto punto empacado con corrección factorizada y reutilización
+de la suma de activaciones. Se plantea una derivación de kirky-arqui, con base
+experimental común, verificación aritmética e integración al pipeline, y
+evaluación pareada de productos punto y matriz--vector. La fase inicial no
+requiere FPGA: mide exactitud y ciclos RTL; los resultados físicos se incorporarán
+solo con un flujo y restricciones comparables. La auditoría preliminar reproduce
+\HistoricalPass{} pruebas históricas satisfactorias y documenta limitaciones
+adicionales del soporte C y del control de dependencias. Se fijan las condiciones
+de medición y los criterios que permitirán confirmar o rechazar las hipótesis,
+sin anticipar una aceleración ni afirmar novedad absoluta.
+
+\textbf{Palabras clave:} RISC-V; inferencia cuantizada; W4A8; producto punto;
+microarquitectura; verificación; evaluación reproducible.
+\clearpage
+\renewcommand{\contentsname}{Estructura del artículo}
+\setcounter{tocdepth}{1}\tableofcontents
+\vspace{7mm}
+\begin{questionbox}{Cómo evoluciona este documento}
+El artículo se escribe junto con el experimento. Las secciones de diseño y
+método se actualizan cuando se cierran decisiones; las de resultados y
+conclusiones se completan únicamente con evidencia. La revisión bibliográfica
+actual es inicial, no sistemática ni exhaustiva.
+\end{questionbox}
+\clearpage
+\input{sections/01_introduction}
+\input{sections/02_background}
+\input{sections/03_questions}
+\clearpage
+\input{sections/04_platform}
+\input{sections/05_design}
+\clearpage
+\input{sections/06_method}
+\clearpage
+\input{sections/07_results}
+\input{sections/08_discussion}
+\input{sections/09_conclusion}
+\clearpage
+\renewcommand{\refname}{Referencias}
+\phantomsection\addcontentsline{toc}{section}{Referencias}
+\bibliographystyle{unsrt}
+\bibliography{references}
+\clearpage\appendix
+\begingroup\small
+\input{sections/10_artifact}
+\endgroup
+\end{document}

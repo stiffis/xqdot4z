@@ -1,0 +1,8 @@
+{
+  "source_path": "/home/stiff/kirky-arqui",
+  "commit": "d2e62fd127d85ac33fe54c9b98cffa06970b3fd5",
+  "captured_on": "2026-09-08",
+  "export": "git archive <commit>, all tracked files",
+  "snapshot": "baseline/upstream",
+  "policy": "Read-only historical baseline; no research fixes here."
+}

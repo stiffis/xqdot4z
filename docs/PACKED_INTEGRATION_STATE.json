@@ -1,0 +1,23 @@
+{
+  "milestone": "M3b-partial",
+  "isa_version": "0.1",
+  "updated_on": "2026-09-09",
+  "instruction": "xqdot4",
+  "specification": "isa/packed/SPEC.md",
+  "runner": "scripts/verify_packed_integration.py",
+  "evidence": "tests/packed_integration/results/20260909T042409017085Z/summary.json",
+  "evidence_sha256": "d5b6d56813de353ed72a85845fcbc32167375d656d4174b51ed7fc4ce495c33d",
+  "repeat_evidence": "tests/packed_integration/results/20260909T043205252111Z/summary.json",
+  "repeat_evidence_sha256": "db84076ce7222b4fe45607c4b1ac7096aac861c5c002873aa2fb1d07613e274a",
+  "status": "packed_integration_verified",
+  "enabled_by_default": false,
+  "integrated_in_kuntur": true,
+  "configurations_mul_d_b3": [[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]],
+  "matrix_correction_location": "kuntur",
+  "matrix_activation_sum_reused": true,
+  "cpu_matrix_fixture_pairs": 4,
+  "full_comparison_variants_implemented": false,
+  "runtime_zero_point_supported_by_d": false,
+  "synthesis_performed": false,
+  "performance_measured": false
+}

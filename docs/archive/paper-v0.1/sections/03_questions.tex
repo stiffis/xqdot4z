@@ -1,0 +1,46 @@
+\section{Pregunta, objetivos e hipótesis}
+\begin{questionbox}{Pregunta principal}
+¿En qué condiciones una operación escalar de cuatro productos U4\,$\times$\,S8
+con corrección de zero-point fusionada reduce el costo de ejecutar productos
+punto y matriz--vector en un pipeline RV32, frente a multiplicación escalar
+y producto punto empacado con corrección factorizada, considerando reutilización
+de activaciones y costo de suministrar el zero-point?
+\end{questionbox}
+
+\subsection{Descomposición operacional}
+\begin{description}[style=nextline]
+\item[RQ1: procesamiento empacado.] Comparar la propuesta con un kernel escalar
+optimizado que dispone de MUL y recibe los mismos datos U4/S8.
+\item[RQ2: corrección fusionada.] Comparar con producto punto U4\,$\times$\,S8
+sin corrección, seguido de la ecuación~\eqref{eq:factored}, reutilizando \(S_a\).
+Es la comparación central para aislar el zero-point.
+\item[RQ3: condiciones de utilidad.] Variar dimensiones, tamaño de grupo y
+política de suministro de \(z\), sin mezclar sus regímenes.
+\item[RQ4: compromiso físico posterior.] Comparar paralelismo y recursos cuando
+exista un flujo de síntesis/timing común y reproducible.
+\end{description}
+En la primera fase, costo significa principalmente ciclos del kernel completo.
+Tiempo físico, recursos y energía se reportan como magnitudes distintas y
+solo cuando exista la evidencia correspondiente.
+
+\subsection{Objetivos}
+El objetivo general es determinar el alcance útil y las limitaciones de
+XQDot4Z sobre una derivación verificable de kirky-arqui. Los objetivos específicos
+son congelar y auditar la base; verificar el contrato aritmético y su integración;
+construir baselines comparables; medir kernels reproducibles; y preparar una
+fase física sin confundirla con simulación RTL.
+
+\subsection{Hipótesis de trabajo y posibilidad de refutación}
+\begin{enumerate}[label=H\arabic*.]
+\item La propuesta reduce ciclos frente a MUL escalar en las configuraciones
+primarias. Se reportará cada caso y se conservarán empates y degradaciones.
+\item Su ventaja frente a corrección factorizada disminuye cuando crece el
+número de filas que reutiliza \(S_a\). Se examinará la tendencia y sus excepciones,
+sin imponer monotonicidad a los datos.
+\item El costo de suministrar zero-points variables puede reducir o eliminar
+una ventaja observada con valores constantes.
+\end{enumerate}
+Estas expectativas no son hallazgos. Una instrucción correcta con menor
+rendimiento también es un resultado interpretable. Cambios posteriores en
+hipótesis, factores o agregaciones se registrarán con fecha y motivo; el
+protocolo local no se presenta como una preregistración externa.

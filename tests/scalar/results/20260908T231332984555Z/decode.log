@@ -1,0 +1,2 @@
+MUL_DECODE_PASS checked=131072
+/home/stiff/stuff/xqdot4z/tests/scalar/tb_mul_decode.sv:30: $finish called at 32768000 (1ps)

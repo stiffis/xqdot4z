@@ -1,0 +1,7 @@
+RETIRE|00000000
+RETIRE|00000004
+RETIRE|00000006
+FAULT|1|00000008
+REG3|xxxxxxxx
+PASS pipeline completed diagnostic stop
+/home/stiff/stuff/xqdot4z/kuntur/verification/tb_pipeline.sv:24: $finish called at 112000 (1ps)

@@ -1,0 +1,9 @@
+/home/stiff/stuff/xqdot4z/tests/packed_integration/results/20260909T042409017085Z/bad_macro_0.S: Assembler messages:
+/home/stiff/stuff/xqdot4z/tests/packed_integration/results/20260909T042409017085Z/bad_macro_0.S:4: Error: xqdot4: h must be 0 or 1
+/home/stiff/stuff/xqdot4z/tests/packed_integration/results/20260909T042409017085Z/bad_macro_0.S:2:  Info: macro invoked from here
+/home/stiff/stuff/xqdot4z/tests/packed_integration/results/20260909T042409017085Z/bad_macro_0.S:6: Error: bad value for funct7 field, value must be 0...127
+/home/stiff/stuff/xqdot4z/tests/packed_integration/results/20260909T042409017085Z/bad_macro_0.S:2:  Info: macro invoked from here
+/home/stiff/stuff/xqdot4z/tests/packed_integration/results/20260909T042409017085Z/bad_macro_0.S:6: Error: bad value for funct2 field, value must be 0...3
+/home/stiff/stuff/xqdot4z/tests/packed_integration/results/20260909T042409017085Z/bad_macro_0.S:2:  Info: macro invoked from here
+/home/stiff/stuff/xqdot4z/tests/packed_integration/results/20260909T042409017085Z/bad_macro_0.S:6: Error: illegal operands `r 0x2b,0,(-1<<2),x3,x1,x2', extension `f' required
+/home/stiff/stuff/xqdot4z/tests/packed_integration/results/20260909T042409017085Z/bad_macro_0.S:2:  Info: macro invoked from here

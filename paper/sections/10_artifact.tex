@@ -1,0 +1,54 @@
+\section{Artefacto, hitos y reproducción}
+\subsection{Organización}
+El proyecto vive en \code{stuff/xqdot4z/}. La guía previa permanece en
+\code{stuff/ai\_review/}; no se sustituye por este artículo.\par
+\begin{tabularx}{\textwidth}{@{}lY@{}}
+\toprule
+\textbf{Ruta} & \textbf{Responsabilidad}\\\midrule
+\code{baseline/} & Snapshot histórico, commit y manifest de hashes.\\
+\code{audit/} & Sondas, logs y evidencia de auditoría.\\
+\code{docs/} & Acta, decisiones, auditoría, protocolo y plan editorial.\\
+\code{paper/} & Manuscrito, bibliografía y metadatos seleccionados.\\
+\code{model/}, \code{rtl/}, \code{tests/} & Espacios reservados para M1--M3, aún sin extensión.\\
+\code{benchmarks/}, \code{results/} & Kernels futuros y esquema de resultados.\\
+\code{scripts/} & Reproducción de auditoría y comprobación del artefacto.\\\bottomrule
+\end{tabularx}\par
+
+\subsection{Puertas de aceptación}
+\begin{tabularx}{\textwidth}{@{}llY@{}}
+\toprule
+\textbf{Hito} & \textbf{Estado} & \textbf{Criterio}\\\midrule
+M0: bases & Preparado & Protocolo, snapshot, auditoría y manuscrito trazables.\\
+M1: contrato & \pending & Signo, packing, rangos, selector y casos definidos.\\
+M2: unidad & \pending & Cero discrepancias en la batería RTL declarada.\\
+M3: integración & \pending & Base común, retiro válido y regresión ampliada.\\
+M4: kernels & \pending & B1/B2/B3/D comparables, salidas y métricas verificadas.\\
+M5: evaluación & \pending & Todos los casos, análisis y artículo actualizados.\\
+M6: fase física & \pending & Herramientas, FPGA y restricciones acordadas.\\\bottomrule
+\end{tabularx}\par
+M1 y M2 no requieren modificar el core. Los ciclos de rendimiento no se
+comparan antes de validar la instrumentación de M3.
+
+\subsection{Comandos y evidencia seleccionada}
+Desde la raíz del proyecto:
+\begin{quote}\ttfamily\small
+make baseline-check\par
+make audit\par
+make check\par
+make paper
+\end{quote}
+Cada auditoría crea un directorio nuevo; no sobreescribe evidencias previas.
+El manuscrito selecciona explícitamente el run en \code{paper/metadata.tex}.
+La evidencia inicial está en\par
+{\small\ttfamily audit/results/\AuditRun/summary.json\par}
+y la procedencia completa corresponde al commit\par
+{\small\ttfamily\CoreCommit\par}
+
+El comando de auditoría puede terminar correctamente aunque registre las
+diferencias conocidas: indica reproducción terminada, no conformidad ISA.
+La comparación futura de la extensión tendrá otro criterio: cero discrepancias
+respecto al contrato dentro de su batería de aceptación.
+
+El texto se mantendrá en una columna para revisión. El estilo Nord y los
+diagramas TikZ están separados del contenido y podrán adaptarse a una plantilla
+editorial. La bibliografía se gestiona con BibTeX, sin descargas al compilar.

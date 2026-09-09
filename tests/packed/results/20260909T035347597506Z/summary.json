@@ -1,0 +1,152 @@
+{
+  "status": "fail",
+  "timestamp_utc": "20260909T035347597506Z",
+  "seed": 20260912,
+  "contract_version": "0.1",
+  "scope": "Isolated B3 arithmetic and host-side reconstruction; no CPU integration or performance",
+  "python": "3.14.7 (main, Aug 10 2026, 07:46:56) [GCC 16.1.1 20260728]",
+  "platform": "Linux-7.1.9-arch1-2-x86_64-with-glibc2.44",
+  "commands": [
+    {
+      "name": "version_iverilog",
+      "argv": [
+        "iverilog",
+        "-V"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_verilator",
+      "argv": [
+        "verilator",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_make",
+      "argv": [
+        "make",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_g++",
+      "argv": [
+        "g++",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "lint",
+      "argv": [
+        "verilator",
+        "--lint-only",
+        "-Wall",
+        "--top-module",
+        "xqdot4",
+        "/home/stiff/stuff/xqdot4z/rtl/packed/xqdot4.v"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "iverilog_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_packed",
+        "-o",
+        "/tmp/xqdot4z-packed-nhkk0kmy/packed.vvp",
+        "/home/stiff/stuff/xqdot4z/rtl/packed/xqdot4.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "verilator_build",
+      "argv": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--top-module",
+        "tb_packed",
+        "--Mdir",
+        "/tmp/xqdot4z-packed-nhkk0kmy/obj",
+        "-j",
+        "2",
+        "/home/stiff/stuff/xqdot4z/rtl/packed/xqdot4.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv"
+      ],
+      "returncode": 1
+    }
+  ],
+  "simulators": {},
+  "sources_sha256": {
+    "model/__init__.py": "9d543d3fb77725103879b1e835cb0d4a71fa170a79d448dd973757eb0256a31f",
+    "model/xqdot4z.py": "ab2e5fc262f706306fcbb482ae7feff171459b56522b51972ff11f8904cb95f1",
+    "rtl/packed/SPEC.md": "013d341c69145477a818b53bc7da4b571db4adb71538ba09aee7672ef49e3e82",
+    "rtl/packed/xqdot4.v": "a4b7827d48efbd49270027aff62f2373490bb3f1046c54d772adb61a17c66b75",
+    "rtl/xqdot4z.v": "bd8756402cd7b9e3bb72c353f3cd8f828d1cd1dd38306731d1d3d735615e7e5c",
+    "scripts/verify_packed.py": "145dc7e8cc2b7aae56699c4e889d0558d0bd8669824db287d0af6c11edadc623",
+    "scripts/verify_rtl.py": "f9a5be49175ed42e8c9d0f6f82ed5688a2a3e59aab57bdaab7745e6303707d72",
+    "tests/packed/tb_packed.sv": "ddc600cd6e309bd99660fd3d08ba6c7300ab22993405ab59cc4f72903fbec5cb"
+  },
+  "reference": {
+    "state": "docs/MODEL_STATE.json",
+    "state_sha256": "aa662baa926f4e0dce2294679cdd611ded4f86a7bf63064713a9dc169311401f",
+    "evidence": "model/results/20260908T131153442155Z/summary.json",
+    "evidence_sha256": "f6ee14985774d627876d2435340435e5a130fe529e684f06e7355e61e0987ff0",
+    "vectors": "model/results/20260908T131153442155Z/vectors.txt",
+    "vectors_sha256": "37504ea105f7bf8d593ed1d39b36ace0257b05a99f3eaea17a1496495c847956",
+    "sources_sha256": {
+      "model/SPEC.md": "8a984f93ce61ba6d347e668ae5dcaecf719819b3eea13257c084545a18aa4ec4",
+      "model/__init__.py": "9d543d3fb77725103879b1e835cb0d4a71fa170a79d448dd973757eb0256a31f",
+      "model/xqdot4z.py": "ab2e5fc262f706306fcbb482ae7feff171459b56522b51972ff11f8904cb95f1",
+      "scripts/verify_model.py": "34d7303b5cd3d9989943e5c0aab9390c93ccf522c9a67316deb196bb92a1834f",
+      "tests/data/qdot4z_examples.json": "7be9dfafbd06f20154a08ea44ea59f5eaf1deabebbd2668a71f3c113c8906487",
+      "tests/test_xqdot4z.py": "317e7e6054d5075673ab61d9a1ce9e4572b4786a5d16e38554ae27252872d641"
+    }
+  },
+  "fused_reference": {
+    "state": "docs/RTL_STATE.json",
+    "state_sha256": "8bdab35b4a6caf5165f74efceb45d46f339b8d58b1014b3a90cb6a4230dd8149",
+    "evidence": "rtl/results/20260908T175106508019Z/summary.json",
+    "evidence_sha256": "0e95eb0bc228ddbd6096b46895ac9310d661311bf96a0f3e5864175e886157fd"
+  },
+  "tools": {
+    "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0-dirty)",
+    "verilator": "Verilator 5.050 2026-07-01 rev v5.050",
+    "make": "GNU Make 4.4.1",
+    "g++": "g++ (GCC) 16.2.1 20260810"
+  },
+  "completed_counts": {
+    "m1_vectors": 2068,
+    "single_term_lane_placements": 32768,
+    "mixed_extrema": 8192,
+    "random_dot_products": 20000,
+    "unused_half_vectors": 2048,
+    "single_input_bit_transitions": 130,
+    "z_sweep": 1024,
+    "matrix_blocks": 1680
+  },
+  "vectors_count": 67910,
+  "matrix_trace_start": 66230,
+  "lint": "pass_no_waivers",
+  "error": "RuntimeError: verilator_build: unexpected exit; see log",
+  "artifacts_sha256": {
+    "iverilog_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lint.log": "1f4a093a74c95a1619cce7ececf0c827d3930e01567a84e8a91360b5de391ccd",
+    "matrix_cases.json": "82091f41f648532ab29b1d75c288edf5448c30e6e84912a601a22f06ac135a8f",
+    "vectors.txt": "cc93b7008660825a87961aac303bc3f5e9814317955c364bf78199102c81b55c",
+    "verilator_build.log": "ae4efd76dd35f83bfed77d29fa47d04e46e198aac303e12b1a2b494dbb111ec3",
+    "version_g++.log": "ddba3d014b73deb2a8869cad4ab507e29a48630c8cd280adf2559e0e10891d23",
+    "version_iverilog.log": "3adef901b030d47bf8160ed2b8fbb00f1b47ec8998dc35c1ddedc6debd4865d1",
+    "version_make.log": "cb84250d994234272d0a465014ce2931be76e9e0cb114b9bffa078c3c211e8eb",
+    "version_verilator.log": "46aedd5b30efdd94426c9eebbcf4a6ae7a9680526cc90ce8fec95977c2d6b12d"
+  }
+}

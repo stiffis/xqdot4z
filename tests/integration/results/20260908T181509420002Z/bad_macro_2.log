@@ -1,0 +1,9 @@
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181509420002Z/bad_macro_2.S: Assembler messages:
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181509420002Z/bad_macro_2.S:7: Error: xqdot4zi: half must be an immediate in [0,1]
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181509420002Z/bad_macro_2.S:2:  Info: macro invoked from here
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181509420002Z/bad_macro_2.S:9: Error: bad value for funct7 field, value must be 0...127
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181509420002Z/bad_macro_2.S:2:  Info: macro invoked from here
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181509420002Z/bad_macro_2.S:9: Error: bad value for funct2 field, value must be 0...3
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181509420002Z/bad_macro_2.S:2:  Info: macro invoked from here
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181509420002Z/bad_macro_2.S:9: Error: illegal operands `r 0x0b,0,((0<<3)|(-1<<2)),x3,x1,x2', extension `f' required
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181509420002Z/bad_macro_2.S:2:  Info: macro invoked from here

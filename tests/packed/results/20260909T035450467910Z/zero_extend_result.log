@@ -1,0 +1,2 @@
+FATAL: /home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv:56: PACKED_FAIL packed mismatch vector=2
+       Time: 3000  Scope: tb_packed

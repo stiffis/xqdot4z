@@ -1,0 +1,2 @@
+FATAL: /home/stiff/stuff/xqdot4z/kirky-arqui/verification/tb_slt.sv:17: SLT a=00000000 b=80000000 result=00000001 expected=0
+       Time: 5000  Scope: tb_slt

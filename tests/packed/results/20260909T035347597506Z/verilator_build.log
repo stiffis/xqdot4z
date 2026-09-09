@@ -1,0 +1,19 @@
+%Warning-WIDTHEXPAND: /home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv:20:60: Operator ADD expects 32 bits on the LHS, but LHS's SIGNED generates 8 bits.
+                                                                               : ... note: In instance 'tb_packed'
+   20 |     assign activation_sum = $signed(activations_word[7:0]) + $signed(activations_word[15:8])
+      |                                                            ^
+                      ... For warning description see https://verilator.org/warn/WIDTHEXPAND?v=5.050
+                      ... Use "/* verilator lint_off WIDTHEXPAND */" and lint_on around source to disable this message.
+%Warning-WIDTHEXPAND: /home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv:20:60: Operator ADD expects 32 bits on the RHS, but RHS's SIGNED generates 8 bits.
+                                                                               : ... note: In instance 'tb_packed'
+   20 |     assign activation_sum = $signed(activations_word[7:0]) + $signed(activations_word[15:8])
+      |                                                            ^
+%Warning-WIDTHEXPAND: /home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv:21:27: Operator ADD expects 32 bits on the RHS, but RHS's SIGNED generates 8 bits.
+                                                                               : ... note: In instance 'tb_packed'
+   21 |                           + $signed(activations_word[23:16]) + $signed(activations_word[31:24]);
+      |                           ^
+%Warning-WIDTHEXPAND: /home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv:21:62: Operator ADD expects 32 bits on the RHS, but RHS's SIGNED generates 8 bits.
+                                                                               : ... note: In instance 'tb_packed'
+   21 |                           + $signed(activations_word[23:16]) + $signed(activations_word[31:24]);
+      |                                                              ^
+%Error: Exiting due to 4 warning(s)

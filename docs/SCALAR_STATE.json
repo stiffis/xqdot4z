@@ -1,0 +1,20 @@
+{
+  "milestone": "M3b-partial",
+  "contract_version": "0.1",
+  "updated_on": "2026-09-08",
+  "instruction": "mul",
+  "specification": "isa/scalar/SPEC.md",
+  "runner": "scripts/verify_scalar.py",
+  "evidence": "tests/scalar/results/20260909T041317383641Z/summary.json",
+  "evidence_sha256": "b154751df037c52ae10c4c9ad156180fce7bdbefa02d4908010643e4140866ba",
+  "repeat_evidence": "tests/scalar/results/20260909T042410277125Z/summary.json",
+  "repeat_evidence_sha256": "d03ff1be4fb11c3d02b89da494e6957610f40c6f34f9d64f3cbdcddcb6db787c",
+  "status": "scalar_mul_verified",
+  "enabled_by_default": false,
+  "regression_enable_xqdot4": 0,
+  "tested_mul_xqdot4z_configurations": [[0, 0], [0, 1], [1, 0], [1, 1]],
+  "full_m_or_zmmul_implemented": false,
+  "full_comparison_variants_implemented": false,
+  "synthesis_performed": false,
+  "performance_measured": false
+}

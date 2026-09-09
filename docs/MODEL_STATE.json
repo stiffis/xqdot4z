@@ -1,0 +1,12 @@
+{
+  "milestone": "M1",
+  "contract_version": "0.1",
+  "updated_on": "2026-09-08",
+  "specification": "model/SPEC.md",
+  "reference": "model/xqdot4z.py",
+  "evidence": "model/results/20260908T131153442155Z/summary.json",
+  "evidence_sha256": "f6ee14985774d627876d2435340435e5a130fe529e684f06e7355e61e0987ff0",
+  "status": "numerical_reference_verified",
+  "rtl_implemented": false,
+  "performance_measured": false
+}

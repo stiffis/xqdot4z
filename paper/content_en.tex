@@ -1,0 +1,170 @@
+\title{XQDot4Z: Quantized Dot Products\\on a RISC-V Processor}
+\author{\IEEEauthorblockN{Authorship to be determined}
+\IEEEauthorblockA{Working draft v\PaperVersion\ --- not for submission}}
+\maketitle
+\begin{abstract}
+Low-bit-weight storage reduces data size, but processing these weights may
+require extraction, conversion, and correction of the numerical origin.
+This work proposes studying an operation that combines four products of
+unsigned four-bit weights and signed eight-bit activations with zero-point
+correction. The question is when this fusion is useful compared with scalar
+multiplication and with a packed dot product followed by separate correction.
+A teaching-oriented thirty-two-bit processor is proposed as the platform,
+first to verify the operation and then to evaluate dot products and
+matrix--vector multiplication. This document is an initial draft: it presents
+the question and planned method, but reports no acceleration results.
+Conclusions will be written once verified implementations and reproducible
+comparisons are available.
+\end{abstract}
+\begin{IEEEkeywords}
+quantized inference, low-precision arithmetic, instruction-set extensions,
+hardware verification
+\end{IEEEkeywords}
+% Keep the abstract first; a top float may start in the next column instead.
+\suppressfloats[t]
+
+\section{Introduction}
+Neural network layers perform products and sums involving weights and
+activations. Quantization allows part of this computation to be represented
+using integers and scale parameters~\cite{jacob}. However, storing more weights
+per word does not eliminate the work needed to consume them on a processor.
+Field extraction and operand preparation can be relevant costs.
+
+We propose studying XQDot4Z on Kuntur, a teaching-oriented RISC-V processor
+with a five-stage pipeline. The aim is
+to investigate a bounded operation and its costs, rather than to develop
+a complete accelerator or execute a large language model at this stage.
+
+\input{comparison_figure}
+\section{Background and Related Work}
+In affine quantization, an integer code \(q\) approximately represents
+\(r=s(q-z)\), where \(s>0\) is the scale and \(z\) the zero-point.
+With activations whose zero-point is zero, the arithmetic kernel under
+study is
+\begin{equation}
+d=\sum_{i=0}^{3}(q_{w,i}-z_w)q_{a,i}.
+\label{eq:dot}
+\end{equation}
+Weights are stored as U4 (unsigned four-bit integers) and activations as
+S8 (signed eight-bit integers). The proposed output is an INT32 subtotal
+(a signed 32-bit integer); scales, bias, and accumulation of other
+subtotals remain outside this operation.
+
+XpulpNN and Dustin provide precedents for low-precision instructions and
+mixed-precision arithmetic on RISC-V~\cite{xpulpnn,dustin}. Low-bit dot
+products are therefore not treated as a new concept. The specific
+contribution must be established through a more detailed comparison with
+prior work and the project's own results.
+
+An important alternative to fusion is
+\begin{equation}
+d=\sum_i q_{w,i}q_{a,i}-z_w\sum_i q_{a,i}.
+\label{eq:factor}
+\end{equation}
+The activation sum can be reused across matrix rows. A valid comparison
+must allow this optimization.
+
+\section{Research Question and Scope}
+\textit{Under what conditions does fusing zero-point correction into a
+U4-by-S8 dot product reduce execution cost compared with scalar multiplication
+and factored correction, accounting for activation reuse and zero-point
+delivery?}
+
+The initial scope is one core, batch size one, and small dot-product and
+matrix--vector kernels. The first phase will evaluate correctness and
+simulation cycles. Synthesis and board-level evaluation are later stages.
+Energy or physical execution time will not be inferred solely from
+instruction or cycle counts.
+
+\section{Proposed Method}
+\subsection{Platform and Verification}
+The original processor is preserved, and development takes place in an
+independent clone. Core corrections are verified separately and will form
+a common baseline for the variants. Unimplemented instructions must be
+detected, without claiming full conformance to an instruction set that
+the processor does not yet cover.
+
+The v0.1 numerical contract defines a 32-bit word \(W\) containing eight U4
+weights and a word \(A\) containing four S8 activations. A selector \(h\)
+chooses the lower or upper four weights of \(W\), without changing the
+activations. Index zero occupies the least significant bits, and \(z_w\)
+is shared by all four terms. The subtotal lies in \([-7680,7680]\) and is
+represented in 32-bit two's complement, without implicit accumulation.
+
+A Python reference using unbounded integers is available, checked through
+examples, packing tests, exhaustive single-term tuples, and random dot
+products compared with~\eqref{eq:factor}. The isolated RTL unit is combinational,
+with four lanes, S13 products, and an adder tree with explicit sign extension.
+It is verified in Icarus Verilog and Verilator. The experimental XQDot4Zi
+interface optionally integrates it into Kuntur, using two source registers
+and immediate \(z_w,h\). It reuses forwarding and carries metadata with the
+instruction. It adds no dedicated wait in E, but physical timing has not been
+checked. Runtime-loaded zero-points remain unresolved; an immediate cannot
+replace them at no cost.
+
+The baseline includes optional scalar MUL, independent of XQDot4Zi, returning
+the low 32 bits of the product~\cite{riscvm}. It does not implement full M or
+Zmmul. It is combinational, reuses forwarding, and is cancelled by flush/reset;
+functional availability does not establish physical timing.
+
+The packed comparator (B3) has a four-lane unit without zero-point
+subtraction, using the same packing and selector as the fused XQDot4Z
+variant (D).
+Its subtotal lies in \([-7680,7620]\); the correction in~\eqref{eq:factor}
+is outside this unit. The optional XQDot4 instruction integrates it using
+two source GPRs, immediate \(h\), and the same forwarding. With weights set
+to one, it also computes activation sums that can be reused across rows.
+
+\subsection{Planned Comparison}
+The comparison will include scalar multiplication, a packed dot product
+with the correction in~\eqref{eq:factor}, and XQDot4Z
+(Fig.~\ref{fig:comparison}). Variants will receive the same data and share
+the core corrections. Measurement will include loads, loops, correction,
+and metadata delivery, in addition to the arithmetic kernel.
+
+Dimensions, configurations, and aggregation criteria will be agreed upon
+before the measurement campaign. Programs, versions, seeds, expected
+outputs, and logs will be retained. Unfavorable results will also be
+reported. The detailed working protocol remains outside the paper until
+these decisions are settled.
+
+\balance
+\section{Results and Discussion}
+The isolated unit matches the reference in 556\,734 comparisons per
+simulator. Both simulators detect eight negative controls; Icarus detects
+four RTL mutations. Strict lint passes without waivers. Exhaustiveness is
+limited to single-term tuples, not all complete operands. Artifacts and hashes
+are retained in the repository.
+
+The immediate integration passes 25 programs in both simulators, including
+a campaign of 1056 operations. Retirement, writeback, stores, and operands
+are compared; dependencies, branches, reset, and the disabled configuration
+are tested. Two integration mutations are detected in Icarus.
+
+MUL matches its reference on 86\,704 vectors per simulator and passes
+49 programs in both, covering the four MUL/XQDot4Zi configurations.
+Eight negative controls per simulator and four Icarus mutations are detected,
+two arithmetic and two forwarding faults.
+
+The packed unit without correction passes 67\,910 vectors per simulator,
+with ten negative controls per simulator and four Icarus mutations.
+From 1680 RTL responses, 336 row/group outputs are reconstructed across
+24 matrix--vector cases, reusing activation sums across rows.
+In that isolated test suite, accumulation and correction run in the verifier.
+
+XQDot4 integration passes 123 programs in both simulators, covering all eight
+configurations of MUL and the two packed instructions, and detects three
+Icarus mutations. Four paired two-row fixtures produce eight matching outputs
+in B3 and D. In B3, Kuntur computes one activation sum, reuses it, and applies
+MUL/SUB correction; D accumulates fused subtotals. These are correctness tests
+with zero-points known at code-generation time, not optimized benchmarks or
+dynamic-metadata tests.
+
+\textit{Performance evaluation pending.} These results do not establish
+acceleration, resource usage, physical timing, or efficient dynamic metadata delivery.
+
+\section{Conclusion}
+\textit{Pending evaluation.} The question and scope are defined, but whether
+fusion improves performance remains unproven. The next step is to finalize
+comparison conditions and develop kernels on the common baseline with MUL
+and both packed operations, before measurement.

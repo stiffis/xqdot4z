@@ -1,0 +1,9 @@
+OBS|c_addi_control|00128293|00128293
+OBS|rv32_passthrough|00100293|00100293
+OBS|c_li|00100293|00004285
+OBS|c_addi4spn|00410413|00000040
+OBS|c_addi16sp|01010113|00010137
+OBS|c_ebreak|00100073|000000e7
+OBS|false_rs2_stall|00000000|00000001
+OBS|real_load_use|00000001|00000001
+/home/stiff/stuff/xqdot4z/audit/tests/tb_observations.sv:47: $finish called at 8000 (1ps)

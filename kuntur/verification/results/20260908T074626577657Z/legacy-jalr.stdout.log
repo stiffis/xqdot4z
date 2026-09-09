@@ -1,0 +1,5 @@
+WARNING: /home/stiff/stuff/xqdot4z/kirky-arqui/rtl/imem.v:8: $readmemh(riscvtest.mem): Not enough words in the file for the requested range [0:63].
+JALR target subset ok: Mem[96] = 1
+JALR link subset ok: Mem[100] = 52
+JALR subset succeeded
+/home/stiff/stuff/xqdot4z/kirky-arqui/tests/testbench_jalr.v:43: $finish called at 265 (1s)

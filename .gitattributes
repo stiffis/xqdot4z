@@ -1,0 +1,7 @@
+# Verification evidence pins byte-level hashes; never normalize line endings.
+* -text
+*.pdf binary
+*.gz binary
+*.bundle binary
+*.elf binary
+*.bin binary

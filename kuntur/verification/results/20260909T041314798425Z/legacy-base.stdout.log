@@ -1,0 +1,8 @@
+WARNING: /home/stiff/stuff/xqdot4z/kuntur/rtl/imem.v:10: $readmemh(riscvtest.mem): Not enough words in the file for the requested range [0:63].
+Intermediate store ok: Mem[96] = 7
+Arithmetic subset ok: Mem[100] = 14
+Logical OR subset ok: Mem[104] = 15
+Logical AND subset ok: Mem[108] = 7
+SLTI subset ok: Mem[112] = 1
+Pipeline base subsets succeeded
+/home/stiff/stuff/xqdot4z/kuntur/tests/testbench_base.v:49: $finish called at 535 (1s)

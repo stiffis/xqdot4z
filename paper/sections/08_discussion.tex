@@ -1,0 +1,43 @@
+\section{Discusión prevista y amenazas a la validez}
+\subsection{Validez interna}
+La amenaza principal es comparar plataformas con correcciones distintas.
+Se controla derivando variantes de una base común y registrando sus cambios.
+La segunda es debilitar el baseline: B3 debe reutilizar \(S_a\), disponer de
+MUL y usar una disposición de datos comparable. El despacho de zero-points,
+colas y epílogo tampoco puede desaparecer de la región medida.
+
+La base docente requiere ampliar verificación. Un resultado numérico final
+correcto no detecta necesariamente efectos duplicados, instrucciones ilegales
+ignoradas o contadores incorrectos. El plan incluye controles de retiro,
+selección de fuentes y detección de instrucciones fuera del subconjunto.
+La medición se habilita solo después de cerrar esos riesgos para los kernels.
+
+\subsection{Validez de las métricas y alcance externo}
+Menos instrucciones no implica menos ciclos; menos ciclos no implica menor
+tiempo si cambia la frecuencia; menos tiempo tampoco prueba menor energía.
+Se evita usar esas magnitudes como sinónimos. El tiempo que tarda el simulador
+en el computador anfitrión no es el tiempo del procesador modelado.
+
+Productos punto sintéticos y matrices pequeñas permiten aislar causas, pero
+no representan por sí solos una aplicación de IA ni un LLM. Tampoco una mejora
+en memoria combinacional predice automáticamente el resultado con BRAM o
+cache. Las afirmaciones se limitarán al dominio efectivamente evaluado.
+
+Con \(z=8\), la recodificación a S4 puede ofrecer otra ruta eficiente. Con
+muchas filas, la amortización de \(S_a\) puede favorecer a B3. Con metadatos
+dinámicos, el despacho puede consumir los ahorros de D. Estos casos son
+posibles explicaciones que habrá que contrastar, no conclusiones anticipadas.
+
+\subsection{Criterios de discusión de los resultados}
+Para cada diferencia se buscará un mecanismo: extracción, instrucciones de
+corrección, carga de operandos, reutilización, stalls, camino crítico o código
+especializado. Se contrastarán desgloses con el total del kernel. Si no aparece
+ventaja, se documentará qué costo la elimina y hasta dónde puede generalizarse.
+No se cambiará a posteriori la pregunta para ocultar una hipótesis refutada.
+
+\subsection{Integridad del artefacto y publicación}
+La exportación histórica no contiene un archivo LICENSE en su raíz. La
+publicación del derivado requiere resolver permisos, contribuciones y licencia
+con las personas que participaron en el proyecto de curso. Autoría, afiliación
+y venue no se asignan en esta versión. Una plantilla editorial específica
+se adoptará cuando exista una convocatoria apropiada y evidencia suficiente.

@@ -1,0 +1,9 @@
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181809095468Z/bad_macro_0.S: Assembler messages:
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181809095468Z/bad_macro_0.S:4: Error: xqdot4zi: zero-point must be an immediate in [0,15]
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181809095468Z/bad_macro_0.S:2:  Info: macro invoked from here
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181809095468Z/bad_macro_0.S:9: Error: bad value for funct7 field, value must be 0...127
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181809095468Z/bad_macro_0.S:2:  Info: macro invoked from here
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181809095468Z/bad_macro_0.S:9: Error: bad value for funct2 field, value must be 0...3
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181809095468Z/bad_macro_0.S:2:  Info: macro invoked from here
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181809095468Z/bad_macro_0.S:9: Error: illegal operands `r 0x0b,0,((-1<<3)|(0<<2)),x3,x1,x2', extension `f' required
+/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T181809095468Z/bad_macro_0.S:2:  Info: macro invoked from here

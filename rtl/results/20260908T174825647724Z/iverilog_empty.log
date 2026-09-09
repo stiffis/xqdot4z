@@ -1,0 +1,2 @@
+FATAL: /home/stiff/stuff/xqdot4z/tests/rtl/tb_xqdot4z.sv:55: RTL_FAIL vector count got=0 expected=1
+       Time: 0  Scope: tb_xqdot4z

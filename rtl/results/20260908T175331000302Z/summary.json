@@ -1,0 +1,488 @@
+{
+  "status": "pass",
+  "timestamp_utc": "20260908T175331000302Z",
+  "contract_version": "0.1",
+  "scope": "M2 isolated combinational RTL; no ISA integration, synthesis or performance",
+  "command": "python3 scripts/verify_rtl.py",
+  "python": "3.14.7 (main, Aug 10 2026, 07:46:56) [GCC 16.1.1 20260728]",
+  "platform": "Linux-7.1.9-arch1-2-x86_64-with-glibc2.44",
+  "seed": 20260909,
+  "sources_sha256": {
+    "rtl/xqdot4z.v": "bd8756402cd7b9e3bb72c353f3cd8f828d1cd1dd38306731d1d3d735615e7e5c",
+    "tests/rtl/tb_xqdot4z.sv": "9cf70fd8a0984cb5fb892d1aa098d80ce8b7990e0fd25905e269eced43a6b694",
+    "scripts/verify_rtl.py": "f9a5be49175ed42e8c9d0f6f82ed5688a2a3e59aab57bdaab7745e6303707d72"
+  },
+  "commands": [
+    {
+      "name": "version_iverilog",
+      "argv": [
+        "iverilog",
+        "-V"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_vvp",
+      "argv": [
+        "vvp",
+        "-V"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_verilator",
+      "argv": [
+        "verilator",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_g++",
+      "argv": [
+        "g++",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_make",
+      "argv": [
+        "make",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "lint",
+      "argv": [
+        "verilator",
+        "--lint-only",
+        "--Wall",
+        "--top-module",
+        "xqdot4z",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "iverilog_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-Wall",
+        "-s",
+        "tb_xqdot4z",
+        "-o",
+        "/tmp/xqdot4z-m2-h3iubph1/sim.vvp",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/rtl/tb_xqdot4z.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "verilator_build",
+      "argv": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--timescale",
+        "1ns/1ps",
+        "--top-module",
+        "tb_xqdot4z",
+        "--Mdir",
+        "/tmp/xqdot4z-m2-h3iubph1/obj",
+        "-j",
+        "2",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/rtl/tb_xqdot4z.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-h3iubph1/sim.vvp",
+        "+VECTORS=/tmp/xqdot4z-m2-h3iubph1/vectors.txt",
+        "+COUNT=556734"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "iverilog_wrong_expected",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-h3iubph1/sim.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/control_wrong_expected.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "iverilog_empty",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-h3iubph1/sim.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/control_empty.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "iverilog_truncated",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-h3iubph1/sim.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/control_truncated.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "iverilog_trailing_partial",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-h3iubph1/sim.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/control_trailing_partial.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "iverilog_extra_field",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-h3iubph1/sim.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/control_extra_field.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "iverilog_out_of_range",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-h3iubph1/sim.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/control_out_of_range.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "iverilog_count_mismatch",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-h3iubph1/sim.vvp",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/control_count_mismatch.txt",
+        "+COUNT=2"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "iverilog_missing_file",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-h3iubph1/sim.vvp",
+        "+VECTORS=/tmp/xqdot4z-m2-h3iubph1/absent.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "verilator",
+      "argv": [
+        "/tmp/xqdot4z-m2-h3iubph1/obj/Vtb_xqdot4z",
+        "+VECTORS=/tmp/xqdot4z-m2-h3iubph1/vectors.txt",
+        "+COUNT=556734"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "verilator_wrong_expected",
+      "argv": [
+        "/tmp/xqdot4z-m2-h3iubph1/obj/Vtb_xqdot4z",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/control_wrong_expected.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "verilator_empty",
+      "argv": [
+        "/tmp/xqdot4z-m2-h3iubph1/obj/Vtb_xqdot4z",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/control_empty.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "verilator_truncated",
+      "argv": [
+        "/tmp/xqdot4z-m2-h3iubph1/obj/Vtb_xqdot4z",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/control_truncated.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "verilator_trailing_partial",
+      "argv": [
+        "/tmp/xqdot4z-m2-h3iubph1/obj/Vtb_xqdot4z",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/control_trailing_partial.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "verilator_extra_field",
+      "argv": [
+        "/tmp/xqdot4z-m2-h3iubph1/obj/Vtb_xqdot4z",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/control_extra_field.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "verilator_out_of_range",
+      "argv": [
+        "/tmp/xqdot4z-m2-h3iubph1/obj/Vtb_xqdot4z",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/control_out_of_range.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "verilator_count_mismatch",
+      "argv": [
+        "/tmp/xqdot4z-m2-h3iubph1/obj/Vtb_xqdot4z",
+        "+VECTORS=/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/control_count_mismatch.txt",
+        "+COUNT=2"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "verilator_missing_file",
+      "argv": [
+        "/tmp/xqdot4z-m2-h3iubph1/obj/Vtb_xqdot4z",
+        "+VECTORS=/tmp/xqdot4z-m2-h3iubph1/absent.txt",
+        "+COUNT=1"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "mutant_unsigned_activations_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_xqdot4z",
+        "-o",
+        "/tmp/xqdot4z-m2-h3iubph1/mutant.vvp",
+        "/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/mutant_unsigned_activations.v",
+        "/home/stiff/stuff/xqdot4z/tests/rtl/tb_xqdot4z.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "mutant_unsigned_activations",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-h3iubph1/mutant.vvp",
+        "+VECTORS=/tmp/xqdot4z-m2-h3iubph1/vectors.txt",
+        "+COUNT=556734"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "mutant_signed_u4_weights_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_xqdot4z",
+        "-o",
+        "/tmp/xqdot4z-m2-h3iubph1/mutant.vvp",
+        "/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/mutant_signed_u4_weights.v",
+        "/home/stiff/stuff/xqdot4z/tests/rtl/tb_xqdot4z.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "mutant_signed_u4_weights",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-h3iubph1/mutant.vvp",
+        "+VECTORS=/tmp/xqdot4z-m2-h3iubph1/vectors.txt",
+        "+COUNT=556734"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "mutant_ignore_half_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_xqdot4z",
+        "-o",
+        "/tmp/xqdot4z-m2-h3iubph1/mutant.vvp",
+        "/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/mutant_ignore_half.v",
+        "/home/stiff/stuff/xqdot4z/tests/rtl/tb_xqdot4z.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "mutant_ignore_half",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-h3iubph1/mutant.vvp",
+        "+VECTORS=/tmp/xqdot4z-m2-h3iubph1/vectors.txt",
+        "+COUNT=556734"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "mutant_zero_extend_result_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_xqdot4z",
+        "-o",
+        "/tmp/xqdot4z-m2-h3iubph1/mutant.vvp",
+        "/home/stiff/stuff/xqdot4z/rtl/results/20260908T175331000302Z/mutant_zero_extend_result.v",
+        "/home/stiff/stuff/xqdot4z/tests/rtl/tb_xqdot4z.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "mutant_zero_extend_result",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m2-h3iubph1/mutant.vvp",
+        "+VECTORS=/tmp/xqdot4z-m2-h3iubph1/vectors.txt",
+        "+COUNT=556734"
+      ],
+      "returncode": 1
+    }
+  ],
+  "reference": {
+    "state": "docs/MODEL_STATE.json",
+    "state_sha256": "aa662baa926f4e0dce2294679cdd611ded4f86a7bf63064713a9dc169311401f",
+    "evidence": "model/results/20260908T131153442155Z/summary.json",
+    "evidence_sha256": "f6ee14985774d627876d2435340435e5a130fe529e684f06e7355e61e0987ff0",
+    "vectors": "model/results/20260908T131153442155Z/vectors.txt",
+    "vectors_sha256": "37504ea105f7bf8d593ed1d39b36ace0257b05a99f3eaea17a1496495c847956",
+    "sources_sha256": {
+      "model/SPEC.md": "8a984f93ce61ba6d347e668ae5dcaecf719819b3eea13257c084545a18aa4ec4",
+      "model/__init__.py": "9d543d3fb77725103879b1e835cb0d4a71fa170a79d448dd973757eb0256a31f",
+      "model/xqdot4z.py": "ab2e5fc262f706306fcbb482ae7feff171459b56522b51972ff11f8904cb95f1",
+      "scripts/verify_model.py": "34d7303b5cd3d9989943e5c0aab9390c93ccf522c9a67316deb196bb92a1834f",
+      "tests/data/qdot4z_examples.json": "7be9dfafbd06f20154a08ea44ea59f5eaf1deabebbd2668a71f3c113c8906487",
+      "tests/test_xqdot4z.py": "317e7e6054d5075673ab61d9a1ce9e4572b4786a5d16e38554ae27252872d641"
+    }
+  },
+  "tools": {
+    "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0-dirty)",
+    "vvp": "Icarus Verilog runtime version 13.0 (stable) (v13_0-dirty)",
+    "verilator": "Verilator 5.050 2026-07-01 rev v5.050",
+    "g++": "g++ (GCC) 16.2.1 20260810",
+    "make": "GNU Make 4.4.1"
+  },
+  "completed_counts": {
+    "m1_vectors": 2068,
+    "single_term_lane_placements": 524288,
+    "mixed_extrema": 8192,
+    "random_dot_products": 20000,
+    "unused_half_vectors": 2048,
+    "single_input_bit_transitions": 138
+  },
+  "vectors_count": 556734,
+  "vectors_uncompressed_sha256": "04a226400e867b3fccd2289ca3877dd0e42788286054b12aab9bc1b46ae7c2ba",
+  "lint": "pass_no_waivers",
+  "simulators": {
+    "iverilog": {
+      "status": "pass",
+      "checked": 556734,
+      "negative_controls_detected": [
+        "wrong_expected",
+        "empty",
+        "truncated",
+        "trailing_partial",
+        "extra_field",
+        "out_of_range",
+        "count_mismatch",
+        "missing_file"
+      ]
+    },
+    "verilator": {
+      "status": "pass",
+      "checked": 556734,
+      "negative_controls_detected": [
+        "wrong_expected",
+        "empty",
+        "truncated",
+        "trailing_partial",
+        "extra_field",
+        "out_of_range",
+        "count_mismatch",
+        "missing_file"
+      ]
+    }
+  },
+  "mutations_detected": [
+    "unsigned_activations",
+    "signed_u4_weights",
+    "ignore_half",
+    "zero_extend_result"
+  ],
+  "artifacts_sha256": {
+    "control_count_mismatch.txt": "fe42fff3e7ff3a02c8ec43e1a85844f2841929f4f2d52f0379db87cf4c00661b",
+    "control_empty.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "control_extra_field.txt": "83a53de6ed81b5f229fcb955a9302e0fddf6b7b955620be864b7e6686907c81f",
+    "control_out_of_range.txt": "848a8f54f6c0727741a9f8774b8d904dc1c999f021e61de43136c9e6ef5b9e80",
+    "control_trailing_partial.txt": "5edb0a01db98b13245e3ba405c0ad32150d11c0364dbf01e1c49234edbfaabec",
+    "control_truncated.txt": "adb640ed8012c92ab42d0114e4930da247489ad87427ed7ef04fea40286843e4",
+    "control_wrong_expected.txt": "2e2f1595f4fb56c1884edcaac64646b3eaeddc76cdd643a76cabec87001a5977",
+    "iverilog.log": "1ab9edcf304620a57db95c56a153fa6b9f50bbed0abae3e99a4780579c53f4dd",
+    "iverilog_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "iverilog_count_mismatch.log": "632cee1122d860dd5aafed7acc353b4d6301cd18e5ff4581cc1f458cefa719e9",
+    "iverilog_empty.log": "1e8939a8e4ab0499079280ab1419528f411144b435b21966b72a13a20e5404c0",
+    "iverilog_extra_field.log": "13eceae93609b7fd37455ec6077ee56d458e710519f3df3ffc7b9f79ef1ca932",
+    "iverilog_missing_file.log": "310b34040af339ddf62539e5645c1df73ddea485cda04d08c2361e32241c7606",
+    "iverilog_out_of_range.log": "f207ae50d7cd1dba5063ae1c2fed07255bcc226e82eb9892addf1c5fe8b2bb4e",
+    "iverilog_trailing_partial.log": "1ef3e46c79392b2b078095f1cd5a05b261c2c8854670d7ed442f84163cee6464",
+    "iverilog_truncated.log": "13eceae93609b7fd37455ec6077ee56d458e710519f3df3ffc7b9f79ef1ca932",
+    "iverilog_wrong_expected.log": "c23a7c6ae699e17158e6054f42a4ece695b9b643c7887e40da9814450c4ab86c",
+    "lint.log": "10f0420d36f5a25985d85d2adb0756ea701f308a01210a4a151d6c7712ec7df3",
+    "mutant_ignore_half.log": "d66baf0ead8ecef50dc1717d2a35424223eee6e8aa8cbb19d3d15ec851241d04",
+    "mutant_ignore_half.v": "aba8020e089a6f94ff7cae90c0b72cccef58810e1328209191ed887346b46b17",
+    "mutant_ignore_half_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mutant_signed_u4_weights.log": "4b11e16325d8e0cf38b6a20060ff785e473c255db6271bec4c7e9b5864219eb4",
+    "mutant_signed_u4_weights.v": "8e23e9e3d3fa85fd39606a84cb84f5f504b11f73281971b37a9b0acf2781287e",
+    "mutant_signed_u4_weights_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mutant_unsigned_activations.log": "44f42b1aa29c1bed671e1a74723eb8bc092daf0874e1977a4e61e56d31a1f4b8",
+    "mutant_unsigned_activations.v": "162488a0dbb7837ac5aae7c5695a501666548a73cf73f895aff5ae2f83bb581a",
+    "mutant_unsigned_activations_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mutant_zero_extend_result.log": "ecc1f18b0263b44f1a384bafee86df431b7460650cc0513c239ff798437437a6",
+    "mutant_zero_extend_result.v": "2c7252010b6d13edfb2ebb1f3b32d5b7c3954c620aaf211755da6e07f7757bf2",
+    "mutant_zero_extend_result_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "vectors.txt.gz": "ca0b47f041fa31054286fdd850dda316b40a7ff6ae02f1b1a7b7fc1225d299f0",
+    "verilator.log": "78f47d2f1297b0b076064813e3fcd824f91346235fe4c889ae63a16d8476a14d",
+    "verilator_build.log": "869991d70927344972cf2af4e90cfb07c23890f240dae23312c45f400f29083f",
+    "verilator_count_mismatch.log": "8bfc60ec1ab0d050b15ea17be70262e8631ae2b966eb59c1c2641aa9530b98fc",
+    "verilator_empty.log": "0b2f9fe1f8a1abd134846201f43e7602050dcab84295f8e5f4034727836c7413",
+    "verilator_extra_field.log": "f9e97304762e41bf071689ee9454bfc13c9f91af69b8f5f56326e3fea17dbde9",
+    "verilator_missing_file.log": "c5ff4dbcce64aa887dcf5c1e6e9e072cd79bb37afe3b9b0bb39cc0708a84dfbb",
+    "verilator_out_of_range.log": "251a2fde0635052ea374058efc60275577a6df55c142dd3fa0aee92ebb043975",
+    "verilator_trailing_partial.log": "cb16acc3caf6f341c291851302fb7ee78486f4356985590d9c2d35bdb0f33a30",
+    "verilator_truncated.log": "f9e97304762e41bf071689ee9454bfc13c9f91af69b8f5f56326e3fea17dbde9",
+    "verilator_wrong_expected.log": "ca217774e34306cb8369ccd23e7a1dfef73ec547bad168e3d7c4de6b7b3a22ed",
+    "version_g++.log": "ddba3d014b73deb2a8869cad4ab507e29a48630c8cd280adf2559e0e10891d23",
+    "version_iverilog.log": "3adef901b030d47bf8160ed2b8fbb00f1b47ec8998dc35c1ddedc6debd4865d1",
+    "version_make.log": "cb84250d994234272d0a465014ce2931be76e9e0cb114b9bffa078c3c211e8eb",
+    "version_verilator.log": "46aedd5b30efdd94426c9eebbcf4a6ae7a9680526cc90ce8fec95977c2d6b12d",
+    "version_vvp.log": "a05ca10e0d2d7a3cf16c0ee904848a6c4ef398ebaba2fb42b61f6cbda75c3ec2"
+  }
+}

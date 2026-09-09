@@ -1,0 +1,51 @@
+\section{Plataforma y separación de baselines}
+\subsection{Adopción de kirky-arqui}
+Se conserva el procesador desarrollado en el curso: su organización de cinco
+etapas, dos lecturas de registros, forwarding y Fetch mixto constituyen una
+base comprensible para integrar una operación escalar. No se reemplaza el
+core por una plataforma externa. Se congela el commit \code{\CoreShort} y
+se exportan sus 143 archivos versionados en \code{baseline/upstream/}.
+
+La base es docente y su ISA es parcial. La auditoría dirigida se presenta en
+la sección~\ref{sec:results}; el detalle de módulos, líneas y decisiones está
+en \code{docs/CORE\_AUDIT.md}. El éxito de los programas históricos no se
+interpreta como certificación de RV32IC completo.
+
+\subsection{Correcciones comunes antes de medir}
+Las memorias actuales tienen 64 palabras de 32 bits cada una y lectura
+combinacional. Los registros ID/EX se habilitan permanentemente. La lógica de
+load-use no distingue todos los campos que realmente son registros fuente.
+El proyecto experimental requerirá capacidades de memoria suficientes,
+clasificación de operandos, detección de instrucciones excluidas e instrumentación
+de retiro. Las variantes multiciclo requerirán además retención y validez.
+
+Estos cambios se aplicarán a una base normalizada común. Si una corrección
+reduce pausas espurias, su beneficio no debe atribuirse a XQDot4Z. Se revisará
+el subconjunto necesario para los kernels, sin convertir el soporte íntegro
+de la ISA en un prerrequisito del estudio aritmético.
+
+\begin{center}
+\begin{tikzpicture}
+\node[block,text width=57mm] (h) at (0,0) {H0: snapshot histórico\\sin modificaciones};
+\node[block,fill=nord8,text width=57mm] (common) at (0,-1.7) {Base normalizada común\\correcciones + memoria + retiro};
+\draw[arrow] (h)--(common);
+\foreach \variantid/\variantx/\varianttext in {b1/-5.7/B1: software,b2/-1.9/B2: MUL,b3/1.9/B3: dot + corrección,d/5.7/D: XQDot4Z}{
+ \node[block,text width=29mm,minimum height=15mm] (\variantid) at (\variantx,-3.7) {\varianttext};
+ \draw[arrow] (common.south)--(0,-2.65)-|(\variantid.north);
+}
+\node[note,text width=145mm] at (0,-5) {Las ramas heredan las mismas correcciones. B2, B3 y D disponen del mismo MUL escalar; B3 y D usan protocolos comparables.};
+\end{tikzpicture}
+\captionof{figure}{Separación entre procedencia histórica y comparación causal. La base normalizada y sus variantes todavía no están implementadas.}
+\end{center}
+
+\begin{tabularx}{\textwidth}{@{}lYY@{}}
+\toprule
+\textbf{ID} & \textbf{Variante prevista} & \textbf{Comparación interpretada}\\\midrule
+H0 & Original exportado. & Estado del proyecto de curso, no efecto puro del ISA.\\
+B1 & Base normalizada; multiplicación en software. & Aporte respecto de un core sin multiplicador.\\
+B2 & Base normalizada + MUL escalar. & Beneficio del procesamiento empacado/fusión.\\
+B3 & Producto punto U4\,$\times$\,S8 y \(P-zS_a\). & Beneficio específico de fusionar la corrección.\\
+D & XQDot4Z. & Costo y utilidad de la propuesta.\\\bottomrule
+\end{tabularx}\par
+MUL por sí sola no constituye la extensión M completa. El estado de soporte
+de instrucciones y la revisión de la base se fijarán junto con cada resultado.

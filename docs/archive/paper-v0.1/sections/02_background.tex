@@ -1,0 +1,55 @@
+\section{Fundamentos y antecedentes}
+\subsection{Contrato de cuantización y factorización}
+Para una cuantización afín se interpreta un código entero mediante
+\(\tilde r=s(q-z)\), con escala positiva \(s\) y zero-point entero \(z\)~\cite{jacob}.
+Aquí se eligen pesos U4, \(q_w\in[0,15]\), y activaciones S8,
+\(q_a\in[-128,127]\), con zero-point de activaciones igual a cero.
+Para la fila \(r\), grupo \(g\) e índices \(I_g\), el subtotal es
+\begin{equation}
+D_{r,g}=\sum_{i\in I_g}(q_{w,r,i}-z_{w,r,g})q_{a,i}.
+\label{eq:group}
+\end{equation}
+Con escalas compartidas dentro de cada grupo, una capa reconstruye
+\begin{equation}
+\tilde y_r=b_r+\sum_g s_{w,r,g}s_{a,g}D_{r,g}.
+\end{equation}
+El subtotal entero debe ser exacto; el error de cuantización y el del escalado
+se evalúan por separado. Los grupos con escalas distintas no se combinan
+como enteros para aplicar después una escala única arbitraria.
+
+Por distributividad, la ecuación~\eqref{eq:group} también se calcula como
+\begin{equation}
+D_{r,g}=P_{r,g}-z_{w,r,g}S_{a,g},\qquad
+P_{r,g}=\sum_{i\in I_g}q_{w,r,i}q_{a,i},\quad
+S_{a,g}=\sum_{i\in I_g}q_{a,i}.
+\label{eq:factored}
+\end{equation}
+Si varias filas consumen el mismo vector, \(S_{a,g}\) se reutiliza. El baseline
+debe aprovechar esa propiedad. No hacerlo mediría también una desventaja
+evitable de software.
+
+\subsection{Antecedentes pertinentes y límite de la comparación}
+XpulpNN estudia instrucciones SIMD de baja precisión y operaciones que
+combinan producto punto y carga sobre procesadores RISC-V~\cite{xpulpnn}.
+Dustin demuestra un contexto de aritmética de precisión mixta en un cluster
+de varios cores~\cite{dustin}. Estos antecedentes impiden presentar el uso
+de RISC-V o los productos punto de pocos bits como conceptos inéditos.
+
+QServe conecta cuantización W4A8KV4 con kernels y costos de ejecución para
+servicio de LLM en GPU~\cite{qserve}. Motiva considerar costos fuera de la
+multiplicación, pero sus resultados no predicen el rendimiento de un core
+RV32 docente. No se extrapolarán cifras de GPU, ASIC y FPGA entre plataformas.
+
+\begin{tabularx}{\textwidth}{@{}lYY@{}}
+\toprule
+\textbf{Referencia} & \textbf{Relación con el proyecto} & \textbf{Lectura adicional requerida}\\\midrule
+Jacob et al. & Cuantización y aritmética entera. & Compatibilidad del epílogo y reglas de redondeo.\\
+XpulpNN & SIMD sub-byte y fusión de trabajo. & Semántica, operandos y soporte de correcciones.\\
+Dustin & Precisión mixta en RISC-V. & Diferencias de ISA, microarquitectura y memoria.\\
+QServe & W4A8 y costos de conversión. & Contratos de formatos, sin extrapolar speedups.\\\bottomrule
+\end{tabularx}\par
+
+La revisión es un punto de partida. Antes de enviar un artículo se ampliará
+la comparación a operaciones empacadas y extensiones pertinentes, verificando
+en las fuentes completas anchuras, signo, acumulación y transporte de metadatos.
+La contribución definitiva se delimitará con esos antecedentes y los resultados.

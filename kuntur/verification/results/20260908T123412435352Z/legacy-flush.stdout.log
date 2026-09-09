@@ -1,0 +1,4 @@
+WARNING: /home/stiff/stuff/xqdot4z/kirky-arqui/rtl/imem.v:10: $readmemh(riscvtest.mem): Not enough words in the file for the requested range [0:63].
+VCD info: dumpfile wave.vcd opened for output.
+Simulation succeeded
+/home/stiff/stuff/xqdot4z/kirky-arqui/tests/testbench_flush.v:46: $finish called at 125 (1s)

@@ -1,0 +1,12 @@
+{
+  "project_name": "Kuntur",
+  "project_directory": "kuntur",
+  "renamed_on": "2026-09-08",
+  "source_path": "/home/stiff/kirky-arqui",
+  "base_commit": "d2e62fd127d85ac33fe54c9b98cffa06970b3fd5",
+  "clone_method": "git clone --no-hardlinks",
+  "research_branch": "research/core-corrections",
+  "created_on": "2026-09-08",
+  "policy": "Research corrections live only in this clone; preserve original and ../baseline/upstream.",
+  "scope": "Teaching-core corrections and verification; XQDot4Z is not implemented."
+}

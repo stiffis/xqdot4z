@@ -1,0 +1,29 @@
+── Regresion pipeline RISC-V ─────────────────────────
+  base    [32mPASS[0m  [2mPipeline base subsets succeeded[0m
+  ctrl    [32mPASS[0m  [2mPipeline control subset succeeded[0m
+  xor     [32mPASS[0m  [2mXOR subset ok: Mem[100] = 10[0m
+  lui     [32mPASS[0m  [2mLUI subset ok: Mem[96] = 0x12345000[0m
+  shift   [32mPASS[0m  [2mShift subset succeeded[0m
+  branch  [32mPASS[0m  [2mBranch family subset succeeded[0m
+  jalr    [32mPASS[0m  [2mJALR subset succeeded[0m
+  deps    [32mPASS[0m  [2mSimulation succeeded[0m
+  isa     [32mPASS[0m  [2mSimulation succeeded[0m
+  forward [32mPASS[0m  [2mSimulation succeeded[0m
+  stall   [32mPASS[0m  [2mSimulation succeeded[0m
+  flush   [32mPASS[0m  [2mSimulation succeeded[0m
+  caddi   [32mPASS[0m  [2mc.addi subset succeeded: Mem[0] = 8[0m
+  cir     [32mPASS[0m  [2mc.lui/slli/add subset succeeded: Mem[0]=17 Mem[4]=4096[0m
+  ca      [32mPASS[0m  [2mc.sub/xor/or/and subset succeeded: 2,6,14,8[0m
+  cb      [32mPASS[0m  [2mc.srli/srai/andi subset succeeded: 10, -4, 4[0m
+  mul10   [32mPASS[0m  [2mmul10 (6*10 via shift-add) succeeded: Mem[0] = 60[0m
+  clsw    [32mPASS[0m  [2mc.lw/c.sw subset succeeded: Mem[96]=77, Mem[100]=77[0m
+  clspsp  [32mPASS[0m  [2mc.lwsp/c.swsp subset succeeded: Mem[116]=55, Mem[4]=55[0m
+  cbz     [32mPASS[0m  [2mc.beqz/c.bnez subset succeeded: Mem[0]=7[0m
+  cj      [32mPASS[0m  [2mc.j/c.jal subset succeeded: Mem[0]=5[0m
+  cjr     [32mPASS[0m  [2mc.jr/c.jalr subset succeeded: Mem[0]=9[0m
+  sumloop [32mPASS[0m  [2msumloop (5+4+3+2+1) succeeded: Mem[0]=15[0m
+  gcd     [32mPASS[0m  [2mgcd(48,18) succeeded: Mem[0]=6[0m
+  bsearch [32mPASS[0m  [2mbsearch(18) succeeded: index=3, Mem[52]=3[0m
+  bsearch_rv32i [32mPASS[0m  [2mbsearch_rv32i(18) succeeded: index=3, Mem[52]=3[0m
+──────────────────────────────────────────────────────
+Total: 26 PASS, 0 FAIL

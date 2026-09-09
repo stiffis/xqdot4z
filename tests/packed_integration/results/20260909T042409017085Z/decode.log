@@ -1,0 +1,2 @@
+PACKED_DECODE_PASS checked=524288
+/home/stiff/stuff/xqdot4z/tests/packed_integration/tb_packed_decode.sv:32: $finish called at 65536000 (1ps)

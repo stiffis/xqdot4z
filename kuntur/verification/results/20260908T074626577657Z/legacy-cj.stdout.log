@@ -1,0 +1,3 @@
+WARNING: /home/stiff/stuff/xqdot4z/kirky-arqui/rtl/imem.v:8: $readmemh(riscvtest.mem): Not enough words in the file for the requested range [0:63].
+c.j/c.jal subset succeeded: Mem[0]=5
+/home/stiff/stuff/xqdot4z/kirky-arqui/tests/testbench_cj.v:40: $finish called at 165 (1s)

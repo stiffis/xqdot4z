@@ -1,0 +1,29 @@
+\section{Introducción}
+La inferencia de redes neuronales contiene operaciones que multiplican
+activaciones por pesos y reducen sus productos. Cuantizar estos tensores
+permite representar el cálculo mediante enteros y parámetros de escala,
+pero su utilidad depende tanto del formato como de su implementación~\cite{jacob}.
+En un core escalar, una palabra de 32 bits puede almacenar ocho pesos de
+cuatro bits; consumirlos puede exigir máscaras, desplazamientos, corrección
+de origen y multiplicaciones.
+
+Una extensión que realice parte de ese trabajo puede reducir instrucciones.
+Sin embargo, añade lógica y condiciona el control del pipeline. La reducción
+del conteo de instrucciones no garantiza menor tiempo si crecen la latencia
+o el período de reloj. También existe una alternativa algebraica: corregir
+el producto punto completo usando una suma de activaciones reutilizable.
+Esta alternativa impide atribuir automáticamente un beneficio a la fusión
+del zero-point.
+
+Se propone estudiar XQDot4Z sobre kirky-arqui, un procesador docente con
+pipeline de cinco etapas y soporte parcial de instrucciones RV32I/C. El objeto
+experimental es el producto punto y la matriz--vector cuantizados de batch
+uno. La operación no pretende ejecutar por sí sola una red completa ni
+resolver todos los costos de un modelo de lenguaje.
+
+Las contribuciones candidatas son: (i) un contrato e implementación trazables;
+(ii) una comparación que distinga multiplicación, procesamiento empacado y
+corrección fusionada; y (iii) una caracterización de las condiciones que
+favorecen o perjudican esa fusión. Esta formulación admite resultados negativos:
+si la corrección factorizada resulta superior, explicar por qué responderá
+parte de la pregunta de investigación.

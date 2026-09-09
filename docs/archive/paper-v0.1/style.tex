@@ -1,0 +1,68 @@
+\usepackage[a4paper,margin=23mm,top=23mm,bottom=24mm,headheight=24pt]{geometry}
+\usepackage{fontspec}
+\setmainfont{Noto Serif}
+\setsansfont{Noto Sans}
+\setmonofont{DejaVu Sans Mono}[Scale=0.80]
+\usepackage[provide=*]{babel}
+% Spanish locale without falling back to English hyphenation patterns.
+\babelprovide[main,import,hyphenrules=unhyphenated]{spanish}
+\usepackage{amsmath,amssymb,mathtools,microtype}
+\usepackage[table]{xcolor}
+\definecolor{nord0}{HTML}{2E3440}
+\definecolor{nord1}{HTML}{3B4252}
+\definecolor{nord2}{HTML}{434C5E}
+\definecolor{nord3}{HTML}{4C566A}
+\definecolor{nord4}{HTML}{D8DEE9}
+\definecolor{nord5}{HTML}{E5E9F0}
+\definecolor{nord6}{HTML}{ECEFF4}
+\definecolor{nord7}{HTML}{8FBCBB}
+\definecolor{nord8}{HTML}{88C0D0}
+\definecolor{nord9}{HTML}{81A1C1}
+\definecolor{nord10}{HTML}{5E81AC}
+\definecolor{nord11}{HTML}{BF616A}
+\definecolor{nord12}{HTML}{D08770}
+\definecolor{nord13}{HTML}{EBCB8B}
+\definecolor{nord14}{HTML}{A3BE8C}
+\definecolor{nord15}{HTML}{B48EAD}
+\pagecolor{nord6}\color{nord0}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[most]{tcolorbox}
+\usepackage{booktabs,tabularx,array,longtable}
+\usepackage{enumitem,titlesec,fancyhdr,caption,needspace}
+\usepackage{hyperref,bookmark}
+\hypersetup{colorlinks=true,linkcolor=nord10,citecolor=nord10,urlcolor=nord10,
+ pdftitle={XQDot4Z: protocolo de investigación y auditoría inicial},
+ pdfsubject={Productos punto U4 por S8 y corrección de zero-point en RV32}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\emergencystretch}{3em}
+\renewcommand{\arraystretch}{1.16}
+\linespread{1.025}\raggedbottom
+\setlist{leftmargin=1.5em,itemsep=3pt,topsep=4pt}
+\titleformat{\section}{\sffamily\Large\bfseries\color{nord0}}{\color{nord10}\thesection}{0.6em}{}
+\titleformat{\subsection}{\sffamily\large\bfseries\color{nord3}}{\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titlespacing*{\subsection}{0pt}{10pt}{5pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\sffamily\small\color{nord3} XQDot4Z / INVESTIGACIÓN EN DESARROLLO}
+\fancyhead[R]{\sffamily\small\color{nord10} v\ProjectVersion}
+\fancyfoot[L]{\sffamily\footnotesize\color{nord3} Protocolo prospectivo · \ProjectDate}
+\fancyfoot[R]{\sffamily\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{nord4}\leaders\hrule height \headrulewidth\hfill}}
+\captionsetup{font=small,labelfont={bf,sf},textfont={color=nord3},hypcap=false}
+\tcbset{enhanced,breakable,boxrule=0pt,arc=1mm,left=3mm,right=3mm,top=2mm,bottom=2mm,
+ colback=nord5,coltext=nord0,coltitle=nord0,fonttitle=\sffamily\bfseries,
+ before skip=8pt,after skip=8pt}
+\newtcolorbox{statusbox}[1]{title={#1},colbacktitle=nord13,borderline west={0.8mm}{0pt}{nord13}}
+\newtcolorbox{questionbox}[1]{title={#1},colbacktitle=nord8,borderline west={0.8mm}{0pt}{nord8}}
+\newtcolorbox{evidencebox}[1]{title={#1},colbacktitle=nord14,borderline west={0.8mm}{0pt}{nord14}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\pending}{\textcolor{nord3}{Pendiente}}
+\newcommand{\R}{\mathbb{R}}
+\tikzset{block/.style={draw=nord10,fill=nord5,rounded corners=2pt,
+ align=center,font=\sffamily\small,text=nord0,minimum height=11mm,inner sep=4pt},
+ arrow/.style={-{Stealth[length=2mm]},thick,draw=nord3},
+ note/.style={font=\sffamily\footnotesize,text=nord3,align=center}}

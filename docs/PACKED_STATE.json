@@ -1,0 +1,19 @@
+{
+  "milestone": "M3b-partial",
+  "contract_version": "0.1",
+  "updated_on": "2026-09-08",
+  "module": "xqdot4",
+  "specification": "rtl/packed/SPEC.md",
+  "runner": "scripts/verify_packed.py",
+  "evidence": "tests/packed/results/20260909T035450467910Z/summary.json",
+  "evidence_sha256": "dd7aa7c9ecd6d61d6080449c214cdd3414ef1bf1deab32e49871ac3a920e165d",
+  "repeat_evidence": "tests/packed/results/20260909T035610026868Z/summary.json",
+  "repeat_evidence_sha256": "5f9db6b13d01356b0ff1c156a5e3abcedccbfcf527060d880a521741b62e265a",
+  "status": "isolated_packed_rtl_verified",
+  "isa_encoding_assigned": false,
+  "integrated_in_kuntur": false,
+  "matrix_reconstruction_location": "host_verifier",
+  "full_comparison_variants_implemented": false,
+  "synthesis_performed": false,
+  "performance_measured": false
+}

@@ -1,0 +1,37 @@
+[*]
+[*] GTKWave Analyzer save file - sumloop (5+4+3+2+1=15)
+[*]
+[dumpfile] "/home/stiff/kirky-arqui/waves/sumloop/sumloop.vcd"
+[timestart] 0
+[size] 1600 900
+[pos] -1 -1
+*-16.0
+[treeopen] testbench.
+[treeopen] testbench.dut.
+[treeopen] testbench.dut.rvpipe.
+[treeopen] testbench.dut.rvpipe.dp.
+[sst_width] 280
+[signals_width] 340
+[sst_expanded] 1
+[sst_vpaned_height] 300
+@28
+testbench.clk
+testbench.reset
+@22
+testbench.dut.rvpipe.dp.PCF[31:0]
+testbench.dut.rvpipe.dp.InstrF[31:0]
+@28
+testbench.dut.rvpipe.dp.compressedF
+@22
+testbench.dut.rvpipe.dp.InstrDecF[31:0]
+@24
+testbench.dut.rvpipe.dp.ALUResultE[31:0]
+testbench.dut.rvpipe.dp.ResultW[31:0]
+@28
+testbench.MemWrite
+@22
+testbench.dut.DataAdr[31:0]
+@24
+testbench.dut.WriteData[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

@@ -1,0 +1,3 @@
+[0] %Fatal: tb_xqdot4z.sv:26: Assertion failed in tb_xqdot4z: RTL_FAIL cannot open vectors
+%Error: /home/stiff/stuff/xqdot4z/tests/rtl/tb_xqdot4z.sv:26: Verilog $stop
+Aborting...

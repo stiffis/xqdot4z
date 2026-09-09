@@ -1,0 +1,2 @@
+FATAL: /home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv:32: PACKED_FAIL cannot open vectors
+       Time: 0  Scope: tb_packed

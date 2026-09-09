@@ -1,0 +1,3183 @@
+{
+  "status": "pass",
+  "timestamp_utc": "20260908T230805734088Z",
+  "isa_version": "0.1",
+  "seed": 20260910,
+  "scope": "M3a immediate-only ISA integration; no performance evaluation",
+  "sources_sha256": {
+    "isa/SPEC.md": "1a3164220b6dca89dc911b9e3615a52906b04bff68acecd23849ad377eb06632",
+    "isa/xqdot4zi.inc": "80231d27cfcb0241024f01da6ff9a6b847c9f58a9d5068c06464e65f28f06d67",
+    "isa/xqdot4zi.py": "e638f76ca7bb57653aacea50616a4f3df3d959b5d3d34da5c9ea0132f39ef3ac",
+    "kuntur/rtl/adder.v": "271b639e9f8f68a242393f9556fb89ea49311995cf802b7946bd513d99271991",
+    "kuntur/rtl/alu.v": "83b9a9b7247b50e9c065d0a2778dfe507248ad65ad468d7b584a3dcef83ef2ff",
+    "kuntur/rtl/aludec.v": "93b0a2b06a4040663ba9c6844215b314f0c5f0764004160d367d76b3a684abc5",
+    "kuntur/rtl/controller.v": "86058afd26cb2e7640aa953047c218f2f2fd227d74e799dd05abbfa999649ab2",
+    "kuntur/rtl/datapath.v": "1b1dfa670a054c22984b17bcbb6757ca224f393fbd873f2389777de75ec6388c",
+    "kuntur/rtl/decompressor.v": "598173f0aae8d95ee21e593f6de8e1c9d9965ef78c3e405fc1c6530916234584",
+    "kuntur/rtl/dmem.v": "ed6e9a8ec07cd7d3b5d597f99c0143d66380cb69141ab60c1493b7c98fe8b61c",
+    "kuntur/rtl/extend.v": "3e2a5006643158bf7ee7e91c2961dc09a1b9402c5278733e60bc45851dd0a51b",
+    "kuntur/rtl/flopenr.v": "dfd976c389215782e875c0624bb268f0ed04eab98420fd0bf04aeec51b738cac",
+    "kuntur/rtl/flopenrc.v": "c4da89bb4027a4053a0db0f658a8e827f74b952919d615109f2936d0ac0224b6",
+    "kuntur/rtl/flopr.v": "5de43c8c8e9c34c8e2379d4ecef22a9904194a58e7c7baf7ea8a0dbc6144470e",
+    "kuntur/rtl/hazardunit.v": "d8e1e51ff1abefb4f9890b9ab779e1fbed8fdfe17ffd8d2ad03a716f6d0d0c0b",
+    "kuntur/rtl/imem.v": "c080ab3be980afbff56dbd3a64e6f1efab4e2bf4c52a6b573bfd831f419ecf0c",
+    "kuntur/rtl/instruction_policy.v": "1a603a4ff148b0cb498cef3653fc064cd309a5fa0f115eb6e91f27d733e06fd3",
+    "kuntur/rtl/maindec.v": "dcda5499cc1b565477949fc3cf1952380a828ddc3371b3a6e0e7a82a23316b32",
+    "kuntur/rtl/mux2.v": "13bdda83eb966692cbb49e1978067409a52979d8882094a5b0c70098b4d7efb1",
+    "kuntur/rtl/mux3.v": "13ae44fabf17e29d147a243a4006c5da3a1a5e32472987291eb1e91784c2b6e3",
+    "kuntur/rtl/regfile.v": "d7ce1aa44106d220e5f3187f045cf0318420b60ff008c3214d86d45f958f70cb",
+    "kuntur/rtl/riscvpipe.v": "14e7d5342559183924da056c0b4635eddbd01c4c892648e0224b207cb3c20c0c",
+    "kuntur/rtl/scalar_mul.v": "220a98f5df5798aa980418d6d09e180b833606e0736befb225e08b6e7c184fb7",
+    "kuntur/rtl/top.v": "2bcd0571c079b2275c5d31ad51ec76d911c712f48abfe9f0a30ea081f7708c7d",
+    "model/__init__.py": "9d543d3fb77725103879b1e835cb0d4a71fa170a79d448dd973757eb0256a31f",
+    "model/xqdot4z.py": "ab2e5fc262f706306fcbb482ae7feff171459b56522b51972ff11f8904cb95f1",
+    "rtl/xqdot4z.v": "bd8756402cd7b9e3bb72c353f3cd8f828d1cd1dd38306731d1d3d735615e7e5c",
+    "scripts/verify_integration.py": "6e7dfb8f1835bfda6baf69662b1f2714b7aa734419ab51574f2c5d1b6e14675a",
+    "tests/integration/oracle.py": "9ed3b0893d2d62525478d3cc61031115669e105cc90e5bd972d75065bbd51818",
+    "tests/integration/tb_decode.sv": "0ad41107c29272fa7e4ca7f4055210762b42418249a6b4730b607f1c4a032ac4",
+    "tests/integration/tb_integration.sv": "ba894814f2109ba336b1f25a9db24eef9bb96bfbe01cc661dfbfee23f2b8c658"
+  },
+  "commands": [
+    {
+      "name": "version_iverilog",
+      "argv": [
+        "iverilog",
+        "-V"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_verilator",
+      "argv": [
+        "verilator",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_riscv64-linux-gnu-as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_riscv64-linux-gnu-ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_riscv64-linux-gnu-objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "version_riscv64-linux-gnu-nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "encoding_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/encoding.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/encoding.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "encoding_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/encoding.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/encoding.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "encoding_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/encoding.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/encoding.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "encoding_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/encoding.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "bad_macro_0",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/bad.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/bad_macro_0.S"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "bad_macro_1",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/bad.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/bad_macro_1.S"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "bad_macro_2",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/bad.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/bad_macro_2.S"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "bad_macro_3",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/bad.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/bad_macro_3.S"
+      ],
+      "returncode": 1
+    },
+    {
+      "name": "decode_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_decode",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/decode.vvp",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/instruction_policy.v",
+        "/home/stiff/stuff/xqdot4z/tests/integration/tb_decode.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "decode",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/decode.vvp"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "lint_0",
+      "argv": [
+        "verilator",
+        "--lint-only",
+        "--timing",
+        "--timescale",
+        "1ns/1ps",
+        "-DSYNTHESIS",
+        "-Wall",
+        "-Wno-VARHIDDEN",
+        "-Wno-UNUSEDSIGNAL",
+        "--top-module",
+        "top",
+        "-GENABLE_XQDOT4Z=0",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/adder.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/alu.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/aludec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/controller.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/datapath.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/decompressor.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/dmem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/extend.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenrc.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/hazardunit.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/imem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/instruction_policy.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/maindec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux2.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux3.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/regfile.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/riscvpipe.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/scalar_mul.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/top.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "iverilog_build_0",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_integration",
+        "-Ptb_integration.ENABLE=0",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/sim0.vvp",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/adder.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/alu.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/aludec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/controller.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/datapath.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/decompressor.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/dmem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/extend.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenrc.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/hazardunit.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/imem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/instruction_policy.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/maindec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux2.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux3.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/regfile.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/riscvpipe.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/scalar_mul.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/top.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/integration/tb_integration.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "verilator_build_0",
+      "argv": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--timescale",
+        "1ns/1ps",
+        "--top-module",
+        "tb_integration",
+        "-GENABLE=0",
+        "--Mdir",
+        "/tmp/xqdot4z-m3-0houwk0_/obj0",
+        "-j",
+        "2",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/adder.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/alu.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/aludec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/controller.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/datapath.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/decompressor.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/dmem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/extend.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenrc.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/hazardunit.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/imem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/instruction_policy.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/maindec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux2.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux3.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/regfile.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/riscvpipe.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/scalar_mul.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/top.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/integration/tb_integration.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "lint_1",
+      "argv": [
+        "verilator",
+        "--lint-only",
+        "--timing",
+        "--timescale",
+        "1ns/1ps",
+        "-DSYNTHESIS",
+        "-Wall",
+        "-Wno-VARHIDDEN",
+        "-Wno-UNUSEDSIGNAL",
+        "--top-module",
+        "top",
+        "-GENABLE_XQDOT4Z=1",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/adder.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/alu.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/aludec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/controller.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/datapath.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/decompressor.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/dmem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/extend.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenrc.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/hazardunit.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/imem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/instruction_policy.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/maindec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux2.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux3.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/regfile.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/riscvpipe.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/scalar_mul.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/top.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "iverilog_build_1",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_integration",
+        "-Ptb_integration.ENABLE=1",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/adder.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/alu.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/aludec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/controller.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/datapath.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/decompressor.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/dmem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/extend.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenrc.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/hazardunit.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/imem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/instruction_policy.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/maindec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux2.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux3.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/regfile.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/riscvpipe.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/scalar_mul.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/top.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/integration/tb_integration.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "verilator_build_1",
+      "argv": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--timescale",
+        "1ns/1ps",
+        "--top-module",
+        "tb_integration",
+        "-GENABLE=1",
+        "--Mdir",
+        "/tmp/xqdot4z-m3-0houwk0_/obj1",
+        "-j",
+        "2",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/adder.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/alu.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/aludec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/controller.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/datapath.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/decompressor.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/dmem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/extend.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenrc.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/hazardunit.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/imem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/instruction_policy.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/maindec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux2.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux3.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/regfile.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/riscvpipe.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/scalar_mul.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/top.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/integration/tb_integration.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "base_on_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/base_on.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/base_on.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "base_on_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/base_on.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/base_on.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "base_on_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/base_on.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/base_on.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "base_on_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/base_on.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "base_on_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/base_on.mem",
+        "+WORDS=41"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "base_on_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/base_on.mem",
+        "+WORDS=41"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "base_off_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/base_off.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/base_off.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "base_off_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/base_off.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/base_off.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "base_off_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/base_off.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/base_off.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "base_off_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/base_off.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "base_off_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim0.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/base_off.mem",
+        "+WORDS=41"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "base_off_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj0/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/base_off.mem",
+        "+WORDS=41"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "forwarding_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/forwarding.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/forwarding.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "forwarding_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/forwarding.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/forwarding.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "forwarding_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/forwarding.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/forwarding.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "forwarding_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/forwarding.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "forwarding_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/forwarding.mem",
+        "+WORDS=45"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "forwarding_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/forwarding.mem",
+        "+WORDS=45"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_weights_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/load_weights.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_weights.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_weights_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_weights.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/load_weights.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_weights_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_weights.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_weights.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_weights_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_weights.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_weights_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_weights.mem",
+        "+WORDS=40"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_weights_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_weights.mem",
+        "+WORDS=40"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_activations_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/load_activations.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_activations.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_activations_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_activations.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/load_activations.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_activations_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_activations.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_activations.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_activations_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_activations.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_activations_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_activations.mem",
+        "+WORDS=40"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_activations_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_activations.mem",
+        "+WORDS=40"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_both_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/load_both.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_both.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_both_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_both.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/load_both.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_both_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_both.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_both.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_both_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_both.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_both_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_both.mem",
+        "+WORDS=40"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "load_both_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/load_both.mem",
+        "+WORDS=40"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "aliases_x0_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/aliases_x0.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/aliases_x0.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "aliases_x0_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/aliases_x0.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/aliases_x0.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "aliases_x0_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/aliases_x0.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/aliases_x0.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "aliases_x0_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/aliases_x0.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "aliases_x0_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/aliases_x0.mem",
+        "+WORDS=46"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "aliases_x0_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/aliases_x0.mem",
+        "+WORDS=46"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "branch_consumer_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/branch_consumer.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/branch_consumer.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "branch_consumer_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/branch_consumer.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/branch_consumer.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "branch_consumer_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/branch_consumer.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/branch_consumer.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "branch_consumer_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/branch_consumer.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "branch_consumer_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/branch_consumer.mem",
+        "+WORDS=42"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "branch_consumer_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/branch_consumer.mem",
+        "+WORDS=42"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "branch_not_taken_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/branch_not_taken.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/branch_not_taken.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "branch_not_taken_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/branch_not_taken.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/branch_not_taken.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "branch_not_taken_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/branch_not_taken.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/branch_not_taken.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "branch_not_taken_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/branch_not_taken.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "branch_not_taken_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/branch_not_taken.mem",
+        "+WORDS=42"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "branch_not_taken_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/branch_not_taken.mem",
+        "+WORDS=42"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "jalr_consumer_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/jalr_consumer.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/jalr_consumer.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "jalr_consumer_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/jalr_consumer.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/jalr_consumer.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "jalr_consumer_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/jalr_consumer.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/jalr_consumer.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "jalr_consumer_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/jalr_consumer.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "jalr_consumer_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/jalr_consumer.mem",
+        "+WORDS=42"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "jalr_consumer_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/jalr_consumer.mem",
+        "+WORDS=42"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "compressed_crossing_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/compressed_crossing.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/compressed_crossing.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "compressed_crossing_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/compressed_crossing.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/compressed_crossing.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "compressed_crossing_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/compressed_crossing.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/compressed_crossing.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "compressed_crossing_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/compressed_crossing.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "compressed_crossing_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/compressed_crossing.mem",
+        "+WORDS=42"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "compressed_crossing_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/compressed_crossing.mem",
+        "+WORDS=42"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "older_qdot_drains_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/older_qdot_drains.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/older_qdot_drains.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "older_qdot_drains_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/older_qdot_drains.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/older_qdot_drains.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "older_qdot_drains_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/older_qdot_drains.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/older_qdot_drains.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "older_qdot_drains_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/older_qdot_drains.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "older_qdot_drains_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/older_qdot_drains.mem",
+        "+WORDS=39"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "older_qdot_drains_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/older_qdot_drains.mem",
+        "+WORDS=39"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reset_in_execute_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/reset_in_execute.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reset_in_execute.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reset_in_execute_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reset_in_execute.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/reset_in_execute.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reset_in_execute_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reset_in_execute.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reset_in_execute.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reset_in_execute_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reset_in_execute.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reset_in_execute_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reset_in_execute.mem",
+        "+WORDS=44",
+        "+RESET_PC=164"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reset_in_execute_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reset_in_execute.mem",
+        "+WORDS=44",
+        "+RESET_PC=164"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wrong_path_0_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/wrong_path_0.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/wrong_path_0.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wrong_path_0_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/wrong_path_0.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/wrong_path_0.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wrong_path_0_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/wrong_path_0.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/wrong_path_0.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wrong_path_0_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/wrong_path_0.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wrong_path_0_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim0.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/wrong_path_0.mem",
+        "+WORDS=37"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wrong_path_0_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj0/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/wrong_path_0.mem",
+        "+WORDS=37"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wrong_path_1_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/wrong_path_1.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/wrong_path_1.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wrong_path_1_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/wrong_path_1.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/wrong_path_1.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wrong_path_1_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/wrong_path_1.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/wrong_path_1.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wrong_path_1_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/wrong_path_1.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wrong_path_1_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/wrong_path_1.mem",
+        "+WORDS=37"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "wrong_path_1_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/wrong_path_1.mem",
+        "+WORDS=37"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z0_h0_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/disabled_z0_h0.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z0_h0.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z0_h0_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z0_h0.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/disabled_z0_h0.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z0_h0_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z0_h0.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z0_h0.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z0_h0_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z0_h0.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z0_h0_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim0.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z0_h0.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z0_h0_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj0/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z0_h0.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z8_h1_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/disabled_z8_h1.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z8_h1.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z8_h1_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z8_h1.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/disabled_z8_h1.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z8_h1_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z8_h1.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z8_h1.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z8_h1_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z8_h1.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z8_h1_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim0.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z8_h1.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z8_h1_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj0/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z8_h1.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z15_h0_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/disabled_z15_h0.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z15_h0.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z15_h0_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z15_h0.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/disabled_z15_h0.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z15_h0_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z15_h0.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z15_h0.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z15_h0_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z15_h0.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z15_h0_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim0.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z15_h0.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z15_h0_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj0/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z15_h0.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z15_h1_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/disabled_z15_h1.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z15_h1.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z15_h1_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z15_h1.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/disabled_z15_h1.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z15_h1_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z15_h1.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z15_h1.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z15_h1_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z15_h1.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z15_h1_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim0.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z15_h1.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "disabled_z15_h1_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj0/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/disabled_z15_h1.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit12_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/reserved_bit12.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit12.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit12_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit12.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/reserved_bit12.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit12_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit12.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit12.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit12_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit12.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit12_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit12.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit12_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit12.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit13_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/reserved_bit13.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit13.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit13_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit13.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/reserved_bit13.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit13_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit13.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit13.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit13_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit13.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit13_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit13.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit13_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit13.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit14_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/reserved_bit14.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit14.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit14_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit14.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/reserved_bit14.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit14_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit14.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit14.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit14_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit14.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit14_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit14.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit14_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit14.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit25_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/reserved_bit25.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit25.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit25_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit25.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/reserved_bit25.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit25_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit25.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit25.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit25_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit25.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit25_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit25.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit25_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit25.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit26_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/reserved_bit26.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit26.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit26_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit26.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/reserved_bit26.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit26_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit26.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit26.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit26_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit26.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit26_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit26.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "reserved_bit26_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/reserved_bit26.mem",
+        "+WORDS=38"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "all_z_h_random_as",
+      "argv": [
+        "riscv64-linux-gnu-as",
+        "-I",
+        "/home/stiff/stuff/xqdot4z/isa",
+        "-march=rv32ic",
+        "-mabi=ilp32",
+        "-mno-relax",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/all_z_h_random.o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/all_z_h_random.S"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "all_z_h_random_ld",
+      "argv": [
+        "riscv64-linux-gnu-ld",
+        "-m",
+        "elf32lriscv",
+        "--no-relax",
+        "-Ttext=0",
+        "-o",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/all_z_h_random.elf",
+        "/tmp/xqdot4z-m3-0houwk0_/all_z_h_random.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "all_z_h_random_objcopy",
+      "argv": [
+        "riscv64-linux-gnu-objcopy",
+        "-O",
+        "binary",
+        "-j",
+        ".text",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/all_z_h_random.elf",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/all_z_h_random.bin"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "all_z_h_random_nm",
+      "argv": [
+        "riscv64-linux-gnu-nm",
+        "-n",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/all_z_h_random.elf"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "all_z_h_random_iverilog",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/sim1.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/all_z_h_random.mem",
+        "+WORDS=6368"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "all_z_h_random_verilator",
+      "argv": [
+        "/tmp/xqdot4z-m3-0houwk0_/obj1/Vtb_integration",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/all_z_h_random.mem",
+        "+WORDS=6368"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "mutant_no_weights_forwarding_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_integration",
+        "-Ptb_integration.ENABLE=1",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/mutant_no_weights_forwarding.vvp",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/adder.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/alu.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/aludec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/controller.v",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/mutant_no_weights_forwarding.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/decompressor.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/dmem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/extend.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenrc.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/hazardunit.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/imem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/instruction_policy.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/maindec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux2.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux3.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/regfile.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/riscvpipe.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/scalar_mul.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/top.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/integration/tb_integration.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "mutant_no_weights_forwarding",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/mutant_no_weights_forwarding.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/forwarding.mem",
+        "+WORDS=45"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "mutant_ignore_half_build",
+      "argv": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_integration",
+        "-Ptb_integration.ENABLE=1",
+        "-o",
+        "/tmp/xqdot4z-m3-0houwk0_/mutant_ignore_half.vvp",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/adder.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/alu.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/aludec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/controller.v",
+        "/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/mutant_ignore_half.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/decompressor.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/dmem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/extend.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopenrc.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/flopr.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/hazardunit.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/imem.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/instruction_policy.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/maindec.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux2.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/mux3.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/regfile.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/riscvpipe.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/scalar_mul.v",
+        "/home/stiff/stuff/xqdot4z/kuntur/rtl/top.v",
+        "/home/stiff/stuff/xqdot4z/rtl/xqdot4z.v",
+        "/home/stiff/stuff/xqdot4z/tests/integration/tb_integration.sv"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "mutant_ignore_half",
+      "argv": [
+        "vvp",
+        "/tmp/xqdot4z-m3-0houwk0_/mutant_ignore_half.vvp",
+        "+PROGRAM=/home/stiff/stuff/xqdot4z/tests/integration/results/20260908T230805734088Z/forwarding.mem",
+        "+WORDS=45"
+      ],
+      "returncode": 0
+    }
+  ],
+  "programs": {
+    "base_on": {
+      "enabled": 1,
+      "program_bytes": 164,
+      "simulators": {
+        "iverilog": {
+          "retired": 40,
+          "stores": 2,
+          "qdots": 0,
+          "stalls": 1
+        },
+        "verilator": {
+          "retired": 40,
+          "stores": 2,
+          "qdots": 0,
+          "stalls": 1
+        }
+      },
+      "reset": false
+    },
+    "base_off": {
+      "enabled": 0,
+      "program_bytes": 164,
+      "simulators": {
+        "iverilog": {
+          "retired": 40,
+          "stores": 2,
+          "qdots": 0,
+          "stalls": 1
+        },
+        "verilator": {
+          "retired": 40,
+          "stores": 2,
+          "qdots": 0,
+          "stalls": 1
+        }
+      },
+      "reset": false
+    },
+    "forwarding": {
+      "enabled": 1,
+      "program_bytes": 180,
+      "simulators": {
+        "iverilog": {
+          "retired": 44,
+          "stores": 2,
+          "qdots": 5,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 44,
+          "stores": 2,
+          "qdots": 5,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "load_weights": {
+      "enabled": 1,
+      "program_bytes": 160,
+      "simulators": {
+        "iverilog": {
+          "retired": 39,
+          "stores": 2,
+          "qdots": 1,
+          "stalls": 1
+        },
+        "verilator": {
+          "retired": 39,
+          "stores": 2,
+          "qdots": 1,
+          "stalls": 1
+        }
+      },
+      "reset": false
+    },
+    "load_activations": {
+      "enabled": 1,
+      "program_bytes": 160,
+      "simulators": {
+        "iverilog": {
+          "retired": 39,
+          "stores": 2,
+          "qdots": 1,
+          "stalls": 1
+        },
+        "verilator": {
+          "retired": 39,
+          "stores": 2,
+          "qdots": 1,
+          "stalls": 1
+        }
+      },
+      "reset": false
+    },
+    "load_both": {
+      "enabled": 1,
+      "program_bytes": 160,
+      "simulators": {
+        "iverilog": {
+          "retired": 39,
+          "stores": 2,
+          "qdots": 1,
+          "stalls": 1
+        },
+        "verilator": {
+          "retired": 39,
+          "stores": 2,
+          "qdots": 1,
+          "stalls": 1
+        }
+      },
+      "reset": false
+    },
+    "aliases_x0": {
+      "enabled": 1,
+      "program_bytes": 184,
+      "simulators": {
+        "iverilog": {
+          "retired": 45,
+          "stores": 4,
+          "qdots": 6,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 45,
+          "stores": 4,
+          "qdots": 6,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "branch_consumer": {
+      "enabled": 1,
+      "program_bytes": 168,
+      "simulators": {
+        "iverilog": {
+          "retired": 39,
+          "stores": 1,
+          "qdots": 2,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 39,
+          "stores": 1,
+          "qdots": 2,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "branch_not_taken": {
+      "enabled": 1,
+      "program_bytes": 168,
+      "simulators": {
+        "iverilog": {
+          "retired": 40,
+          "stores": 1,
+          "qdots": 2,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 40,
+          "stores": 1,
+          "qdots": 2,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "jalr_consumer": {
+      "enabled": 1,
+      "program_bytes": 168,
+      "simulators": {
+        "iverilog": {
+          "retired": 39,
+          "stores": 1,
+          "qdots": 2,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 39,
+          "stores": 1,
+          "qdots": 2,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "compressed_crossing": {
+      "enabled": 1,
+      "program_bytes": 166,
+      "simulators": {
+        "iverilog": {
+          "retired": 42,
+          "stores": 2,
+          "qdots": 2,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 42,
+          "stores": 2,
+          "qdots": 2,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "older_qdot_drains": {
+      "enabled": 1,
+      "program_bytes": 156,
+      "simulators": {
+        "iverilog": {
+          "retired": 36,
+          "stores": 0,
+          "qdots": 1,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 36,
+          "stores": 0,
+          "qdots": 1,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "reset_in_execute": {
+      "enabled": 1,
+      "program_bytes": 176,
+      "simulators": {
+        "iverilog": {
+          "retired": 39,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 39,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        }
+      },
+      "reset": true
+    },
+    "wrong_path_0": {
+      "enabled": 0,
+      "program_bytes": 148,
+      "simulators": {
+        "iverilog": {
+          "retired": 34,
+          "stores": 1,
+          "qdots": 0,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 34,
+          "stores": 1,
+          "qdots": 0,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "wrong_path_1": {
+      "enabled": 1,
+      "program_bytes": 148,
+      "simulators": {
+        "iverilog": {
+          "retired": 34,
+          "stores": 1,
+          "qdots": 0,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 34,
+          "stores": 1,
+          "qdots": 0,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "disabled_z0_h0": {
+      "enabled": 0,
+      "program_bytes": 152,
+      "simulators": {
+        "iverilog": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "disabled_z8_h1": {
+      "enabled": 0,
+      "program_bytes": 152,
+      "simulators": {
+        "iverilog": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "disabled_z15_h0": {
+      "enabled": 0,
+      "program_bytes": 152,
+      "simulators": {
+        "iverilog": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "disabled_z15_h1": {
+      "enabled": 0,
+      "program_bytes": 152,
+      "simulators": {
+        "iverilog": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "reserved_bit12": {
+      "enabled": 1,
+      "program_bytes": 152,
+      "simulators": {
+        "iverilog": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "reserved_bit13": {
+      "enabled": 1,
+      "program_bytes": 152,
+      "simulators": {
+        "iverilog": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "reserved_bit14": {
+      "enabled": 1,
+      "program_bytes": 152,
+      "simulators": {
+        "iverilog": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "reserved_bit25": {
+      "enabled": 1,
+      "program_bytes": 152,
+      "simulators": {
+        "iverilog": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "reserved_bit26": {
+      "enabled": 1,
+      "program_bytes": 152,
+      "simulators": {
+        "iverilog": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 35,
+          "stores": 0,
+          "qdots": 0,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    },
+    "all_z_h_random": {
+      "enabled": 1,
+      "program_bytes": 25472,
+      "simulators": {
+        "iverilog": {
+          "retired": 6367,
+          "stores": 1056,
+          "qdots": 1056,
+          "stalls": 0
+        },
+        "verilator": {
+          "retired": 6367,
+          "stores": 1056,
+          "qdots": 1056,
+          "stalls": 0
+        }
+      },
+      "reset": false
+    }
+  },
+  "reference_states": {
+    "MODEL_STATE": {
+      "state": {
+        "milestone": "M1",
+        "contract_version": "0.1",
+        "updated_on": "2026-09-08",
+        "specification": "model/SPEC.md",
+        "reference": "model/xqdot4z.py",
+        "evidence": "model/results/20260908T131153442155Z/summary.json",
+        "evidence_sha256": "f6ee14985774d627876d2435340435e5a130fe529e684f06e7355e61e0987ff0",
+        "status": "numerical_reference_verified",
+        "rtl_implemented": false,
+        "performance_measured": false
+      },
+      "evidence_sha256": "f6ee14985774d627876d2435340435e5a130fe529e684f06e7355e61e0987ff0",
+      "state_sha256": "aa662baa926f4e0dce2294679cdd611ded4f86a7bf63064713a9dc169311401f"
+    },
+    "RTL_STATE": {
+      "state": {
+        "milestone": "M2",
+        "contract_version": "0.1",
+        "updated_on": "2026-09-08",
+        "rtl": "rtl/xqdot4z.v",
+        "testbench": "tests/rtl/tb_xqdot4z.sv",
+        "runner": "scripts/verify_rtl.py",
+        "evidence": "rtl/results/20260908T175106508019Z/summary.json",
+        "evidence_sha256": "0e95eb0bc228ddbd6096b46895ac9310d661311bf96a0f3e5864175e886157fd",
+        "status": "isolated_rtl_verified",
+        "integrated_in_kuntur": false,
+        "synthesis_performed": false,
+        "formal_proof": false,
+        "performance_measured": false
+      },
+      "evidence_sha256": "0e95eb0bc228ddbd6096b46895ac9310d661311bf96a0f3e5864175e886157fd",
+      "state_sha256": "8bdab35b4a6caf5165f74efceb45d46f339b8d58b1014b3a90cb6a4230dd8149"
+    }
+  },
+  "tools": {
+    "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0-dirty)",
+    "verilator": "Verilator 5.050 2026-07-01 rev v5.050",
+    "riscv64-linux-gnu-as": "GNU assembler (GNU Binutils) 2.45",
+    "riscv64-linux-gnu-ld": "GNU ld (GNU Binutils) 2.45",
+    "riscv64-linux-gnu-objcopy": "GNU objcopy (GNU Binutils) 2.45",
+    "riscv64-linux-gnu-nm": "GNU nm (GNU Binutils) 2.45"
+  },
+  "encoding_pairs": 1024,
+  "encoder_rejections": 9,
+  "python_decoder_checks": 1024,
+  "macro_rejections": 4,
+  "decoder_checks": 32768,
+  "forwarding_coverage": {
+    "weights": [
+      0,
+      1,
+      2
+    ],
+    "activations": [
+      0,
+      1,
+      2
+    ]
+  },
+  "mutations_detected": {
+    "no_weights_forwarding": "mutant_no_weights_forwarding: retirement/writeback mismatch",
+    "ignore_half": "mutant_ignore_half: retirement/writeback mismatch"
+  },
+  "artifacts_sha256": {
+    "aliases_x0.S": "9e16aa70d647e9e0f41038e1085d479a580ea63c0cab13a16a189d6766ded1bc",
+    "aliases_x0.bin": "5edc3efa8f5ac3113bf797a2237cef86bb43c4cf71a273fc3f08314ee173100f",
+    "aliases_x0.elf": "c5b5ed63d197c4e67f5b98b6dacbef68588a739d35900429a92e1af17b6a4988",
+    "aliases_x0.expected.json": "44c949869ecc93745bf4f614bd07271c0d201a7a221b4c0fddbbbd7375000840",
+    "aliases_x0.mem": "e9459c3489a9046980e07ff728537037a3a439e755dcd23ffe1140690090625c",
+    "aliases_x0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "aliases_x0_iverilog.log": "7ddea64f799e8960879f3e3d9017ee0118c456d56ee0fa28dd44dfcc5ad4d3ff",
+    "aliases_x0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "aliases_x0_nm.log": "7cf6e3488031a24d7cf8c40e22912fc11f504487a1a69a43a3a319c5c29f21e8",
+    "aliases_x0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "aliases_x0_verilator.log": "276278961cbaea2b3c770192e60671fae40d127f09574f02e09989cb3ac69379",
+    "all_z_h_random.S": "f1d0226a3c23d63c10c8e928b136f402c16d914d46d86baf5db4255d10c8020a",
+    "all_z_h_random.bin": "b4013bf6136e319c53508c267417018758b04b7e8c8bff7b52cd5b032f83ab62",
+    "all_z_h_random.elf": "705ef4e19538154cc2c8fd8fae04d556b95ecee9f51bf5400126bab9715bc2de",
+    "all_z_h_random.expected.json": "3558a5ac064e8e76c703eede996ccc9122b1180746c3df142b486d2e2df9621a",
+    "all_z_h_random.mem": "e513b5eadd509c778132ed5100cfd1ee4c3154df40d3955215396a8e0033515b",
+    "all_z_h_random_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "all_z_h_random_iverilog.log": "038f4d3389d6f19ffdc7523cc3cd23cedc06c1e3ce58ef903512d9b4fee312bb",
+    "all_z_h_random_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "all_z_h_random_nm.log": "a2ed3188e2cb92199890a9ba048d0e07582292352a4aaf3d4315d36008448569",
+    "all_z_h_random_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "all_z_h_random_verilator.log": "02f8e0ea773bf0019367ac63dbdbf8b2da1a8fab8739492840b8954cccf06f03",
+    "bad_macro_0.S": "a74de0201b2d5e129fd017f9c55e5909174769eee511c3da402c2a46b95a8a48",
+    "bad_macro_0.log": "bdabb44c00427e5aed18b341c325c19767513207dd9fb05aab124b35ed00281b",
+    "bad_macro_1.S": "6e183acec44206e43cc5ce61b40f09116872df8d41572b3b8e31f797d032ccbb",
+    "bad_macro_1.log": "4b36d828a9c4bbabe0bc3a0bc03f1c0d578a6496bc71909e9410a551a2fe4b41",
+    "bad_macro_2.S": "adb85d01014bc965658056d95c9c9079d2b1fc1ab46d583d643e8e9a392ca014",
+    "bad_macro_2.log": "22023e425f1dd6d23f4c9950d3606ecf91042132702302fa8cacf91ffef0b40a",
+    "bad_macro_3.S": "cb0ca7e722acb969ea22ae90f393b61843ac5c517e399f1a3ab7d7fabbf7753b",
+    "bad_macro_3.log": "f1cfadc9ab5d7ed3bdf2a5ceb206ee6370721a686b0ee0d9f6d3add9f30fc566",
+    "base_off.S": "889f0ac9c3b08d834b1ce4f9406494ecaa95a2b1f90da7b428c647c2b8571ebc",
+    "base_off.bin": "4c0319a3bb61784512aa6c77d12d815930526d21e6d075baf340aa3cc8a52d09",
+    "base_off.elf": "ed67f0805917455984f3dc6b196c7d6c532642ab9724f0835d94fd6b1f5896c4",
+    "base_off.expected.json": "4e8de085e299c1aed65617305950522713004af5da145896c0b03d406802264e",
+    "base_off.mem": "5aaff598d38d4cd91c7431800d91e6084e85c6b2a226f5789104322d8a99836c",
+    "base_off_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "base_off_iverilog.log": "8b2678032472e752e09d46996b704f8af618331dc1e61793b9e00061ec772021",
+    "base_off_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "base_off_nm.log": "226b4147a9fdb3b0693e473a43b165ed47645f690c117da9f7d2ba23cd1c0643",
+    "base_off_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "base_off_verilator.log": "1040cbc5ca94dfa327056f07ff8e8f2a222eed346839aedfdb9c3295c8ce47c4",
+    "base_on.S": "889f0ac9c3b08d834b1ce4f9406494ecaa95a2b1f90da7b428c647c2b8571ebc",
+    "base_on.bin": "4c0319a3bb61784512aa6c77d12d815930526d21e6d075baf340aa3cc8a52d09",
+    "base_on.elf": "edb1a18b985cffea092f8d73cd425c2273a91fb8b8d0450ac2232a39ca7a5f38",
+    "base_on.expected.json": "4e8de085e299c1aed65617305950522713004af5da145896c0b03d406802264e",
+    "base_on.mem": "5aaff598d38d4cd91c7431800d91e6084e85c6b2a226f5789104322d8a99836c",
+    "base_on_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "base_on_iverilog.log": "8b2678032472e752e09d46996b704f8af618331dc1e61793b9e00061ec772021",
+    "base_on_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "base_on_nm.log": "226b4147a9fdb3b0693e473a43b165ed47645f690c117da9f7d2ba23cd1c0643",
+    "base_on_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "base_on_verilator.log": "c38be2df8671d661f9b5f59b347f758c284f27a27008e4fe75627650e810bfec",
+    "branch_consumer.S": "d16309d98ed6ef72f3a75b8dbb55905f73354afebeb48e1187b25ec41252c2a1",
+    "branch_consumer.bin": "4898ca50bc06f662a43b4d6bfd680abedbd29fe2c8399e391b5a25400b93825e",
+    "branch_consumer.elf": "c367b8b4d86190d866f438fc5405986fee1e1af2d38ed0543b0098d2d232b33c",
+    "branch_consumer.expected.json": "9a694b54fc94c08b21c270e453d3ea67b7b6307c88c49b6e8f25d2703fa95549",
+    "branch_consumer.mem": "bee5bf8bfdd5ee1f65aaa6511aa0d3b163a6411041d511f3cfcbb180f6fc03d0",
+    "branch_consumer_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "branch_consumer_iverilog.log": "e0dce873ec4c77dd86898bb927ff91fc0bdd9013c42a8b463f683781a46d7471",
+    "branch_consumer_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "branch_consumer_nm.log": "3624a23a8378ecf10a45f96d06c2fc295b28d7e78b5cc3a3f55815aa61636000",
+    "branch_consumer_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "branch_consumer_verilator.log": "f8540cf098c17de58bc6a52cc8a28d81112282f443b787a59aef5a954663a5c5",
+    "branch_not_taken.S": "8969be465aa3b2a511de555aad51c3d2858d64ff9f0f0f22ed0c8825c3c3d39a",
+    "branch_not_taken.bin": "74be5ec7201c1d165444055aa5083baf5aa5c9e7989b955bb0d788c03d9aa3cc",
+    "branch_not_taken.elf": "0c42ebad85a81d17b6eec018b657ae2b77da8ea290e6a51400c8796028dfc90c",
+    "branch_not_taken.expected.json": "a9d5be59f4feb27d0835355b8525297f0dd3001ee70113da9d7df2648594d3bd",
+    "branch_not_taken.mem": "683bbab5f7aa74f4749491889262c0d7bcdee73096a11c41b73b1afe1d57e8ed",
+    "branch_not_taken_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "branch_not_taken_iverilog.log": "9a49454a1a072629ab741106a7ac6fc32aed5b24c575ca55e917353c145547a7",
+    "branch_not_taken_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "branch_not_taken_nm.log": "f043b4b9edb24affa911f7590047967b8f60464360e05aee687aa31fd08d6df3",
+    "branch_not_taken_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "branch_not_taken_verilator.log": "618a3408e57c4f8f79a0f1b5910b1478d8c6fc35578539dd2240b1dd45a62c49",
+    "compressed_crossing.S": "ddaf5a9fd3fb9d0381c220a93e8490dab08c75d6962aafed977408ef1c64ae99",
+    "compressed_crossing.bin": "7ebf911c2a09b957d62e76ba0cec450c04e7c88e4834d14c181be8eb8b2a9fa4",
+    "compressed_crossing.elf": "2fb7bc50398317b138d14efa06c12d77458d1f00049aef3ac02836bd16f9dc58",
+    "compressed_crossing.expected.json": "7bf4aa982060283f0fda6cfd6fd6a734b66b9e4bc1c80035ed45802cbc501520",
+    "compressed_crossing.mem": "a6ef2847f337dc0d3fae0caa7acf80699dfe18232bd110b9c17fef0861be8c4a",
+    "compressed_crossing_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "compressed_crossing_iverilog.log": "b1df89b4f821e7f187f0da039e3c1ecb1b37e8a3db7210d239346ac2fe791705",
+    "compressed_crossing_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "compressed_crossing_nm.log": "13df5f0f089f453f32a91e3f861072ded5fee1ba3ca6c6f728e7827839f73032",
+    "compressed_crossing_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "compressed_crossing_verilator.log": "a3fc7fa08c8b7b0eeedabed95f12a350ead662d1c6f86441ebf0aa7fca40caa0",
+    "decode.log": "190a3f553b493e17f7bd87afac41e100417b7368a1d283fe06aca1a6a3b6d7b8",
+    "decode_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "disabled_z0_h0.S": "a03a83705d7486d7a14d8425711dab6a9fff67c108274a7eca86288eb1963e39",
+    "disabled_z0_h0.bin": "0a23f36b82b75ec0aee65d5ff8edbb3901fc4470fc2e13f3d9744197edfb0a19",
+    "disabled_z0_h0.elf": "932067b1ad8083d1c2b49571f40b4ce48cf9d8cb7e504bcca7e26e900d94300b",
+    "disabled_z0_h0.expected.json": "c075c69a599cda62c07977be89d37fcf1fda4d2d08b9a8bd30f9c798bfdb11a4",
+    "disabled_z0_h0.mem": "a26a6ec3535ffd0a514afa7c8d85f02fdb14580012aa666273307a6539cc9cb2",
+    "disabled_z0_h0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "disabled_z0_h0_iverilog.log": "392eaf38b0bb3e64e15fa4aa514691d83c4f67aa126c635294faef146ca27482",
+    "disabled_z0_h0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "disabled_z0_h0_nm.log": "84ffc81d426342f1b68b092bc7710120712ec6cd2c92ffcb6f318795632294d9",
+    "disabled_z0_h0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "disabled_z0_h0_verilator.log": "247f82ced1c3fb142ff88455ab213c9dcc96a9778cf4b9bc7b0b43d28353b305",
+    "disabled_z15_h0.S": "fc90f3c1bf2f842f1b89389b7f6594917cadbab5cdaea9de412040d99bcd0df0",
+    "disabled_z15_h0.bin": "8ba4887a8f6343758ced5bca73f12c1e86fd4a6111a2f9f8ef5b7537974477bc",
+    "disabled_z15_h0.elf": "fab0bd63d77773b1d94a202246aae3f072acebd8eef081a91460a71ecbb29f8e",
+    "disabled_z15_h0.expected.json": "c075c69a599cda62c07977be89d37fcf1fda4d2d08b9a8bd30f9c798bfdb11a4",
+    "disabled_z15_h0.mem": "40ce1a9b7748691c5cbbef78a443df12869ae34361e803293a7b61812ba90679",
+    "disabled_z15_h0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "disabled_z15_h0_iverilog.log": "392eaf38b0bb3e64e15fa4aa514691d83c4f67aa126c635294faef146ca27482",
+    "disabled_z15_h0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "disabled_z15_h0_nm.log": "84ffc81d426342f1b68b092bc7710120712ec6cd2c92ffcb6f318795632294d9",
+    "disabled_z15_h0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "disabled_z15_h0_verilator.log": "6615389ec62bb2990844170abeb3a616024ca0c108357f102692c2be6c72b0fe",
+    "disabled_z15_h1.S": "d639f51f0b2213814ed0001a7d4ef360866f206dbde1d056be2c2816b6a4e7b6",
+    "disabled_z15_h1.bin": "b3d027f8bbbb768e75bc182e941c4079baf006378206523ae0d19b2bc272bcac",
+    "disabled_z15_h1.elf": "2c95d0c24b5f0244acd7aef61ebf42572e683c391001e03a503994e611a8706a",
+    "disabled_z15_h1.expected.json": "c075c69a599cda62c07977be89d37fcf1fda4d2d08b9a8bd30f9c798bfdb11a4",
+    "disabled_z15_h1.mem": "ebef83ab179dac91c238531c3051222d797560632b07105a3fc170bf90fdcd6b",
+    "disabled_z15_h1_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "disabled_z15_h1_iverilog.log": "392eaf38b0bb3e64e15fa4aa514691d83c4f67aa126c635294faef146ca27482",
+    "disabled_z15_h1_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "disabled_z15_h1_nm.log": "84ffc81d426342f1b68b092bc7710120712ec6cd2c92ffcb6f318795632294d9",
+    "disabled_z15_h1_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "disabled_z15_h1_verilator.log": "c98aad5a02e6255a2875fcec2aec22f7503ddf0663585904b27b8d14272ba303",
+    "disabled_z8_h1.S": "0001a722103546b34f655b2a7b0efbc2c0fff7b4b039951db564392f9fc3b48a",
+    "disabled_z8_h1.bin": "d82c484e061e0bbc099a58fd804d2005ece32905f1d5e0022587db252fb8ef5b",
+    "disabled_z8_h1.elf": "32927d2cc3e6d3f5149b87ef3445e970c631fd7534477824b7070d4abf021c44",
+    "disabled_z8_h1.expected.json": "c075c69a599cda62c07977be89d37fcf1fda4d2d08b9a8bd30f9c798bfdb11a4",
+    "disabled_z8_h1.mem": "0384dc23b3f36f48e79e952d82cc02f2212fdc6a6fbd6f4d8485ca6b52b9abba",
+    "disabled_z8_h1_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "disabled_z8_h1_iverilog.log": "392eaf38b0bb3e64e15fa4aa514691d83c4f67aa126c635294faef146ca27482",
+    "disabled_z8_h1_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "disabled_z8_h1_nm.log": "84ffc81d426342f1b68b092bc7710120712ec6cd2c92ffcb6f318795632294d9",
+    "disabled_z8_h1_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "disabled_z8_h1_verilator.log": "e82bb3da29e46ab8288908f0d23b13c626f0eabf946bf7c509bcd703faf8f305",
+    "encoding.S": "a08b7ca61cabb43399007f149b66f6433eaf50fec59fb028816c63d78af36a29",
+    "encoding.bin": "c33bf46e63ca2feb723181298f9b86f11a7e7f19f563aed92402e4ee1f501246",
+    "encoding.elf": "674bab622ba91e92eaa674f40971bea19bd813e04734c3febc26538463098c12",
+    "encoding_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding_nm.log": "e8ada254ea196df836266ddf4deb5424f46beba044cfadad3aa6bf0ac29e01e0",
+    "encoding_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "forwarding.S": "516f091565b3b47c69e5878dd4869c139b8b87c098520a3673bf5ef36019f697",
+    "forwarding.bin": "79f063d273ad7d799d658cfbc8e977cceae415fca194861f44052955ee21e7cb",
+    "forwarding.elf": "17924498704828e2c62578e4c2ff4cb49bd9490c749fa6c7a430fbf21f7f8151",
+    "forwarding.expected.json": "0cd2d988230efccb0edfda44e6946e13b61fcabae9f584586a4a3ef2f6a293e8",
+    "forwarding.mem": "9e8112bfe47ab4b4f425a194d571282cfe1ac8823dcf006039f4a10cd2c0c2a3",
+    "forwarding_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "forwarding_iverilog.log": "b2057dbf27df5a87d6254e1127343a1f8fa22e99641bacddc72812a08db5c790",
+    "forwarding_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "forwarding_nm.log": "8cafcf1df8bf631d12831d8f7f57b18a8958d69d83e50be2d69d545016ff281e",
+    "forwarding_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "forwarding_verilator.log": "4c83b9f8e6dcb8211ec132e1e9601594f23d0716f80814b2833b739131735882",
+    "iverilog_build_0.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "iverilog_build_1.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "jalr_consumer.S": "68082d2712c4cb7410a8f9ef3783b556bd9a5d07901f5450be564f264836d7cf",
+    "jalr_consumer.bin": "90f3fd26f487cf3c7253cee8af100e0d0970ed0e170ba471040dbbda8b6d657e",
+    "jalr_consumer.elf": "bff20a76e1c243f03a7b9525ab680a4d88ecab8af4d3d9ab152caeb39bcce644",
+    "jalr_consumer.expected.json": "ccd51e33f11966004cc9019a3317809153f5f3e1e84fc66703a976d5520579e3",
+    "jalr_consumer.mem": "bdb93d38252af0c4eae4a0b26318df33f8eafd03e64b24e74e988aca49c88b94",
+    "jalr_consumer_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "jalr_consumer_iverilog.log": "be9db0b49698e32e9fc332342a81f19af6df6d9812de4b113b529c9e720e7e68",
+    "jalr_consumer_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "jalr_consumer_nm.log": "3624a23a8378ecf10a45f96d06c2fc295b28d7e78b5cc3a3f55815aa61636000",
+    "jalr_consumer_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "jalr_consumer_verilator.log": "f37756c5a1636dd2d214c93cc1738c8d42ea381010d6dcffb020da891518aff5",
+    "lint_0.log": "f9ffe18def4530a11b05ddf8b8084cebdcd1b17f6bf5d0e950719a6b63c01fa2",
+    "lint_1.log": "b64a62081420874804813a871d359cee304ebee4b23af77005374dd7d49e4251",
+    "load_activations.S": "403145f44a29e53eadc5a15eaa8dcd63b5405430b9a466d47bfd8258adc1b2d5",
+    "load_activations.bin": "5ab8269c5655e06c2888c910282e4040cbcad54f37c681d6f7a2024584114075",
+    "load_activations.elf": "c9f8c2d5072d0c1abb317e3e5557cf79d10191b8ec8175a77f3a1ba456e42d0f",
+    "load_activations.expected.json": "e3ee6506e2e89d8ab7a5f7155f91d470a56514adefe73592e7f1b424450ae6c3",
+    "load_activations.mem": "238396edab3b016fc3198493f148d753f3eb448ba43b9a37eab813e4b342b6c0",
+    "load_activations_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "load_activations_iverilog.log": "359790ef203c16a930c630d00379953ac9f1b9ca6f1c3233463509d41e9b5b33",
+    "load_activations_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "load_activations_nm.log": "28b68da5173f2b5f4a653240e26c41090d2760a0bb2ad37eba06a01eaffd16dc",
+    "load_activations_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "load_activations_verilator.log": "44e9c268e5a414e602b07c004984fcefc2cac494d43827cc57784d1cc32c1ebb",
+    "load_both.S": "3f689083a8615e5ca400c8a692a99dd4590fd74ce7f5c609d549ebe9366a2151",
+    "load_both.bin": "6d97586b51333ca71d8ccee14df412a1358f613578a5d8b4351b0c2cd9590587",
+    "load_both.elf": "781007e9e490a8b29e021ee74876d690b3d4fe6553999f146e94e23e252295dd",
+    "load_both.expected.json": "10d778955ad80e8e8c5730ba91615fa008dca7115f248d686b52dba510a1c8ab",
+    "load_both.mem": "a73b3f4afdf25125bf21d838fecc867933a36000b4f7f0d36943ab5c494a048c",
+    "load_both_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "load_both_iverilog.log": "2997ce8c0536292d669915416c475d0a91105876ab2a1a80a6d63f804261752f",
+    "load_both_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "load_both_nm.log": "28b68da5173f2b5f4a653240e26c41090d2760a0bb2ad37eba06a01eaffd16dc",
+    "load_both_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "load_both_verilator.log": "0320c041f28c59adf058b7cb15429b886ea1c852fb2241ac674f209fb2c4841c",
+    "load_weights.S": "75621dfebe2b678ec83011d41377526c167bd90163eb43400a99e8da3717a1e4",
+    "load_weights.bin": "470e1eb6579204d717de205d279e57a1a8bb06854bafae1f5e4703454d6a9120",
+    "load_weights.elf": "1e3bab5499870cdcad9456423e1049c15fe8f43ed95232add4ccab3573454275",
+    "load_weights.expected.json": "86d8cecb9a0eedd9d89b37beeeea6313dd7c188412f4fa510c5e6e2edbf993b0",
+    "load_weights.mem": "8dc734530be5c37e45a1836f79b13711aa4618bf7f5fd7069e69284462a4633e",
+    "load_weights_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "load_weights_iverilog.log": "8241526fd1f355f66fc01acccd32455b469289ef5f2071cc988e996cb2c622c7",
+    "load_weights_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "load_weights_nm.log": "28b68da5173f2b5f4a653240e26c41090d2760a0bb2ad37eba06a01eaffd16dc",
+    "load_weights_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "load_weights_verilator.log": "112dccbdc8e5998b775acb521f2f4ffcdd630adde8591cc7c640c07eb5c4a2ec",
+    "mutant_ignore_half.log": "31ec14c78bf282640110f76a2e9399b58a0d11b41a572bddd7738e9a6229901f",
+    "mutant_ignore_half.v": "07fcf5e7700b05bb5ac821a39fa4ad1848c47c800a03d5627a2f6cac341e4444",
+    "mutant_ignore_half_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mutant_no_weights_forwarding.log": "94e56c88f0efe78092c17bd97096c31a09423b42005a43b977a0b42fc36ef28f",
+    "mutant_no_weights_forwarding.v": "79b0b014e732ce58f9e896a50e0de361cf0dfa89511bf0dd7e5af93afc064072",
+    "mutant_no_weights_forwarding_build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "older_qdot_drains.S": "e140d2e2cf52350a6c9d65fb35081920efed542741737dc885d54df0803574c6",
+    "older_qdot_drains.bin": "98d2f368d56ecf227110ab014985f6e968c3e11f3f373bb752a5fb9fabade499",
+    "older_qdot_drains.elf": "92cb6de1d372bca0bcecb0d1e2ea991f1914b00f415dff0ed8f6696a680da1c6",
+    "older_qdot_drains.expected.json": "8cbfdc7339201bc414e29037f1c314dd5a134495ca3b14175feb83db05e2d87a",
+    "older_qdot_drains.mem": "351d4d883d3c37e1a5ac1848e9bae45ec87e2ebfe446d7e18068f248c2a35e3c",
+    "older_qdot_drains_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "older_qdot_drains_iverilog.log": "b33ee7523710d0e8eb84840c9be3ef3fc8aba0d6b0f90596fff7644fef7b6baf",
+    "older_qdot_drains_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "older_qdot_drains_nm.log": "8db34cd17840a2fb4f3b1524c1663f68030d97b9ddf91aea5e6d275d0a903d58",
+    "older_qdot_drains_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "older_qdot_drains_verilator.log": "92f7a7b4d861ee211d96b7873f9f854704a546b024ba9c900319aecb60862363",
+    "reserved_bit12.S": "d56812f51258bc117100026ada9fc99864dc2fe3e487691fb8bac8c0d3178217",
+    "reserved_bit12.bin": "d289a5d9981a196513773be13ab04f21487ed327cc0c0ab35f9565e3c550f603",
+    "reserved_bit12.elf": "a5a3542b5c7132453dde1d4aab5893f9f9ff6776f1673ea70b39622b6f690784",
+    "reserved_bit12.expected.json": "c075c69a599cda62c07977be89d37fcf1fda4d2d08b9a8bd30f9c798bfdb11a4",
+    "reserved_bit12.mem": "58331c312b5a657f13f3157668c170950e65f8128a4854244a9f9f811f874595",
+    "reserved_bit12_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit12_iverilog.log": "392eaf38b0bb3e64e15fa4aa514691d83c4f67aa126c635294faef146ca27482",
+    "reserved_bit12_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit12_nm.log": "84ffc81d426342f1b68b092bc7710120712ec6cd2c92ffcb6f318795632294d9",
+    "reserved_bit12_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit12_verilator.log": "a07fc8344c4ff7495018021f1a20e1ba4d14502f1fef4b5c9ed35b1d6e7482c2",
+    "reserved_bit13.S": "211b0067a7388cbb1ce3c2ddc6f1ac66ba657a1a5f2e556d89d54302193ee364",
+    "reserved_bit13.bin": "21cbd911adb071dfe02fd946ebf5af5ccdae14c3f17bcfc3b77ed10ff065ba96",
+    "reserved_bit13.elf": "454efb9dd3f29dc33a614dd1779c9801acab80e41b0c10f55607fe9e4dde9b05",
+    "reserved_bit13.expected.json": "c075c69a599cda62c07977be89d37fcf1fda4d2d08b9a8bd30f9c798bfdb11a4",
+    "reserved_bit13.mem": "245c0d5b3fa9101cfedffcd1d3f04233dfccf79daa9c470a49df3acdc73ee3c1",
+    "reserved_bit13_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit13_iverilog.log": "392eaf38b0bb3e64e15fa4aa514691d83c4f67aa126c635294faef146ca27482",
+    "reserved_bit13_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit13_nm.log": "84ffc81d426342f1b68b092bc7710120712ec6cd2c92ffcb6f318795632294d9",
+    "reserved_bit13_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit13_verilator.log": "3afceacbd7df4ec50681a5fb6f3c24306b69b55cb43ed5012b1932f43e6ef7a1",
+    "reserved_bit14.S": "9a485645fcc64580cb3bc822e7e368812adade4578d7dfb7c64c907c17c97cc3",
+    "reserved_bit14.bin": "b5e212fd234c4cddbf52a72e6ea8db3375b3c07b57102f3e2eb69febdc272b5a",
+    "reserved_bit14.elf": "698ab6639840a484d347247101787876e8de317573550fa207acb120e691c9b0",
+    "reserved_bit14.expected.json": "c075c69a599cda62c07977be89d37fcf1fda4d2d08b9a8bd30f9c798bfdb11a4",
+    "reserved_bit14.mem": "9e569b3015f521d1fb2190a936a7e1cdf8e533fa4efc2ad50b53cf8d63cae6de",
+    "reserved_bit14_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit14_iverilog.log": "392eaf38b0bb3e64e15fa4aa514691d83c4f67aa126c635294faef146ca27482",
+    "reserved_bit14_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit14_nm.log": "84ffc81d426342f1b68b092bc7710120712ec6cd2c92ffcb6f318795632294d9",
+    "reserved_bit14_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit14_verilator.log": "35c9a05d8f7323c20a736a8c40cea200cc6f03fdfb6c6c5ead3b2d6d6ffa4a75",
+    "reserved_bit25.S": "d2fb4b3af9f671618672bcd5117b0e5ca7d55d8feb8fe61c26df432efc9306b9",
+    "reserved_bit25.bin": "27f7e209689ff32b3f568c63963c912fd0cbfd39544483d2c75cba4bbc8c1e47",
+    "reserved_bit25.elf": "5e1133f474a0753893da46006d98b3d5c2c11ce569ed33bee5a7f96f10f53c63",
+    "reserved_bit25.expected.json": "c075c69a599cda62c07977be89d37fcf1fda4d2d08b9a8bd30f9c798bfdb11a4",
+    "reserved_bit25.mem": "e835aa4890d3728e5ad3dd7206552825c523ea1cbb61ee7038e6b754c87ef20d",
+    "reserved_bit25_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit25_iverilog.log": "392eaf38b0bb3e64e15fa4aa514691d83c4f67aa126c635294faef146ca27482",
+    "reserved_bit25_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit25_nm.log": "84ffc81d426342f1b68b092bc7710120712ec6cd2c92ffcb6f318795632294d9",
+    "reserved_bit25_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit25_verilator.log": "8f53fe2570baccfda5555a13d3caf49a7ce1f3d22b138594e2c5e2276b45025a",
+    "reserved_bit26.S": "94da1b6e008b50e5603e2ed6706debe2b85428015024843759afa2c5cb651fd4",
+    "reserved_bit26.bin": "1e0a565f2a3fc06a66496b258e3e9052aad006e0172b49b768817e46d2f0efe9",
+    "reserved_bit26.elf": "894e9a08230303f4d11924f163f31b4747a58fcb2eeb04af5a2c96dcc3656cce",
+    "reserved_bit26.expected.json": "c075c69a599cda62c07977be89d37fcf1fda4d2d08b9a8bd30f9c798bfdb11a4",
+    "reserved_bit26.mem": "aa12c1a4eebdd1988dc90ea3715b60e1d4b8e1fbabaeb75b6fb1e5931dabfafb",
+    "reserved_bit26_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit26_iverilog.log": "392eaf38b0bb3e64e15fa4aa514691d83c4f67aa126c635294faef146ca27482",
+    "reserved_bit26_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit26_nm.log": "84ffc81d426342f1b68b092bc7710120712ec6cd2c92ffcb6f318795632294d9",
+    "reserved_bit26_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reserved_bit26_verilator.log": "d13e96480892232e7b389fc302c9c25793ff203e21cad18a970e4500b8824133",
+    "reset_in_execute.S": "24e08d0527eae8da7cb09f9f3e75a328c4a2009f62b1e6da372748534518e1fb",
+    "reset_in_execute.bin": "cedcd1cd9f37ec964be7132e23aa835ab50793a79bc59969428266149a41255a",
+    "reset_in_execute.elf": "2ea310db7c50a3d613908b95648b52356e0bf52d11377dba667258738b20e11a",
+    "reset_in_execute.expected.json": "9c4757cd6f9177e6712cc663d2bb6349d55f4756c5d2a77c11bbe06b97cc8be5",
+    "reset_in_execute.mem": "8284c7febdd67fa7342028a6f7fffae1232f0834fb1c53b18a9a1510e7b5a1df",
+    "reset_in_execute_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reset_in_execute_iverilog.log": "0cca1f857b6cdaac54b47be9350b1b8f962b1170998239d9b2d37222fce63341",
+    "reset_in_execute_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reset_in_execute_nm.log": "c7594bbb9a2d6cc163b9f2dd5aa1c127dd501b591831890053f616833894707a",
+    "reset_in_execute_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reset_in_execute_verilator.log": "6b01d4222e2d6ccaf3847bef7a2aef2ac75aa289ed34c793649fece09891cfb0",
+    "sources/isa/SPEC.md": "1a3164220b6dca89dc911b9e3615a52906b04bff68acecd23849ad377eb06632",
+    "sources/isa/xqdot4zi.inc": "80231d27cfcb0241024f01da6ff9a6b847c9f58a9d5068c06464e65f28f06d67",
+    "sources/isa/xqdot4zi.py": "e638f76ca7bb57653aacea50616a4f3df3d959b5d3d34da5c9ea0132f39ef3ac",
+    "sources/kuntur/rtl/adder.v": "271b639e9f8f68a242393f9556fb89ea49311995cf802b7946bd513d99271991",
+    "sources/kuntur/rtl/alu.v": "83b9a9b7247b50e9c065d0a2778dfe507248ad65ad468d7b584a3dcef83ef2ff",
+    "sources/kuntur/rtl/aludec.v": "93b0a2b06a4040663ba9c6844215b314f0c5f0764004160d367d76b3a684abc5",
+    "sources/kuntur/rtl/controller.v": "86058afd26cb2e7640aa953047c218f2f2fd227d74e799dd05abbfa999649ab2",
+    "sources/kuntur/rtl/datapath.v": "1b1dfa670a054c22984b17bcbb6757ca224f393fbd873f2389777de75ec6388c",
+    "sources/kuntur/rtl/decompressor.v": "598173f0aae8d95ee21e593f6de8e1c9d9965ef78c3e405fc1c6530916234584",
+    "sources/kuntur/rtl/dmem.v": "ed6e9a8ec07cd7d3b5d597f99c0143d66380cb69141ab60c1493b7c98fe8b61c",
+    "sources/kuntur/rtl/extend.v": "3e2a5006643158bf7ee7e91c2961dc09a1b9402c5278733e60bc45851dd0a51b",
+    "sources/kuntur/rtl/flopenr.v": "dfd976c389215782e875c0624bb268f0ed04eab98420fd0bf04aeec51b738cac",
+    "sources/kuntur/rtl/flopenrc.v": "c4da89bb4027a4053a0db0f658a8e827f74b952919d615109f2936d0ac0224b6",
+    "sources/kuntur/rtl/flopr.v": "5de43c8c8e9c34c8e2379d4ecef22a9904194a58e7c7baf7ea8a0dbc6144470e",
+    "sources/kuntur/rtl/hazardunit.v": "d8e1e51ff1abefb4f9890b9ab779e1fbed8fdfe17ffd8d2ad03a716f6d0d0c0b",
+    "sources/kuntur/rtl/imem.v": "c080ab3be980afbff56dbd3a64e6f1efab4e2bf4c52a6b573bfd831f419ecf0c",
+    "sources/kuntur/rtl/instruction_policy.v": "1a603a4ff148b0cb498cef3653fc064cd309a5fa0f115eb6e91f27d733e06fd3",
+    "sources/kuntur/rtl/maindec.v": "dcda5499cc1b565477949fc3cf1952380a828ddc3371b3a6e0e7a82a23316b32",
+    "sources/kuntur/rtl/mux2.v": "13bdda83eb966692cbb49e1978067409a52979d8882094a5b0c70098b4d7efb1",
+    "sources/kuntur/rtl/mux3.v": "13ae44fabf17e29d147a243a4006c5da3a1a5e32472987291eb1e91784c2b6e3",
+    "sources/kuntur/rtl/regfile.v": "d7ce1aa44106d220e5f3187f045cf0318420b60ff008c3214d86d45f958f70cb",
+    "sources/kuntur/rtl/riscvpipe.v": "14e7d5342559183924da056c0b4635eddbd01c4c892648e0224b207cb3c20c0c",
+    "sources/kuntur/rtl/scalar_mul.v": "220a98f5df5798aa980418d6d09e180b833606e0736befb225e08b6e7c184fb7",
+    "sources/kuntur/rtl/top.v": "2bcd0571c079b2275c5d31ad51ec76d911c712f48abfe9f0a30ea081f7708c7d",
+    "sources/model/__init__.py": "9d543d3fb77725103879b1e835cb0d4a71fa170a79d448dd973757eb0256a31f",
+    "sources/model/xqdot4z.py": "ab2e5fc262f706306fcbb482ae7feff171459b56522b51972ff11f8904cb95f1",
+    "sources/rtl/xqdot4z.v": "bd8756402cd7b9e3bb72c353f3cd8f828d1cd1dd38306731d1d3d735615e7e5c",
+    "sources/scripts/verify_integration.py": "6e7dfb8f1835bfda6baf69662b1f2714b7aa734419ab51574f2c5d1b6e14675a",
+    "sources/tests/integration/oracle.py": "9ed3b0893d2d62525478d3cc61031115669e105cc90e5bd972d75065bbd51818",
+    "sources/tests/integration/tb_decode.sv": "0ad41107c29272fa7e4ca7f4055210762b42418249a6b4730b607f1c4a032ac4",
+    "sources/tests/integration/tb_integration.sv": "ba894814f2109ba336b1f25a9db24eef9bb96bfbe01cc661dfbfee23f2b8c658",
+    "verilator_build_0.log": "d473228889a41d9642ab00e827a2bb89fec9d079a9c9ef2f23354c66cd5912a1",
+    "verilator_build_1.log": "a236f770dd178255a4e97378884f36c23484fc31ea54f446c26393cf48fc9a5d",
+    "version_iverilog.log": "3adef901b030d47bf8160ed2b8fbb00f1b47ec8998dc35c1ddedc6debd4865d1",
+    "version_riscv64-linux-gnu-as.log": "8de3d82daf4ae709dcc07c1e2757141c293ca4cca9c95ef8f8a3a89093bc3b45",
+    "version_riscv64-linux-gnu-ld.log": "c506c903a09e56dd2c9f3fda411207807b3fb0dfa6378d209e3f40aab6f1f387",
+    "version_riscv64-linux-gnu-nm.log": "35f8929bb3cedc4383210518d21802cea3c175985a4dc3820b6f2517fd1a037e",
+    "version_riscv64-linux-gnu-objcopy.log": "4756c3362ad1ccb162272ae0e200a56411d68862eafa509072b04f21d9471500",
+    "version_verilator.log": "46aedd5b30efdd94426c9eebbcf4a6ae7a9680526cc90ce8fec95977c2d6b12d",
+    "wrong_path_0.S": "13b1cd267239e96fb6ea4e25014d8c9204ffee7f8275fa463ba227af9df96f37",
+    "wrong_path_0.bin": "97c637ddc11633a4c8e40ed4d05093344df3297d1de9e7ac06bd06a4fac83fe6",
+    "wrong_path_0.elf": "9cb7c912417102866084d20de289467872719a951ef917dff3adf13d46503a21",
+    "wrong_path_0.expected.json": "c028378329d7b63f89c2ea16a8011d3d668459eb1e902239d8ba44174952c8dd",
+    "wrong_path_0.mem": "c6d0fedf567984fbc2d0bebbdb664b2bb3efe1d055a4d04f2daa9a14f85e5453",
+    "wrong_path_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wrong_path_0_iverilog.log": "2ae6d95ef57d41f7b045b52ee97fd08a6849ad7fd49d814ca57fa4cf6a152afd",
+    "wrong_path_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wrong_path_0_nm.log": "f14825cfd72786753128582b6cd51c0b12eda0ed2771ed60db5798fc82af1e4b",
+    "wrong_path_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wrong_path_0_verilator.log": "872cc7e7b3d34d98d9996c82a72dd51628b60317654dfed5af1b26cb16967359",
+    "wrong_path_1.S": "13b1cd267239e96fb6ea4e25014d8c9204ffee7f8275fa463ba227af9df96f37",
+    "wrong_path_1.bin": "97c637ddc11633a4c8e40ed4d05093344df3297d1de9e7ac06bd06a4fac83fe6",
+    "wrong_path_1.elf": "bfbb1178a5d183bab0f600838a0415c3f188cb27bb93da34a9af4146d0b4b112",
+    "wrong_path_1.expected.json": "c028378329d7b63f89c2ea16a8011d3d668459eb1e902239d8ba44174952c8dd",
+    "wrong_path_1.mem": "c6d0fedf567984fbc2d0bebbdb664b2bb3efe1d055a4d04f2daa9a14f85e5453",
+    "wrong_path_1_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wrong_path_1_iverilog.log": "2ae6d95ef57d41f7b045b52ee97fd08a6849ad7fd49d814ca57fa4cf6a152afd",
+    "wrong_path_1_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wrong_path_1_nm.log": "f14825cfd72786753128582b6cd51c0b12eda0ed2771ed60db5798fc82af1e4b",
+    "wrong_path_1_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wrong_path_1_verilator.log": "9fb70271ac702df605b2e4df758637e139ab0f289f760ae64cde01e3a9265e45"
+  }
+}

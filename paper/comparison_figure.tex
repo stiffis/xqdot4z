@@ -1,0 +1,18 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[every node/.style={font=\footnotesize,align=center},
+ box/.style={draw,minimum height=9mm,inner sep=3pt},
+ arr/.style={-{Stealth[length=1.5mm]}}]
+\node[box,text width=55mm] (input) at (0,0)
+ {\ifSpanish Mismos datos cuantizados\else Same quantized data\fi};
+\node[box,text width=20mm] (scalar) at (-2.65,-1.65)
+ {\ifSpanish Multiplicación escalar\else Scalar multiplication\fi};
+\node[box,text width=20mm] (factored) at (0,-1.65)
+ {\ifSpanish Producto punto + corrección\else Dot product + correction\fi};
+\node[box,text width=20mm] (fused) at (2.65,-1.65) {XQDot4Z};
+\foreach \dest in {scalar,factored,fused}{\draw[arr] (input.south)--(0,-0.8)-|(\dest.north);}
+\end{tikzpicture}
+\caption{\ifSpanish Comparación propuesta sobre una base común. No representa resultados medidos.
+\else Proposed comparison on a common baseline. This diagram does not represent measured results.\fi}
+\label{fig:comparison}
+\end{figure}

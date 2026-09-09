@@ -1,0 +1,3 @@
+[0] %Fatal: tb_xqdot4z.sv:49: Assertion failed in tb_xqdot4z: RTL_FAIL malformed vector after 0 checks
+%Error: /home/stiff/stuff/xqdot4z/tests/rtl/tb_xqdot4z.sv:49: Verilog $stop
+Aborting...

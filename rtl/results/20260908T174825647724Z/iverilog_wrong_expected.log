@@ -1,0 +1,2 @@
+FATAL: /home/stiff/stuff/xqdot4z/tests/rtl/tb_xqdot4z.sv:44: RTL_FAIL mismatch vector=0 W=00000000 A=00000000 z=0 h=0 got=00000000 expected=00000001
+       Time: 1000  Scope: tb_xqdot4z

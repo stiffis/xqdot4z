@@ -1,0 +1,17 @@
+{
+  "version": "0.5",
+  "updated_on": "2026-09-08",
+  "clone": "kuntur",
+  "core_name": "Kuntur",
+  "upstream_commit": "d2e62fd127d85ac33fe54c9b98cffa06970b3fd5",
+  "evidence": "kuntur/verification/results/20260909T041314798425Z/summary.json",
+  "evidence_sha256": "852dec5a0e31c6ae6ab33d199aac76f9ba6a7bf117d845b8151daed3ddd7c185",
+  "status": "correction_regression_passed",
+  "extension_implemented": true,
+  "regression_enable_xqdot4z": 0,
+  "scalar_mul_implemented": true,
+  "regression_enable_mul": 0,
+  "packed_dot_implemented": true,
+  "regression_enable_xqdot4": 0,
+  "isa_conformance_claim": false
+}

@@ -1,0 +1,3 @@
+/home/stiff/stuff/xqdot4z/tests/packed_integration/results/20260909T043205252111Z/bad_macro_1.S: Assembler messages:
+/home/stiff/stuff/xqdot4z/tests/packed_integration/results/20260909T043205252111Z/bad_macro_1.S:4: Error: xqdot4: h must be 0 or 1
+/home/stiff/stuff/xqdot4z/tests/packed_integration/results/20260909T043205252111Z/bad_macro_1.S:2:  Info: macro invoked from here

@@ -1,0 +1,47 @@
+\frametitle{Programa algoritmo: búsqueda binaria}
+\footnotesize Busca \texttt{18} en \texttt{[3,7,12,18,25]}; dispara un
+  \textit{load-use hazard} real (\texttt{c.lw x12} $\to$ \texttt{beq
+  x12,...}), conectando directo con la Hazard Unit.
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+// setup: Mem[32..48]=[3,7,12,18,25]
+addi x14,x0,32    // base
+addi x8,x0,0      // lo = 0
+addi x9,x0,4      // hi = 4
+addi x13,x0,18    // target
+
+LOOP:
+  blt   x9,x8,NOTFOUND
+  addi  x10,x8,0
+  c.add x10,x9      // mid=lo+hi
+  c.srli x10,1      // mid >>= 1
+  addi  x11,x10,0
+  c.slli x11,2      // addr=mid*4
+  c.add x11,x14     // addr+=base
+  c.lw  x12,0(x11)  // value
+  beq   x12,x13,FOUND
+  blt   x12,x13,GO_RIGHT
+\end{lstlisting}
+    \column{0.5\textwidth}
+\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+GO_LEFT:
+  addi   x9,x10,0
+  c.addi x9,-1      // hi=mid-1
+  c.j    LOOP
+
+GO_RIGHT:
+  addi   x8,x10,0
+  c.addi x8,1       // lo=mid+1
+  c.j    LOOP
+
+FOUND:
+  sw   x10,20(x14)  // indice
+  c.j  END
+
+NOTFOUND:
+  addi x10,x0,-1
+  sw   x10,20(x14)
+END:
+\end{lstlisting}
+  \end{columns}

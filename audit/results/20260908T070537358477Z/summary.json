@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "20260908T070537358477Z",
+  "commit": "d2e62fd127d85ac33fe54c9b98cffa06970b3fd5",
+  "tool_versions": {
+    "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0-dirty)",
+    "vvp": "Icarus Verilog runtime version 13.0 (stable) (v13_0-dirty)"
+  },
+  "snapshot_manifest_sha256": "73d6fbdce3330dae2a3b330b6913a7bb69063258d021e40c24fe8bc7c9e2ace5",
+  "probe_source_sha256": "2ac708bf648569673476dfd6ccadcbd05daa86f59497457f588b35305589917b",
+  "runner_sha256": "2fc26e50f25dad038c3dc1f8f4e925d20a40050b70d8f95787bc4d2510f1bed7",
+  "historical_regression": {
+    "passed": 26,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "observations": [
+    {
+      "id": "c_addi_control",
+      "expected": "00128293",
+      "observed": "00128293",
+      "matches": true
+    },
+    {
+      "id": "rv32_passthrough",
+      "expected": "00100293",
+      "observed": "00100293",
+      "matches": true
+    },
+    {
+      "id": "c_li",
+      "expected": "00100293",
+      "observed": "00004285",
+      "matches": false
+    },
+    {
+      "id": "c_addi4spn",
+      "expected": "00410413",
+      "observed": "00000040",
+      "matches": false
+    },
+    {
+      "id": "c_addi16sp",
+      "expected": "01010113",
+      "observed": "00010137",
+      "matches": false
+    },
+    {
+      "id": "c_ebreak",
+      "expected": "00100073",
+      "observed": "000000e7",
+      "matches": false
+    },
+    {
+      "id": "false_rs2_stall",
+      "expected": "00000000",
+      "observed": "00000001",
+      "matches": false
+    },
+    {
+      "id": "real_load_use",
+      "expected": "00000001",
+      "observed": "00000001",
+      "matches": true
+    }
+  ],
+  "scope": "Historical smoke tests and targeted unit probes, not ISA certification"
+}

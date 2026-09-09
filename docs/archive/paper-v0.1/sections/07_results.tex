@@ -1,0 +1,55 @@
+\section{Evidencia inicial y resultados por completar}\label{sec:results}
+\subsection{Auditoría ejecutada del core histórico}
+La evidencia seleccionada corresponde a \code{\AuditRun}, sobre el commit
+\code{\CoreShort}, usando Icarus Verilog 13.0. El runner verifica hashes de la
+exportación antes y después, ejecuta sobre una copia temporal y conserva
+salidas, diagnósticos y un resumen JSON.
+
+\begin{evidencebox}{Observación reproducida}
+La batería histórica produjo \HistoricalPass{} PASS y \HistoricalFail{} FAIL.
+En ocho sondas dirigidas adicionales, tres controles coinciden con lo esperado;
+cuatro expansiones C difieren y una sonda reproduce una pausa espuria por
+un campo que no es un registro fuente.
+\end{evidencebox}
+
+\begin{center}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Sonda de expansión} & \textbf{Entrada} & \textbf{Esperado} & \textbf{Observado}\\\midrule
+\code{c.li x5,1} & \code{4285} & \code{00100293} & \code{00004285}\\
+\code{c.addi4spn x8,sp,4} & \code{0040} & \code{00410413} & \code{00000040}\\
+\code{c.addi16sp sp,16} & \code{6141} & \code{01010113} & \code{00010137}\\
+\code{c.ebreak} & \code{9002} & \code{00100073} & \code{000000E7}\\\bottomrule
+\end{tabular}
+\captionof{table}{Salida del decompresor histórico en sondas unitarias. No son programas completos ejecutados en el pipeline.}
+\end{center}
+
+Las expansiones esperadas siguen la especificación de instrucciones
+comprimidas~\cite{riscvc}. La sonda de control de dependencias representa
+\code{lw x5,...} seguida de \code{addi x6,x0,5}: los bits 24:20 contienen
+5, pero ADDI no lee rs2. La unidad produce \code{StallF=1}, aunque la
+dependencia considerada no existe. Esta prueba observa una señal de control;
+no mide el efecto temporal sobre un kernel.
+
+El runner histórico utiliza mensajes de éxito y filtra algunas advertencias.
+Por ello, su resultado se conserva como prueba de humo, complementada con
+sondas explícitas y futura verificación de retiro. Las limitaciones observadas
+no impiden estudiar una unidad aislada, pero deben acotarse o resolverse antes
+de medir programas que dependan de ellas.
+
+\subsection{Resultados experimentales aún no disponibles}
+\begin{tabularx}{\textwidth}{@{}lYY@{}}
+\toprule
+\textbf{Resultado} & \textbf{Estado actual} & \textbf{Evidencia requerida}\\\midrule
+Exactitud de XQDot4Z RTL & \pending & Unidad implementada y testbench con oráculo.\\
+Integración al pipeline & \pending & Dependencias, cancelación y efectos únicos.\\
+Ciclos B2 frente a D & \pending & Kernels y región medida comunes.\\
+Ciclos B3 frente a D & \pending & Corrección factorizada con \(S_a\) reutilizado.\\
+Sensibilidad N/K/G/z & \pending & Campañas completas, incluidas degradaciones.\\
+Recursos y timing & \pending & Dispositivo y flujo físico comparables.\\
+Energía y calidad ML & Fuera del mínimo actual & Metodologías y tareas adicionales.\\\bottomrule
+\end{tabularx}\par
+Las celdas pendientes no contienen ceros ni cifras ilustrativas: no hay una
+medición de aceleración de XQDot4Z en esta versión. La auditoría del core es
+evidencia habilitante y no confirma H1, H2 ni H3.

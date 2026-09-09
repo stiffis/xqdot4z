@@ -1,0 +1,2 @@
+PASS signed comparison vectors=10036
+/home/stiff/stuff/xqdot4z/kuntur/verification/tb_slt.sv:19: $finish called at 10036000 (1ps)

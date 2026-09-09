@@ -1,0 +1,103 @@
+\section{Metodología de evaluación}
+\subsection{Verificación antes de rendimiento}
+Se separan cuatro niveles: referencia matemática, unidad RTL, integración
+al pipeline y kernel completo. Cada nivel tiene un oráculo y una puerta de
+aceptación. Para la unidad se usarán extremos, ambas mitades, cancelaciones
+y vectores aleatorios con semilla; para el pipeline, dependencias y efectos
+arquitectónicos únicos. Aprobar una batería finita no equivale a una prueba
+formal de todos los estados.
+
+La regresión del core se amplía antes de medir. El software usa un subconjunto
+de instrucciones permitido y comprobable. No basta compilar para RV32IC: el
+compilador puede emitir instrucciones estándar que el core docente no cubre.
+La primera versión de los kernels se escribirá en ensamblador controlado.
+Los kernels primarios usarán instrucciones de 32 bits, sin compresión ni
+relajación automática, con la misma política en todas las variantes. El
+soporte C del core se conservará y verificará por separado; no se introduce
+como otro factor de la comparación inicial.
+
+\subsection{Configuraciones predefinidas}
+\begin{tabularx}{\textwidth}{@{}lY@{}}
+\toprule
+\textbf{Factor} & \textbf{Plan inicial, aún no ejecutado}\\\midrule
+Kernel & Subtotales INT32 por grupo; después, capa con epílogo completo.\\
+Batch & Uno.\\
+Dimensiones & \(K\in\{32,128,512\}\), \(N\in\{1,4,16\}\).\\
+Grupo principal & \(G=32\).\\
+Sensibilidad de grupo & \(G\in\{8,32,128\}\), solo cuando divide \(K\).\\
+Semillas & Diez: 20260908 a 20260917; conservar también tensores y hashes.\\
+Regímenes de \(z\) & Constante, especializado y leído en ejecución; resultados separados.\\
+Memoria inicial & Propuesta de 64 KiB IMEM + 64 KiB DMEM, común a variantes.\\
+Microarquitectura & Inicial paralela; dos vías e iterativa en fase posterior.\\\bottomrule
+\end{tabularx}\par
+
+\(N=1\) constituye el producto punto; \(N>1\) permite reutilización entre filas.
+Casos con colas, por ejemplo \(K\in\{1,3,5,31,33,127\}\), se verifican primero
+como funcionalidad. No se incorporan silenciosamente a un agregado de rendimiento
+definido para otras configuraciones. La capacidad de memoria propuesta se
+confirmará al generar los programas; cualquier cambio será común y registrado.
+
+\subsection{Política de zero-point y baseline factorizado}
+\begin{description}[style=nextline]
+\item[ZC: constante por ejecución.] Campañas independientes para \(z=0,8,15\).
+Todas las variantes conocen el mismo valor antes de ensamblar.
+\item[ZS: especializado.] Los valores cambian entre fila/grupo, pero se conocen
+antes de generar código. Se cuenta el código adicional y todas las variantes
+tienen la misma información para optimizar.
+\item[ZR: leído en ejecución.] Los metadatos llegan por memoria. Si D usa
+inmediatos, se cuenta su despacho; si cambia el ISA para suministrarlos, se
+identifica como variante adicional. Su implementación sigue abierta.
+\end{description}
+
+B3 calcula \(S_{a,g}\) una vez por vector y grupo y lo comparte entre filas;
+no se fuerza su recálculo para favorecer a D. B3 y D usan el mismo número de
+vías y protocolos comparables, aunque sus costos lógicos pueden diferir.
+Los dos disponen de MUL escalar para las operaciones restantes.
+
+Los pesos permanecen empacados en U4 en la comparación principal. Una posible
+recodificación a S4 cuando \(z=8\) pertenece a otra comparación explícita.
+La mejora debida a reducir bytes desde FP32 no se atribuye a una instrucción
+cuando el baseline ya recibe los mismos datos U4.
+
+\subsection{Frontera de medición y métricas}
+La región comienza con la aceptación de la primera instrucción del kernel y
+termina con el retiro de la última que materializa su salida. El testbench
+deberá implementar y documentar esos eventos. Se excluyen reset y carga inicial
+del programa; se incluyen acceso a tensores, bucles, corrección, suma de
+activaciones, despacho de metadatos y stores de salida.
+
+Se medirá aparte el núcleo aritmético y, cuando exista, la capa con epílogo.
+El subtotal entero por grupo no se llamará ``inferencia completa''. Las
+magnitudes principales son
+\begin{equation}
+S_{\mathrm{ciclos}}=\frac{C_B}{C_D},\qquad
+\mathrm{CPI}=\frac{C}{I_{\mathrm{retiradas}}},\qquad
+t=\frac{C}{f}.
+\end{equation}
+El contador de retiro incluye stores y branches, no solo instrucciones con
+escritura de registros. Se conservarán conteos absolutos, stalls desglosados,
+código y tráfico por nivel de memoria. Sin timing sustentado, \(S_{\mathrm{ciclos}}\)
+no se presentará como speedup físico medido.
+
+\subsection{Análisis y fase física}
+Se compararán variantes de forma pareada por configuración, semilla y tensores.
+Los casos con \(S<1\) se publican como degradaciones. Cualquier media geométrica
+indicará qué cocientes integra; no sustituirá la tabla de casos completos.
+La repetición de una simulación determinista con idénticos datos no genera
+por sí sola evidencia estadística adicional. Si se calculan intervalos,
+se identificará su unidad de muestreo.
+
+Una fase posterior evaluará modelos de memoria con espera y unidades de una,
+dos y cuatro vías. Síntesis y place-and-route deberán usar dispositivo,
+herramienta y restricciones documentados. Se distinguirá un reloj común
+viable de la frecuencia alcanzada por cada diseño. LUT, FF, DSP y BRAM no
+son una medida directa de energía; esta requiere potencia y tiempo bajo una
+metodología explícita. La FPGA y su acceso universitario siguen pendientes.
+
+\subsection{Reproducibilidad del experimento}
+Cada ejecución conservará revisión del core y del protocolo, versiones y
+opciones de herramientas, comando, configuración, semilla, hashes del programa
+y tensores, salida esperada/obtenida y logs. El esquema inicial vive en
+\code{results/schema.json}. No se han creado filas sintéticas de rendimiento.
+Un fallo se conserva con su estado; una tabla del artículo se generará desde
+los datos, no desde números transcritos a mano.

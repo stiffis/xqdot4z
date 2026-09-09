@@ -1,0 +1,2 @@
+FATAL: /home/stiff/stuff/xqdot4z/tests/packed/tb_packed.sv:37: PACKED_FAIL malformed vector
+       Time: 1000  Scope: tb_packed

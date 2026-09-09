@@ -1,0 +1,2 @@
+DECODE_PASS checked=32768
+/home/stiff/stuff/xqdot4z/tests/integration/tb_decode.sv:22: $finish called at 32768000 (1ps)

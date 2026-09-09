@@ -1,0 +1,22 @@
+# Keep sources, manuscript PDF and audit evidence; ignore build intermediates.
+__pycache__/
+build/
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.toc
+paper/*.bbl
+paper/*.blg
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.synctex.gz
+# The archived draft keeps its sources and PDF, not disposable TeX output.
+docs/archive/paper-v0.1/*.aux
+docs/archive/paper-v0.1/*.log
+docs/archive/paper-v0.1/*.out
+docs/archive/paper-v0.1/*.toc
+docs/archive/paper-v0.1/*.bbl
+docs/archive/paper-v0.1/*.blg
+docs/archive/paper-v0.1/*.fls
+docs/archive/paper-v0.1/*.fdb_latexmk
+docs/archive/paper-v0.1/*.synctex.gz

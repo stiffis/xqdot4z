@@ -1,0 +1,15 @@
+{
+  "milestone": "M2",
+  "contract_version": "0.1",
+  "updated_on": "2026-09-08",
+  "rtl": "rtl/xqdot4z.v",
+  "testbench": "tests/rtl/tb_xqdot4z.sv",
+  "runner": "scripts/verify_rtl.py",
+  "evidence": "rtl/results/20260908T175106508019Z/summary.json",
+  "evidence_sha256": "0e95eb0bc228ddbd6096b46895ac9310d661311bf96a0f3e5864175e886157fd",
+  "status": "isolated_rtl_verified",
+  "integrated_in_kuntur": false,
+  "synthesis_performed": false,
+  "formal_proof": false,
+  "performance_measured": false
+}
