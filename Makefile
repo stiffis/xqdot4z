@@ -1,4 +1,4 @@
-.PHONY: all paper audit baseline-check check core-test model-test rtl-test integration-test scalar-test packed-test packed-integration-test benchmark-plan-test
+.PHONY: all paper audit baseline-check check core-test model-test rtl-test integration-test scalar-test packed-test packed-integration-test benchmark-plan-test measurement-test
 
 all: check paper
 
@@ -27,6 +27,9 @@ packed-test:
 
 packed-integration-test:
 	python3 scripts/verify_packed_integration.py
+
+measurement-test:
+	python3 scripts/verify_measurement.py
 
 benchmark-plan-test:
 	python3 -m unittest discover -s tests/benchmarks -p 'test_*.py' -v

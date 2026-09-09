@@ -1,4 +1,4 @@
-# Protocolo experimental — versión 0.4
+# Protocolo experimental — versión 0.5
 
 Nota editorial 0.2: estas matrices e hipótesis se conservan como notas internas,
 fuera del artículo IEEE breve. No obligan a implementar todas las alternativas.
@@ -14,6 +14,9 @@ Revisión 0.4, 2026-09-09: se seleccionan y congelan las cinco políticas
 comunes de codegen —desenrollado, recorrido, registros, reutilización de la
 corrección y planificación— con sus consecuencias declaradas. Seleccionarlas
 no desbloquea la campaña; los demás bloqueadores siguen vigentes.
+Revisión 0.5, 2026-09-09: se fijan y verifican los eventos de medición y los
+contadores en el testbench, con oráculo estructural, controles negativos y
+mutaciones. Siguen sin existir kernels de las variantes ni mediciones.
 El core corregido Kuntur está en `kuntur/`; aún no están completos los
 comparadores B2/B3/D con sus kernels y fronteras de medida.
 
@@ -350,15 +353,58 @@ de stalls, instrucciones dinámicas, bytes de código y bytes de memoria por
 nivel. Separar conteo de instrucciones de señales de escritura de registros.
 Un reintento/stall no puede contarse como múltiples retiros.
 
-La futura nota de instrumentación concretará señales, flancos y aceptación
-de inicio/fin en el testbench, y sus pruebas dirigidas. No repetirá este
-contrato como otra fuente normativa. Deberá distinguir total de retiros e
-histograma dinámico por opcode, pausas load-use, penalizaciones de redirección
-y llenado/vaciado; no sumar eventos solapados como ciclos independientes.
-Para memoria distinguirá capacidad/huella de bytes transferidos y contará
-solo interfaces/niveles realmente modelados, sin inventar tráfico de caché.
-El núcleo aritmético será una medición adicional con su propia frontera,
-no una resta estimada a partir del total ni su sustituto.
+### Eventos y contadores: implementación fijada
+
+`tests/benchmarks/tb_measure.sv` concreta los eventos anteriores. Observa el
+pipeline jerárquicamente y **no añade instrucciones al kernel**, de modo que se
+mide el mismo texto que la variante ejecutaría sin observador. Los contadores
+son eventos estructurales de este modelo, no tiempo físico.
+
+- **Apertura:** primer flanco de bajada con `ValidD` activo y `PCD` igual a
+  `BEGIN_PC`. Un paso especulativo descartado deja `ValidD` en cero y no abre
+  la ventana.
+- **Cierre:** retiro de `END_PC`, el store que materializa la salida. Un kernel
+  con bucle retira ese PC una vez por fila y la ventana cierra en **el último**.
+- **Extensión del texto:** `TEXT_END` delimita el kernel para atribuir eventos.
+  En un bucle el PC de cierre no es la última instrucción del cuerpo, así que
+  la atribución no puede usar el PC de cierre.
+- `cycles` cuenta ambos extremos: `cierre − apertura + 1`.
+
+Contadores por ventana: `cycles`, `retired`, `retired_kernel`,
+`retired_stores`, `retired_loads`, `retired_branches`, `retired_jumps`,
+`register_writes`, `stall_load_use`, `stall_fault_hold`,
+`flush_taken_control`, `data_read_bytes` y `data_write_bytes`.
+
+Tres consecuencias se declaran en lugar de descubrirse al analizar resultados:
+
+1. **Sesgo de llenado.** Una instrucción aceptada antes de la ventana puede
+   retirar dentro de ella. Por eso `retired` (todos los retiros de la ventana,
+   comparable con `cycles`) se separa de `retired_kernel` (solo PCs del kernel).
+   Su diferencia está acotada por la profundidad del pipeline, tres.
+2. **Tomadas frente a ejecutadas.** `retired_branches` se obtiene decodificando
+   el opcode del binario sobre la traza de PCs retirados, no de una señal del
+   pipeline: una rama no tomada retira sin levantar `PCSrcE`. `flush_taken_control`
+   cuenta solo las redirecciones efectivas. Los dos números son distintos y
+   ninguno sustituye al otro.
+3. **Faltas ajenas al kernel.** Todo programa termina en un EBREAK de
+   diagnóstico posterior a `END_PC`; `stall_fault_hold` solo cuenta faltas
+   cuyo PC cae dentro del kernel, y debe ser cero en una medición válida.
+
+Los bytes de código son estáticos, del texto enlazado, y los calcula el runner.
+Los bytes de memoria cuentan solo la interfaz de datos realmente modelada; no
+se inventa tráfico de caché ni niveles inexistentes.
+
+`scripts/verify_measurement.py` comprueba estos eventos con programas dirigidos
+cuyas expectativas se derivan de la estructura del pipeline, no de una corrida:
+un kernel rectilíneo de n instrucciones ocupa n+3 ciclos, un riesgo load-use
+añade uno y una redirección tomada añade dos. Incluye un par diferencial que
+aísla el stall, controles negativos para ventanas que no abren, no cierran o
+están invertidas, y mutaciones del propio harness que deben ser detectadas.
+Ambos simuladores deben coincidir exactamente.
+
+Esto fija los eventos y contadores; **no** produce kernels ni mediciones de
+las variantes. El núcleo aritmético sigue pendiente como medición adicional con
+su propia frontera, no una resta estimada a partir del total ni su sustituto.
 
 Latencia de memoria de 1/3 ciclos y variantes 1/2/4 vías se estudian después de
 tener un protocolo común verificado. Un modelo de espera no equivale a BRAM

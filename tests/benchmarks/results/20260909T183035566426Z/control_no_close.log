@@ -1,0 +1,2 @@
+FATAL: /home/stiff/stuff/xqdot4z_claude/tests/benchmarks/tb_measure.sv:61: MEASURE_FAIL window never closed
+       Time: 121000  Scope: tb_measure

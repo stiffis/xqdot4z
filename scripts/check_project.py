@@ -453,6 +453,53 @@ def check_packed_integration():
     return len(cases)
 
 
+def check_measurement():
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from verify_measurement import programs, sources, identities, DEPTH
+    state = json.loads((ROOT / "docs/MEASUREMENT_STATE.json").read_text())
+    assert state["status"] == "measurement_contract_verified" and state["protocol_version"] == "0.5"
+    assert state["component"] == "measurement_window_and_counters"
+    assert state["expectations_derived_from_structure_not_runs"] is True
+    assert state["kernels_implemented"] is state["campaign_executed"] is False
+    assert state["performance_measured"] is False
+    cases = {case["name"]: case for case in programs()}
+    assert len(cases) == state["directed_programs"] == 8
+
+    def verify_report(path, digest):
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == digest
+        run = json.loads(path.read_text())
+        assert run["status"] == "pass"
+        assert set(run["sources_sha256"]) == {str(p.relative_to(ROOT)) for p in sources()}
+        for name, source_hash in run["sources_sha256"].items():
+            assert hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == source_hash, f"Stale measurement: {name}"
+        assert run["negative_controls"] == 3 and len(run["mutations_detected"]) == 4
+        assert run["differentials"] == dict(load_use_stall_cycles=1, taken_control_cycles=2)
+        assert set(run["programs"]) == set(cases)
+        for name, case in cases.items():
+            observed = run["programs"][name]["counters"]
+            # Recompute the contract rather than trusting the recorded expectation.
+            assert observed == case["expected"], name
+            assert observed["cycles"] == (observed["retired_kernel"] + DEPTH +
+                                          observed["stall_load_use"] +
+                                          2*observed["flush_taken_control"]), name
+            identities(name, observed, (1, observed["cycles"]))
+            assert bool(run["programs"][name]["rationale"].strip()), name
+        artifacts = {str(p.relative_to(path.parent)) for p in path.parent.rglob("*")
+                     if p.is_file() and p != path}
+        assert artifacts == set(run["artifacts_sha256"])
+        for name, artifact_hash in run["artifacts_sha256"].items():
+            assert hashlib.sha256((path.parent / name).read_bytes()).hexdigest() == artifact_hash, name
+        return run
+
+    report = verify_report(ROOT / state["evidence"], state["evidence_sha256"])
+    repeated = verify_report(ROOT / state["repeat_evidence"], state["repeat_evidence_sha256"])
+    for key in ("sources_sha256", "tools", "platform", "programs", "mutations_detected",
+                "differentials", "negative_controls"):
+        assert report[key] == repeated[key], f"Measurement repeat differs: {key}"
+    print("OK: measurement window, 8 directed programs in two simulators, 3 controls and 4 harness mutations.")
+    return len(cases)
+
+
 def main():
     metadata = (ROOT / "paper/metadata.tex").read_text()
     def macro(name):
@@ -515,6 +562,7 @@ def main():
     scalar_programs = check_scalar()
     packed_vectors = check_packed()
     packed_programs = check_packed_integration()
+    check_measurement()
     from check_campaign import check as check_campaign
     check_campaign()
 

@@ -1,0 +1,25 @@
+RETIRED|00000000
+RETIRED|00000004
+RETIRED|00000008
+RETIRED|0000000c
+RETIRED|00000010
+RETIRED|00000014
+RETIRED|00000018
+RETIRED|0000001c
+WINDOW|1|11
+MEASURE|cycles|11
+MEASURE|retired|8
+MEASURE|retired_kernel|8
+MEASURE|retired_stores|1
+MEASURE|retired_loads|0
+MEASURE|register_writes|7
+MEASURE|stall_load_use|0
+MEASURE|stall_fault_hold|0
+MEASURE|flush_taken_control|0
+MEASURE|data_read_bytes|0
+MEASURE|data_write_bytes|4
+MEASURE_PASS window closed
+- /home/stiff/stuff/xqdot4z_claude/tests/benchmarks/tb_measure.sv:74: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.050 2026-07-01
+- Verilator: $finish at 161ns; walltime 0.000 s; speed 651.920 us/s
+- Verilator: cpu 0.000 s on 1 threads; allocated 7 MB

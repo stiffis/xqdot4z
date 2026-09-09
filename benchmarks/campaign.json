@@ -1,9 +1,9 @@
 {
-  "manifest_version": "0.3",
+  "manifest_version": "0.4",
   "campaign_id": "static-z-initial",
   "status": "design_only",
   "protocol": "docs/EXPERIMENT_PROTOCOL.md",
-  "protocol_version": "0.4",
+  "protocol_version": "0.5",
   "interpretation": "Evaluation under static zero-point specialization; no extrapolation to ZR and no proven upper bound on D's advantage.",
   "grid": {
     "variants": ["B1", "B2", "B3", "D"],
@@ -128,7 +128,6 @@
   "execution_blockers": [
     "implement and verify paired kernels and their disassembly allowlist checks",
     "fix common memory capacities and the initialized data layout",
-    "define and test the concrete measurement events and all protocol counters",
     "materialize tensors and the complete case inventory with hashes",
     "freeze B1 policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",
     "freeze the common kernel policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",

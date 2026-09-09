@@ -32,10 +32,10 @@ def zero_points(profile, setting, n, groups):
 
 
 def validate(manifest):
-    require(manifest["manifest_version"] == "0.3", "Unsupported manifest version")
+    require(manifest["manifest_version"] == "0.4", "Unsupported manifest version")
     require(manifest["status"] == "design_only", "This checker does not certify runnable campaigns")
     require(manifest["protocol"] == "docs/EXPERIMENT_PROTOCOL.md" and
-            manifest["protocol_version"] == "0.4", "Protocol reference mismatch")
+            manifest["protocol_version"] == "0.5", "Protocol reference mismatch")
     grid = manifest["grid"]
     integer_list(grid["N"], "N", 1, 16)
     integer_list(grid["K"], "K", 1, 512)
@@ -180,7 +180,6 @@ def validate(manifest):
     require(manifest["execution_blockers"] == [
         "implement and verify paired kernels and their disassembly allowlist checks",
         "fix common memory capacities and the initialized data layout",
-        "define and test the concrete measurement events and all protocol counters",
         "materialize tensors and the complete case inventory with hashes",
         "freeze B1 policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",
         "freeze the common kernel policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",

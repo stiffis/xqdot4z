@@ -120,7 +120,7 @@ class CampaignTests(unittest.TestCase):
             lambda m: m["common_policy_freeze"]["record"].remove("text_hash"),
             # Selecting the policies must not retire an unrelated blocker.
             lambda m: m["execution_blockers"].remove(
-                "define and test the concrete measurement events and all protocol counters"),
+                "materialize tensors and the complete case inventory with hashes"),
             lambda m: m["execution_blockers"].remove(
                 "freeze the common kernel policy, generator, assembly, disassembly,"
                 " text hash and tests in Git before any kernel timing, including the pilot"),
