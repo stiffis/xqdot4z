@@ -505,12 +505,12 @@ def check_kernels():
     sys.path.insert(0, str(ROOT / "scripts"))
     from verify_kernels import sources, SHAPES, SEEDS, SETTINGS, CUSTOM0
     from tensors import tensors, zero_points, expected_outputs
+    from kernels import required_row_bodies
     state = json.loads((ROOT / "docs/KERNEL_STATE.json").read_text())
-    assert state["status"] == "inline_resident_arm_verified"
-    assert state["role"] == "diagnostic_arm_not_headline_codegen"
-    assert state["headline_kernels_pending"] is True
-    assert state["policy_superseded_by"] == "shared_tile_resident_skeleton_v2"
+    assert state["status"] == "headline_and_twin_kernels_verified"
+    assert state["policy_implemented"] == "shared_tile_resident_skeleton_v2"
     assert state["variants_implemented"] == ["B3", "D"] and state["variants_pending"] == ["B1", "B2"]
+    assert state["headline_kernels_pending"] is False
     assert state["campaign_executed"] is state["pilot_executed"] is False
     assert state["speedup_computed"] is state["performance_comparison_drawn"] is False
     assert state["development_timings_observed"] is True
@@ -523,25 +523,35 @@ def check_kernels():
         for name, source_hash in run["sources_sha256"].items():
             assert hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == source_hash, f"Stale kernels: {name}"
         assert run["paired_agreements"] == len(SHAPES) * len(SEEDS) * len(SETTINGS) == 24
-        assert len(run["cases"]) == 48
+        assert len(run["cases"]) == state["cases"]
+        headline = 0
         for name, case in run["cases"].items():
-            # Recompute the oracle instead of trusting the recorded outputs.
+            # Recompute the oracle from the seed rather than trust the record.
             activations, weights = tensors(case["seed"], case["rows"], run["k"])
             zeros = zero_points(case["profile"], case["setting"], case["rows"], run["k"] // run["g"])
             assert case["outputs"] == expected_outputs(weights, activations, zeros), name
             assert [row[0] for row in zeros] == case["zero_points"], name
+            assert case["required_row_bodies"] == required_row_bodies(case["variant"], zeros), name
+            if case["arm"] == "headline":
+                headline += 1
+                # The floor is the ISA's, never the implementer's.
+                assert case["row_bodies_emitted"] == case["required_row_bodies"], name
             multiplies = case["instruction_mix"].get("0x33/mul", 0)
             if case["variant"] == "D":
                 assert multiplies == 0 and f"{CUSTOM0:#04x}" in case["instruction_mix"], name
+            elif case["strength_reduction"] == "declined_no_dispatch":
+                assert multiplies == case["row_bodies_emitted"], name
             else:
-                shared = len(set(case["zero_points"])) == 1
-                assert multiplies == (1 if shared else case["rows"]), name
-        # The gate M4 requires: for one case the variants return the same integers.
+                assert multiplies == {"elide": 0, "no_multiply": 0,
+                                      "shift": 0, "multiply": 1}[case["strength_reduction"]], name
+        assert headline == 48, "One headline arm per variant and case"
+        # Every case must pair D and B3 on the same integers.
         for rows in SHAPES:
             for seed in SEEDS:
                 for profile, setting in SETTINGS:
                     tail = f"n{rows}_s{seed}_{profile}_{setting}"
-                    assert run["cases"][f"D_{tail}"]["outputs"] == run["cases"][f"B3_{tail}"]["outputs"], tail
+                    assert (run["cases"][f"D_headline_{tail}"]["outputs"]
+                            == run["cases"][f"B3_headline_{tail}"]["outputs"]), tail
         artifacts = {str(p.relative_to(path.parent)) for p in path.parent.rglob("*")
                      if p.is_file() and p != path}
         assert artifacts == set(run["artifacts_sha256"])
@@ -553,8 +563,8 @@ def check_kernels():
     repeated = verify_report(ROOT / state["repeat_evidence"], state["repeat_evidence_sha256"])
     for key in ("sources_sha256", "tools", "platform", "cases", "paired_agreements"):
         assert report[key] == repeated[key], f"Kernel repeat differs: {key}"
-    print("OK: inline-resident arm, 24 paired agreements over 48 cases in two simulators.")
-    print("Diagnostic arm of a superseded policy; headline kernels, B1/B2 and the campaign remain pending.")
+    print(f"OK: D and B3 under policy v2, 24 paired agreements over {len(report['cases'])} arms.")
+    print("Kernel correctness only; B1/B2 pending, campaign blocked and no speedup computed.")
     return len(report["cases"])
 
 

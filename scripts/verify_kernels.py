@@ -1,11 +1,11 @@
 """Verify that the paired kernels compute the contract's subtotals.
 
-These kernels implement the superseded policy shared_group_resident_skeleton_v1:
-activation residency at group scope, K unrolled, and rows emitted straight-line
-in every variant. That policy was withdrawn for internal contradiction and for
-being unimplementable at K=128 and K=512, so this is kept as a declared
-diagnostic arm -- the control that quantifies the unroll bonus -- and not as the
-campaign's headline codegen. Its correctness evidence stands on its own.
+Kernels follow common policy v2. Each case runs its headline arm, whose row
+traversal is derived from the variant's encoding, plus the structural twin in
+the opposite form wherever the encoding can express both. The twin differs by
+the loop control alone, so subtracting the pair prices that control instead of
+estimating it, and the difference between the pair under ZC and under ZS is what
+separates the unroll bonus from the cost of supplying the zero point.
 
 This checks correctness and the instruction mix, which is the gate M4 requires
 before any comparison: every variant must return the same integers for the same
@@ -26,7 +26,7 @@ sys.path.insert(0, str(ROOT / "benchmarks"))
 sys.path.insert(0, str(ROOT / "scripts"))
 from tensors import (DMEM_WORDS, layout, tensors, zero_points, expected_outputs,
                      activation_sum, pack_activations)
-from kernels import VARIANTS, setup
+from kernels import VARIANTS, setup, required_row_bodies, strength_reduction
 from verify_measurement import PREFIX, DEPTH, sha, require, parse
 
 SHAPES = [1, 4, 16]
@@ -36,8 +36,11 @@ SETTINGS = [("zc_controls", 0), ("zc_controls", 8), ("zc_controls", 15), ("zs_ba
 
 # One opcode allowlist per variant: it proves D never multiplies and that
 # neither variant reaches for the other's custom space.
-LUI, OP_IMM, OP, LOAD, STORE, SYSTEM, CUSTOM0, CUSTOM1 = 0x37, 0x13, 0x33, 0x03, 0x23, 0x73, 0x0b, 0x2b
-BASE = {LUI, OP_IMM, OP, LOAD, STORE, SYSTEM}
+LUI, OP_IMM, OP, LOAD, STORE, BRANCH, SYSTEM = 0x37, 0x13, 0x33, 0x03, 0x23, 0x63, 0x73
+CUSTOM0, CUSTOM1 = 0x0b, 0x2b
+# BRANCH is the row loop's back edge; no variant may jump indirectly, which
+# would be the dispatch the specialization rule declines.
+BASE = {LUI, OP_IMM, OP, LOAD, STORE, BRANCH, SYSTEM}
 ALLOWED = {"D": BASE | {CUSTOM0}, "B3": BASE | {CUSTOM1}}
 MULTIPLY_ALLOWED = {"D": False, "B3": True}
 
@@ -74,8 +77,8 @@ def main():
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%f") + "Z"
     report = dict(status="fail", timestamp_utc=stamp,
                   scope="Paired kernel correctness and instruction mix, not a performance comparison",
-                  arm="inline_resident", policy_implemented="shared_group_resident_skeleton_v1",
-                  role="diagnostic_arm_superseded_policy_not_headline_codegen",
+                  policy_implemented="shared_tile_resident_skeleton_v2",
+                  role="headline_codegen_plus_structural_twins",
                   python=sys.version, platform=__import__("platform").platform(),
                   shapes=SHAPES, k=K, g=G, seeds=SEEDS,
                   settings=[list(s) for s in SETTINGS], variants=sorted(VARIANTS))
@@ -125,66 +128,91 @@ def main():
                         oracle = expected_outputs(weights, activations, zeros)
                         produced = {}
                         for variant, spec in sorted(VARIANTS.items()):
-                            name = f"{variant}_n{rows}_s{seed}_{profile}_{setting}"
-                            body = setup(activations, weights, plan)
-                            body += spec["builder"](rows, K, zeros, plan) + "ebreak\n"
-                            source = out / f"{name}.S"
-                            source.write_text(f'.include "{spec["include"]}"\n.option norelax\n'
-                                              '.option norvc\n.text\n.global _start\n_start:\n' + body)
-                            run(name + "_as", [PREFIX + "as", "-I", ROOT / "isa", "-I", ROOT / "isa/packed",
-                                               "-march=rv32imc", "-mabi=ilp32", "-mno-relax",
-                                               "-o", build / f"{name}.o", source])
-                            run(name + "_ld", [PREFIX + "ld", "-m", "elf32lriscv", "--no-relax", "-Ttext=0",
-                                               "-o", out / f"{name}.elf", build / f"{name}.o"])
-                            run(name + "_objcopy", [PREFIX + "objcopy", "-O", "binary", "-j", ".text",
-                                                    out / f"{name}.elf", out / f"{name}.bin"])
-                            symbols = run(name + "_nm", [PREFIX + "nm", "-n", out / f"{name}.elf"])
-                            labels = {m[2]: int(m[0], 16) for line in symbols.splitlines()
-                                      if len(m := line.split()) == 3}
-                            data = (out / f"{name}.bin").read_bytes()
-                            mem = out / f"{name}.mem"
-                            mem.write_text("".join(f"{int.from_bytes(data[i:i+4],'little'):08x}\n"
-                                                   for i in range(0, len(data), 4)))
-                            mix = check_opcodes(name, variant, data, labels["kernel_begin"], labels["kernel_end"])
-                            window = ["+PROGRAM=" + mem.name, f"+WORDS={len(data)//4}",
-                                      f"+BEGIN_PC={labels['kernel_begin']}", f"+END_PC={labels['kernel_end']}",
-                                      f"+TEXT_END={labels['kernel_end']}", "+TRACE=1"]
-                            results = {}
-                            for simulator, command in commands[variant].items():
-                                log = run(f"{name}_{simulator}", [*command, *window])
-                                observed, _, bounds = parse(log, name)
-                                require(observed["cycles"] == observed["retired_kernel"] + DEPTH +
-                                        observed["stall_load_use"] + 2*observed["flush_taken_control"],
-                                        f"{name}: unaccounted cycles")
-                                written = [value for address, value in stores(log)
-                                           if address >= plan["outputs"]]
-                                require(len(written) == rows, f"{name}: expected {rows} outputs")
-                                signed = [v - (1 << 32) if v >> 31 else v for v in written]
-                                require(signed == oracle, f"{name}/{simulator}: {signed} != {oracle}")
-                                results[simulator] = observed
-                            require(results["iverilog"] == results["verilator"], f"{name}: simulators disagree")
-                            produced[variant] = oracle
-                            report["cases"][name] = dict(
-                                variant=variant, rows=rows, seed=seed, profile=profile, setting=setting,
-                                zero_points=[row[0] for row in zeros], activation_sum=activation_sum(activations),
-                                code_bytes=labels["kernel_end"] + 4 - labels["kernel_begin"],
-                                instruction_mix=mix, outputs=oracle, counters=results["iverilog"])
+                            derived = spec["builder"](rows, K, zeros, plan, "derived")
+                            arms = {"headline": derived}
+                            # The twin exists only where the encoding allows both
+                            # forms; D under a varying immediate has just one.
+                            for form in ("loop", "inline"):
+                                try: other = spec["builder"](rows, K, zeros, plan, form)
+                                except ValueError: continue
+                                if other != derived: arms["twin_" + form] = other
+                            require(len(arms) == 2 or (variant == "D" and profile == "zs_balanced_u4"),
+                                    f"{variant}/{profile}: expected a headline and one twin")
+                            for arm, kernel in arms.items():
+                                name = f"{variant}_{arm}_n{rows}_s{seed}_{profile}_{setting}"
+                                body = setup(activations, weights, zeros, plan) + kernel + "ebreak\n"
+                                source = out / f"{name}.S"
+                                source.write_text(f'.include "{spec["include"]}"\n.option norelax\n'
+                                                  '.option norvc\n.text\n.global _start\n_start:\n' + body)
+                                run(name + "_as", [PREFIX + "as", "-I", ROOT / "isa", "-I", ROOT / "isa/packed",
+                                                   "-march=rv32imc", "-mabi=ilp32", "-mno-relax",
+                                                   "-o", build / f"{name}.o", source])
+                                run(name + "_ld", [PREFIX + "ld", "-m", "elf32lriscv", "--no-relax", "-Ttext=0",
+                                                   "-o", out / f"{name}.elf", build / f"{name}.o"])
+                                run(name + "_objcopy", [PREFIX + "objcopy", "-O", "binary", "-j", ".text",
+                                                        out / f"{name}.elf", out / f"{name}.bin"])
+                                symbols = run(name + "_nm", [PREFIX + "nm", "-n", out / f"{name}.elf"])
+                                labels = {m[2]: int(m[0], 16) for line in symbols.splitlines()
+                                          if len(m := line.split()) == 3}
+                                data = (out / f"{name}.bin").read_bytes()
+                                mem = out / f"{name}.mem"
+                                mem.write_text("".join(f"{int.from_bytes(data[i:i+4],'little'):08x}\n"
+                                                       for i in range(0, len(data), 4)))
+                                text_end = labels["kernel_text_end"] - 4
+                                mix = check_opcodes(name, variant, data, labels["kernel_begin"], text_end)
+                                window = ["+PROGRAM=" + mem.name, f"+WORDS={len(data)//4}",
+                                          f"+BEGIN_PC={labels['kernel_begin']}",
+                                          f"+END_PC={labels['kernel_end']}",
+                                          f"+TEXT_END={text_end}", "+TRACE=1"]
+                                results = {}
+                                for simulator, command in commands[variant].items():
+                                    log = run(f"{name}_{simulator}", [*command, *window])
+                                    observed, _, bounds = parse(log, name)
+                                    require(observed["cycles"] == observed["retired_kernel"] + DEPTH +
+                                            observed["stall_load_use"] + 2*observed["flush_taken_control"],
+                                            f"{name}: unaccounted cycles")
+                                    written = [value for address, value in stores(log)
+                                               if address >= plan["outputs"]]
+                                    require(len(written) == rows, f"{name}: expected {rows} outputs")
+                                    signed = [v - (1 << 32) if v >> 31 else v for v in written]
+                                    require(signed == oracle, f"{name}/{simulator}: {signed} != {oracle}")
+                                    results[simulator] = observed
+                                require(results["iverilog"] == results["verilator"],
+                                        f"{name}: simulators disagree")
+                                emitted = mix.get(f"{STORE:#04x}", 0)
+                                if arm == "headline":
+                                    require(emitted == required_row_bodies(variant, zeros),
+                                            f"{name}: emitted row bodies differ from the ISA floor")
+                                    produced[variant] = oracle
+                                report["cases"][name] = dict(
+                                    variant=variant, arm=arm, rows=rows, seed=seed, profile=profile,
+                                    setting=setting, zero_points=[row[0] for row in zeros],
+                                    row_bodies_emitted=emitted,
+                                    required_row_bodies=required_row_bodies(variant, zeros),
+                                    strength_reduction=strength_reduction(zeros[0][0])
+                                                       if len({r[0] for r in zeros}) == 1 else "declined_no_dispatch",
+                                    activation_sum=activation_sum(activations),
+                                    code_bytes=text_end + 4 - labels["kernel_begin"],
+                                    instruction_mix=mix, outputs=oracle, counters=results["iverilog"])
                         # The M4 gate: the variants must return the same integers.
                         require(len(set(map(tuple, produced.values()))) == 1,
                                 f"n{rows}_s{seed}_{profile}_{setting}: variants disagree")
                         agreements += 1
             report["paired_agreements"] = agreements
             require(agreements == len(SHAPES) * len(SEEDS) * len(SETTINGS), "Incomplete pairing")
-            require(len(report["cases"]) == agreements * len(VARIANTS), "Incomplete case inventory")
-            # B3 must pay a correction D does not, and only D uses custom-0.
+            # D never multiplies; B3 folds only what a single static z licenses.
             for name, case in report["cases"].items():
                 multiplies = case["instruction_mix"].get("0x33/mul", 0)
                 if case["variant"] == "D":
                     require(multiplies == 0 and f"{CUSTOM0:#04x}" in case["instruction_mix"], name)
+                    continue
+                expected = {"elide": 0, "no_multiply": 0, "shift": 0, "multiply": 1}
+                fold = case["strength_reduction"]
+                if fold == "declined_no_dispatch":
+                    require(multiplies == case["row_bodies_emitted"],
+                            f"{name}: a declined fold multiplies once per emitted body")
                 else:
-                    shared = len(set(case["zero_points"])) == 1
-                    require(multiplies == (1 if shared else case["rows"]),
-                            f"{name}: correction reuse does not follow the declared schedule")
+                    require(multiplies == expected[fold], f"{name}: fold {fold} multiplied {multiplies} times")
         report["status"] = "pass"
     finally:
         report["artifacts_sha256"] = {str(p.relative_to(out)): sha(p) for p in sorted(out.rglob("*"))

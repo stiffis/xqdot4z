@@ -11,7 +11,8 @@ import struct
 MAX_ROWS = 16
 ACTIVATION_BASE = 0
 WEIGHT_BASE = 32          # eight activation words occupy bytes 0..31
-OUTPUT_BASE = 288         # four weight words per row for MAX_ROWS rows
+ZERO_POINT_BASE = 288     # four weight words per row for MAX_ROWS rows
+OUTPUT_BASE = 352         # one zero point per row
 DMEM_WORDS = 1024
 
 
@@ -62,12 +63,20 @@ def activation_sum(activations):
 
 
 def layout(rows, k):
-    """Byte addresses every variant must use."""
+    """Byte addresses every variant must use.
+
+    The zero-point array is materialized for every variant even though D reads
+    its zero point from an instruction immediate: the campaign holds the data
+    layout fixed, so it cannot depend on which variant is running.
+    """
     per_row = words_per_row(k)
-    if rows * per_row * 4 + WEIGHT_BASE > OUTPUT_BASE:
-        raise ValueError("weights would overlap the output region")
+    if WEIGHT_BASE + rows * per_row * 4 > ZERO_POINT_BASE:
+        raise ValueError("weights would overlap the zero-point region")
+    if ZERO_POINT_BASE + rows * 4 > OUTPUT_BASE:
+        raise ValueError("zero points would overlap the output region")
     return dict(activations=ACTIVATION_BASE,
                 weights=WEIGHT_BASE,
+                zero_points=ZERO_POINT_BASE,
                 outputs=OUTPUT_BASE,
                 weight_words_per_row=per_row,
                 activation_words=k // 4)

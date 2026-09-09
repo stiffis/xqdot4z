@@ -52,25 +52,23 @@ Los parámetros (MUL, XQDot4Zi, XQDot4) permiten B1=(0,0,0), B2=(1,0,0),
 B3=(1,0,1) y D=(1,1,0). (1,1,1) prueba convivencia, no es D causal.
 Falta cerrar kernels, memoria común y eventos de medición antes de comparar.
 
-Actualización de kernels (2026-09-09): existen kernels pareados **D y B3**
-para K=G=32 y N∈{1,4,16}, verificados contra el oráculo entero y entre sí, con
-lista blanca de opcodes por variante y evidencia en `docs/KERNEL_STATE.json`.
-Implementan la política **superada** `shared_group_resident_skeleton_v1`, así
-que se conservan como **brazo diagnóstico declarado** —el control que cuantifica
-la bonificación de desenrollado— y no como codegen de titular. Su evidencia de
-corrección se sostiene por sí sola. Faltan los kernels de titular bajo la
-política v2, y **B1 y B2 siguen sin implementar**, así que el bloqueador de
-kernels continúa abierto y la campaña sigue bloqueada.
+Actualización de kernels (2026-09-09): existen kernels **D y B3** bajo la
+política v2, con evidencia en `docs/KERNEL_STATE.json`. Cada caso corre su brazo
+de titular, cuyo recorrido de filas se deriva de la codificación de la variante,
+más el **gemelo estructural** en la forma contraria allí donde la codificación
+admite ambas. El gemelo difiere solo en el control de bucle, así que restar el
+par lo cotiza en vez de estimarlo, y contrastar ese par entre ZC y ZS separa la
+bonificación de desenrollado del costo de suministrar el zero-point. Los
+cuerpos de fila emitidos por el brazo de titular deben coincidir con
+`required_row_bodies`, el piso que impone cada ISA.
 
-Al desarrollar ese brazo se observaron contadores de sus corridas de corrección;
-se registran como tiempos de desarrollo observados, no como resultados, y no se
-ha comparado ni calculado ningún speedup. Tres defectos de ese brazo, detectados
-en revisión y corregidos por la política v2, se declaran aquí porque afectan a
-cómo debe leerse: materializa z como inmediato también en B3, que no lo necesita;
-direcciona los pesos con desplazamiento absoluto, horneando la estructura
-rectilínea en el plan de direcciones; y **no toma ninguna reducción de fuerza**,
-de modo que con z=0 emite Sa completo más una multiplicación y restas por cero
-que la línea 215 de este protocolo le permite omitir.
+**B1 y B2 siguen sin implementar**, así que el bloqueador de kernels continúa
+abierto y la campaña sigue bloqueada. Al desarrollarlos se observaron contadores
+de esas corridas de corrección; se registran como tiempos de desarrollo
+observados, no como resultados, y no se ha comparado ni calculado ningún
+speedup. El brazo anterior bajo la política v1 se conserva en el historial de
+Git, no como evidencia fijada: su residencia de grupo era un confusor adicional
+que el par gemelo de v2 no tiene, así que como control quedó superado.
 
 Estado: planificación. No existen aún mediciones de XQDot4Z.
 Las configuraciones siguientes son propuestas concretas; cualquier revisión
