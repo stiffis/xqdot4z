@@ -583,6 +583,80 @@ def check_kernels():
     return len(report["cases"])
 
 
+def check_inventory():
+    """Recompute every planned case from its seed; the file is a record, not a source."""
+    sys.path.insert(0, str(ROOT / "benchmarks"))
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from tensors import (tensors, zero_points, expected_outputs, activation_sum,
+                         pack_activations, pack_weights)
+    from materialize_tensors import digest, settings
+    from collections import Counter
+    state = json.loads((ROOT / "docs/INVENTORY_STATE.json").read_text())
+    assert state["status"] == "inventory_materialized"
+    assert state["measurements_taken"] is False
+    inventory = ROOT / state["inventory"]
+    assert hashlib.sha256(inventory.read_bytes()).hexdigest() == state["inventory_sha256"]
+    record = json.loads(inventory.read_text())
+    manifest = json.loads((ROOT / "benchmarks/campaign.json").read_text())
+    grid = manifest["grid"]
+    assert record["manifest_version"] == manifest["manifest_version"]
+    assert record["shapes"] == grid["N"] and record["seeds"] == grid["tensor_seeds"]
+    assert record["k"] == grid["K"][0] and record["g"] == grid["G"]
+    assert record["measurements_taken"] is False
+    k, g = record["k"], record["g"]
+    declared = list(settings(manifest))
+
+    for rows in grid["N"]:
+        for seed in grid["tensor_seeds"]:
+            activations, weights = tensors(seed, rows, k)
+            entry = record["tensors"][f"n{rows}_s{seed}"]
+            assert entry["packed_weights"] == [pack_weights(row) for row in weights]
+            assert entry["packed_activations"] == pack_activations(activations)
+            assert entry["activation_sum"] == activation_sum(activations)
+            assert entry["sha256"] == digest(entry["packed_weights"], entry["packed_activations"])
+            for profile, value in declared:
+                zeros = zero_points(profile, value, rows, k // g)
+                name = f"n{rows}_s{seed}_{profile}_{value}"
+                group = record["groups"][name]
+                assert group["zero_point_matrix"] == zeros, name
+                assert group["expected_group_outputs"] == expected_outputs(weights, activations, zeros), name
+                column = [row[0] for row in zeros]
+                assert group["effective_z_histogram"] == {
+                    str(z): c for z, c in sorted(Counter(column).items())}, name
+                assert group["sha256"] == digest(zeros, group["expected_group_outputs"]), name
+                for variant in grid["variants"]:
+                    case = record["cases"][f"{variant}_{name}"]
+                    assert case["group"] == name and case["variant"] == variant
+                    assert case["sha256"] == digest(variant, entry["sha256"], group["sha256"])
+    planned = len(grid["N"]) * len(grid["tensor_seeds"]) * len(declared) * len(grid["variants"])
+    assert len(record["cases"]) == planned == 2280, "The inventory must cover every planned case"
+    assert len(record["groups"]) == planned // len(grid["variants"])
+    assert len(record["tensors"]) == len(grid["N"]) * len(grid["tensor_seeds"])
+    # Identical inputs share a hash by construction: at N=1 there is no varying
+    # zero point, so a constant control and the phase of the same value are the
+    # same program. That degeneracy is checked, not waved through, and a
+    # collision anywhere else would mean two different cases share inputs.
+    groups_by_hash = {}
+    for name, case in record["cases"].items():
+        groups_by_hash.setdefault(case["sha256"], []).append(name)
+    degenerate = record["regimes_coincide_at_one_row"]
+    shared = set(degenerate["shared_settings"])
+    collisions = {h: n for h, n in groups_by_hash.items() if len(n) > 1}
+    assert sum(len(n) - 1 for n in collisions.values()) == degenerate["colliding_cases"] == 120
+    for names in collisions.values():
+        assert len(names) == 2, names
+        cases = [record["cases"][n] for n in names]
+        groups = [record["groups"][c["group"]] for c in cases]
+        assert {c["variant"] for c in cases} == {cases[0]["variant"]}, names
+        assert all(g["rows"] == 1 for g in groups), names
+        assert {g["profile"] for g in groups} == {"zc_controls", "zs_balanced_u4"}, names
+        assert {g["setting"] for g in groups} == {groups[0]["setting"]} and \
+            groups[0]["setting"] in shared, names
+    print(f"OK: {planned} planned cases materialized, recomputed from their seeds and hashed.")
+    print("Inputs only; not one case has been run or measured.")
+    return planned
+
+
 def check_freeze():
     """Re-derive the freeze from the tree; a quiet edit must fail here."""
     sys.path.insert(0, str(ROOT / "scripts"))
@@ -686,6 +760,7 @@ def main():
     packed_programs = check_packed_integration()
     check_measurement()
     check_kernels()
+    check_inventory()
     check_freeze()
     from check_campaign import check as check_campaign
     check_campaign()

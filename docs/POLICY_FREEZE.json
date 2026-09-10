@@ -1,6 +1,6 @@
 {
   "frozen_on": "2026-09-10",
-  "parent_git_revision": "ecbe1d36aec3505e35f13c995df08dcd2b07ae25",
+  "parent_git_revision": "c065ad8b2249101c10b31ed36c311f340da12979",
   "required_before": "first_kernel_timing_including_pilot",
   "post_measurement_change": "new_version_with_reason_prior_observations_retained_and_affected_pairs_rerun",
   "measurements_taken": false,
@@ -27,8 +27,8 @@
         "tests/benchmarks/test_b1_arithmetic.py": "4d96200b4ee8aa5958b25c91d8a5d17630092847fe940666540b10aed9ef89f2"
       },
       "frozen_files_committed_with_this_record": true,
-      "kernel_evidence": "tests/benchmarks/kernel_results/20260910T223631229690Z/summary.json",
-      "kernel_evidence_sha256": "213d952ee7e0cc789202ee095159b14ff8ebbd3afa4538235e75ad3a5c86ebc6",
+      "kernel_evidence": "tests/benchmarks/kernel_results/20260910T230637163063Z/summary.json",
+      "kernel_evidence_sha256": "fc6301113695101a3377208133186bb9eb02531f7f16abc504893a6d030b0d63",
       "variants": [
         "B1"
       ],
@@ -297,11 +297,11 @@
         "benchmarks/tensors.py": "7efd4f545721da0f5ea1b6fce93ed0c0b23188d7e53f4734626a87a6145cef6c"
       },
       "tests": {
-        "tests/benchmarks/test_campaign.py": "14b32360f562911e08133486aac631bfeeda0fa74153d6079dffefaf380b1065"
+        "tests/benchmarks/test_campaign.py": "14a265988bb8c20954959effe20fe9cbec997b2e6623683cc558cb79e71d9416"
       },
       "frozen_files_committed_with_this_record": true,
-      "kernel_evidence": "tests/benchmarks/kernel_results/20260910T223631229690Z/summary.json",
-      "kernel_evidence_sha256": "213d952ee7e0cc789202ee095159b14ff8ebbd3afa4538235e75ad3a5c86ebc6",
+      "kernel_evidence": "tests/benchmarks/kernel_results/20260910T230637163063Z/summary.json",
+      "kernel_evidence_sha256": "fc6301113695101a3377208133186bb9eb02531f7f16abc504893a6d030b0d63",
       "variants": [
         "B1",
         "B2",

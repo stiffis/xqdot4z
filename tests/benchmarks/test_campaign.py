@@ -105,7 +105,7 @@ class CampaignTests(unittest.TestCase):
             lambda m: m["optimization"]["b1_software_multiply_policy"].update(performance_driven_algorithm_search=True),
             lambda m: m["b1_freeze"].update(required_before="after_pilot"),
             lambda m: m["b1_freeze"]["record"].remove("text_hash"),
-            lambda m: m["execution_blockers"].pop(-2),
+            lambda m: m["execution_blockers"].clear(),
         ]
         self._assert_all_rejected(mutations)
 
@@ -137,11 +137,11 @@ class CampaignTests(unittest.TestCase):
             lambda m: m["common_policy_freeze"].update(required_before="after_pilot"),
             lambda m: m["common_policy_freeze"].update(policy_id="shared_group_resident_skeleton_v1"),
             lambda m: m["common_policy_freeze"]["record"].remove("text_hash"),
-            # Selecting the policies must not retire an unrelated blocker.
-            lambda m: m["execution_blockers"].remove(
-                "materialize tensors and the complete case inventory with hashes"),
+            # The last blocker cannot be retired by an unrelated change, and no
+            # blocker may be invented either: the list is checked exactly.
             lambda m: m["execution_blockers"].remove(
                 "record the pre-measurement revision and any observed development timings"),
+            lambda m: m["execution_blockers"].append("some other thing to do first"),
         ]
         self._assert_all_rejected(mutations)
 

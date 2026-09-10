@@ -1,0 +1,24 @@
+{
+  "status": "inventory_materialized",
+  "built_on": "2026-09-10",
+  "manifest_version": "0.8",
+  "builder": "scripts/materialize_tensors.py",
+  "inventory": "benchmarks/inventory.json",
+  "inventory_sha256": "8d1af2fef18f1d287838db78923ce239bd6bacfca2fbc0b78876a2ee31a023f6",
+  "planned_cases": 2280,
+  "groups": 570,
+  "tensor_sets": 30,
+  "recomputed_from_seeds_by_checker": true,
+  "measurements_taken": false,
+  "campaign_executed": false,
+  "pilot_executed": false,
+  "regimes_coincide_at_one_row": {
+    "colliding_cases": 120,
+    "note": "At N=1 a constant zero point and a phase of the same value give the same program, so those cases share one input hash by construction.",
+    "shared_settings": [
+      0,
+      8,
+      15
+    ]
+  }
+}

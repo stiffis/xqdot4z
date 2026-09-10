@@ -1,5 +1,5 @@
 {
-  "manifest_version": "0.7",
+  "manifest_version": "0.8",
   "campaign_id": "static-z-initial",
   "status": "design_only",
   "protocol": "docs/EXPERIMENT_PROTOCOL.md",
@@ -137,7 +137,6 @@
     "post_measurement_change": "new_version_with_reason_prior_observations_retained_and_affected_pairs_rerun"
   },
   "execution_blockers": [
-    "materialize tensors and the complete case inventory with hashes",
     "record the pre-measurement revision and any observed development timings"
   ]
 }

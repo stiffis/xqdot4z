@@ -114,6 +114,27 @@ Se reporta junto a la descomposición como palabras de código y como
 veces mayor son la misma decisión de interfaz vista por dos lados, y reportar
 uno sin el otro sería incompleto.
 
+### Materialización del inventario
+
+Los 2280 casos planificados quedan materializados antes de medir ninguno, en
+`benchmarks/inventory.json`: tensores empacados, matriz de zero-points,
+histograma efectivo, salidas esperadas y hash por caso, tal como exige
+`persist_before_measurement`. Así una corrida posterior no puede usar entradas
+distintas sin que se note, y un caso que nunca se ejecute queda **visiblemente
+ausente** en vez de silenciosamente omitido.
+
+El archivo es un registro, no una fuente: `check_project` recomputa cada tensor,
+cada matriz y cada salida desde su semilla y el calendario declarado, y compara.
+Si el generador cambiara, la comparación falla.
+
+**Degeneración declarada en N=1.** Con una sola fila no existe un zero-point
+variable, así que un control constante y la fase del mismo valor producen el
+mismo programa: los ajustes compartidos —0, 8 y 15— colisionan en un único hash
+de entrada, 120 casos en total. Está comprobado que las colisiones son
+exactamente esas y solo en N=1. La consecuencia para el análisis es directa:
+**un contraste ZC/ZS en N=1 no es un efecto de régimen** y no debe leerse como
+tal; el contraste solo tiene contenido a partir de N=4.
+
 ### Congelación de las políticas
 
 Ambas políticas quedan congeladas en Git antes de cronometrar ningún kernel, en

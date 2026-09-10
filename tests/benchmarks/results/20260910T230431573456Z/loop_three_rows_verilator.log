@@ -1,0 +1,30 @@
+RETIRED|00000000
+STORE|00000000|00000002
+RETIRED|00000004
+RETIRED|00000008
+RETIRED|0000000c
+STORE|00000000|00000001
+RETIRED|00000004
+RETIRED|00000008
+RETIRED|0000000c
+STORE|00000000|00000000
+RETIRED|00000004
+RETIRED|00000008
+RETIRED|0000000c
+WINDOW|2|16
+MEASURE|cycles|15
+MEASURE|retired|9
+MEASURE|retired_kernel|8
+MEASURE|retired_stores|3
+MEASURE|retired_loads|0
+MEASURE|register_writes|4
+MEASURE|stall_load_use|0
+MEASURE|stall_fault_hold|0
+MEASURE|flush_taken_control|2
+MEASURE|data_read_bytes|0
+MEASURE|data_write_bytes|12
+MEASURE_PASS window closed
+- /tmp/xqdot4z-measure-7g42wtyk/tb_measure_battery.sv:88: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.050 2026-07-01
+- Verilator: $finish at 221ns; walltime 0.000 s; speed 1.135 ms/s
+- Verilator: cpu 0.000 s on 1 threads; allocated 7 MB

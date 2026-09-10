@@ -1,4 +1,4 @@
-.PHONY: all paper audit baseline-check check core-test model-test rtl-test integration-test scalar-test packed-test packed-integration-test benchmark-plan-test measurement-test kernel-test freeze-policies
+.PHONY: all paper audit baseline-check check core-test model-test rtl-test integration-test scalar-test packed-test packed-integration-test benchmark-plan-test measurement-test kernel-test freeze-policies materialize
 
 all: check paper
 
@@ -27,6 +27,9 @@ packed-test:
 
 packed-integration-test:
 	python3 scripts/verify_packed_integration.py
+
+materialize:
+	python3 scripts/materialize_tensors.py
 
 freeze-policies:
 	python3 scripts/freeze_policies.py
