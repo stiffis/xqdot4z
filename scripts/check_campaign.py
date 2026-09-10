@@ -40,7 +40,7 @@ def zero_points(profile, setting, n, groups):
 
 
 def validate(manifest):
-    require(manifest["manifest_version"] == "0.6", "Unsupported manifest version")
+    require(manifest["manifest_version"] == "0.7", "Unsupported manifest version")
     require(manifest["status"] == "design_only", "This checker does not certify runnable campaigns")
     require(manifest["protocol"] == "docs/EXPERIMENT_PROTOCOL.md" and
             manifest["protocol_version"] == "0.6", "Protocol reference mismatch")
@@ -212,10 +212,10 @@ def validate(manifest):
         require(freeze["policy_id"] == policy_id, "Freeze policy mismatch")
         require(freeze["record"] == ["policy", "generator", "assembly", "disassembly", "text_hash", "tests", "git_revision"], "Incomplete freeze record")
         require(freeze["post_measurement_change"] == "new_version_with_reason_prior_observations_retained_and_affected_pairs_rerun", "Policy changes must preserve history")
+    require(Path(ROOT / "docs/POLICY_FREEZE.json").exists(),
+            "Both policies must be frozen once their blockers are discharged")
     require(manifest["execution_blockers"] == [
         "materialize tensors and the complete case inventory with hashes",
-        "freeze B1 policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",
-        "freeze the common kernel policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",
         "record the pre-measurement revision and any observed development timings",
     ], "Execution blockers changed; selecting the common policies does not unblock measurement")
     return dict(planned_cases=len(case_ids), profile_cases=dict(profile_cases),

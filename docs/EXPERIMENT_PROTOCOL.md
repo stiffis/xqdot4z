@@ -114,6 +114,22 @@ Se reporta junto a la descomposición como palabras de código y como
 veces mayor son la misma decisión de interfaz vista por dos lados, y reportar
 uno sin el otro sería incompleto.
 
+### Congelación de las políticas
+
+Ambas políticas quedan congeladas en Git antes de cronometrar ningún kernel, en
+`docs/POLICY_FREEZE.json`. La congelación no es declarativa: registra el texto
+de la política tal como está en el manifiesto, los generadores y pruebas que la
+implementan, y el ensamblado, el desensamblado y el texto de **cada brazo** que
+la evidencia fijada contiene. `check_project` vuelve a derivarlo todo desde el
+árbol actual, así que editar un generador, una prueba o el texto de la política
+después de este punto **rompe `make check`** con un mensaje que apunta al
+procedimiento de cambio, en lugar de pasar inadvertido.
+
+Se comprueba además que cada archivo congelado coincide con la revisión de Git
+registrada: congelar un generador sin commitear fijaría algo que nadie más puede
+reproducir. Un cambio posterior exige versión nueva con motivo, conservando las
+observaciones previas y repitiendo los pares afectados.
+
 Al desarrollarlos se observaron contadores de esas corridas de corrección; se
 registran como tiempos de desarrollo observados, no como resultados, y no se ha
 comparado ni calculado ningún speedup. Falta materializar tensores e inventario

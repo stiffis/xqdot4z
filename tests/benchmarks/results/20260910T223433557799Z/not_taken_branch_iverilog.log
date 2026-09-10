@@ -1,0 +1,19 @@
+RETIRED|00000000
+RETIRED|00000004
+STORE|00000000|00000003
+RETIRED|00000008
+RETIRED|0000000c
+WINDOW|1|7
+MEASURE|cycles|7
+MEASURE|retired|4
+MEASURE|retired_kernel|4
+MEASURE|retired_stores|1
+MEASURE|retired_loads|0
+MEASURE|register_writes|2
+MEASURE|stall_load_use|0
+MEASURE|stall_fault_hold|0
+MEASURE|flush_taken_control|0
+MEASURE|data_read_bytes|0
+MEASURE|data_write_bytes|4
+MEASURE_PASS window closed
+/tmp/xqdot4z-measure-auw9vt0u/tb_measure_battery.sv:88: $finish called at 121000 (1ps)

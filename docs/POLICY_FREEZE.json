@@ -1,0 +1,1255 @@
+{
+  "frozen_on": "2026-09-10",
+  "parent_git_revision": "ecbe1d36aec3505e35f13c995df08dcd2b07ae25",
+  "required_before": "first_kernel_timing_including_pilot",
+  "post_measurement_change": "new_version_with_reason_prior_observations_retained_and_affected_pairs_rerun",
+  "measurements_taken": false,
+  "policies": {
+    "bounded_masked_bit_decomposition_v1": {
+      "manifest_key": "b1_software_multiply_policy",
+      "policy": {
+        "id": "bounded_masked_bit_decomposition_v1",
+        "status": "selected_before_performance_measurement",
+        "role": "context_baseline_not_fusion_causal_comparator",
+        "selection_basis": "One width-aware arithmetic rule chosen for simplicity and auditability, not from timing results or an optimization search; no claim of optimality or guaranteed neutrality.",
+        "formulation_and_scanned_operand": "direct_(w-z)*a_scan_weight_difference_bits",
+        "width_and_sign": "U4_for_z0_S4_for_z8_S5_otherwise_S8_activation_RV32_arithmetic",
+        "iteration_policy": "straight_line_positive_bit_additions_then_signed_top_bit_subtraction_no_early_exit",
+        "selection_policy": "zero_or_all_one_masks_no_operand_dependent_branches_or_lookups",
+        "specialization_policy": "static_z_materialization_and_z0_subtraction_elision_with_declared_width_folding_only_no_tensor_shortcuts_or_cross_row_factoring",
+        "performance_driven_algorithm_search": false
+      },
+      "generator": {
+        "benchmarks/b1_arithmetic.py": "35b7f78272c77faff6104eeebd6e63cf7af8f979387d276730f378d21a4c3005",
+        "benchmarks/kernels.py": "0224b3263e3dcce7362a78f8a015c75763e412dfdc3c9328f3c91b621f5dc9d7"
+      },
+      "tests": {
+        "tests/benchmarks/test_b1_arithmetic.py": "4d96200b4ee8aa5958b25c91d8a5d17630092847fe940666540b10aed9ef89f2"
+      },
+      "frozen_files_committed_with_this_record": true,
+      "kernel_evidence": "tests/benchmarks/kernel_results/20260910T223631229690Z/summary.json",
+      "kernel_evidence_sha256": "213d952ee7e0cc789202ee095159b14ff8ebbd3afa4538235e75ad3a5c86ebc6",
+      "variants": [
+        "B1"
+      ],
+      "arms": {
+        "B1_headline_n16_s20260908_zc_controls_0": {
+          "assembly": "be46edad9c8dc5d843186fc5720d373824d3c9349f438854de94cbe1757197f2",
+          "text": "4b2ae6b51be5324b8f633ba723c8e37c7d3fc0143d95eff1c4f15115aae99e14",
+          "disassembly": "883139cebd47bb64f8e41727d621868b950c2e28acf45b835bfa1b3592385bfc"
+        },
+        "B1_headline_n16_s20260908_zc_controls_15": {
+          "assembly": "0ef6bdf9dc2d7321a9af8ffea70336df202ce6c0c8f91a7e1e9e4c7f2b4e415a",
+          "text": "3672829d0aba99f9bd8cc97573be982c70c21f309ee33d9b2ee9b1292c242d1c",
+          "disassembly": "0af187b524a833c3ec22f2954cbcfc5ca08ef4e0c7a8bf1da432f4d79301f6fa"
+        },
+        "B1_headline_n16_s20260908_zc_controls_8": {
+          "assembly": "2941538547fd876543f3ebb892f08dc2c4920d2d81bf809141d6e15748d1de92",
+          "text": "ae22172fcd3527f3e3c0202fab2318d0c4b6539730c31ec291dda3eeae098fa2",
+          "disassembly": "32eaa4b4bc55e75906272d00eb8c4e00cc081224ec255e5cfbe0ec4d27d85c9f"
+        },
+        "B1_headline_n16_s20260908_zs_balanced_u4_0": {
+          "assembly": "d32bed379e9a0ebdd8dc77fa9a7b2ca5883779be150017d275caf9a22d5f2aa8",
+          "text": "b700a9c08c53a385e3970d22dfacd63058d305567328b88fc4a2f8ea9d7f67d1",
+          "disassembly": "0c2da84a25a6841210b4973fe3773593370ee2f6c8dfe0337959b07e036f4dfd"
+        },
+        "B1_headline_n16_s20260909_zc_controls_0": {
+          "assembly": "ca74715ea489e6dcda69799eb7d0cfb79293d04c972fbecd8b1a5953ceb95030",
+          "text": "fb7795c8a281c5e7f875979ccffb7908ffa84e0c336acb367f68cc2f23e1e94b",
+          "disassembly": "257505180dc3852a6b8e97f67ffa22acbe74e7d8572934cbf412fe32832a0ca0"
+        },
+        "B1_headline_n16_s20260909_zc_controls_15": {
+          "assembly": "40b9cab85554c3983214703a3e1db3ff892f57481cc480105388365e83b31188",
+          "text": "8a0e94a66b6d7cc363f0e851fc45270da43f5623182df59903857f4fa2147e2c",
+          "disassembly": "38574963af6540b35d0f323253b4b82ad1b328d0245911c8b431c473e4d34230"
+        },
+        "B1_headline_n16_s20260909_zc_controls_8": {
+          "assembly": "8b6c125ef73bcc82fec4af70b7d4df8b6ae06721d6df4051d8d1a5a147fbe289",
+          "text": "3483ca3b2411b86dd620872b04d1c87476c140545731938e1a3894e8b37be476",
+          "disassembly": "28c9f18cadce2cc55af398b55b50d5f9e60d73978eb5cde369c8533c6c69c34e"
+        },
+        "B1_headline_n16_s20260909_zs_balanced_u4_0": {
+          "assembly": "396d74fb24963665e9a61f78b1fcb9e6a6dd6d572db9538c759acfa5f7641e8c",
+          "text": "bd23413408529dbbcd2b46bde1d94accc5ecd7f05b9d54daf2a6b472b8f4d33e",
+          "disassembly": "8f1d793ccfa82eb7ff4d7021dc50576840d6a511f9b6ee93ac5b827ce05efa9d"
+        },
+        "B1_headline_n1_s20260908_zc_controls_0": {
+          "assembly": "b2db9287c71b2f467041e737f85e8e2480d17841a186712180c6ac3583f20ba8",
+          "text": "dccbe86f8a0ce654e453fcf958cccd55aa97f5931554e801b7d2fd40dc7f7deb",
+          "disassembly": "d4f2d73537a5ba8d1fa141fe491674a07752751de8de0ae05ede7897631aeffa"
+        },
+        "B1_headline_n1_s20260908_zc_controls_15": {
+          "assembly": "c67e51f2d0e99ed850b781f3bba71682975509dcacbb08649d322b4cc5e894fb",
+          "text": "de62a035378bba9de343b7d3c449a4e200479a4e28d583d9d05bdbf553539e6b",
+          "disassembly": "424e1ccc4cb63caf82b4d3acfdd516e3e58ca9ba03ea311c1ba613d4888c34c8"
+        },
+        "B1_headline_n1_s20260908_zc_controls_8": {
+          "assembly": "95a93cb09836d53e49125b30264674386b628ec58f854c7a3ba7843503a9b1a6",
+          "text": "7566139e522cc96ca827719dfb5a0cf10bad3572977be20455d83cb663228214",
+          "disassembly": "d94b2e91dc32260c6d9d1a1ca18f6e144baa77932f34a170114136a9598c37bf"
+        },
+        "B1_headline_n1_s20260908_zs_balanced_u4_0": {
+          "assembly": "b2db9287c71b2f467041e737f85e8e2480d17841a186712180c6ac3583f20ba8",
+          "text": "dccbe86f8a0ce654e453fcf958cccd55aa97f5931554e801b7d2fd40dc7f7deb",
+          "disassembly": "d4f2d73537a5ba8d1fa141fe491674a07752751de8de0ae05ede7897631aeffa"
+        },
+        "B1_headline_n1_s20260909_zc_controls_0": {
+          "assembly": "d1e3c7118a782b1f7325fc7d5883834093d6ddb635d99ac4988fefded4e9de08",
+          "text": "4c30959ce8f31699fd16c0e0d8324a69ecab4ea09331d2d448ca9ffd1b7b50f0",
+          "disassembly": "7fe47676e3acd638a35e637d8e3f8b089ef6652761d81bf19d5350eebf310ba3"
+        },
+        "B1_headline_n1_s20260909_zc_controls_15": {
+          "assembly": "0c595c9950fad47fe1e08561a0e1c3e0e288a3de95a268a73adabd32b310fa45",
+          "text": "92bf7013323625d108acbb1fea419db40b4ebd9e4bb67d025abc80c09a0567cc",
+          "disassembly": "a73c63fa9509ceb9dda039d437567e5d7bdfbd9a0db88ad501fa8350fcdd8ae9"
+        },
+        "B1_headline_n1_s20260909_zc_controls_8": {
+          "assembly": "19b5e5a60f1ba97e31d4fece818e0e46c449c0e7ea9c97d5ebe9521430f67c1c",
+          "text": "fae0c7bf3fbeb678e5392bc685a18d02c0c0476abc405cf0bdeff8c9b7f45dce",
+          "disassembly": "b25f1872fa110553a6e6e1817372991e35c5336ba5a0a090574c9aadca96a4a7"
+        },
+        "B1_headline_n1_s20260909_zs_balanced_u4_0": {
+          "assembly": "d1e3c7118a782b1f7325fc7d5883834093d6ddb635d99ac4988fefded4e9de08",
+          "text": "4c30959ce8f31699fd16c0e0d8324a69ecab4ea09331d2d448ca9ffd1b7b50f0",
+          "disassembly": "7fe47676e3acd638a35e637d8e3f8b089ef6652761d81bf19d5350eebf310ba3"
+        },
+        "B1_headline_n4_s20260908_zc_controls_0": {
+          "assembly": "7ffd2c9ec3c6c255e647986d9e9dedf1e5ca9e0b11df0d95041ff86a30404cfc",
+          "text": "a3f1ad49039f0718b4ca06f396feebe0edad3201cd978f9a5ba13551b69acf82",
+          "disassembly": "16c7b1e43c01ed442216cc773c885187f6cdb2dbd900e22417da92389f16ce17"
+        },
+        "B1_headline_n4_s20260908_zc_controls_15": {
+          "assembly": "ab77d00ab809f0882fc488e20359749224ac498aeca3f72de82cc94983d23ac6",
+          "text": "32176de22312e02af0f06cbdd174e0faaa5374c0be88e888d0b83f3012a5e1eb",
+          "disassembly": "6c60fdf5b0b71eed0fc9e9d4bb5e501ae4fd592337b52015ecea53207260ad26"
+        },
+        "B1_headline_n4_s20260908_zc_controls_8": {
+          "assembly": "17fc1203661920e1a702207ba937101ab9e1f2d2d1535b652b081b45f6e9c660",
+          "text": "3fd08e3b959d237833f572bc7063bc350dc2973c7d652d46741c6ae6dda97779",
+          "disassembly": "49db5806f8526e74dc3c569fa214dbaba500dc372ac3c41ae638510116ba753f"
+        },
+        "B1_headline_n4_s20260908_zs_balanced_u4_0": {
+          "assembly": "59465eec67ff66cd57a3a22360c87ebac3c93d5f7c6f4d8b29d3016b44a0f95c",
+          "text": "1325002e57c7a2093b11dc22770687ac79929ff7618ca8b4c205c1302c964e6e",
+          "disassembly": "d80e7bba864e116c7480265e3b385d10b85899f613ee3a3a9bb65bfb3b773e95"
+        },
+        "B1_headline_n4_s20260909_zc_controls_0": {
+          "assembly": "d0745360f1c2850f71e19b03cf91aaa5a6a78647f749bdefdf2e5c2c4f4744f7",
+          "text": "728e3f62492c3ab6058594e679fb154c1178af021ba35e40d85a54993110ad08",
+          "disassembly": "26f4ca7c795033fdba333fd63ba365dfa654a81cf0a2b2e055734e39bdfe8569"
+        },
+        "B1_headline_n4_s20260909_zc_controls_15": {
+          "assembly": "5625ed342b382d7897b352e9b866ccf200ef3a7a8d1fc55b8f83898adb6f7a5b",
+          "text": "79c7f0fef46490a1eb7d3aefdf3ca50a4464bcdef2e90ea68061d49f51ce63bd",
+          "disassembly": "62e632d55543ebfce949fffc3a6fbd336a8194a196dbe0810ed8da7581e2dec9"
+        },
+        "B1_headline_n4_s20260909_zc_controls_8": {
+          "assembly": "4f38522f883edc283936632e2d9b88aafc72a6597f5e382f9761370477b68be8",
+          "text": "39bd9004d49599b0e0552730c0bbb151c0cf27786627d139818ac031f19c1c30",
+          "disassembly": "9bfc673d07c9626a13f5ec31b052e394d513c004a14a608d2d17fa55e02e99af"
+        },
+        "B1_headline_n4_s20260909_zs_balanced_u4_0": {
+          "assembly": "502f02b81bd0e2d235e2dc8df61a08feb8c34aaf1ce388226433bf9910e6d785",
+          "text": "454d6db0ff977315189a7eab52552ad703652a927b91962ddd6f4c109e03f3cc",
+          "disassembly": "054fdcc7ef3669908e9c23500bebed010cd4a7035885b788b18d4f5ff5177602"
+        },
+        "B1_twin_inline_n16_s20260908_zc_controls_0": {
+          "assembly": "0223a4684f8fb9c89fd04a0e6c8e5b3e374e7af1acb6536ac618fc596ddca60e",
+          "text": "8584c9d124735a27a4a820b30d83b124991d276e0ac23920f32d5374b36aa4e6",
+          "disassembly": "05443dc7dcbd88fa37d162bd5d21db5484daea56a4e038b69d0a35c9637edb86"
+        },
+        "B1_twin_inline_n16_s20260908_zc_controls_15": {
+          "assembly": "0b1d9589946a3a49e5ed2cde65f98c31819358879dc2b4140f0b89104b6f0d9b",
+          "text": "f520e0e92a80641b290f78439816ec3e811989a8326b60a4b914660ecb45fd1e",
+          "disassembly": "411f6ff5ac707c6a84bb7e3bc427d83d2cab86046ccae411622c8e8a78e34cb1"
+        },
+        "B1_twin_inline_n16_s20260908_zc_controls_8": {
+          "assembly": "3ffcb75f6e5bc246e34b13650c7cd80595f1f89c68011ea67236808e9e36096f",
+          "text": "e95a49073d51461cbb065d200ddadc2cf9ad1a0b42c7ea7b9e5b97ef2eb1686c",
+          "disassembly": "0927375459be8f707e8610d79d9d1b0a863c98899d65f591a4142ed90d7b5bbb"
+        },
+        "B1_twin_inline_n16_s20260908_zs_balanced_u4_0": {
+          "assembly": "4713a11fe598db3e7b7e16e3794eb01056deba4935a0981962f1c78593e23663",
+          "text": "525e340c1da51be4a19887d29cfd0aa8ee20afeb4510307d2cdfdd067259e94e",
+          "disassembly": "dbd785ca65de79ef5384ea45ec2027fb148f47c0e8d7f11825bd5997fb6a3f1b"
+        },
+        "B1_twin_inline_n16_s20260909_zc_controls_0": {
+          "assembly": "e21419997b8789247abe699f81a63712b29dfaecb4674b94aa6a006b0d75cb1d",
+          "text": "20043af1181774ff194af9ee8f5deef9f82775e9d09792d949b63a0f20004833",
+          "disassembly": "53bfc572fefea4e3c5f3e0b368dcec2b4a9647db655f5e25fe0fcabc0311bf08"
+        },
+        "B1_twin_inline_n16_s20260909_zc_controls_15": {
+          "assembly": "35023bb0a4aeb69c23123a8f7f8c6d1153d94dba207333f1b61d78b29b95ceb0",
+          "text": "d59019f87b8b386088c40171583140ef9b5f96f75d3dcad2d801ce66f29f1eb7",
+          "disassembly": "cec7d96065aff927fd8b84bbc24a0b4eae24f2b856954426797829a191e603ea"
+        },
+        "B1_twin_inline_n16_s20260909_zc_controls_8": {
+          "assembly": "f82958d04e2a90e6ddf9daa0d103153c1442e71c67fe62145e6efd3edf55bba0",
+          "text": "873f2faad700686653a6471b9ec9267be88ffb14bd6f68d0033c644206293aff",
+          "disassembly": "f9ff2dc80ac90405dbbae272cc0a39bcacfdbc0b76c62992111764e99f096357"
+        },
+        "B1_twin_inline_n16_s20260909_zs_balanced_u4_0": {
+          "assembly": "3e3960c7d24da47f616c3b9cb3fe5118883dfaa43043592bf0c234f3e6657fb8",
+          "text": "dc535b290600d96299645e1e47892dd17e7403aa110d92e999995b41dd6d4f7d",
+          "disassembly": "11efaf19b76200b50cf17cec5a7b5197865504adc8a19ecde3e7ca8563f2371b"
+        },
+        "B1_twin_inline_n1_s20260908_zc_controls_0": {
+          "assembly": "5cb4e5bc77df46ac9baa1f91a4b4e0cde36744cf5bc2cda7f2aeaaae0304012c",
+          "text": "9a6b703942a77f83312ffaf47c9400d19a4f485f8ab0fca901cf2b02b2ce5ddc",
+          "disassembly": "ba7a971a2a12d37e8c5e98d460dc8b0d014f2ed98f7240b82db72ccf4624a2d5"
+        },
+        "B1_twin_inline_n1_s20260908_zc_controls_15": {
+          "assembly": "04a963f4a3ee5c6590c6acb2c8a283732f711b36afbd3f39ee00682bfa06dc9c",
+          "text": "b8aedd2ba51a2a3447e66606a12e908c66cd9ef339fc51fb66eb7317a22a1e06",
+          "disassembly": "df29165dabe1d1f08aeab7ce37a7ccdb03df2ec466e6df319d7071216ee082cf"
+        },
+        "B1_twin_inline_n1_s20260908_zc_controls_8": {
+          "assembly": "e9915a06a6132f458a51d0aa351bc8d2e79e81fbdf2741d309ff0555e9b2dc74",
+          "text": "4bb5c7716399db66fb48b5b43410d98bfc408ef9860453d4370db77a25cb1edb",
+          "disassembly": "06fa4386696c83dca5de6cd2397b1130ad48c517427aa482e527370103909b92"
+        },
+        "B1_twin_inline_n1_s20260908_zs_balanced_u4_0": {
+          "assembly": "5cb4e5bc77df46ac9baa1f91a4b4e0cde36744cf5bc2cda7f2aeaaae0304012c",
+          "text": "9a6b703942a77f83312ffaf47c9400d19a4f485f8ab0fca901cf2b02b2ce5ddc",
+          "disassembly": "ba7a971a2a12d37e8c5e98d460dc8b0d014f2ed98f7240b82db72ccf4624a2d5"
+        },
+        "B1_twin_inline_n1_s20260909_zc_controls_0": {
+          "assembly": "d50a08b3e60db562c4284791cf9e60cfc19fc300958d852a9a0d1e1c591727a2",
+          "text": "cd7132d831149d147db35fe346e2d95083e07ee733348bd37c044d84d2929e1f",
+          "disassembly": "38cbd57d0a3381556d3d1e54ecb4950bd26bfbff8e0afe93842bb6abea7f6732"
+        },
+        "B1_twin_inline_n1_s20260909_zc_controls_15": {
+          "assembly": "cbe741f6150aa9b2eae904f87595e0a9f4d8c5751c492dccb940b9bc0714b013",
+          "text": "14c225a38e4a4859c31a3cbe5138c7ca023103fd6c74475d5e6098da1e419a86",
+          "disassembly": "1af6c8f4d0823cdbb08706d556e7836c3dbea6e00e7e8bf5555fbfcf3b8d8e3a"
+        },
+        "B1_twin_inline_n1_s20260909_zc_controls_8": {
+          "assembly": "34687a2dda5970741bfb66536a78c08f61a49763b14534eccad2b1926cb3ac34",
+          "text": "a17835bd57983a2d81220ce2c49be6215be822df0574c990a5da2ef584a95d53",
+          "disassembly": "a4c617fcdc62165635aada29a05f2dbcba13290050fd94389b22eeb1e2d5b2de"
+        },
+        "B1_twin_inline_n1_s20260909_zs_balanced_u4_0": {
+          "assembly": "d50a08b3e60db562c4284791cf9e60cfc19fc300958d852a9a0d1e1c591727a2",
+          "text": "cd7132d831149d147db35fe346e2d95083e07ee733348bd37c044d84d2929e1f",
+          "disassembly": "38cbd57d0a3381556d3d1e54ecb4950bd26bfbff8e0afe93842bb6abea7f6732"
+        },
+        "B1_twin_inline_n4_s20260908_zc_controls_0": {
+          "assembly": "d94f49649c8d02ce7f53735f8459e9550a31f270c48779cbee9aa2ecab8920b7",
+          "text": "0b2a48bb4d2c2895ecc8a66e6fde9428e34e40b1cac97a3acdf9db867e6fc14e",
+          "disassembly": "3e7511cadb85d9b6ae93a1e680dd52452500277fdf08b0240d6818303d57e1ea"
+        },
+        "B1_twin_inline_n4_s20260908_zc_controls_15": {
+          "assembly": "f989dcfdc800d30ba4f5643403ae12d4c096179787a2b0fe642b998c44c6ceb2",
+          "text": "fc7a37f9708de5d225f911dad6decc37293a065663adbaed819f61ab5e436b3e",
+          "disassembly": "50b5de9c1f839dfdd2c1734de5a55566f3be5b0bf864e8e3f1f31b6380e8d041"
+        },
+        "B1_twin_inline_n4_s20260908_zc_controls_8": {
+          "assembly": "173f0e8d8c039d85179bd93a349a33b2cdb5f1ca702ae6a60a67666fb7de27fd",
+          "text": "1bfa10fefce7e9ec7e0382a8a0a0d38a9ca20a8b9691942133edfd9316a592b2",
+          "disassembly": "5000cb747249faa35aa60c0873334248d4108e814a6cf9efc4485521e75f1d2b"
+        },
+        "B1_twin_inline_n4_s20260908_zs_balanced_u4_0": {
+          "assembly": "6932cb712915ec6eafbf28b02e65178a8aab74a35f554173ecbc2f852d14d3ac",
+          "text": "229fdafb091e424670fca99df52e696a51dff619a5fb21bf861cb69b4ba56be6",
+          "disassembly": "34bb238607a722fc5d7b6de47be3854e854089ddf84840ffc970866e5d47819c"
+        },
+        "B1_twin_inline_n4_s20260909_zc_controls_0": {
+          "assembly": "db07ab0e1f961c8963b16d41853692705e1323035257f58b6be77a4a09660737",
+          "text": "94ff669adc7434b7aa6fbaa67d0d09bd42084b87ed31a21360dc33cef19b91b8",
+          "disassembly": "5543e54046bd81f63efed288237753a3cedc1a132388084244f29834ab640337"
+        },
+        "B1_twin_inline_n4_s20260909_zc_controls_15": {
+          "assembly": "d61cef7d9888ef0f2832626ee2249e29932422229657b4cce59370dc6282c859",
+          "text": "5ad981cc982ddba51bc363e6341eb47f1adeb2cc2e2c36d66c984c2cafbeeac1",
+          "disassembly": "e0711d88305a12ee5a2eb2e0d2fdfe05b75b33382eb1050e52794ed84f7b1b48"
+        },
+        "B1_twin_inline_n4_s20260909_zc_controls_8": {
+          "assembly": "c4683a91c207e0a236cb51c7c3bb6068256f0f82919ff1b94050dd0062ad0c9c",
+          "text": "320bc8c3567730a17164a5870bdf43b4948fb17dd8798bc25cec22389f9fd318",
+          "disassembly": "540a3c4b089957cc960bb670bf3df1502d7cdd8a4985497d0b1c08041c0f5642"
+        },
+        "B1_twin_inline_n4_s20260909_zs_balanced_u4_0": {
+          "assembly": "f23baafa0e0df24fd6fef5df1b1729b3dce0d3d969419a407157c838cfee98b4",
+          "text": "c8a42e3ab79b01ee255debf288f2de5e0214e845bf2daf52f3bf8f16f9a2370a",
+          "disassembly": "3e40405bd1cf021de27ce3e4b1ee5f174e0a08703ed65cf49b99caa85d44d0e2"
+        }
+      }
+    },
+    "shared_tile_resident_skeleton_v2": {
+      "manifest_key": "common_kernel_policy",
+      "policy": {
+        "id": "shared_tile_resident_skeleton_v2",
+        "supersedes": "shared_group_resident_skeleton_v1",
+        "status": "selected_before_performance_measurement",
+        "role": "common_codegen_policy_for_all_four_variants",
+        "selection_basis": "Derived from the operand word shape and the RV32 register budget across the protocol's whole K matrix, not from timing results or a search over kernels; no claim of optimality. Applies identically to B1, B2, B3 and D.",
+        "revision_reason": "Version 1 overloaded one field with two independent decisions and became self-contradictory: eight logical elements per iteration implies a K loop, while group-scope activation residency requires distinct register names per iteration and therefore forbids one. Group scope is also unimplementable beyond the initial shape, since K/4 activation words is 32 at K=128 and 128 at K=512 against 31 usable registers, so it would have failed RQ3 regardless of this revision. Residency moves to tile scope, K stays unrolled, and row traversal becomes a consequence of each variant's ISA rather than a shared choice.",
+        "declared_consequences": [
+          "A body is eight logical elements: one packed weight word of eight U4 codes and two activation words of four S8 each. The operands define the body, not the instructions that consume them: B3 and D issue two packed operations and two accumulations, while B1 and B2 expand the same eight elements scalar. Every variant emits a whole number of bodies over the same operands, which the disassembly audit can count.",
+          "Activation residency is scoped to the tile, not the group. Group scope survives only at K=32 and would be unimplementable at K=128 and K=512, which RQ3 requires. Losing it costs two activation loads per body in every variant alike.",
+          "Row traversal is derived from each variant's ISA, not chosen: a variant loops over rows unless its encoding cannot express the row body with a single copy of code. Under ZS only D is forced to specialize, because its zero point is an instruction immediate; that forced specialization is the cost of supplying z and is reported as required_row_bodies.",
+          "The two corrections introduced by this revision oppose each other in the D/B3 ratio: giving the baselines a row loop raises it, while removing group residency from D and B3 alike lowers it. Neither direction was selected for its effect and both are reported.",
+          "The declared ZC schedule repeats z across rows, so B3 may hoist z*Sa once per case and correct with a single subtraction per row; the declared ZS schedule gives every row a distinct z for N<=16, so B3 pays a multiply and a subtraction per row. This difference follows from the declared schedule and this reuse policy, not from the architecture, and is a further reason ZC and ZS are reported separately."
+        ]
+      },
+      "generator": {
+        "benchmarks/kernels.py": "0224b3263e3dcce7362a78f8a015c75763e412dfdc3c9328f3c91b621f5dc9d7",
+        "benchmarks/tensors.py": "7efd4f545721da0f5ea1b6fce93ed0c0b23188d7e53f4734626a87a6145cef6c"
+      },
+      "tests": {
+        "tests/benchmarks/test_campaign.py": "14b32360f562911e08133486aac631bfeeda0fa74153d6079dffefaf380b1065"
+      },
+      "frozen_files_committed_with_this_record": true,
+      "kernel_evidence": "tests/benchmarks/kernel_results/20260910T223631229690Z/summary.json",
+      "kernel_evidence_sha256": "213d952ee7e0cc789202ee095159b14ff8ebbd3afa4538235e75ad3a5c86ebc6",
+      "variants": [
+        "B1",
+        "B2",
+        "B3",
+        "D"
+      ],
+      "arms": {
+        "B1_headline_n16_s20260908_zc_controls_0": {
+          "assembly": "be46edad9c8dc5d843186fc5720d373824d3c9349f438854de94cbe1757197f2",
+          "text": "4b2ae6b51be5324b8f633ba723c8e37c7d3fc0143d95eff1c4f15115aae99e14",
+          "disassembly": "883139cebd47bb64f8e41727d621868b950c2e28acf45b835bfa1b3592385bfc"
+        },
+        "B1_headline_n16_s20260908_zc_controls_15": {
+          "assembly": "0ef6bdf9dc2d7321a9af8ffea70336df202ce6c0c8f91a7e1e9e4c7f2b4e415a",
+          "text": "3672829d0aba99f9bd8cc97573be982c70c21f309ee33d9b2ee9b1292c242d1c",
+          "disassembly": "0af187b524a833c3ec22f2954cbcfc5ca08ef4e0c7a8bf1da432f4d79301f6fa"
+        },
+        "B1_headline_n16_s20260908_zc_controls_8": {
+          "assembly": "2941538547fd876543f3ebb892f08dc2c4920d2d81bf809141d6e15748d1de92",
+          "text": "ae22172fcd3527f3e3c0202fab2318d0c4b6539730c31ec291dda3eeae098fa2",
+          "disassembly": "32eaa4b4bc55e75906272d00eb8c4e00cc081224ec255e5cfbe0ec4d27d85c9f"
+        },
+        "B1_headline_n16_s20260908_zs_balanced_u4_0": {
+          "assembly": "d32bed379e9a0ebdd8dc77fa9a7b2ca5883779be150017d275caf9a22d5f2aa8",
+          "text": "b700a9c08c53a385e3970d22dfacd63058d305567328b88fc4a2f8ea9d7f67d1",
+          "disassembly": "0c2da84a25a6841210b4973fe3773593370ee2f6c8dfe0337959b07e036f4dfd"
+        },
+        "B1_headline_n16_s20260909_zc_controls_0": {
+          "assembly": "ca74715ea489e6dcda69799eb7d0cfb79293d04c972fbecd8b1a5953ceb95030",
+          "text": "fb7795c8a281c5e7f875979ccffb7908ffa84e0c336acb367f68cc2f23e1e94b",
+          "disassembly": "257505180dc3852a6b8e97f67ffa22acbe74e7d8572934cbf412fe32832a0ca0"
+        },
+        "B1_headline_n16_s20260909_zc_controls_15": {
+          "assembly": "40b9cab85554c3983214703a3e1db3ff892f57481cc480105388365e83b31188",
+          "text": "8a0e94a66b6d7cc363f0e851fc45270da43f5623182df59903857f4fa2147e2c",
+          "disassembly": "38574963af6540b35d0f323253b4b82ad1b328d0245911c8b431c473e4d34230"
+        },
+        "B1_headline_n16_s20260909_zc_controls_8": {
+          "assembly": "8b6c125ef73bcc82fec4af70b7d4df8b6ae06721d6df4051d8d1a5a147fbe289",
+          "text": "3483ca3b2411b86dd620872b04d1c87476c140545731938e1a3894e8b37be476",
+          "disassembly": "28c9f18cadce2cc55af398b55b50d5f9e60d73978eb5cde369c8533c6c69c34e"
+        },
+        "B1_headline_n16_s20260909_zs_balanced_u4_0": {
+          "assembly": "396d74fb24963665e9a61f78b1fcb9e6a6dd6d572db9538c759acfa5f7641e8c",
+          "text": "bd23413408529dbbcd2b46bde1d94accc5ecd7f05b9d54daf2a6b472b8f4d33e",
+          "disassembly": "8f1d793ccfa82eb7ff4d7021dc50576840d6a511f9b6ee93ac5b827ce05efa9d"
+        },
+        "B1_headline_n1_s20260908_zc_controls_0": {
+          "assembly": "b2db9287c71b2f467041e737f85e8e2480d17841a186712180c6ac3583f20ba8",
+          "text": "dccbe86f8a0ce654e453fcf958cccd55aa97f5931554e801b7d2fd40dc7f7deb",
+          "disassembly": "d4f2d73537a5ba8d1fa141fe491674a07752751de8de0ae05ede7897631aeffa"
+        },
+        "B1_headline_n1_s20260908_zc_controls_15": {
+          "assembly": "c67e51f2d0e99ed850b781f3bba71682975509dcacbb08649d322b4cc5e894fb",
+          "text": "de62a035378bba9de343b7d3c449a4e200479a4e28d583d9d05bdbf553539e6b",
+          "disassembly": "424e1ccc4cb63caf82b4d3acfdd516e3e58ca9ba03ea311c1ba613d4888c34c8"
+        },
+        "B1_headline_n1_s20260908_zc_controls_8": {
+          "assembly": "95a93cb09836d53e49125b30264674386b628ec58f854c7a3ba7843503a9b1a6",
+          "text": "7566139e522cc96ca827719dfb5a0cf10bad3572977be20455d83cb663228214",
+          "disassembly": "d94b2e91dc32260c6d9d1a1ca18f6e144baa77932f34a170114136a9598c37bf"
+        },
+        "B1_headline_n1_s20260908_zs_balanced_u4_0": {
+          "assembly": "b2db9287c71b2f467041e737f85e8e2480d17841a186712180c6ac3583f20ba8",
+          "text": "dccbe86f8a0ce654e453fcf958cccd55aa97f5931554e801b7d2fd40dc7f7deb",
+          "disassembly": "d4f2d73537a5ba8d1fa141fe491674a07752751de8de0ae05ede7897631aeffa"
+        },
+        "B1_headline_n1_s20260909_zc_controls_0": {
+          "assembly": "d1e3c7118a782b1f7325fc7d5883834093d6ddb635d99ac4988fefded4e9de08",
+          "text": "4c30959ce8f31699fd16c0e0d8324a69ecab4ea09331d2d448ca9ffd1b7b50f0",
+          "disassembly": "7fe47676e3acd638a35e637d8e3f8b089ef6652761d81bf19d5350eebf310ba3"
+        },
+        "B1_headline_n1_s20260909_zc_controls_15": {
+          "assembly": "0c595c9950fad47fe1e08561a0e1c3e0e288a3de95a268a73adabd32b310fa45",
+          "text": "92bf7013323625d108acbb1fea419db40b4ebd9e4bb67d025abc80c09a0567cc",
+          "disassembly": "a73c63fa9509ceb9dda039d437567e5d7bdfbd9a0db88ad501fa8350fcdd8ae9"
+        },
+        "B1_headline_n1_s20260909_zc_controls_8": {
+          "assembly": "19b5e5a60f1ba97e31d4fece818e0e46c449c0e7ea9c97d5ebe9521430f67c1c",
+          "text": "fae0c7bf3fbeb678e5392bc685a18d02c0c0476abc405cf0bdeff8c9b7f45dce",
+          "disassembly": "b25f1872fa110553a6e6e1817372991e35c5336ba5a0a090574c9aadca96a4a7"
+        },
+        "B1_headline_n1_s20260909_zs_balanced_u4_0": {
+          "assembly": "d1e3c7118a782b1f7325fc7d5883834093d6ddb635d99ac4988fefded4e9de08",
+          "text": "4c30959ce8f31699fd16c0e0d8324a69ecab4ea09331d2d448ca9ffd1b7b50f0",
+          "disassembly": "7fe47676e3acd638a35e637d8e3f8b089ef6652761d81bf19d5350eebf310ba3"
+        },
+        "B1_headline_n4_s20260908_zc_controls_0": {
+          "assembly": "7ffd2c9ec3c6c255e647986d9e9dedf1e5ca9e0b11df0d95041ff86a30404cfc",
+          "text": "a3f1ad49039f0718b4ca06f396feebe0edad3201cd978f9a5ba13551b69acf82",
+          "disassembly": "16c7b1e43c01ed442216cc773c885187f6cdb2dbd900e22417da92389f16ce17"
+        },
+        "B1_headline_n4_s20260908_zc_controls_15": {
+          "assembly": "ab77d00ab809f0882fc488e20359749224ac498aeca3f72de82cc94983d23ac6",
+          "text": "32176de22312e02af0f06cbdd174e0faaa5374c0be88e888d0b83f3012a5e1eb",
+          "disassembly": "6c60fdf5b0b71eed0fc9e9d4bb5e501ae4fd592337b52015ecea53207260ad26"
+        },
+        "B1_headline_n4_s20260908_zc_controls_8": {
+          "assembly": "17fc1203661920e1a702207ba937101ab9e1f2d2d1535b652b081b45f6e9c660",
+          "text": "3fd08e3b959d237833f572bc7063bc350dc2973c7d652d46741c6ae6dda97779",
+          "disassembly": "49db5806f8526e74dc3c569fa214dbaba500dc372ac3c41ae638510116ba753f"
+        },
+        "B1_headline_n4_s20260908_zs_balanced_u4_0": {
+          "assembly": "59465eec67ff66cd57a3a22360c87ebac3c93d5f7c6f4d8b29d3016b44a0f95c",
+          "text": "1325002e57c7a2093b11dc22770687ac79929ff7618ca8b4c205c1302c964e6e",
+          "disassembly": "d80e7bba864e116c7480265e3b385d10b85899f613ee3a3a9bb65bfb3b773e95"
+        },
+        "B1_headline_n4_s20260909_zc_controls_0": {
+          "assembly": "d0745360f1c2850f71e19b03cf91aaa5a6a78647f749bdefdf2e5c2c4f4744f7",
+          "text": "728e3f62492c3ab6058594e679fb154c1178af021ba35e40d85a54993110ad08",
+          "disassembly": "26f4ca7c795033fdba333fd63ba365dfa654a81cf0a2b2e055734e39bdfe8569"
+        },
+        "B1_headline_n4_s20260909_zc_controls_15": {
+          "assembly": "5625ed342b382d7897b352e9b866ccf200ef3a7a8d1fc55b8f83898adb6f7a5b",
+          "text": "79c7f0fef46490a1eb7d3aefdf3ca50a4464bcdef2e90ea68061d49f51ce63bd",
+          "disassembly": "62e632d55543ebfce949fffc3a6fbd336a8194a196dbe0810ed8da7581e2dec9"
+        },
+        "B1_headline_n4_s20260909_zc_controls_8": {
+          "assembly": "4f38522f883edc283936632e2d9b88aafc72a6597f5e382f9761370477b68be8",
+          "text": "39bd9004d49599b0e0552730c0bbb151c0cf27786627d139818ac031f19c1c30",
+          "disassembly": "9bfc673d07c9626a13f5ec31b052e394d513c004a14a608d2d17fa55e02e99af"
+        },
+        "B1_headline_n4_s20260909_zs_balanced_u4_0": {
+          "assembly": "502f02b81bd0e2d235e2dc8df61a08feb8c34aaf1ce388226433bf9910e6d785",
+          "text": "454d6db0ff977315189a7eab52552ad703652a927b91962ddd6f4c109e03f3cc",
+          "disassembly": "054fdcc7ef3669908e9c23500bebed010cd4a7035885b788b18d4f5ff5177602"
+        },
+        "B1_twin_inline_n16_s20260908_zc_controls_0": {
+          "assembly": "0223a4684f8fb9c89fd04a0e6c8e5b3e374e7af1acb6536ac618fc596ddca60e",
+          "text": "8584c9d124735a27a4a820b30d83b124991d276e0ac23920f32d5374b36aa4e6",
+          "disassembly": "05443dc7dcbd88fa37d162bd5d21db5484daea56a4e038b69d0a35c9637edb86"
+        },
+        "B1_twin_inline_n16_s20260908_zc_controls_15": {
+          "assembly": "0b1d9589946a3a49e5ed2cde65f98c31819358879dc2b4140f0b89104b6f0d9b",
+          "text": "f520e0e92a80641b290f78439816ec3e811989a8326b60a4b914660ecb45fd1e",
+          "disassembly": "411f6ff5ac707c6a84bb7e3bc427d83d2cab86046ccae411622c8e8a78e34cb1"
+        },
+        "B1_twin_inline_n16_s20260908_zc_controls_8": {
+          "assembly": "3ffcb75f6e5bc246e34b13650c7cd80595f1f89c68011ea67236808e9e36096f",
+          "text": "e95a49073d51461cbb065d200ddadc2cf9ad1a0b42c7ea7b9e5b97ef2eb1686c",
+          "disassembly": "0927375459be8f707e8610d79d9d1b0a863c98899d65f591a4142ed90d7b5bbb"
+        },
+        "B1_twin_inline_n16_s20260908_zs_balanced_u4_0": {
+          "assembly": "4713a11fe598db3e7b7e16e3794eb01056deba4935a0981962f1c78593e23663",
+          "text": "525e340c1da51be4a19887d29cfd0aa8ee20afeb4510307d2cdfdd067259e94e",
+          "disassembly": "dbd785ca65de79ef5384ea45ec2027fb148f47c0e8d7f11825bd5997fb6a3f1b"
+        },
+        "B1_twin_inline_n16_s20260909_zc_controls_0": {
+          "assembly": "e21419997b8789247abe699f81a63712b29dfaecb4674b94aa6a006b0d75cb1d",
+          "text": "20043af1181774ff194af9ee8f5deef9f82775e9d09792d949b63a0f20004833",
+          "disassembly": "53bfc572fefea4e3c5f3e0b368dcec2b4a9647db655f5e25fe0fcabc0311bf08"
+        },
+        "B1_twin_inline_n16_s20260909_zc_controls_15": {
+          "assembly": "35023bb0a4aeb69c23123a8f7f8c6d1153d94dba207333f1b61d78b29b95ceb0",
+          "text": "d59019f87b8b386088c40171583140ef9b5f96f75d3dcad2d801ce66f29f1eb7",
+          "disassembly": "cec7d96065aff927fd8b84bbc24a0b4eae24f2b856954426797829a191e603ea"
+        },
+        "B1_twin_inline_n16_s20260909_zc_controls_8": {
+          "assembly": "f82958d04e2a90e6ddf9daa0d103153c1442e71c67fe62145e6efd3edf55bba0",
+          "text": "873f2faad700686653a6471b9ec9267be88ffb14bd6f68d0033c644206293aff",
+          "disassembly": "f9ff2dc80ac90405dbbae272cc0a39bcacfdbc0b76c62992111764e99f096357"
+        },
+        "B1_twin_inline_n16_s20260909_zs_balanced_u4_0": {
+          "assembly": "3e3960c7d24da47f616c3b9cb3fe5118883dfaa43043592bf0c234f3e6657fb8",
+          "text": "dc535b290600d96299645e1e47892dd17e7403aa110d92e999995b41dd6d4f7d",
+          "disassembly": "11efaf19b76200b50cf17cec5a7b5197865504adc8a19ecde3e7ca8563f2371b"
+        },
+        "B1_twin_inline_n1_s20260908_zc_controls_0": {
+          "assembly": "5cb4e5bc77df46ac9baa1f91a4b4e0cde36744cf5bc2cda7f2aeaaae0304012c",
+          "text": "9a6b703942a77f83312ffaf47c9400d19a4f485f8ab0fca901cf2b02b2ce5ddc",
+          "disassembly": "ba7a971a2a12d37e8c5e98d460dc8b0d014f2ed98f7240b82db72ccf4624a2d5"
+        },
+        "B1_twin_inline_n1_s20260908_zc_controls_15": {
+          "assembly": "04a963f4a3ee5c6590c6acb2c8a283732f711b36afbd3f39ee00682bfa06dc9c",
+          "text": "b8aedd2ba51a2a3447e66606a12e908c66cd9ef339fc51fb66eb7317a22a1e06",
+          "disassembly": "df29165dabe1d1f08aeab7ce37a7ccdb03df2ec466e6df319d7071216ee082cf"
+        },
+        "B1_twin_inline_n1_s20260908_zc_controls_8": {
+          "assembly": "e9915a06a6132f458a51d0aa351bc8d2e79e81fbdf2741d309ff0555e9b2dc74",
+          "text": "4bb5c7716399db66fb48b5b43410d98bfc408ef9860453d4370db77a25cb1edb",
+          "disassembly": "06fa4386696c83dca5de6cd2397b1130ad48c517427aa482e527370103909b92"
+        },
+        "B1_twin_inline_n1_s20260908_zs_balanced_u4_0": {
+          "assembly": "5cb4e5bc77df46ac9baa1f91a4b4e0cde36744cf5bc2cda7f2aeaaae0304012c",
+          "text": "9a6b703942a77f83312ffaf47c9400d19a4f485f8ab0fca901cf2b02b2ce5ddc",
+          "disassembly": "ba7a971a2a12d37e8c5e98d460dc8b0d014f2ed98f7240b82db72ccf4624a2d5"
+        },
+        "B1_twin_inline_n1_s20260909_zc_controls_0": {
+          "assembly": "d50a08b3e60db562c4284791cf9e60cfc19fc300958d852a9a0d1e1c591727a2",
+          "text": "cd7132d831149d147db35fe346e2d95083e07ee733348bd37c044d84d2929e1f",
+          "disassembly": "38cbd57d0a3381556d3d1e54ecb4950bd26bfbff8e0afe93842bb6abea7f6732"
+        },
+        "B1_twin_inline_n1_s20260909_zc_controls_15": {
+          "assembly": "cbe741f6150aa9b2eae904f87595e0a9f4d8c5751c492dccb940b9bc0714b013",
+          "text": "14c225a38e4a4859c31a3cbe5138c7ca023103fd6c74475d5e6098da1e419a86",
+          "disassembly": "1af6c8f4d0823cdbb08706d556e7836c3dbea6e00e7e8bf5555fbfcf3b8d8e3a"
+        },
+        "B1_twin_inline_n1_s20260909_zc_controls_8": {
+          "assembly": "34687a2dda5970741bfb66536a78c08f61a49763b14534eccad2b1926cb3ac34",
+          "text": "a17835bd57983a2d81220ce2c49be6215be822df0574c990a5da2ef584a95d53",
+          "disassembly": "a4c617fcdc62165635aada29a05f2dbcba13290050fd94389b22eeb1e2d5b2de"
+        },
+        "B1_twin_inline_n1_s20260909_zs_balanced_u4_0": {
+          "assembly": "d50a08b3e60db562c4284791cf9e60cfc19fc300958d852a9a0d1e1c591727a2",
+          "text": "cd7132d831149d147db35fe346e2d95083e07ee733348bd37c044d84d2929e1f",
+          "disassembly": "38cbd57d0a3381556d3d1e54ecb4950bd26bfbff8e0afe93842bb6abea7f6732"
+        },
+        "B1_twin_inline_n4_s20260908_zc_controls_0": {
+          "assembly": "d94f49649c8d02ce7f53735f8459e9550a31f270c48779cbee9aa2ecab8920b7",
+          "text": "0b2a48bb4d2c2895ecc8a66e6fde9428e34e40b1cac97a3acdf9db867e6fc14e",
+          "disassembly": "3e7511cadb85d9b6ae93a1e680dd52452500277fdf08b0240d6818303d57e1ea"
+        },
+        "B1_twin_inline_n4_s20260908_zc_controls_15": {
+          "assembly": "f989dcfdc800d30ba4f5643403ae12d4c096179787a2b0fe642b998c44c6ceb2",
+          "text": "fc7a37f9708de5d225f911dad6decc37293a065663adbaed819f61ab5e436b3e",
+          "disassembly": "50b5de9c1f839dfdd2c1734de5a55566f3be5b0bf864e8e3f1f31b6380e8d041"
+        },
+        "B1_twin_inline_n4_s20260908_zc_controls_8": {
+          "assembly": "173f0e8d8c039d85179bd93a349a33b2cdb5f1ca702ae6a60a67666fb7de27fd",
+          "text": "1bfa10fefce7e9ec7e0382a8a0a0d38a9ca20a8b9691942133edfd9316a592b2",
+          "disassembly": "5000cb747249faa35aa60c0873334248d4108e814a6cf9efc4485521e75f1d2b"
+        },
+        "B1_twin_inline_n4_s20260908_zs_balanced_u4_0": {
+          "assembly": "6932cb712915ec6eafbf28b02e65178a8aab74a35f554173ecbc2f852d14d3ac",
+          "text": "229fdafb091e424670fca99df52e696a51dff619a5fb21bf861cb69b4ba56be6",
+          "disassembly": "34bb238607a722fc5d7b6de47be3854e854089ddf84840ffc970866e5d47819c"
+        },
+        "B1_twin_inline_n4_s20260909_zc_controls_0": {
+          "assembly": "db07ab0e1f961c8963b16d41853692705e1323035257f58b6be77a4a09660737",
+          "text": "94ff669adc7434b7aa6fbaa67d0d09bd42084b87ed31a21360dc33cef19b91b8",
+          "disassembly": "5543e54046bd81f63efed288237753a3cedc1a132388084244f29834ab640337"
+        },
+        "B1_twin_inline_n4_s20260909_zc_controls_15": {
+          "assembly": "d61cef7d9888ef0f2832626ee2249e29932422229657b4cce59370dc6282c859",
+          "text": "5ad981cc982ddba51bc363e6341eb47f1adeb2cc2e2c36d66c984c2cafbeeac1",
+          "disassembly": "e0711d88305a12ee5a2eb2e0d2fdfe05b75b33382eb1050e52794ed84f7b1b48"
+        },
+        "B1_twin_inline_n4_s20260909_zc_controls_8": {
+          "assembly": "c4683a91c207e0a236cb51c7c3bb6068256f0f82919ff1b94050dd0062ad0c9c",
+          "text": "320bc8c3567730a17164a5870bdf43b4948fb17dd8798bc25cec22389f9fd318",
+          "disassembly": "540a3c4b089957cc960bb670bf3df1502d7cdd8a4985497d0b1c08041c0f5642"
+        },
+        "B1_twin_inline_n4_s20260909_zs_balanced_u4_0": {
+          "assembly": "f23baafa0e0df24fd6fef5df1b1729b3dce0d3d969419a407157c838cfee98b4",
+          "text": "c8a42e3ab79b01ee255debf288f2de5e0214e845bf2daf52f3bf8f16f9a2370a",
+          "disassembly": "3e40405bd1cf021de27ce3e4b1ee5f174e0a08703ed65cf49b99caa85d44d0e2"
+        },
+        "B2_headline_n16_s20260908_zc_controls_0": {
+          "assembly": "aa6e2d1b1c0e9d56a6a79c0ba9d3a8d4a5a97b474d763558c8c6247d4b733176",
+          "text": "f784d441773710f6de815585e30b17cce512f6742adfe5b346a442e3aaf96895",
+          "disassembly": "9ab8a73ccd48ae67cce847277e59f8dafde99cc2907badae754e9ce747663807"
+        },
+        "B2_headline_n16_s20260908_zc_controls_15": {
+          "assembly": "d2130e6ac61d369c30dbd7c9053e4c06c16bd63b62c4a37e68c8a5bbd4db88a7",
+          "text": "df6de4a7b1c942955dd77b6c9c65a2216bd80011a7fe653c9a85f1e8b63ece94",
+          "disassembly": "7c617f6e107f5c62e5b9d13a1d176edede924e7fd2e97105b7db60136ae96683"
+        },
+        "B2_headline_n16_s20260908_zc_controls_8": {
+          "assembly": "1c3ba12cef53c4b9f10159f29a766d45853a9145613c5d4fadc6d2e812d49b55",
+          "text": "99ac18f9813d842cf9984f774a09aa51c7dc6361422fcf7798eac234b857c76d",
+          "disassembly": "4416219633b9320ef2c805dbd59123ba74ae6f8bbc1f0ed300fdb737da63e7c9"
+        },
+        "B2_headline_n16_s20260908_zs_balanced_u4_0": {
+          "assembly": "24e8055e69d00b74134237987b117eac4f734d92f3577a8a33afc0f21be9ba1c",
+          "text": "fbd098df58460c1758f9b057cf289b0b9ae72a53df63ada80e1ebec8138e3605",
+          "disassembly": "e70eb9072326bb54ac3128507496bcf6a5677f1eb654048eae386e40a939200c"
+        },
+        "B2_headline_n16_s20260909_zc_controls_0": {
+          "assembly": "3ff9434196c150671c22b4040005065c7bf25a5b42e5611032e4ee0fc89a8777",
+          "text": "77e8792ff462201a2bcafe9a452ae6c83b66d54a6b9a1f7dec14f721c6e4a9c3",
+          "disassembly": "b99cd0dd31770804b2cec45625824dad528400772cccb319ed2b6de0edab6a9c"
+        },
+        "B2_headline_n16_s20260909_zc_controls_15": {
+          "assembly": "4268147b5d4c8073eeb057824959e763cb436650644b4d0b3ce16f294c3e1959",
+          "text": "12d29aa7172b77772eec2d36b3eb833d4432341247b66975a282fbc1286fd637",
+          "disassembly": "c634019bd66e0bb3fe9d8ad76694d474bcbd664db3bed1a126655f1e0faa7ba7"
+        },
+        "B2_headline_n16_s20260909_zc_controls_8": {
+          "assembly": "e2946dbb9b19bb127c1219e077e004be1f578865a7e291cea4cfb4342c759b62",
+          "text": "111e0d0558b4bf0583e8a4cd77aa874ced2bdb52264821f97190811f7f52fa7a",
+          "disassembly": "54028289416c80c5c30ad528025d450ba73f2bcb04ff142fc4cd8d1c3840135b"
+        },
+        "B2_headline_n16_s20260909_zs_balanced_u4_0": {
+          "assembly": "560a0ef5698098a14c2db5072ed5c0c328ac98522489251291abab8d58e914d3",
+          "text": "7e03e5538093e31ca6eaf2a43aefb09560c0adcedd3930373dd81315b4d58e0f",
+          "disassembly": "6f316cd86a415cb7eeba7a49407c5cb3e6470052ad8484be114a2a669fbe51c1"
+        },
+        "B2_headline_n1_s20260908_zc_controls_0": {
+          "assembly": "1679abfd3e3151ed1f6a833419807ddc3c32b96738b29ef6577ef7445cbb8db9",
+          "text": "16d4044b36437ec5df6b7e735310364006158807e830c5198b7f441607fd6b56",
+          "disassembly": "5a1ba6e2e5ad5e40d64d03cfd32bc90440be2df10415492f6743554fe64fd824"
+        },
+        "B2_headline_n1_s20260908_zc_controls_15": {
+          "assembly": "22750ae4e21c726038380b71d14fd553f6bb4e4a54712c5bad3dd682e58af5b4",
+          "text": "d72054eb304736f1f7c8ce4ab927265639c36f4eeb2ad42bd402bd6aa4990fd3",
+          "disassembly": "34d56df39be030aedef7ebfff20ecd8b71e1de60adc0795a248c6114b91dc1e4"
+        },
+        "B2_headline_n1_s20260908_zc_controls_8": {
+          "assembly": "269c365d6dbc82cb77ddf5708681758e29f20d916251899f5bcce65ac6f7d636",
+          "text": "e48c26454e32bfb093cdeb4c132970c7cd0b6beb1a277d77cf0f0bafed4aade5",
+          "disassembly": "b4aca75fee1932c3194e52c1764d899321ae119a9a12cb011faf1684a5886bd3"
+        },
+        "B2_headline_n1_s20260908_zs_balanced_u4_0": {
+          "assembly": "1679abfd3e3151ed1f6a833419807ddc3c32b96738b29ef6577ef7445cbb8db9",
+          "text": "16d4044b36437ec5df6b7e735310364006158807e830c5198b7f441607fd6b56",
+          "disassembly": "5a1ba6e2e5ad5e40d64d03cfd32bc90440be2df10415492f6743554fe64fd824"
+        },
+        "B2_headline_n1_s20260909_zc_controls_0": {
+          "assembly": "fd52074fb7c5b88d2fd05759c16f046d67bbb064486d498edbd045da309ea223",
+          "text": "c1f9d011f31fd2b211461d724f12be6d5bd41e60acd61b5c10be63a741d1d44b",
+          "disassembly": "fede5438eee95b0a7df64e7026b41ecf4dc4d0c3247407e547acab550f1a89ad"
+        },
+        "B2_headline_n1_s20260909_zc_controls_15": {
+          "assembly": "f1f3fe46bc3b6239b77fd4257f4d700a77c60aa1742d6b6e10d57dac67ca497d",
+          "text": "a70948d92d85185280455b04fb806975fae8d273ed11028156e23a0deda6a354",
+          "disassembly": "7821c6b0d6251bb0e38eb2cde8d9abf152f120cdd74b398db1247e026ff99d0d"
+        },
+        "B2_headline_n1_s20260909_zc_controls_8": {
+          "assembly": "d10bc9da23f582c75aa82d4e54786dfcd4122bf5ac274df18249ec2c81ab41df",
+          "text": "106f854205c1af63922d5c45379cc23b15db3dd498e57c1284c1ab1b81fdfe3f",
+          "disassembly": "a85fcdb81a2444d0345900456a31aba92caad1be371419f647ac648ab00a46ee"
+        },
+        "B2_headline_n1_s20260909_zs_balanced_u4_0": {
+          "assembly": "fd52074fb7c5b88d2fd05759c16f046d67bbb064486d498edbd045da309ea223",
+          "text": "c1f9d011f31fd2b211461d724f12be6d5bd41e60acd61b5c10be63a741d1d44b",
+          "disassembly": "fede5438eee95b0a7df64e7026b41ecf4dc4d0c3247407e547acab550f1a89ad"
+        },
+        "B2_headline_n4_s20260908_zc_controls_0": {
+          "assembly": "5213967bb28297b2ecc8fe3a48ccb8f6c20b108f63f082304351fb46fcea99d8",
+          "text": "6796f60bed0ec1bff7d2d548c6a2c8c4fe43d75724306b4e918df76a29c9a509",
+          "disassembly": "a15bdfe959708138f22d3400ad22a56c01b5459376c1780e391d8d15cb3e5577"
+        },
+        "B2_headline_n4_s20260908_zc_controls_15": {
+          "assembly": "52ea1a0d4a1cb561ec860ee06f86c30c1b86dbba76f6ba1725331af544253722",
+          "text": "f73c42498478753d34cb946db87a40702246a5b87df9d5375126ea7101a16c67",
+          "disassembly": "394c3cafcbe288f236781cdcdcec4e84c8f9e2eec2552b9281d68ad702b6e884"
+        },
+        "B2_headline_n4_s20260908_zc_controls_8": {
+          "assembly": "25d6bf3c53932b195e40ce80eb958859c239af0b192f403c4ffa84582fc204d5",
+          "text": "75287312537e0cdd84dff3c13c19499e7c166e68b8ad0705866515348fbd8aec",
+          "disassembly": "fc317f9cb4d71675a7b2f47090228edeb5b1258ea27be744f44608f40ce82a72"
+        },
+        "B2_headline_n4_s20260908_zs_balanced_u4_0": {
+          "assembly": "b4a25198171bba832a4aa493a277f29ec9063abbbd8b6575642e580b0f04c7d6",
+          "text": "bec031d2d58568971615566e58d81cbd3ec1baeb8c9254c4280f5c487861931b",
+          "disassembly": "3877b131c1a6af654b832b048a9dc3a47940d414902fc73abdc21836eb7cf16d"
+        },
+        "B2_headline_n4_s20260909_zc_controls_0": {
+          "assembly": "8213c1ad228d80ba80ff7788056e8fade59bec03427b91c87776c14321d935ab",
+          "text": "59f9c02e502eaca10db6f318e145ebfbf6fb79c12c913c0e8a37af463cb562d1",
+          "disassembly": "08cc792f8c552e9b5a502e93f801798888d3b5ab90d345d2b4c1ff26e4e40d17"
+        },
+        "B2_headline_n4_s20260909_zc_controls_15": {
+          "assembly": "58369618e6fa7faab800389f14a080f43e0b04788a5d3410b625127010bc9b31",
+          "text": "cca1c7f4dcbf72c5c85aa24b93721c087d8734f0511fb8a1e0e8e6dee0424b53",
+          "disassembly": "019b8c89a4cd458e5d64a0ff87c94596aac985ea58a8e4e1773cc9d4488b0449"
+        },
+        "B2_headline_n4_s20260909_zc_controls_8": {
+          "assembly": "d9bcd314490c3f5db0e91560a57af30b4066e5bf7a2ecac09f222e2958ead7dc",
+          "text": "34bc9ee72170cce311520b60c2da18cda350c572cead907db38fb069a68a45b3",
+          "disassembly": "d1fea9e8e2ebc38291c173a26a104aaa5dbfea8da0d70d544036b740725beb9a"
+        },
+        "B2_headline_n4_s20260909_zs_balanced_u4_0": {
+          "assembly": "e822d632dd5d517d7de5521341f6ebb799140a3e71006842976180e88b063d3d",
+          "text": "484cf5582d5166553662470684e5ba2bd794d4838c3fc523cd366bea7ec4817e",
+          "disassembly": "3005fd11ea1a0375e2bf7b264aed40d0eb4c497de7244cbbdd392abbdd9a07e0"
+        },
+        "B2_twin_inline_n16_s20260908_zc_controls_0": {
+          "assembly": "2d9dc23b6a1b26ce4f2784e726b81a180972bc698f818e36a5035e7b4fed8871",
+          "text": "ac0ec3c4312aaa029d03ea0f4647d1fd186358a99c0115eb1574fe65c864c41b",
+          "disassembly": "5c79d620abb9d14bbfb963f9e57149f2700cff02a8ffed0a2eae6984dd875ad3"
+        },
+        "B2_twin_inline_n16_s20260908_zc_controls_15": {
+          "assembly": "0516f4d3a220207a7b29fa15e2c873566754097f360cfae2923190566235f633",
+          "text": "454233f7751cfd9b33e5a69afaa430a072198f20e49c6e0247aeeb2560cfb59f",
+          "disassembly": "a7f643e94d755f453b4e1c4da723c24ecd496aec977f726a1737db0629beb88a"
+        },
+        "B2_twin_inline_n16_s20260908_zc_controls_8": {
+          "assembly": "9e9803796f1da441446c83ce8ba9e057412cccf70a07f895656e982e6f5ddcf2",
+          "text": "0f2f28434fb70a6c7c3d3987c90ed814ca02040c9dc9802d11e774b55b561a3f",
+          "disassembly": "4953548b3376c8c00335d90aa0a5eea27e5c99c49852693a4428d1e92dad129b"
+        },
+        "B2_twin_inline_n16_s20260908_zs_balanced_u4_0": {
+          "assembly": "bbef3c1515e831301f5528d3b671686c43b8deaa22cad6b3b14a8a107bbea1b0",
+          "text": "645a35bd6b296e8f7dd3a66eec7021b5bd50b823e997e3421ba60212b39fffbe",
+          "disassembly": "3ff197e11a8e976c1f21edcc9fe88ddbc63472cee12cb23c85ce32f4ea59e9d7"
+        },
+        "B2_twin_inline_n16_s20260909_zc_controls_0": {
+          "assembly": "b951963d86e51bdbe285e26e37453d5d8c238ac7f53e6f3747587e9a5eb9cb81",
+          "text": "91a5b042b31261cee4eacb84ee21fc00596e710990ac766677411d83539a9e75",
+          "disassembly": "3d91c3743545fb6f19b1f6154cb962bad32b4ff1e6508f708be8f3090b3133d1"
+        },
+        "B2_twin_inline_n16_s20260909_zc_controls_15": {
+          "assembly": "7cf849468f61780ef77c571e5af3229802193412fb5a2292837c8f1fa1ca7f8f",
+          "text": "760499215fa535c7e6f4f0db3b1b3b30963ef188664076a30f85021588f008a3",
+          "disassembly": "62994256dedfca734ce17248096d0483d2aa1a279e24f81f194cffa80c6da8ea"
+        },
+        "B2_twin_inline_n16_s20260909_zc_controls_8": {
+          "assembly": "45aad890d023e854733764a1ceb98c58f88d748d24c063746fa0eb4eadbbd49a",
+          "text": "56b1686b3c90b1d299a1c3ce12ec597bc34e15d8ceb2698c3784c87a2bbe02aa",
+          "disassembly": "ab5daf130454ffb458c8131c9a93275d72eb60fdf9ef2d8bb6614f280caaaac9"
+        },
+        "B2_twin_inline_n16_s20260909_zs_balanced_u4_0": {
+          "assembly": "e7ff18d555431f4010c853f950bf418cb249654bd63450f59f68f6a94c80afc0",
+          "text": "27b6bc39a4a82909c2d3c0d96fc485d47a1e12fdae0e3b07a764993dead1e4d7",
+          "disassembly": "967b773e1cd8faa6170d3b916c283068b4ee1a8aeb5b317f052a8def30d985de"
+        },
+        "B2_twin_inline_n1_s20260908_zc_controls_0": {
+          "assembly": "a079944cceeade1ee10cf91a33676f40b4ec131be037bfc5cb056132977c2e13",
+          "text": "c1c340ade74a7de9a0d984d673f4000b84084ee3518f46ce825a367b1ba49ef4",
+          "disassembly": "6b1d14cab93fa6b7a928149c90517c7a5671552ba7edb6178e22cd22fee83bfa"
+        },
+        "B2_twin_inline_n1_s20260908_zc_controls_15": {
+          "assembly": "6988d916b0bec2e771edadcc3e379cf298594c14d064b8bd761d59ac6bf1e27d",
+          "text": "6841d22467bcbfe3ff38965bad4f2febbc4b3194d8dee2067048412266f27283",
+          "disassembly": "e651ffb841561c105ae2c878221be2c559c0f7388fc8043244a6eaa7ec6cfd88"
+        },
+        "B2_twin_inline_n1_s20260908_zc_controls_8": {
+          "assembly": "e5af2c53df4cf4480cd71f68516cd5fe5e0b2024a24c0fbcb9b126b6ffb3a849",
+          "text": "81ed49e232404eeb9b67d52d0bec60dfe2155622c3d40a051eff54fa8320a5cc",
+          "disassembly": "b460108c53035554803678eefa04be1f6972c266d2423e57edd96dc2ee7d3508"
+        },
+        "B2_twin_inline_n1_s20260908_zs_balanced_u4_0": {
+          "assembly": "a079944cceeade1ee10cf91a33676f40b4ec131be037bfc5cb056132977c2e13",
+          "text": "c1c340ade74a7de9a0d984d673f4000b84084ee3518f46ce825a367b1ba49ef4",
+          "disassembly": "6b1d14cab93fa6b7a928149c90517c7a5671552ba7edb6178e22cd22fee83bfa"
+        },
+        "B2_twin_inline_n1_s20260909_zc_controls_0": {
+          "assembly": "cd01ca828fb7eb3a58f34c537fea9983bb37f0343ad793964ef60c683470cb38",
+          "text": "1499db7437e8cf699e0988e542865f6f04044c556a9dfa716ca81aa5fc5709f1",
+          "disassembly": "938e28636c1010435fcb77832ea3fb28aa8b6a717b8cf07ca8ea2fe3cb8a20de"
+        },
+        "B2_twin_inline_n1_s20260909_zc_controls_15": {
+          "assembly": "544f77d4785a21239898035cc0f19bfbf1baf88f05279b701cf23168829c5767",
+          "text": "db698a66d1dde9b17631a7d1e284df46306b875fb66fd7e73ac6599b6f2e5916",
+          "disassembly": "a37deed8c4a96e0ec2697126f6fdcf9cadd589b18e8685c64cbf9d5d1a60c74a"
+        },
+        "B2_twin_inline_n1_s20260909_zc_controls_8": {
+          "assembly": "eebfb294830c63088625991db60efff8d3b17e1105be4a37913cf7fc3b79fec9",
+          "text": "b7852f8662d2443d1d30f32fc7efbe874ffaf6a9d8ee6fc159da38b3f32d818c",
+          "disassembly": "19f02d10b9e746bb34f279e112624e8706ebe571f6acae8076774b9694f84f7c"
+        },
+        "B2_twin_inline_n1_s20260909_zs_balanced_u4_0": {
+          "assembly": "cd01ca828fb7eb3a58f34c537fea9983bb37f0343ad793964ef60c683470cb38",
+          "text": "1499db7437e8cf699e0988e542865f6f04044c556a9dfa716ca81aa5fc5709f1",
+          "disassembly": "938e28636c1010435fcb77832ea3fb28aa8b6a717b8cf07ca8ea2fe3cb8a20de"
+        },
+        "B2_twin_inline_n4_s20260908_zc_controls_0": {
+          "assembly": "479a07b4101bbf293e11e7166c82265c3d24754d5c46a5fa5d272cc2f76949e3",
+          "text": "c413c27c13a2fb981a3913af8f9b12aecbd0f90309bea22bb0537cd9593bdaa2",
+          "disassembly": "f3af068ef419702fd5c6f238374e3284502b83398a2925641431d174796e33bc"
+        },
+        "B2_twin_inline_n4_s20260908_zc_controls_15": {
+          "assembly": "5b9efa46f3a4ff4ea10b308f8a642e4528a2f43427c210f12d3f67a6646ae12b",
+          "text": "5a23f971899c7ae83fe0aa620937ad8e9a74583540db480e32e9560713825db1",
+          "disassembly": "4ffcb67cb1fd7a9c64c2f1003119fe50dc12bf7fb5da0d18fd850ce1771945a9"
+        },
+        "B2_twin_inline_n4_s20260908_zc_controls_8": {
+          "assembly": "acf6707b315264a5573f4b0da0cd40b8fe57d5487f0e1b9441548751a215c4ce",
+          "text": "76a12211d8e1e53f02d6f982047e5f07f3b1da03bc618bec44edf32f78eeee16",
+          "disassembly": "e692c97b9001b7f18ad8f8f2e945a14c923f9239cf395551738c82b13e224a84"
+        },
+        "B2_twin_inline_n4_s20260908_zs_balanced_u4_0": {
+          "assembly": "d021d2a4419f28aa82c78086821d4d9491532f0dae86e7396dbbfb0ad0d3b779",
+          "text": "e9188815ad9ca2afe5a444cd93aa7ac2376a70b247a8b012dbee46487619d34f",
+          "disassembly": "240f8599e8c34dd8fc93b1b2965766e2c7826eea5f01ae84d3213e4d46bc1060"
+        },
+        "B2_twin_inline_n4_s20260909_zc_controls_0": {
+          "assembly": "ec6c89cdc329ff3926741bb6e697554da88a909022180624509879e7939db4d7",
+          "text": "9358e04929900a60cbe58de5842308d4cd30b826ea894c0e741f58344e04d0ad",
+          "disassembly": "759ef26b3e006fa636cf4bf019f0411f2d37de7477f32efd5ccb5cfbfdc9bd35"
+        },
+        "B2_twin_inline_n4_s20260909_zc_controls_15": {
+          "assembly": "662fcaf2bbd3827123511d0a19a925fc1951f0d45adb8e365e39fc2c081640ca",
+          "text": "ec320f0d6faae4391657eb317cea58b37aa20d5a00157ca455d4f0abd46cab46",
+          "disassembly": "7498af2d44f1286e2e13569fe78cb51c14e58b52efc76a45bccbc4eff37802f1"
+        },
+        "B2_twin_inline_n4_s20260909_zc_controls_8": {
+          "assembly": "4ef418030cb052d6fd63b26e000b7c70a913b6f1a8f855bf8baf079654007a58",
+          "text": "211faae4022a1ad3d6afa2ce33536d88c7c6e7505b1e45b997651d9e8815556a",
+          "disassembly": "870c0366cbe5c43c74096972d89786247cc45ec10b474bf21a826e6a8379f618"
+        },
+        "B2_twin_inline_n4_s20260909_zs_balanced_u4_0": {
+          "assembly": "702681dbcac1f7775cff2697972f76e737e0725cc3b96c7d29dbe0e01dd8f751",
+          "text": "7020d81839186ca7c74b74148c5d0e45513854a88be0a2d0f9b0827237638a3a",
+          "disassembly": "f2334cea7d0241f8cc81ebd765dbe0158d3bdfa987971be837eb76cd9c6be147"
+        },
+        "B3_headline_n16_s20260908_zc_controls_0": {
+          "assembly": "5a98541743fc8312b3ec7e837cdf991c25e9e387b93db085bba9c22875ce583d",
+          "text": "60031f694a71d207999cfea777dc65805fd8b1143c76fb7c28063cf500cc6b38",
+          "disassembly": "e1256dc4ada647668e0fb0e2ff5a1c2df7e18e9d55c89ad2c362f0d54caa99d1"
+        },
+        "B3_headline_n16_s20260908_zc_controls_15": {
+          "assembly": "ea6d8f10e1a50e298854a692ba591d686e812bfa6b3b7e5f27b89b3fce1c1722",
+          "text": "39d62456f3192f0e001c8b27c8cb3712621d3aca0882a858b93cdfddb2096d6a",
+          "disassembly": "8a50e2c1a5cfb2c3976d7af06651d2d93d467a20b1bc7f0d968b36271b786f0d"
+        },
+        "B3_headline_n16_s20260908_zc_controls_8": {
+          "assembly": "b9eef488f12162c23a3b2612ad65d626b9a339f414abc68a6b27f0db06061067",
+          "text": "4471352ee0678c16497acf6fc61fc8dd434cf6f4178c3217cd7fd663716335c9",
+          "disassembly": "a287b4390f761230bfd36e9fd756101b8bc687f0e4f2ce8788f269f61185f509"
+        },
+        "B3_headline_n16_s20260908_zs_balanced_u4_0": {
+          "assembly": "d9c91a51bad41d5d252e958e2df7a009fb3a9a945dc17910948c993c4f669f7b",
+          "text": "3293e3d9a18195db97052a9f126c19aa1d7f3d7b5b328249bacc6ca7fd4d8895",
+          "disassembly": "c7ced24db9055c9e28cbd6403ef3ef5c4b0ef237b6aa792b9d717625f99f419f"
+        },
+        "B3_headline_n16_s20260909_zc_controls_0": {
+          "assembly": "7527737b805931ac76bb14a43d37c32a52dcad8c0334e212fc3b2829a5ff845e",
+          "text": "b107f2708a9f36315ba3c74334ced83e761ea433924fe58d9d92dbaaf728073d",
+          "disassembly": "3116a1880be18006b88e8f3d6d59ccc2382dc1ae28256d1d9014098b49d995f8"
+        },
+        "B3_headline_n16_s20260909_zc_controls_15": {
+          "assembly": "95ab32acfcc016c9608c38712c256ec15bb2b8c6aef1b557a1c11bb536c1de14",
+          "text": "d8660c423f44ca89e7aefc81ef862cb5a8d99939e8bbe844c0d6ee72c3e69381",
+          "disassembly": "f27ef51906243261045dd7b0176d0dc37ad5f621fc649f8dc899d6afcad76f9b"
+        },
+        "B3_headline_n16_s20260909_zc_controls_8": {
+          "assembly": "93a872c78562ddee96825046f3ee2f5d7e0e9a17bc57102d6ffbd0f952be9af8",
+          "text": "a37ea221ec0ee261af6f78c054e67040457f65ae64236c8183492bd472754c66",
+          "disassembly": "6a280b353cc611a6d54c71b97fc2d3d3e9f4232d5ecdc623126eb50020ccd481"
+        },
+        "B3_headline_n16_s20260909_zs_balanced_u4_0": {
+          "assembly": "777fbbe01790f01e1d516a6e28ac24425f56cb5e043529e4c5502790bf3bb7dd",
+          "text": "d375eeb1d47841338bc8cbb502bf0cf257a89d3229bfa2f848756d1cc6a46617",
+          "disassembly": "27595e3224b326a73298ec3ff8ae86063c62365e7e8d4976bcdf797302c6d39a"
+        },
+        "B3_headline_n1_s20260908_zc_controls_0": {
+          "assembly": "ba5a83566a4a4a63caf9dfbb57cd1ac9ed8772238b2046a139c4e33777e7e661",
+          "text": "c87f60203cdba3774e11368235c34fec9bd7ada3616622c1ea523ebcd75e153e",
+          "disassembly": "74715be1e0737663971838b9cdde0bc63356eedefc2e79b728e0cc3a689199dd"
+        },
+        "B3_headline_n1_s20260908_zc_controls_15": {
+          "assembly": "ec47ae88d2939f5d144e2ef6974c195b64e0a14a1c1101d936ab6f7684dca32f",
+          "text": "f8a15880afdd09737dd509d08bc45476ea4ed17102794703c020a4e46cd48263",
+          "disassembly": "ef615ac9ec98111edf8a151396cc547d07b7008f1c60af1bd9b5994983ece18f"
+        },
+        "B3_headline_n1_s20260908_zc_controls_8": {
+          "assembly": "9c19d68394e8ef6a66f5515f198bbec3b6789af6a89aea45bb07680517825d39",
+          "text": "3299986d3fea3cd513efe09b49446a7200bc4d7e7643c29302be89915e525890",
+          "disassembly": "a9086153aea9d0403496b9b2f09fe12b5d6f841750cd933ea1e737917cbcf509"
+        },
+        "B3_headline_n1_s20260908_zs_balanced_u4_0": {
+          "assembly": "ba5a83566a4a4a63caf9dfbb57cd1ac9ed8772238b2046a139c4e33777e7e661",
+          "text": "c87f60203cdba3774e11368235c34fec9bd7ada3616622c1ea523ebcd75e153e",
+          "disassembly": "74715be1e0737663971838b9cdde0bc63356eedefc2e79b728e0cc3a689199dd"
+        },
+        "B3_headline_n1_s20260909_zc_controls_0": {
+          "assembly": "6c646d0d2326f6b21efa0cd98d0e19e00e340a0153bc5ea89202ca12b03bb6fc",
+          "text": "519d367eeb67feb51c9a7f4e9ccfefd63fb8244d7d99d53ed8b7b511a945d27c",
+          "disassembly": "44a2f5e7db4fc1e349674ebee609e1e6f0f898e2f3e8c6a54c692d3223e60faa"
+        },
+        "B3_headline_n1_s20260909_zc_controls_15": {
+          "assembly": "ee431389f67b80a61f7325936165f1f1c5d6408bc81e8e7183ef5fe5cd97490d",
+          "text": "40537fa57b00bb2f8c5d3952cd75cd01b5b7ea48396a4c0b69b1d84153829b41",
+          "disassembly": "9149c327cb9343443779f4ab1ce7bf8e22d3e4e20747e112e4009677eb181e9f"
+        },
+        "B3_headline_n1_s20260909_zc_controls_8": {
+          "assembly": "60724e9ed3f411d39941515d6f3fe9f258c9a00e18c5330eb7d40290c6151848",
+          "text": "c192fcf4437a6c271cbdcb7a02eb1ca21cab81a769bbf8ef87461237f86b393f",
+          "disassembly": "43400670120bf9e4b4965472d88abd96bca842e7cdf9fbdeb909246289b1b858"
+        },
+        "B3_headline_n1_s20260909_zs_balanced_u4_0": {
+          "assembly": "6c646d0d2326f6b21efa0cd98d0e19e00e340a0153bc5ea89202ca12b03bb6fc",
+          "text": "519d367eeb67feb51c9a7f4e9ccfefd63fb8244d7d99d53ed8b7b511a945d27c",
+          "disassembly": "44a2f5e7db4fc1e349674ebee609e1e6f0f898e2f3e8c6a54c692d3223e60faa"
+        },
+        "B3_headline_n4_s20260908_zc_controls_0": {
+          "assembly": "291bfbc2258145bd0e280500a28417714add16f69b230cfa3c4dc441366a05ba",
+          "text": "0ef1344a3f3f94fbd0c9438538410e3a5998f03aa342f47f711e7a52e4554103",
+          "disassembly": "59cdc65507f8591c59f2a7d58cdc60b96c82a1c74d974af753e80ec60e16a1e1"
+        },
+        "B3_headline_n4_s20260908_zc_controls_15": {
+          "assembly": "5c902e913b3bd1a61a8991d65ea210383c16740885059da7d07689fbfa82648c",
+          "text": "c056ca80e20171ae43b7bba4f0133af8a3be6f90c0a3fc4efb99b56dba69c5f1",
+          "disassembly": "cf4acaa25522be832a3d830299bfef70c29d41da282986e3768dca1746315ba6"
+        },
+        "B3_headline_n4_s20260908_zc_controls_8": {
+          "assembly": "74b7349ad70ba7f452707bb34b93c3ab178f67538cc4bd6a2afadd354b519a75",
+          "text": "dc7c6dae792df9069406da575a3df9c9564fd59b958f6db0c3b8e0fa8b3d6a5b",
+          "disassembly": "575e8ed9772ab191fd985c28bfa3d75031ca9784c49e9dfadd6f3fe5c0fceb78"
+        },
+        "B3_headline_n4_s20260908_zs_balanced_u4_0": {
+          "assembly": "0d7d8146923cad4d4ae026b890335dbd960fead3f6b09838b0cd8ed3aeb95f04",
+          "text": "d7d1239c174b99df8df907d4ba0eba58b93ca4b4b6cadefa66739ffb72c89b7b",
+          "disassembly": "28b2e0e2827bb41ab8725180fbfc2583f9c8c2cfd7b6a3bede0443cc091d7793"
+        },
+        "B3_headline_n4_s20260909_zc_controls_0": {
+          "assembly": "ace9e04fc6a5b867dff90f651e6be3226b05b119d63f5f9efb4ca71502c0c94b",
+          "text": "beb337bf0a67d009be41df3e156d42a111a53cbdff8507f1a443843c6e7b02f5",
+          "disassembly": "88227ca542788c617480477022211ac666f95bff58aec346cc20be87ebc7c7d3"
+        },
+        "B3_headline_n4_s20260909_zc_controls_15": {
+          "assembly": "289a9b2e59894731c73a95bb30e183a8ab0a382fbe94ba3c985a930ae5b398e9",
+          "text": "dfcab696703c54f682c064c6d7f6d43d04bda23abfcf7b219917f2c47e250dc4",
+          "disassembly": "5cc06f691a8b80eeae9277c7c84746944068c988d6f1bcd09935319f35696cb7"
+        },
+        "B3_headline_n4_s20260909_zc_controls_8": {
+          "assembly": "fbf3c58558beb1c7d21a7f067f9800f105d3d4cdaf1acb5f70b10a045b4001d8",
+          "text": "a94082ee484664e9f8d6ef75bf45fea0e9035f473c4e7489c016576102a1dd8f",
+          "disassembly": "b3975ef6e6ce49f15e8ebd70e64efda279cf16cce858682f906f723f0e7f1a92"
+        },
+        "B3_headline_n4_s20260909_zs_balanced_u4_0": {
+          "assembly": "374ab8f9898cf0a8013a56661b81bd71850b8c31122561883b1a03007cdcf452",
+          "text": "a6a36a2d311ed16c78544864cebf9af5909b19de1be7c9bb44f69abee35e41a1",
+          "disassembly": "61fff13282546a2ae0e1cf9f6e58368f1e7e0e7c5944447dcb9869043a974a4e"
+        },
+        "B3_twin_inline_n16_s20260908_zc_controls_0": {
+          "assembly": "ede223e9cc06fa949f7a35dd1eab80bc5180c97c37b9d811fb18ec68d408bccb",
+          "text": "55933245d5a060abd7c5e036278eb3553fb06bf3087d3c0a1616a27a28cc83d9",
+          "disassembly": "3772784e865e158a8c79cdbd924b6a53282da0e23857a1b086e7533a13c8e657"
+        },
+        "B3_twin_inline_n16_s20260908_zc_controls_15": {
+          "assembly": "311b80bb870d678a873cbcd0d80a80b3c449cf1d885277e05648c8c9fc532a39",
+          "text": "9df80f85e70afe2ea44f7763be71b97f85995b7175ea6d413092d469f96600d6",
+          "disassembly": "bf1f6c0ec1bf939f55c2559778f89964f7768c5c9f38fe3ced83d990e1d09c84"
+        },
+        "B3_twin_inline_n16_s20260908_zc_controls_8": {
+          "assembly": "90ae310d07d25cf4e7cf5419d420ec658a6b49da7633a36f7518c584a6ed1465",
+          "text": "ca126954ab93f97aa4dd1a9e03289a595fb06c8c2a5ada4f1f9681b0fecbc3af",
+          "disassembly": "4192a0585a61af71036b0fdc7a8e56ff8f054bd88d88790553d0a846d64fb7ae"
+        },
+        "B3_twin_inline_n16_s20260908_zs_balanced_u4_0": {
+          "assembly": "6744d57a33c0315380ec22cc060d360156dd0d79b8e8eae14f2da7a78593426a",
+          "text": "05bc4e3e7fa4af02a99898cf7f0d6ef50ce7b343aedb990f820d141c2308cc8c",
+          "disassembly": "a5260265d1054f60dab5f0d90430ebd178315a4ff3ed6341bbec31c88371787d"
+        },
+        "B3_twin_inline_n16_s20260909_zc_controls_0": {
+          "assembly": "52fd5a068e513c41dead6fed228cfb1179a5672cb21c6e4c601876c8a79ae3f7",
+          "text": "1153e77d3008da3c078fa9e5b634b6d65fd30f41da4d77f83043ea0dd15c1ed0",
+          "disassembly": "b354447eb4cac7b65c00c54f948722027841173837e73256b3de3b7b8c88922c"
+        },
+        "B3_twin_inline_n16_s20260909_zc_controls_15": {
+          "assembly": "daa54aa86574dbece143836a63d4d29a11f1cfd8f978b34ecda88596c2141902",
+          "text": "0f707c792cb9eb5472988ac5d5dfb8c847438f838a31c35ff8d0031222bd8284",
+          "disassembly": "b2aed4db7f153084a19d3bd7d5c92bdd0bde3ae90fdf859a687e938c6b6c4a69"
+        },
+        "B3_twin_inline_n16_s20260909_zc_controls_8": {
+          "assembly": "005ad310b6f99de182caa334c7dd737eaf2a992945e00c3f531d111a59521ace",
+          "text": "90152d45f944497092394f2ec6b1d8a6c304bdf7cff928fb80c8768679eb7289",
+          "disassembly": "3004c4a5370fa538e50688a6677fd733516a2ab84e72d5d3c88832a8561360e4"
+        },
+        "B3_twin_inline_n16_s20260909_zs_balanced_u4_0": {
+          "assembly": "7ecfa756fe37ae65b2439cd45f60960ba8a0aa36a4f5e10fcd85c5fbd6b45c85",
+          "text": "027b21986c1ff2691bcb640da05ce8c0b9e07c8cc2a288471014a1dbe4e7d1fb",
+          "disassembly": "d708e0b5fe4d938aaecc700e9a8935ff7bb7c14c9b95a7bb6e790c692900c5e2"
+        },
+        "B3_twin_inline_n1_s20260908_zc_controls_0": {
+          "assembly": "429c6f595c4d8af99f2ecf6868668de759e9609079927dd664b3725396c73434",
+          "text": "6908adbee29861661e3ed585a2fe9029cd9640e9cf321c45c8f3f8aa8c97e300",
+          "disassembly": "543faa5da6f677ebed82a185749808f516c7f9c3f81b780cdb22c00beedd3b51"
+        },
+        "B3_twin_inline_n1_s20260908_zc_controls_15": {
+          "assembly": "e55f9dda513e29f0fa67dbd507bc45dc191d1d60750fb14b565493836f9069a7",
+          "text": "86961e3b2d69580f2281a55dd925c5549c788def956fe7187ffa2c2345b80359",
+          "disassembly": "32c90959e0fd9b0ceb20e48472f76ac06a855ab73195857398ce519e341aae50"
+        },
+        "B3_twin_inline_n1_s20260908_zc_controls_8": {
+          "assembly": "f9d44d6f6d7b663fcfecf2ea129396d4710d6a6cc7108374ca1206690567986d",
+          "text": "a6618e0eba2ab859d92f7150e5620f015101410dea5d6b1f71f958ab312ab40a",
+          "disassembly": "d1920467292538883a76333a2c1b7dfd67cc965e164522d2fdf516438b4536c9"
+        },
+        "B3_twin_inline_n1_s20260908_zs_balanced_u4_0": {
+          "assembly": "429c6f595c4d8af99f2ecf6868668de759e9609079927dd664b3725396c73434",
+          "text": "6908adbee29861661e3ed585a2fe9029cd9640e9cf321c45c8f3f8aa8c97e300",
+          "disassembly": "543faa5da6f677ebed82a185749808f516c7f9c3f81b780cdb22c00beedd3b51"
+        },
+        "B3_twin_inline_n1_s20260909_zc_controls_0": {
+          "assembly": "fed93b30365ba5fc80d3998cb0d794e8c636346398e7ed0187718d1971766fdb",
+          "text": "a110db4bcf2491ac87ba6ac392bb82c75abf66754083fc500324a0ffa7fb0476",
+          "disassembly": "19e1d35bd79c57e4eac557a1c65fc3c27e5ff9459f09761e3bdccaac21d94ab5"
+        },
+        "B3_twin_inline_n1_s20260909_zc_controls_15": {
+          "assembly": "9fd637870b95026975872c9cc07c95afb19f282f0603332c97b9f75a10a951c1",
+          "text": "7edd46c0c49c6a6adf126db4f6a4db94f606d5b0b0f75fd56c72920c5929e612",
+          "disassembly": "1b92f0306aef0d698410e26421cb79386c6ce342ff434003c4bdf17f967fd7a9"
+        },
+        "B3_twin_inline_n1_s20260909_zc_controls_8": {
+          "assembly": "f5334d698e5b3313e415a2093fea61a02412706718e538fb7825adb66e58457d",
+          "text": "b779933f943831151c58eabc571899afc11ddc3a2f4431d0342387fee6870d49",
+          "disassembly": "b1160ce01e787f64f758af48c88b3c628df1bd9001b5370c19b3ac60fd78e7af"
+        },
+        "B3_twin_inline_n1_s20260909_zs_balanced_u4_0": {
+          "assembly": "fed93b30365ba5fc80d3998cb0d794e8c636346398e7ed0187718d1971766fdb",
+          "text": "a110db4bcf2491ac87ba6ac392bb82c75abf66754083fc500324a0ffa7fb0476",
+          "disassembly": "19e1d35bd79c57e4eac557a1c65fc3c27e5ff9459f09761e3bdccaac21d94ab5"
+        },
+        "B3_twin_inline_n4_s20260908_zc_controls_0": {
+          "assembly": "997116266693ddaca7910d35725bcd0bde42ce62dda92af28198e51f72c50919",
+          "text": "363e1f82a82067606966cdb87b933b348853a6ef8dd014e5f8cc31f1fc730de3",
+          "disassembly": "98481c13b78f007280b041799a27889ae1405969943f66610fe168cc8bb33cc9"
+        },
+        "B3_twin_inline_n4_s20260908_zc_controls_15": {
+          "assembly": "f6681e9ec155eaaf17d6014af054de8ceeae6c10d696d8ba781e57bab1131190",
+          "text": "e56e469ef95654001a75efd7cb649beaa6d4899dbf430d924cc84b7a0f324812",
+          "disassembly": "654dc0e113b5f777706708ad8643991be3671f2e37c264e367ea51bc4bd02649"
+        },
+        "B3_twin_inline_n4_s20260908_zc_controls_8": {
+          "assembly": "69e110834f2ab8e8f255184e63d917d6c7d102a1cc759086c460a185880632b4",
+          "text": "e1f2bb413f59590dde2a060a997115780bde8d7b83ca696af7a67479ee8320ce",
+          "disassembly": "03a9885254df80dc539a6e6fc18f26bcbcaf7b6b1425a2586b7da1fc2391b6bd"
+        },
+        "B3_twin_inline_n4_s20260908_zs_balanced_u4_0": {
+          "assembly": "32534b56194899b84d3a98ab5c80732381f7d3b490084e85e9df5036474abae5",
+          "text": "9a826e5f2443636196fa5b51ce83d5b6b1765595f1d4330bc21397bf15589f6b",
+          "disassembly": "0aa127c695acde38e6897e9dfd5694c7e920aa5c294660d1f25af5da36f1480e"
+        },
+        "B3_twin_inline_n4_s20260909_zc_controls_0": {
+          "assembly": "c3d299e7c881b90f54be49315c9f4a317578de2d27878ab4f06dc425856de057",
+          "text": "90c238b4cd568dd54a238cb23a7a27b2e2a515c9931381d74c8bc6193479c3d1",
+          "disassembly": "8e8a0b7b44c25af18b89cb8b55c890271de0bd86ff46f8a0de0e9d1a4a7cbefd"
+        },
+        "B3_twin_inline_n4_s20260909_zc_controls_15": {
+          "assembly": "a9d697790a59b70545e3af0af8a181df5b9c494729910eef3618b3dc107fe22b",
+          "text": "a57f4d8f38574296d4e97e95529bccd09f7dd3def48178fe40b7227da2ba561c",
+          "disassembly": "d7f9fe9400abb023d514f45f2cdc7c0950ab4b6b10eed955b8484928f2d63e4e"
+        },
+        "B3_twin_inline_n4_s20260909_zc_controls_8": {
+          "assembly": "2656a7305374aaa3f9b8188f6277d671a088b410c5b443cd073ef49e56e18e4b",
+          "text": "e593b65f75693ae9ac506f2453e448ca161a3c73963aefae00e45949b9981647",
+          "disassembly": "647d190547a13e5752224ba696eb010686c11980bbaf4dd54d0be51d5bfbed62"
+        },
+        "B3_twin_inline_n4_s20260909_zs_balanced_u4_0": {
+          "assembly": "d0069c0d62eda2d5e5c97bdb7e893f5404568435d034b3a3d579925f206d4e7e",
+          "text": "f13f87e95e38600fd6d1e2ad40d9eadfc64fa5019335b489df0fd5306ea204e1",
+          "disassembly": "932cff1c4c60ebbed55c67af697531cacad60e9b2fea07495377c5ea95ca265c"
+        },
+        "D_headline_n16_s20260908_zc_controls_0": {
+          "assembly": "beead40629b22a8fc2b6d619e25576a411683e8316719be7f597bb56ec730832",
+          "text": "3c50a9968d8f99ac50ac400f761dfa4692830efe7f61fa87d97e8e7ac2f3d273",
+          "disassembly": "1dc68a05eb8b74a213d2ac376f8db8e561492beb8d7f3f8213e4580f70daed29"
+        },
+        "D_headline_n16_s20260908_zc_controls_15": {
+          "assembly": "f1d621af27e7afbf6421ef021da4fb503d74c5a19d9ee8f3e9b6465f0657dbd9",
+          "text": "03e63e86c32a455ffa3965168e21f878f27c1ef2dbfecbb83f0c3954bc793f36",
+          "disassembly": "5a98a403ec249de2a1b6200326ef4d1576c4411025e70777492dfef651178078"
+        },
+        "D_headline_n16_s20260908_zc_controls_8": {
+          "assembly": "2c3012cf56a484720b057f7db091a255995e681e9ea04018da07f4f76eb2fd78",
+          "text": "d1f8eeb0874a3611566ef6bd027cc4b851fcaee0647a7e2e305b872890f32d51",
+          "disassembly": "d5f203fe79eef0a3b232943ec2f72fdaeab13c47a3f8cd428073d01566397ff7"
+        },
+        "D_headline_n16_s20260908_zs_balanced_u4_0": {
+          "assembly": "4ff65ef97636e5c19e4c3b16d9541dd9760446ee2cf7b5ede024d9cff4a21091",
+          "text": "b49b5a0885393b068bc25008c215888bf45f0e669d239534cd3bb65a59ff5ffe",
+          "disassembly": "823f2b2302caf396a0a98298fb250aba2aeba7366b8e475a886bf4433a2459f5"
+        },
+        "D_headline_n16_s20260909_zc_controls_0": {
+          "assembly": "1e22978b07b0c6cdc6c145dacdcfa20ae0d51bb7e35975e8ba4e9fa459d1ac66",
+          "text": "5bf765fb81e5674d73e6b5d0536f0207424c74e3112ad4154e2dc361553369d1",
+          "disassembly": "9aef001813cd3d4857748d57f98ce58dd44333bd785e937c72c4dcfa1517bbcf"
+        },
+        "D_headline_n16_s20260909_zc_controls_15": {
+          "assembly": "b25b5b8389f9930eaa3d66707c096dd01d52fa66bdeed777afdd37b72912ac36",
+          "text": "01fcd4805f0416fc8b5e03f5bdb72395cdc11b53aebf6281abd0f71758cd988c",
+          "disassembly": "21b0329cc595e42fabe488dd859caa4db689c8f57af268c257c886e0c0142deb"
+        },
+        "D_headline_n16_s20260909_zc_controls_8": {
+          "assembly": "7a8bf7169ecb9f215eb7935fc596da9a0814cab9a8bce45e0e49105ea151f8f2",
+          "text": "6f305d476884e0e73d1c251bf6c4b7169e4a0273911f9205ed9bd87780329be8",
+          "disassembly": "b7a4b58ba66929c7504db5332a24a7e97cb71e610e04eff45ceecb0150fa528b"
+        },
+        "D_headline_n16_s20260909_zs_balanced_u4_0": {
+          "assembly": "e1334d6c9abcd2315912aaa42db6843a10a280af2bf2060c22e027d19147c4fc",
+          "text": "f6ff376ac1f95427a740371ed4c4bba3a9ada2abfda9bf2b45c5dfbabb423369",
+          "disassembly": "a7681d4fd69b1da8eff632192062b885cac874efb14fe966f0ad45a508ab6527"
+        },
+        "D_headline_n1_s20260908_zc_controls_0": {
+          "assembly": "9de421ecb949cdc58ad9dfd8a4a5fee27bad6aebd162b5c2295924c641cdabb9",
+          "text": "610102ee464753c78cd1dd4dab1a4353ae723efb6245d69a8c17c7c148933f36",
+          "disassembly": "d9d6930e4b949c46b8bc28ca724d91dadae27d2c4f00f46a336d6a0fe9229c17"
+        },
+        "D_headline_n1_s20260908_zc_controls_15": {
+          "assembly": "e1dd169d4325ac71dd9a44cdc561ad5e2c124f90955f5d7ecacb5bccd44ab74b",
+          "text": "1d81225d3bff13b6e5f428df899a0646e31dad96418eacaf2b6cc01bfcca4621",
+          "disassembly": "d94625e305cfefc1ed7ff75d8785e3b995238f5734cc89bf6ac6c5a35bc32b6f"
+        },
+        "D_headline_n1_s20260908_zc_controls_8": {
+          "assembly": "bb101b8f645ff6761eaf49e6325f78e124a5b20a96d65054b5b228b2ac6373f3",
+          "text": "187f5b894fa2e962ebb209b04fb10c6c464efba5c5f4fbc2eb47ae3b9be979ae",
+          "disassembly": "7fb5caa10877df7851f2df8bb1e12ad872734cc36a3e164f24be16b82478e537"
+        },
+        "D_headline_n1_s20260908_zs_balanced_u4_0": {
+          "assembly": "9de421ecb949cdc58ad9dfd8a4a5fee27bad6aebd162b5c2295924c641cdabb9",
+          "text": "610102ee464753c78cd1dd4dab1a4353ae723efb6245d69a8c17c7c148933f36",
+          "disassembly": "d9d6930e4b949c46b8bc28ca724d91dadae27d2c4f00f46a336d6a0fe9229c17"
+        },
+        "D_headline_n1_s20260909_zc_controls_0": {
+          "assembly": "2b6cc2c4d93bb00067ed046a5c8a6e631f7917c8ace2de953c63f29adb4996a4",
+          "text": "bb138d351abd26ba8f9f8fdba486bfaa6a0b7d71246cbf95dfa73f1ba8260bbe",
+          "disassembly": "5b47156c52150895674b998861d6f8c725a8d7aa1b45d6e69b31d91bd84744ee"
+        },
+        "D_headline_n1_s20260909_zc_controls_15": {
+          "assembly": "a83b81fe99d3348b702de098e001636cc5e134963f170e7cc381a9e222431ed1",
+          "text": "26f935a9d97f2b589a086749028f6157ff816b73bb2737b8a63b01692178d4b6",
+          "disassembly": "d8722550ecb2ea441cd90826c6a139a5447ccbfaabbda9efe33f6c3cdeb5eb20"
+        },
+        "D_headline_n1_s20260909_zc_controls_8": {
+          "assembly": "ec5ecbbfa970931a3e6da1e3a38bcd99dd06247e5b7fc8b2a611ede507cfd4be",
+          "text": "c144f5763b66fb5867c84797d0008beca53007af95d3c8c35c813c4981df837a",
+          "disassembly": "1df3d88cb71dfafac7869451bfc2dc161a92c02675dcff02acf10f0e27525355"
+        },
+        "D_headline_n1_s20260909_zs_balanced_u4_0": {
+          "assembly": "2b6cc2c4d93bb00067ed046a5c8a6e631f7917c8ace2de953c63f29adb4996a4",
+          "text": "bb138d351abd26ba8f9f8fdba486bfaa6a0b7d71246cbf95dfa73f1ba8260bbe",
+          "disassembly": "5b47156c52150895674b998861d6f8c725a8d7aa1b45d6e69b31d91bd84744ee"
+        },
+        "D_headline_n4_s20260908_zc_controls_0": {
+          "assembly": "460ece45a1b815e1ec80b01b24ad5d4a1acf1e290da9c5073bc315fd1648583c",
+          "text": "53a950c37c3dbbfd776cf0fabc75cfea7a907204f858ca78de760295efa787d8",
+          "disassembly": "d541a50d1cd98c507bf1f4d798a2909d51b22125f4fca71955fc873476ee6a18"
+        },
+        "D_headline_n4_s20260908_zc_controls_15": {
+          "assembly": "da217e50a5e4aa82d3dc9642787b08d80eafd6f54872eed1775e850641d40cf5",
+          "text": "529dbce47bfdb59e14b51fdfa499e764f58cf3386153f1d575e3d507096793f9",
+          "disassembly": "0a384acbffba2294b3da333397eef9e93f6aca52ec2265f8274f9f13e8089296"
+        },
+        "D_headline_n4_s20260908_zc_controls_8": {
+          "assembly": "85f036319600ca0d3cbbf9de2d98c18ac5cdcbf91cc48b9d9e7f08ec9d8ff0de",
+          "text": "38722874c73ad8cc769a616e2771aa965a02fec9b37bdb2b7d62c36a8a8c8dab",
+          "disassembly": "83d4f409ca1bc154cc62bd4e6b14ad8d1cdc62c46fd1b1b576741685e416552d"
+        },
+        "D_headline_n4_s20260908_zs_balanced_u4_0": {
+          "assembly": "f605f517cf6bd07da09ac165cb712770ce0858a80edadfdfc6528c829cd327fc",
+          "text": "ec97f1a6d026cfa8401c863b978517d83bdd7f2065e8a03bc480ba863d698cea",
+          "disassembly": "26459e4d324b1713e3b9639fb0db9a7272c759c9bfcdfc0e5aa91a6acdbed22b"
+        },
+        "D_headline_n4_s20260909_zc_controls_0": {
+          "assembly": "86a19ade9af60f3447227400dbf8f3e16743683393aeda6ded99365c8b659832",
+          "text": "269fa337252d39bc047c677862d9c60536ce80da1591ef120e0917e5a14c9ec5",
+          "disassembly": "0a37b424d85465330a72307be80d931355404913bfd46728303c468aaed8042e"
+        },
+        "D_headline_n4_s20260909_zc_controls_15": {
+          "assembly": "d8932ede8960adac793b84f21d68711884773fd1f85cc4760057ea00dd49c349",
+          "text": "bd995dfb02062af7bb08ba80cc2bcc53d7443b967735e92be3e93f79b32f1b7f",
+          "disassembly": "cbc879d6e938e3c7c66d8238eadb0080917b1e6accb59d66b74ba812a20f3c17"
+        },
+        "D_headline_n4_s20260909_zc_controls_8": {
+          "assembly": "e2e0bb8ba616be7012f320480998cdfdd3fcbde9fa773106058cc643c8939fe0",
+          "text": "6583b88d2aa07d33af77c2a3c05d17fcea4515dd0b6493ba4f8a714d1be9afc5",
+          "disassembly": "036c1ca4b6a5db02cdabef346b9917ec8d7ce26c83fb5706731aaee12d6a3fd1"
+        },
+        "D_headline_n4_s20260909_zs_balanced_u4_0": {
+          "assembly": "2cd88c133f6335c2f03862b414836bd572ad6bb5da5846c0579dab4a9018ade6",
+          "text": "b7e6a1e711400ab47f253b236805d21332d461aefbd8c4c49c775d9d6b8f5cbb",
+          "disassembly": "94e7217cfeb5473128997a1519d080e770637deef50d5e2aee1f34506efc1773"
+        },
+        "D_twin_inline_n16_s20260908_zc_controls_0": {
+          "assembly": "7ff1689711f0be9033955b2fd3203e836bb2a3603726d6f3f8c8fa47238cb425",
+          "text": "57996e7749b33359fa0970e2432f9526de5486efb0c2f4ed9a9fd03ec30ee353",
+          "disassembly": "32657fa101d4739bec0f3cb9636ab503512972c98fbd2f24a9af2f41b06237a8"
+        },
+        "D_twin_inline_n16_s20260908_zc_controls_15": {
+          "assembly": "241a6c97344fec52c54d8700aaf8f17fed67854a41df35d3deca008a01d22de4",
+          "text": "796140be0823bdfab1a2f8b57db9a10da8d344a502d1dc7f63b7304133b7eb99",
+          "disassembly": "8ddfb7544bc9e2c97f530ca685642e4e4fb6d631368f36cd25bd493b8ece8044"
+        },
+        "D_twin_inline_n16_s20260908_zc_controls_8": {
+          "assembly": "e534becb66589fd709dcfa2e4495afb390cc2e79c65d6101114e4bcb928af03c",
+          "text": "5060c82474056563ce4f59b07de5e845647c4e566a2fa058c09f7404a0f7c869",
+          "disassembly": "ad33115240d01c5dfd3964120a3bb268e01230dce8d898ce4ee67255ad9fc62c"
+        },
+        "D_twin_inline_n16_s20260909_zc_controls_0": {
+          "assembly": "57f8608617a4c29a323797d5cca663cab13cd4b42ad5327650d09680f65b0b63",
+          "text": "6890234188b2cba389c0534b0a04ec38622cc352c6272fe1d66950a4ecf68a75",
+          "disassembly": "cdbb00c4654c99143dae1067e30c012501a18f110b694423ec73911c2a201fb0"
+        },
+        "D_twin_inline_n16_s20260909_zc_controls_15": {
+          "assembly": "3ed67ffbd28b4f0c79c63c0bec13b082beff5ec2ac386c2f6774eba71fe5220a",
+          "text": "64692891a6d492200e1fcfb62db8dd860b518b163613cc46789c0bc60f71d48e",
+          "disassembly": "6cde1f67975e31c53452c2f33b6dc7741169dc5ab4dcb5f480acfa8c9457c93b"
+        },
+        "D_twin_inline_n16_s20260909_zc_controls_8": {
+          "assembly": "aacd0d5e61e8a848eecdf73aa4d72b6374baef5e44e88f4d057b02a63a15b261",
+          "text": "95a3de0720c9fe5da5dab230da7ae3e4600c58630568e8f1f8138cbbbe2885f3",
+          "disassembly": "a35adaf4b4bfb233d078bcc421a4d77888f52754a969ef0700d21615d6390bf5"
+        },
+        "D_twin_inline_n1_s20260908_zc_controls_0": {
+          "assembly": "aa55d2d9bf7c667dcf8e4a40f73d6793b5ae7d595437a6d02ec589ee92e2c059",
+          "text": "d7bdba0d924467cfb52fc71544638b051e76aa96ed2f022d665d63b40f84103a",
+          "disassembly": "0030f409120c0d0bba5e53014a3e68f5441e6ae60f61bfc20ba4ba6207f60bae"
+        },
+        "D_twin_inline_n1_s20260908_zc_controls_15": {
+          "assembly": "a150ba217314da3dffaa202db50595a055358dfc69d7da9bb9c814dd630c405f",
+          "text": "c0842b5954f1353057f6a79e44e63d0e9226c74caebf4a7eda574aa0cf9cf60f",
+          "disassembly": "084a4c05aea398e25e606c258f579d023602559aa66630f2710316bc0cd955fe"
+        },
+        "D_twin_inline_n1_s20260908_zc_controls_8": {
+          "assembly": "6af267396419e7fae6c7ca5dc193043e02886dc0a70f82f5cb1b170c9578421b",
+          "text": "22aced864bd18d76531fcf62f0984d18d8f3b1cd3c528b59f483828d65fae7c0",
+          "disassembly": "7c39ec4ae05c18b758717a8f35f62688360e65c1575defa031c0dab8fb519806"
+        },
+        "D_twin_inline_n1_s20260908_zs_balanced_u4_0": {
+          "assembly": "aa55d2d9bf7c667dcf8e4a40f73d6793b5ae7d595437a6d02ec589ee92e2c059",
+          "text": "d7bdba0d924467cfb52fc71544638b051e76aa96ed2f022d665d63b40f84103a",
+          "disassembly": "0030f409120c0d0bba5e53014a3e68f5441e6ae60f61bfc20ba4ba6207f60bae"
+        },
+        "D_twin_inline_n1_s20260909_zc_controls_0": {
+          "assembly": "3040da22f3f6458d4ac5f41aaf0b5f597a8fe511560cff75b34bc693a781e737",
+          "text": "2f23b5cc4b2793606c84c61c4fe29f88e7a4253be7a6649a1e13f0d04b30a556",
+          "disassembly": "ed528fb1075f24dd70b91256f82007335c97bd3b22a72ac0cda01a79501d1f73"
+        },
+        "D_twin_inline_n1_s20260909_zc_controls_15": {
+          "assembly": "2436df52f2b73a9bb4fcb40cfae829f933743111902c551e3c0b61f319bc31a2",
+          "text": "8eedccb1765563c354a77f39bfe124a8641f8e6335c6c183cba5dc2aede512ff",
+          "disassembly": "340dbcc60a7d165347e760d3b2467e1bdd274f156c1f768906756d184e5a3d81"
+        },
+        "D_twin_inline_n1_s20260909_zc_controls_8": {
+          "assembly": "a137136b328594ccd0dd0ef0d1184de2d9f2f78b02bb64e58a971cc95716e541",
+          "text": "f87ff9945d686ed99d25d153aee17bf044ea2cf6af1dd12c4620a59403a2de65",
+          "disassembly": "a8e09018c21284240fed7800e150466f3872dab74d09bb75c4277f905d01ba49"
+        },
+        "D_twin_inline_n1_s20260909_zs_balanced_u4_0": {
+          "assembly": "3040da22f3f6458d4ac5f41aaf0b5f597a8fe511560cff75b34bc693a781e737",
+          "text": "2f23b5cc4b2793606c84c61c4fe29f88e7a4253be7a6649a1e13f0d04b30a556",
+          "disassembly": "ed528fb1075f24dd70b91256f82007335c97bd3b22a72ac0cda01a79501d1f73"
+        },
+        "D_twin_inline_n4_s20260908_zc_controls_0": {
+          "assembly": "84e8d3bd6239ced59fababacba468aca654cfbaaa18215417bf1604ca9a29cec",
+          "text": "bf163b5e2dffa4aec9fb27aa63de330c3c84716181c0bd30b858502a1473f9e1",
+          "disassembly": "1fe159f98b3fb497de0689e176897c4dc585f202859b3052c57b35c873b4637f"
+        },
+        "D_twin_inline_n4_s20260908_zc_controls_15": {
+          "assembly": "c8f6043a450c4c4c8d6c51d4c17172babe720c58345f548d6e4504ee8dac845d",
+          "text": "652780559cb600db9ce6c0a40c6990628e66871525ef785bc5e6c7809b004750",
+          "disassembly": "c909dac1400bccd3ddd45f4940f4a84564fecab8f833fcea84b74e63accc9474"
+        },
+        "D_twin_inline_n4_s20260908_zc_controls_8": {
+          "assembly": "21aba722a81930eadbe5efe156b9df9bb9e43e648f0097cdb9402ece9559c758",
+          "text": "a074381757373bfa19157c0b0e3bca874410762225aa641e1794a98329bb78c3",
+          "disassembly": "6d77ecc5ebee3375b8c6c4c8804e724a6017b1c33353c1dcfe91b50d68384892"
+        },
+        "D_twin_inline_n4_s20260909_zc_controls_0": {
+          "assembly": "7dd6bf247fff5b61ae861581c664e2cace490c9adb69e0232a785a26e8c33a47",
+          "text": "a05be2bf4bbadf9af9956a8a4fbc6525d8d8fde29a1694743b9889e8fde449b3",
+          "disassembly": "2dc97abfe2e58512990444d92ec7bc8f0109e45ce92ed948ae6ff22b7c56e262"
+        },
+        "D_twin_inline_n4_s20260909_zc_controls_15": {
+          "assembly": "b5698e1503a9e67c1f0283251873716910ac0e23df65b6ef2ea208ee2ef94c6d",
+          "text": "6cb3889057d44fd0b6b4f926a68c45226bc7f469f5a47bb56a04f9d221edc358",
+          "disassembly": "24a2604261f7c1152be6a7fa3c8562d32376898ab23857a4e6bf7966b5497c75"
+        },
+        "D_twin_inline_n4_s20260909_zc_controls_8": {
+          "assembly": "69cf1b94876087acc81d560ad0a97a3a1117c205b38b52d5d984d875f5a1a4ca",
+          "text": "54dd8823acb51e896e261c5c7b091ef7ee46128c75a5229926d0cee8ef8a098d",
+          "disassembly": "f4916d7f4a2a5aa53f477049e49dee72ae28e4388a8dfe2ea00f81bf011a177c"
+        }
+      }
+    }
+  }
+}

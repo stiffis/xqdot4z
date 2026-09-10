@@ -141,8 +141,7 @@ class CampaignTests(unittest.TestCase):
             lambda m: m["execution_blockers"].remove(
                 "materialize tensors and the complete case inventory with hashes"),
             lambda m: m["execution_blockers"].remove(
-                "freeze the common kernel policy, generator, assembly, disassembly,"
-                " text hash and tests in Git before any kernel timing, including the pilot"),
+                "record the pre-measurement revision and any observed development timings"),
         ]
         self._assert_all_rejected(mutations)
 

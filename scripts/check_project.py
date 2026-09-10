@@ -583,6 +583,45 @@ def check_kernels():
     return len(report["cases"])
 
 
+def check_freeze():
+    """Re-derive the freeze from the tree; a quiet edit must fail here."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from freeze_policies import IMPLEMENTS, disassemble, sha
+    record = json.loads((ROOT / "docs/POLICY_FREEZE.json").read_text())
+    assert record["required_before"] == "first_kernel_timing_including_pilot"
+    assert record["post_measurement_change"] == (
+        "new_version_with_reason_prior_observations_retained_and_affected_pairs_rerun")
+    assert record["measurements_taken"] is False
+    assert set(record["policies"]) == set(IMPLEMENTS)
+    manifest = json.loads((ROOT / "benchmarks/campaign.json").read_text())["optimization"]
+    kernels = json.loads((ROOT / "docs/KERNEL_STATE.json").read_text())
+    evidence = ROOT / kernels["evidence"]
+    report = json.loads(evidence.read_text())
+    advice = "; a frozen policy changes only through its declared procedure"
+    arms = 0
+    for policy_id, entry in record["policies"].items():
+        spec = IMPLEMENTS[policy_id]
+        assert entry["policy"] == manifest[spec["manifest_key"]], f"{policy_id} policy text changed" + advice
+        assert entry["variants"] == spec["variants"]
+        assert entry["frozen_files_committed_with_this_record"] is True
+        for group in ("generator", "tests"):
+            assert set(entry[group]) == set(spec[group]), f"{policy_id} {group} inventory changed" + advice
+            for path, digest in entry[group].items():
+                assert sha(ROOT / path) == digest, f"{policy_id}: {path} changed since the freeze" + advice
+        assert entry["kernel_evidence"] == kernels["evidence"]
+        assert entry["kernel_evidence_sha256"] == kernels["evidence_sha256"]
+        expected = {name for name, case in report["cases"].items() if case["variant"] in spec["variants"]}
+        assert set(entry["arms"]) == expected, f"{policy_id} arm inventory changed" + advice
+        for name, pinned in entry["arms"].items():
+            assert sha(evidence.parent / f"{name}.S") == pinned["assembly"], name + advice
+            assert sha(evidence.parent / f"{name}.bin") == pinned["text"], name + advice
+            assert disassemble(evidence.parent / f"{name}.elf") == pinned["disassembly"], name + advice
+            arms += 1
+    print(f"OK: both policies frozen after {record['parent_git_revision'][:7]}; "
+          f"{arms} arm listings, generators and tests re-derived.")
+    return arms
+
+
 def main():
     metadata = (ROOT / "paper/metadata.tex").read_text()
     def macro(name):
@@ -647,6 +686,7 @@ def main():
     packed_programs = check_packed_integration()
     check_measurement()
     check_kernels()
+    check_freeze()
     from check_campaign import check as check_campaign
     check_campaign()
 
