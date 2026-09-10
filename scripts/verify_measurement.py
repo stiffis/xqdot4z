@@ -205,7 +205,7 @@ def main():
                 run(f"verilator_{tag}", ["verilator", "--binary", "--timing", "--timescale", "1ns/1ps",
                                          "--top-module", "tb_measure", f"-GENABLE_QDOT={qdot}",
                                          f"-GENABLE_MUL={mul}", f"-GENABLE_PACKED={packed}",
-                                         "--Mdir", obj, "-j", "2", *rtl, bench_file])
+                                         "--Mdir", obj, "-j", "1", *rtl, bench_file])
                 return {"iverilog": ["vvp", binary], "verilator": [obj / "Vtb_measure"]}
 
             def assemble(name, body):

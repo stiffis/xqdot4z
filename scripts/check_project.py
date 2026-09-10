@@ -503,14 +503,16 @@ def check_measurement():
 def check_kernels():
     sys.path.insert(0, str(ROOT / "benchmarks"))
     sys.path.insert(0, str(ROOT / "scripts"))
-    from verify_kernels import sources, SHAPES, SEEDS, SETTINGS, CUSTOM0
+    from verify_kernels import sources, SHAPES, SEEDS, SETTINGS, CUSTOM0, CUSTOM1, K
     from tensors import tensors, zero_points, expected_outputs
     from kernels import required_row_bodies
     state = json.loads((ROOT / "docs/KERNEL_STATE.json").read_text())
-    assert state["status"] == "headline_and_twin_kernels_verified"
+    assert state["status"] == "four_variant_kernels_verified"
     assert state["policy_implemented"] == "shared_tile_resident_skeleton_v2"
-    assert state["variants_implemented"] == ["B3", "D"] and state["variants_pending"] == ["B1", "B2"]
+    assert state["variants_implemented"] == ["B1", "B2", "B3", "D"] and state["variants_pending"] == []
     assert state["headline_kernels_pending"] is False
+    assert state["indirect_dispatch_forbidden"] is True
+    assert state["instruction_capacity_words"] == 32768
     assert state["campaign_executed"] is state["pilot_executed"] is False
     assert state["speedup_computed"] is state["performance_comparison_drawn"] is False
     assert state["development_timings_observed"] is True
@@ -537,21 +539,31 @@ def check_kernels():
                 # The floor is the ISA's, never the implementer's.
                 assert case["row_bodies_emitted"] == case["required_row_bodies"], name
             multiplies = case["instruction_mix"].get("0x33/mul", 0)
+            opcodes = {int(key.split("/")[0], 16) for key in case["instruction_mix"]}
+            # An indirect jump is the signature of dispatch, which the
+            # specialization rule declines for every variant.
+            assert 0x67 not in opcodes, f"{name}: indirect dispatch"
             if case["variant"] == "D":
-                assert multiplies == 0 and f"{CUSTOM0:#04x}" in case["instruction_mix"], name
+                assert multiplies == 0 and CUSTOM0 in opcodes, name
+            elif case["variant"] == "B1":
+                assert multiplies == 0 and not ({CUSTOM0, CUSTOM1} & opcodes), name
+            elif case["variant"] == "B2":
+                assert multiplies == K * case["row_bodies_emitted"], name
+                assert not ({CUSTOM0, CUSTOM1} & opcodes), name
             elif case["strength_reduction"] == "declined_no_dispatch":
                 assert multiplies == case["row_bodies_emitted"], name
             else:
                 assert multiplies == {"elide": 0, "no_multiply": 0,
                                       "shift": 0, "multiply": 1}[case["strength_reduction"]], name
-        assert headline == 48, "One headline arm per variant and case"
+        assert headline == 96, "One headline arm per variant and case"
         # Every case must pair D and B3 on the same integers.
         for rows in SHAPES:
             for seed in SEEDS:
                 for profile, setting in SETTINGS:
                     tail = f"n{rows}_s{seed}_{profile}_{setting}"
-                    assert (run["cases"][f"D_headline_{tail}"]["outputs"]
-                            == run["cases"][f"B3_headline_{tail}"]["outputs"]), tail
+                    outputs = {run["cases"][f"{v}_headline_{tail}"]["outputs"][0]
+                               for v in ("B1", "B2", "B3", "D")}
+                    assert len(outputs) == 1, tail
         artifacts = {str(p.relative_to(path.parent)) for p in path.parent.rglob("*")
                      if p.is_file() and p != path}
         assert artifacts == set(run["artifacts_sha256"])
@@ -563,8 +575,8 @@ def check_kernels():
     repeated = verify_report(ROOT / state["repeat_evidence"], state["repeat_evidence_sha256"])
     for key in ("sources_sha256", "tools", "platform", "cases", "paired_agreements"):
         assert report[key] == repeated[key], f"Kernel repeat differs: {key}"
-    print(f"OK: D and B3 under policy v2, 24 paired agreements over {len(report['cases'])} arms.")
-    print("Kernel correctness only; B1/B2 pending, campaign blocked and no speedup computed.")
+    print(f"OK: B1, B2, B3 and D under policy v2, 24 four-way agreements over {len(report['cases'])} arms.")
+    print("Kernel correctness only; the campaign stays blocked and no speedup is computed.")
     return len(report["cases"])
 
 

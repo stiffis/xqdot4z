@@ -179,10 +179,134 @@ def kernel_b3(rows, k, zeros, layout, row_form="derived"):
 
 
 VARIANTS = {"D": dict(builder=kernel_d, enables=(1, 0, 0), include="xqdot4zi.inc"),
-            "B3": dict(builder=kernel_b3, enables=(0, 1, 1), include="xqdot4.inc")}
+            "B3": dict(builder=kernel_b3, enables=(0, 1, 1), include="xqdot4.inc"),
+            "B2": dict(builder=None, enables=(0, 1, 0), include=None),
+            "B1": dict(builder=None, enables=(0, 0, 0), include=None)}
+
+
+def _install_scalar_variants():
+    """B2 is defined after VARIANTS so both live beside the packed builders."""
+    VARIANTS["B2"]["builder"] = kernel_b2
+    VARIANTS["B1"]["builder"] = kernel_b1
 
 
 def required_row_bodies(variant, zeros):
     """The floor each ISA imposes: only D cannot express a varying z once."""
     column = {row[0] for row in zeros}
     return len(column) if variant == "D" else 1
+
+
+# Scalar variants reuse the reservation: the packed result registers become the
+# extracted operands, and Sa's register holds a runtime zero point when z varies.
+NIBBLE, BYTE, PRODUCT, ZERO_POINT = DOT_LOW, DOT_HIGH, CORRECTION, SUM_A
+
+
+def _scalar_elements(layout, multiply, z, shared):
+    """Expand a body's eight elements: extract, centre, multiply, accumulate."""
+    text = ""
+    for index in range(layout["weight_words_per_row"]):
+        activation = layout["activations"] + 8 * index
+        text += f"lw x{ACT_LOW},{activation}(x0)\n"
+        text += f"lw x{ACT_HIGH},{activation + 4}(x0)\n"
+        text += f"lw x{WEIGHT},{4*index}(x{WEIGHT_POINTER})\n"
+        for element in range(8):
+            word = ACT_LOW if element < 4 else ACT_HIGH
+            if element:
+                text += f"srli x{NIBBLE},x{WEIGHT},{4*element}\n"
+                text += f"andi x{NIBBLE},x{NIBBLE},15\n"
+            else:
+                text += f"andi x{NIBBLE},x{WEIGHT},15\n"
+            # Centring is the zero point's only appearance in a scalar variant:
+            # an immediate when one static z governs, a register when it varies.
+            if not shared:
+                text += f"sub x{NIBBLE},x{NIBBLE},x{ZERO_POINT}\n"
+            elif z:
+                text += f"addi x{NIBBLE},x{NIBBLE},{-z}\n"
+            shift = 24 - 8 * (element % 4)
+            text += f"slli x{BYTE},x{word},{shift}\n"
+            text += f"srai x{BYTE},x{BYTE},24\n"
+            text += multiply(PRODUCT, NIBBLE, BYTE)
+            text += f"add x{ACCUMULATOR},x{ACCUMULATOR},x{PRODUCT}\n"
+    return text
+
+
+def _scalar_kernel(rows, k, zeros, layout, row_form, multiply, label):
+    """B1 and B2 share everything but the multiply, which is their difference."""
+    if layout["weight_words_per_row"] != words_per_row(k): raise ValueError("layout/K mismatch")
+    column = [row[0] for row in zeros]
+    shared = len(set(column)) == 1
+    looped = row_form != "inline"
+    text = "kernel_begin:\n" + _preamble(rows, layout, looped)
+    if not shared:
+        text += li(ZERO_POINTER, layout["zero_points"])
+
+    def row_body(last, back=None):
+        body = f"add x{ACCUMULATOR},x0,x0\n"
+        if not shared:
+            body += f"lw x{ZERO_POINT},0(x{ZERO_POINTER})\n"
+            body += f"addi x{ZERO_POINTER},x{ZERO_POINTER},4\n"
+        body += _scalar_elements(layout, multiply, column[0], shared)
+        body += ("kernel_end:\n" if last else "") + f"sw x{ACCUMULATOR},0(x{OUTPUT_POINTER})\n"
+        return body + _advance(layout, back is not None, back)
+
+    if looped:
+        text += f"{label}:\n" + row_body(True, label)
+    else:
+        for row in range(rows):
+            text += row_body(row == rows - 1)
+    return text + "kernel_text_end:\n"
+
+
+def kernel_b2(rows, k, zeros, layout, row_form="derived"):
+    """B2 has the scalar multiplier, so one instruction closes each element."""
+    return _scalar_kernel(rows, k, zeros, layout, row_form,
+                          lambda rd, a, b: f"mul x{rd},x{a},x{b}\n", "b2_rows")
+
+
+
+MASK, TERM = 13, 14  # B1 needs two scratch registers the packed variants do not
+
+
+def _b1_multiply(bits, signed):
+    """The frozen bounded_masked_bit_decomposition_v1, expanded straight-line.
+
+    Each bit contributes a shifted activation selected by an all-ones or
+    all-zero mask, so no bit is a branch and the trajectory never depends on an
+    operand. The top bit of a signed width is subtracted instead of added.
+    """
+    def emit(rd, weight, byte):
+        text = f"andi x{weight},x{weight},{(1 << bits) - 1}\n"
+        text += f"add x{rd},x0,x0\n"
+        for bit in range(bits):
+            text += (f"srli x{MASK},x{weight},{bit}\n" if bit else f"add x{MASK},x0,x{weight}\n")
+            text += f"andi x{MASK},x{MASK},1\n"
+            text += f"sub x{MASK},x0,x{MASK}\n"
+            text += f"slli x{TERM},x{byte},{bit}\n"
+            text += f"and x{TERM},x{TERM},x{MASK}\n"
+            text += f"{'sub' if signed and bit == bits - 1 else 'add'} x{rd},x{rd},x{TERM}\n"
+        return text
+    return emit
+
+
+def b1_operand_format(zeros):
+    """Width folding is a property of the program, not of a row.
+
+    With one static zero point the declared bounds apply; when z varies a looped
+    kernel cannot fold per row without dispatch, so the general signed width
+    governs every element, which the frozen policy's 'S5 otherwise' covers.
+    """
+    column = {row[0] for row in zeros}
+    if len(column) != 1: return 5, True
+    z = next(iter(column))
+    if z == 0: return 4, False
+    return (4 if z == 8 else 5), True
+
+
+def kernel_b1(rows, k, zeros, layout, row_form="derived"):
+    """B1 has no multiplier, so each element expands into masked bit terms."""
+    bits, signed = b1_operand_format(zeros)
+    return _scalar_kernel(rows, k, zeros, layout, row_form,
+                          _b1_multiply(bits, signed), "b1_rows")
+
+
+_install_scalar_variants()

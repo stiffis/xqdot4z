@@ -40,7 +40,7 @@ def zero_points(profile, setting, n, groups):
 
 
 def validate(manifest):
-    require(manifest["manifest_version"] == "0.5", "Unsupported manifest version")
+    require(manifest["manifest_version"] == "0.6", "Unsupported manifest version")
     require(manifest["status"] == "design_only", "This checker does not certify runnable campaigns")
     require(manifest["protocol"] == "docs/EXPERIMENT_PROTOCOL.md" and
             manifest["protocol_version"] == "0.6", "Protocol reference mismatch")
@@ -177,7 +177,7 @@ def validate(manifest):
             f"Residency scope {scope} needs {resident} activation registers at K={max(PROTOCOL_K)}, "
             f"more than this ISA has; the scope must survive the whole K matrix")
     for key, expected in {
-        "body_shape": "one_packed_weight_word_two_activation_words_two_packed_operations_two_accumulations",
+        "body_shape": "one_packed_weight_word_and_two_activation_words_per_body_packed_variants_issue_two_packed_operations_scalar_variants_expand_the_same_eight_elements",
         "k_traversal": "bodies_unrolled_within_a_row_identically_in_every_variant",
         "row_traversal": "loop_over_rows_unless_the_variant_encoding_cannot_express_the_row_body_with_one_code_copy",
         "specialization_rule": "take_a_statically_valid_specialization_if_and_only_if_it_does_not_require_dispatch_the_same_rule_for_every_variant",
@@ -213,8 +213,6 @@ def validate(manifest):
         require(freeze["record"] == ["policy", "generator", "assembly", "disassembly", "text_hash", "tests", "git_revision"], "Incomplete freeze record")
         require(freeze["post_measurement_change"] == "new_version_with_reason_prior_observations_retained_and_affected_pairs_rerun", "Policy changes must preserve history")
     require(manifest["execution_blockers"] == [
-        "implement and verify paired kernels and their disassembly allowlist checks",
-        "fix common memory capacities and the initialized data layout",
         "materialize tensors and the complete case inventory with hashes",
         "freeze B1 policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",
         "freeze the common kernel policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",

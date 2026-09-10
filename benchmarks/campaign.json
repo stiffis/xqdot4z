@@ -1,5 +1,5 @@
 {
-  "manifest_version": "0.5",
+  "manifest_version": "0.6",
   "campaign_id": "static-z-initial",
   "status": "design_only",
   "protocol": "docs/EXPERIMENT_PROTOCOL.md",
@@ -103,7 +103,7 @@
       "selection_basis": "Derived from the operand word shape and the RV32 register budget across the protocol's whole K matrix, not from timing results or a search over kernels; no claim of optimality. Applies identically to B1, B2, B3 and D.",
       "revision_reason": "Version 1 overloaded one field with two independent decisions and became self-contradictory: eight logical elements per iteration implies a K loop, while group-scope activation residency requires distinct register names per iteration and therefore forbids one. Group scope is also unimplementable beyond the initial shape, since K/4 activation words is 32 at K=128 and 128 at K=512 against 31 usable registers, so it would have failed RQ3 regardless of this revision. Residency moves to tile scope, K stays unrolled, and row traversal becomes a consequence of each variant's ISA rather than a shared choice.",
       "declared_consequences": [
-        "A body is eight logical elements: one packed weight word of eight U4 codes and two activation words of four S8 each, issuing two packed operations and two accumulations for B3 and D. Every variant emits a whole number of identically shaped bodies, which the disassembly audit can count.",
+        "A body is eight logical elements: one packed weight word of eight U4 codes and two activation words of four S8 each. The operands define the body, not the instructions that consume them: B3 and D issue two packed operations and two accumulations, while B1 and B2 expand the same eight elements scalar. Every variant emits a whole number of bodies over the same operands, which the disassembly audit can count.",
         "Activation residency is scoped to the tile, not the group. Group scope survives only at K=32 and would be unimplementable at K=128 and K=512, which RQ3 requires. Losing it costs two activation loads per body in every variant alike.",
         "Row traversal is derived from each variant's ISA, not chosen: a variant loops over rows unless its encoding cannot express the row body with a single copy of code. Under ZS only D is forced to specialize, because its zero point is an instruction immediate; that forced specialization is the cost of supplying z and is reported as required_row_bodies.",
         "The two corrections introduced by this revision oppose each other in the D/B3 ratio: giving the baselines a row loop raises it, while removing group residency from D and B3 alike lowers it. Neither direction was selected for its effect and both are reported.",
@@ -111,7 +111,7 @@
       ]
     },
     "logical_elements_per_body": 8,
-    "body_shape": "one_packed_weight_word_two_activation_words_two_packed_operations_two_accumulations",
+    "body_shape": "one_packed_weight_word_and_two_activation_words_per_body_packed_variants_issue_two_packed_operations_scalar_variants_expand_the_same_eight_elements",
     "activation_register_window_words": 2,
     "activation_residency_scope": "tile_not_group",
     "k_traversal": "bodies_unrolled_within_a_row_identically_in_every_variant",
@@ -137,8 +137,6 @@
     "post_measurement_change": "new_version_with_reason_prior_observations_retained_and_affected_pairs_rerun"
   },
   "execution_blockers": [
-    "implement and verify paired kernels and their disassembly allowlist checks",
-    "fix common memory capacities and the initialized data layout",
     "materialize tensors and the complete case inventory with hashes",
     "freeze B1 policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",
     "freeze the common kernel policy, generator, assembly, disassembly, text hash and tests in Git before any kernel timing, including the pilot",

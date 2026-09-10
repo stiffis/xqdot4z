@@ -52,23 +52,38 @@ Los parámetros (MUL, XQDot4Zi, XQDot4) permiten B1=(0,0,0), B2=(1,0,0),
 B3=(1,0,1) y D=(1,1,0). (1,1,1) prueba convivencia, no es D causal.
 Falta cerrar kernels, memoria común y eventos de medición antes de comparar.
 
-Actualización de kernels (2026-09-09): existen kernels **D y B3** bajo la
+Actualización de kernels (2026-09-09): existen las **cuatro** variantes bajo la
 política v2, con evidencia en `docs/KERNEL_STATE.json`. Cada caso corre su brazo
 de titular, cuyo recorrido de filas se deriva de la codificación de la variante,
 más el **gemelo estructural** en la forma contraria allí donde la codificación
 admite ambas. El gemelo difiere solo en el control de bucle, así que restar el
 par lo cotiza en vez de estimarlo, y contrastar ese par entre ZC y ZS separa la
-bonificación de desenrollado del costo de suministrar el zero-point. Los
-cuerpos de fila emitidos por el brazo de titular deben coincidir con
-`required_row_bodies`, el piso que impone cada ISA.
+bonificación de desenrollado del costo de suministrar el zero-point.
 
-**B1 y B2 siguen sin implementar**, así que el bloqueador de kernels continúa
-abierto y la campaña sigue bloqueada. Al desarrollarlos se observaron contadores
-de esas corridas de corrección; se registran como tiempos de desarrollo
-observados, no como resultados, y no se ha comparado ni calculado ningún
-speedup. El brazo anterior bajo la política v1 se conserva en el historial de
-Git, no como evidencia fijada: su residencia de grupo era un confusor adicional
-que el par gemelo de v2 no tiene, así que como control quedó superado.
+B1 y B2 comparten generador y difieren solo en la multiplicación: B2 usa `mul`,
+B1 la descomposición por máscaras ya congelada. El cuerpo lo definen los
+operandos, no las instrucciones, así que las cuatro emiten el mismo número de
+cuerpos sobre los mismos ocho elementos. La lista blanca por variante se
+comprueba decodificando el texto enlazado: **JALR queda fuera de las cuatro**,
+porque un salto indirecto es la firma del despacho que la regla de
+especialización declina, y así esa regla se verifica en el binario en vez de
+prometerse en prosa.
+
+Dos consecuencias arquitectónicas quedaron registradas al escribirlas. El cuerpo
+de fila de B1 supera el alcance de una rama condicional, así que su arista de
+retorno se expande a rama invertida sobre un salto **directo**; se permite solo
+en B1 y se marca por caso, porque es el tamaño del código forzando el control y
+no un despacho. Y la capacidad de instrucciones se fija en **32 768 palabras,
+común a las cuatro**, dimensionada por el brazo mayor —el gemelo inline de B1 a
+N=16, cerca de veinte mil palabras—; el fetch es combinacional, así que la
+capacidad no cuesta ciclos y solo permite que el brazo quepa. Esto cierra la
+compuerta de D10, que pedía decidirla tras generar kernels.
+
+Al desarrollarlos se observaron contadores de esas corridas de corrección; se
+registran como tiempos de desarrollo observados, no como resultados, y no se ha
+comparado ni calculado ningún speedup. Falta materializar tensores e inventario
+con hashes, congelar las dos políticas y registrar la revisión previa antes de
+medir: la campaña sigue bloqueada.
 
 Estado: planificación. No existen aún mediciones de XQDot4Z.
 Las configuraciones siguientes son propuestas concretas; cualquier revisión
@@ -264,10 +279,12 @@ cuatro variantes y se congela en Git —política, generador, ensamblado,
 desensamblado, hash del `.text`, pruebas y revisión— antes del primer cronometraje.
 
 1. Cuerpo: ocho elementos lógicos, exactamente una palabra de pesos empacados
-   —ocho códigos U4— y dos palabras de activaciones —cuatro S8 cada una—, con
-   dos operaciones empacadas y dos acumulaciones en B3 y D. Cada variante emite
-   un número entero de cuerpos de forma idéntica, y la auditoría de desensamblado
-   puede contarlos. No se elige por su efecto medido.
+   —ocho códigos U4— y dos palabras de activaciones —cuatro S8 cada una—.
+   **El cuerpo lo definen los operandos, no las instrucciones que los consumen**:
+   B3 y D emiten dos operaciones empacadas y dos acumulaciones, mientras B1 y B2
+   expanden esos mismos ocho elementos de forma escalar. Cada variante emite un
+   número entero de cuerpos sobre los mismos operandos, y la auditoría de
+   desensamblado puede contarlos. No se elige por su efecto medido.
 2. Recorrido de K: los cuerpos se desenrollan dentro de la fila, igual en las
    cuatro variantes. Un bucle de K costaría ~6 ciclos de control sobre un cuerpo
    de ~7 instrucciones: contaminaría más de lo que ordena.

@@ -1,0 +1,12 @@
+00000000 T _start
+00000150 t kernel_begin
+00000168 t b2_rows
+0000048c t kernel_end
+0000049c t kernel_text_end
+000014a0 T __BSS_END__
+000014a0 T __bss_start
+000014a0 T __DATA_BEGIN__
+000014a0 T _edata
+000014a0 T _end
+000014a0 T __SDATA_BEGIN__
+00001ca0 A __global_pointer$

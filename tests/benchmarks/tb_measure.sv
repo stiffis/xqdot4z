@@ -7,6 +7,10 @@
 // so the same text is measured that the variant would run unobserved.
 // Counters are structural events of this model, not physical timing.
 module tb_measure;
+  // Common instruction capacity for every variant and arm, sized once the
+  // kernels existed: the largest is B1's straight-line twin at N=16, near
+  // twenty thousand words. Fetch is combinational, so capacity costs no cycle.
+  localparam IMEM = 32768;
   parameter ENABLE_QDOT=0;
   parameter ENABLE_MUL=0;
   parameter ENABLE_PACKED=0;
@@ -27,7 +31,7 @@ module tb_measure;
   integer s_cycles=0, s_retired=0, s_kernel=0, s_stores=0, s_loads=0, s_regwrites=0;
   integer s_stall_load_use=0, s_stall_fault_hold=0, s_flush_taken=0, s_end_cycle=0;
 
-  top #(.IMEM_WORDS(8192), .DMEM_WORDS(1024), .IMEM_FILE(""), .CHECKS(0),
+  top #(.IMEM_WORDS(IMEM), .DMEM_WORDS(1024), .IMEM_FILE(""), .CHECKS(0),
         .ENABLE_XQDOT4Z(ENABLE_QDOT), .ENABLE_MUL(ENABLE_MUL),
         .ENABLE_XQDOT4(ENABLE_PACKED)) dut(
     .clk(clk),.reset(reset),.WriteData(wd),.DataAdr(address),.MemWrite(we),
@@ -48,9 +52,9 @@ module tb_measure;
         !$value$plusargs("TEXT_END=%d",text_end))
       $fatal(1,"MEASURE_FAIL missing window arguments");
     if (end_pc<begin_pc || text_end<end_pc) $fatal(1,"MEASURE_FAIL inconsistent window");
-    if (words<=0 || words>8192) $fatal(1,"MEASURE_FAIL program size");
+    if (words<=0 || words>IMEM) $fatal(1,"MEASURE_FAIL program size");
     if ($value$plusargs("TRACE=%d",trace)) begin end
-    for (i=0;i<8192;i=i+1) dut.imem.RAM[i]=32'h00100073;
+    for (i=0;i<IMEM;i=i+1) dut.imem.RAM[i]=32'h00100073;
     for (i=0;i<1024;i=i+1) dut.dmem.RAM[i]=0;
     $readmemh(program_file,dut.imem.RAM,0,words-1);
     #22; reset=0;

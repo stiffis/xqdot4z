@@ -133,7 +133,10 @@ scheduling, and correction reuse are fixed before measurement and shared by all
 four variants. Under that schedule B3 corrects with one subtraction per row when
 z repeats and with a multiply and a subtraction when it varies: the difference
 comes from policy and schedule, not architecture. All cases,
-including failures and slowdowns, will be reported. Performance kernels remain unavailable.
+including failures and slowdowns, will be reported. All four variants now have
+verified kernels: row traversal is derived from each encoding, and only D is
+forced to emit one row body per row when the zero point varies, which is
+reported as a required floor rather than a choice.
 Seeds cover inputs, not statistical repetitions; the pilot will examine
 control, addresses, and stalls, not only equal cycle totals.
 
@@ -177,6 +180,6 @@ require validation; RTL cycles do not establish physical timing.
 \section{Conclusion}
 \textit{Evaluation pending.} Whether fusion improves performance remains
 unproven. The measurement window and its counters are now fixed and verified
-against a structural oracle, and the D and B3 kernels return the same integers
-as the oracle and as each other; B1, B2 and the comparison conditions remain to
-be settled before measurement.
+against a structural oracle, and all four variants return the same integers as
+the oracle and as each other. The comparison conditions remain to be settled
+before measurement.

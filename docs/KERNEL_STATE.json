@@ -7,19 +7,18 @@
   "generator": "benchmarks/kernels.py",
   "tensors": "benchmarks/tensors.py",
   "runner": "scripts/verify_kernels.py",
-  "evidence": "tests/benchmarks/kernel_results/20260909T213406452405Z/summary.json",
-  "evidence_sha256": "6fb3ec80b2377039aa3cd69ebbcc27eeb74452affe70a6efabdc041f40ab839f",
-  "repeat_evidence": "tests/benchmarks/kernel_results/20260909T213546786840Z/summary.json",
-  "repeat_evidence_sha256": "0eb5b41939f4b606c2fb5fb411162359977b5244c14bd608f4fc3237518fba67",
-  "status": "headline_and_twin_kernels_verified",
+  "evidence": "tests/benchmarks/kernel_results/20260910T061401669046Z/summary.json",
+  "evidence_sha256": "2bb7a668b41567dd8aa90ead6c86bff3536edb8eb8e56444993cd0c2a82b7843",
+  "repeat_evidence": "tests/benchmarks/kernel_results/20260910T064347546641Z/summary.json",
+  "repeat_evidence_sha256": "0ff7827b3b2669d265073ad6bcd046dd758adcaa2b0ed5aa046819255f83fe21",
+  "status": "four_variant_kernels_verified",
   "variants_implemented": [
+    "B1",
+    "B2",
     "B3",
     "D"
   ],
-  "variants_pending": [
-    "B1",
-    "B2"
-  ],
+  "variants_pending": [],
   "shapes_rows": [
     1,
     4,
@@ -41,5 +40,8 @@
   "role": "headline_codegen_plus_structural_twins",
   "headline_kernels_pending": false,
   "twin_differs_only_by_loop_control": true,
-  "cases": 92
+  "cases": 188,
+  "instruction_capacity_words": 32768,
+  "indirect_dispatch_forbidden": true,
+  "b1_long_branch_expansion": true
 }

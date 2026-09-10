@@ -36,13 +36,18 @@ SETTINGS = [("zc_controls", 0), ("zc_controls", 8), ("zc_controls", 15), ("zs_ba
 
 # One opcode allowlist per variant: it proves D never multiplies and that
 # neither variant reaches for the other's custom space.
-LUI, OP_IMM, OP, LOAD, STORE, BRANCH, SYSTEM = 0x37, 0x13, 0x33, 0x03, 0x23, 0x63, 0x73
+LUI, OP_IMM, OP, LOAD, STORE, BRANCH, JAL, SYSTEM = 0x37, 0x13, 0x33, 0x03, 0x23, 0x63, 0x6f, 0x73
 CUSTOM0, CUSTOM1 = 0x0b, 0x2b
 # BRANCH is the row loop's back edge; no variant may jump indirectly, which
 # would be the dispatch the specialization rule declines.
 BASE = {LUI, OP_IMM, OP, LOAD, STORE, BRANCH, SYSTEM}
-ALLOWED = {"D": BASE | {CUSTOM0}, "B3": BASE | {CUSTOM1}}
-MULTIPLY_ALLOWED = {"D": False, "B3": True}
+# B1's row body is larger than a conditional branch can reach, so its back edge
+# expands into an inverted branch over a direct jump. That is code size forcing
+# control flow, not the indirect dispatch the specialization rule forbids: JALR
+# stays outside every allowlist.
+ALLOWED = {"D": BASE | {CUSTOM0}, "B3": BASE | {CUSTOM1}, "B2": BASE, "B1": BASE | {JAL}}
+# B1 has no multiplier at all: that is what makes it the no-multiplier baseline.
+MULTIPLY_ALLOWED = {"D": False, "B3": True, "B2": True, "B1": False}
 
 
 def sources():
@@ -114,7 +119,7 @@ def main():
                 run(f"verilator_{variant}", ["verilator", "--binary", "--timing", "--timescale", "1ns/1ps",
                                              "--top-module", "tb_measure", f"-GENABLE_QDOT={qdot}",
                                              f"-GENABLE_MUL={mul}", f"-GENABLE_PACKED={packed}",
-                                             "--Mdir", obj, "-j", "2", *rtl, bench])
+                                             "--Mdir", obj, "-j", "1", *rtl, bench])
                 commands[variant] = {"iverilog": ["vvp", binary], "verilator": [obj / "Vtb_measure"]}
 
             report["cases"] = {}
@@ -142,7 +147,8 @@ def main():
                                 name = f"{variant}_{arm}_n{rows}_s{seed}_{profile}_{setting}"
                                 body = setup(activations, weights, zeros, plan) + kernel + "ebreak\n"
                                 source = out / f"{name}.S"
-                                source.write_text(f'.include "{spec["include"]}"\n.option norelax\n'
+                                include = f'.include "{spec["include"]}"\n' if spec["include"] else ""
+                                source.write_text(include + '.option norelax\n'
                                                   '.option norvc\n.text\n.global _start\n_start:\n' + body)
                                 run(name + "_as", [PREFIX + "as", "-I", ROOT / "isa", "-I", ROOT / "isa/packed",
                                                    "-march=rv32imc", "-mabi=ilp32", "-mno-relax",
@@ -188,6 +194,7 @@ def main():
                                     variant=variant, arm=arm, rows=rows, seed=seed, profile=profile,
                                     setting=setting, zero_points=[row[0] for row in zeros],
                                     row_bodies_emitted=emitted,
+                                    long_branch_expansion=f"{JAL:#04x}" in mix,
                                     required_row_bodies=required_row_bodies(variant, zeros),
                                     strength_reduction=strength_reduction(zeros[0][0])
                                                        if len({r[0] for r in zeros}) == 1 else "declined_no_dispatch",
@@ -203,16 +210,26 @@ def main():
             # D never multiplies; B3 folds only what a single static z licenses.
             for name, case in report["cases"].items():
                 multiplies = case["instruction_mix"].get("0x33/mul", 0)
+                bodies = case["row_bodies_emitted"]
                 if case["variant"] == "D":
                     require(multiplies == 0 and f"{CUSTOM0:#04x}" in case["instruction_mix"], name)
-                    continue
-                expected = {"elide": 0, "no_multiply": 0, "shift": 0, "multiply": 1}
-                fold = case["strength_reduction"]
-                if fold == "declined_no_dispatch":
-                    require(multiplies == case["row_bodies_emitted"],
-                            f"{name}: a declined fold multiplies once per emitted body")
+                elif case["variant"] == "B1":
+                    require(multiplies == 0, f"{name}: B1 must not multiply")
+                    require(not ({CUSTOM0, CUSTOM1} & {int(k.split("/")[0], 16)
+                                                       for k in case["instruction_mix"]}),
+                            f"{name}: B1 must not use a custom opcode")
+                elif case["variant"] == "B2":
+                    # The scalar baseline multiplies once per element, always.
+                    require(multiplies == K * bodies, f"{name}: {multiplies} multiplies for {bodies} bodies")
+                    require(CUSTOM0 not in {int(k.split("/")[0], 16) for k in case["instruction_mix"]},
+                            f"{name}: B2 must not use a custom opcode")
                 else:
-                    require(multiplies == expected[fold], f"{name}: fold {fold} multiplied {multiplies} times")
+                    expected = {"elide": 0, "no_multiply": 0, "shift": 0, "multiply": 1}
+                    fold = case["strength_reduction"]
+                    if fold == "declined_no_dispatch":
+                        require(multiplies == bodies, f"{name}: a declined fold multiplies once per body")
+                    else:
+                        require(multiplies == expected[fold], f"{name}: fold {fold} multiplied {multiplies} times")
         report["status"] = "pass"
     finally:
         report["artifacts_sha256"] = {str(p.relative_to(out)): sha(p) for p in sorted(out.rglob("*"))
