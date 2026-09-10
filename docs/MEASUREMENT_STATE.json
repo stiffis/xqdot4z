@@ -6,10 +6,10 @@
   "specification": "docs/EXPERIMENT_PROTOCOL.md",
   "harness": "tests/benchmarks/tb_measure.sv",
   "runner": "scripts/verify_measurement.py",
-  "evidence": "tests/benchmarks/results/20260910T053109876979Z/summary.json",
-  "evidence_sha256": "fccf038aa6a14e8f72196fdab4012aa9576a8533e708024ab0b3fa4e04877353",
-  "repeat_evidence": "tests/benchmarks/results/20260910T054926998836Z/summary.json",
-  "repeat_evidence_sha256": "3351cf4d31129e2d55d8a4d47aae0bd5e0b4743fd09e9f9ec074003993f1c500",
+  "evidence": "tests/benchmarks/results/20260910T215120216909Z/summary.json",
+  "evidence_sha256": "a9409cbe71c285ed2f24d63208f0503e098dc347e5ea4973b85b2ccb1ea7e138",
+  "repeat_evidence": "tests/benchmarks/results/20260910T215451131781Z/summary.json",
+  "repeat_evidence_sha256": "cccf8578b6d6e180fd4ee4b862ebe54d2dbe10a4bbf4b99a8c68a006f5a7acef",
   "status": "measurement_contract_verified",
   "directed_programs": 8,
   "negative_controls": 3,
@@ -33,5 +33,10 @@
   "kernels_implemented": false,
   "campaign_executed": false,
   "performance_measured": false,
-  "cycle_accounting_identity": "cycles == retired_kernel + pipeline_depth + stall_load_use + 2*flush_taken_control"
+  "cycle_accounting_identity": "cycles == retired_kernel + pipeline_depth + stall_load_use + 2*flush_taken_control",
+  "capacity_control": {
+    "battery": 2048,
+    "campaign": 32768,
+    "programs": 7
+  }
 }

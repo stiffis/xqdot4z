@@ -205,6 +205,45 @@ def main():
                         require(len(set(map(tuple, produced.values()))) == 1,
                                 f"n{rows}_s{seed}_{profile}_{setting}: variants disagree")
                         agreements += 1
+            # Loop control priced from the structural twin instead of modelled.
+            # A plain back edge costs 3N-1 cycles; B1's body outgrows a branch's
+            # reach, so its expansion into a branch over a jump costs 4N-2.
+            report["loop_control"] = {}
+            for name, case in report["cases"].items():
+                if case["arm"] != "headline" or case["row_bodies_emitted"] != 1: continue
+                twin = report["cases"].get(name.replace("_headline_", "_twin_inline_"))
+                if twin is None: continue
+                rows, expanded = case["rows"], case["long_branch_expansion"]
+                cost = case["counters"]["cycles"] - twin["counters"]["cycles"]
+                expected = 4*rows - 2 if expanded else 3*rows - 1
+                require(cost == expected,
+                        f"{name}: loop control {cost}, expected {expected} for "
+                        f"{'an expanded' if expanded else 'a plain'} back edge")
+                report["loop_control"][name] = dict(cycles=cost, rows=rows,
+                                                    long_branch_expansion=expanded)
+
+            # Under ZS the headline arms differ in row form, so the raw gap mixes
+            # the correction with the loop control. Comparing D against the B3 arm
+            # of the same form splits it exactly, with no estimated term.
+            report["zs_decomposition"] = {}
+            for rows in SHAPES:
+                for seed in SEEDS:
+                    tail = f"n{rows}_s{seed}_zs_balanced_u4_0"
+                    d = report["cases"][f"D_headline_{tail}"]
+                    looped = report["cases"][f"B3_headline_{tail}"]
+                    matched = looped if d["row_bodies_emitted"] == 1 else \
+                        report["cases"][f"B3_twin_inline_{tail}"]
+                    raw = looped["counters"]["cycles"] - d["counters"]["cycles"]
+                    structural = looped["counters"]["cycles"] - matched["counters"]["cycles"]
+                    arithmetic = matched["counters"]["cycles"] - d["counters"]["cycles"]
+                    require(structural + arithmetic == raw, f"{tail}: decomposition does not close")
+                    report["zs_decomposition"][tail] = dict(
+                        rows=rows, seed=seed, d_row_form="loop" if d["row_bodies_emitted"] == 1 else "inline",
+                        raw=raw, structural=structural, arithmetic=arithmetic,
+                        d_code_words=d["code_bytes"]//4, b3_code_words=looped["code_bytes"]//4,
+                        d_required_row_bodies=d["required_row_bodies"])
+            require(len(report["zs_decomposition"]) == len(SHAPES)*len(SEEDS), "Incomplete decomposition")
+
             report["paired_agreements"] = agreements
             require(agreements == len(SHAPES) * len(SEEDS) * len(SETTINGS), "Incomplete pairing")
             # D never multiplies; B3 folds only what a single static z licenses.

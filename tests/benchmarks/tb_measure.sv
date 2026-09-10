@@ -7,10 +7,13 @@
 // so the same text is measured that the variant would run unobserved.
 // Counters are structural events of this model, not physical timing.
 module tb_measure;
-  // Common instruction capacity for every variant and arm, sized once the
-  // kernels existed: the largest is B1's straight-line twin at N=16, near
-  // twenty thousand words. Fetch is combinational, so capacity costs no cycle.
+  // Common instruction capacity for the campaign, sized once the kernels
+  // existed: the largest arm is B1's straight-line twin at N=16, near twenty
+  // thousand words. Fetch is combinational and capacity only bounds the fetch
+  // fault, so it cannot move a counter; the harness's own battery therefore
+  // builds at a smaller capacity, and checks that claim instead of assuming it.
   localparam IMEM = 32768;
+  localparam GUARD = 4096;
   parameter ENABLE_QDOT=0;
   parameter ENABLE_MUL=0;
   parameter ENABLE_PACKED=0;
@@ -20,7 +23,7 @@ module tb_measure;
   wire we, fault, memoryfault, retire;
   wire [1:0] cause;
   string program_file;
-  integer words, i, elapsed=0, trace=0, begin_pc=-1, end_pc=-1, text_end=-1;
+  integer words, i, guard, elapsed=0, trace=0, begin_pc=-1, end_pc=-1, text_end=-1;
   reg active=0, started=0, closed=0;
   integer start_cycle=0;
   // Running window counters, advanced once per cycle from the start event.
@@ -54,7 +57,14 @@ module tb_measure;
     if (end_pc<begin_pc || text_end<end_pc) $fatal(1,"MEASURE_FAIL inconsistent window");
     if (words<=0 || words>IMEM) $fatal(1,"MEASURE_FAIL program size");
     if ($value$plusargs("TRACE=%d",trace)) begin end
-    for (i=0;i<IMEM;i=i+1) dut.imem.RAM[i]=32'h00100073;
+    // Trap the program's own range plus a wide guard. Filling all of IMEM
+    // costs far more than the array itself: Icarus writes array elements
+    // one at a time, and that fill dominated every run. Capacity is
+    // unchanged and cannot affect a counter, since fetch is combinational.
+    // A PC escaping the guard reads uninitialized memory, which the two
+    // simulators resolve differently, so the agreement check catches it.
+    guard = (words+GUARD > IMEM) ? IMEM : words+GUARD;
+    for (i=0;i<guard;i=i+1) dut.imem.RAM[i]=32'h00100073;
     for (i=0;i<1024;i=i+1) dut.dmem.RAM[i]=0;
     $readmemh(program_file,dut.imem.RAM,0,words-1);
     #22; reset=0;

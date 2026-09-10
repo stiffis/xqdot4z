@@ -473,6 +473,9 @@ def check_measurement():
         for name, source_hash in run["sources_sha256"].items():
             assert hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == source_hash, f"Stale measurement: {name}"
         assert run["negative_controls"] == 3 and len(run["mutations_detected"]) == 4
+        # Capacity is a build constant, not an observable: the same programs
+        # must produce the same counters at the campaign capacity.
+        assert run["capacity_control"] == dict(battery=2048, campaign=32768, programs=7)
         assert run["differentials"] == dict(load_use_stall_cycles=1, taken_control_cycles=2)
         assert set(run["programs"]) == set(cases)
         for name, case in cases.items():

@@ -79,6 +79,41 @@ N=16, cerca de veinte mil palabras—; el fetch es combinacional, así que la
 capacidad no cuesta ciclos y solo permite que el brazo quepa. Esto cierra la
 compuerta de D10, que pedía decidirla tras generar kernels.
 
+### Descomposición del hueco bajo ZS
+
+Bajo ZS los brazos de titular no comparten forma de fila: D está forzada a
+rectilínea y B3 recorre en bucle. El hueco crudo entre ambos mezcla, por tanto,
+la corrección con el control de bucle, y **ninguna de las dos se puede leer
+sola de ese número**.
+
+El gemelo estructural lo separa sin ningún término estimado. Comparando D
+contra el brazo de B3 **de la misma forma**:
+
+```text
+crudo        = B3(bucle) − D
+estructural  = B3(bucle) − B3(misma forma que D)
+aritmético   = B3(misma forma que D) − D
+crudo        = estructural + aritmético      (comprobado, no supuesto)
+```
+
+El término estructural es lo que B3 paga por recorrer en bucle y D no paga
+porque su codificación se lo impide; el aritmético es la corrección con la
+estructura igualada. El runner comprueba que la suma cierra en cada caso.
+
+El control de bucle se **cotiza**, no se modela: es la resta entre el brazo de
+titular en bucle y su gemelo rectilíneo, y obedece una ley exacta que el runner
+verifica. Una arista de retorno simple cuesta `3N−1` ciclos. El cuerpo de fila
+de B1 supera el alcance de una rama condicional en cuanto el zero-point no es
+cero, así que su arista se expande a rama sobre salto y cuesta `4N−2`. Esa
+diferencia queda ligada al mismo campo que marca la expansión, de modo que no
+se puede cambiar una sin la otra.
+
+Contrapartida obligatoria: la especialización forzada de D **no es gratis**.
+Se reporta junto a la descomposición como palabras de código y como
+`required_row_bodies`. Un hueco de ciclos a favor de D bajo ZS y un texto varias
+veces mayor son la misma decisión de interfaz vista por dos lados, y reportar
+uno sin el otro sería incompleto.
+
 Al desarrollarlos se observaron contadores de esas corridas de corrección; se
 registran como tiempos de desarrollo observados, no como resultados, y no se ha
 comparado ni calculado ningún speedup. Falta materializar tensores e inventario

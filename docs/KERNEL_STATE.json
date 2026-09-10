@@ -7,10 +7,10 @@
   "generator": "benchmarks/kernels.py",
   "tensors": "benchmarks/tensors.py",
   "runner": "scripts/verify_kernels.py",
-  "evidence": "tests/benchmarks/kernel_results/20260910T061401669046Z/summary.json",
-  "evidence_sha256": "2bb7a668b41567dd8aa90ead6c86bff3536edb8eb8e56444993cd0c2a82b7843",
-  "repeat_evidence": "tests/benchmarks/kernel_results/20260910T064347546641Z/summary.json",
-  "repeat_evidence_sha256": "0ff7827b3b2669d265073ad6bcd046dd758adcaa2b0ed5aa046819255f83fe21",
+  "evidence": "tests/benchmarks/kernel_results/20260910T215840792078Z/summary.json",
+  "evidence_sha256": "71e9a6fef5dfb25c2a10aa9f3a37147e458b16608475807c719222c0adc35ca9",
+  "repeat_evidence": "tests/benchmarks/kernel_results/20260910T221211712632Z/summary.json",
+  "repeat_evidence_sha256": "832e6a67fc0fb1fbb0eae03f3386fb14b1ed86f450bba7996d38e8928b843373",
   "status": "four_variant_kernels_verified",
   "variants_implemented": [
     "B1",
@@ -43,5 +43,7 @@
   "cases": 188,
   "instruction_capacity_words": 32768,
   "indirect_dispatch_forbidden": true,
-  "b1_long_branch_expansion": true
+  "b1_long_branch_expansion": true,
+  "loop_control_priced_not_modelled": true,
+  "zs_gap_decomposed": true
 }

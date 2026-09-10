@@ -17,6 +17,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PREFIX = "riscv64-linux-gnu-"
 DEPTH = 3  # decode-to-writeback distance: acceptance leads retirement by three cycles
+# The battery's programs are a handful of instructions, so it builds at a small
+# instruction capacity: Icarus elaborates the memory array at compile time and
+# the campaign's 32768 words cost about two minutes per build. Capacity cannot
+# move a counter, and the campaign capacity is exercised as its own control.
+BATTERY_CAPACITY = 2048
+CAMPAIGN_CAPACITY = 32768
 
 
 def sha(path):
@@ -193,14 +199,25 @@ def main():
         with tempfile.TemporaryDirectory(prefix="xqdot4z-measure-") as temporary:
             build = Path(temporary)
             rtl = sorted((ROOT / "kuntur/rtl").glob("*.v")) + [ROOT / "rtl/xqdot4z.v", ROOT / "rtl/packed/xqdot4.v"]
-            bench = ROOT / "tests/benchmarks/tb_measure.sv"
+            campaign_bench = ROOT / "tests/benchmarks/tb_measure.sv"
+            # Icarus elaborates the instruction array at compile time, so the
+            # campaign's capacity costs about two minutes per build. The battery
+            # builds from a copy with the constant lowered, exactly as the
+            # mutation controls build from modified copies, and the unmodified
+            # file is then exercised as the capacity control below.
+            small = f"localparam IMEM = {BATTERY_CAPACITY};"
+            large = f"localparam IMEM = {CAMPAIGN_CAPACITY};"
+            require(large in campaign_bench.read_text(), "Campaign capacity constant not found")
+            bench = build / "tb_measure_battery.sv"
+            bench.write_text(campaign_bench.read_text().replace(large, small, 1))
 
             def simulators(enables, bench_file, tag):
                 qdot, mul, packed = enables
                 binary = build / f"sim_{tag}.vvp"
                 run(f"iverilog_{tag}", ["iverilog", "-g2012", "-s", "tb_measure",
                                         f"-Ptb_measure.ENABLE_QDOT={qdot}", f"-Ptb_measure.ENABLE_MUL={mul}",
-                                        f"-Ptb_measure.ENABLE_PACKED={packed}", "-o", binary, *rtl, bench_file])
+                                        f"-Ptb_measure.ENABLE_PACKED={packed}",
+                                        "-o", binary, *rtl, bench_file])
                 obj = build / f"obj_{tag}"
                 run(f"verilator_{tag}", ["verilator", "--binary", "--timing", "--timescale", "1ns/1ps",
                                          "--top-module", "tb_measure", f"-GENABLE_QDOT={qdot}",
@@ -317,6 +334,29 @@ def main():
                 require(tag in detected, f"mutation {tag} went undetected")
             report["mutations_detected"] = detected
             require(len(detected) == 4, "Every harness mutation must be detected")
+
+            # Capacity control: the campaign runs at a far larger instruction
+            # memory, so rebuild once there and require identical counters. If
+            # capacity could move a counter this comparison would fail.
+            report["capacity_control"] = dict(battery=BATTERY_CAPACITY, campaign=CAMPAIGN_CAPACITY,
+                                              programs=0)
+            control = simulators((0, 0, 0), campaign_bench, "capacity")
+            for case in programs():
+                if case["enables"] != (0, 0, 0): continue
+                labels, words, mem = assemble(case["name"], case["body"])
+                text_end = labels[case["text_end"]]
+                window = ["+PROGRAM=" + mem.name, f"+WORDS={words}",
+                          f"+BEGIN_PC={labels['kernel_begin']}", f"+END_PC={labels['kernel_end']}",
+                          f"+TEXT_END={text_end}", "+TRACE=1"]
+                log = run(f"capacity_{case['name']}", [*control["iverilog"], *window])
+                observed, trace, _ = parse(log, case["name"])
+                trace = trace[:observed["retired"]]
+                observed.update(classify(trace, (out / f"{case['name']}.bin").read_bytes(),
+                                         labels["kernel_begin"], text_end))
+                require(observed == case["expected"],
+                        f"{case['name']}: counters changed at the campaign capacity")
+                report["capacity_control"]["programs"] += 1
+            require(report["capacity_control"]["programs"] == 7, "Incomplete capacity control")
 
         report["status"] = "pass"
     finally:
