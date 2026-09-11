@@ -223,8 +223,13 @@ optimality or eliminate software--architecture interaction.
 The synthetic distribution does not necessarily represent a real network.
 With z=0, separate correction can be omitted without establishing equal
 performance. Dispatch among immediates would support dynamic z without
-a new encoding, but still has no implementation or measured cost. Counters
-require validation; RTL cycles do not establish physical timing.
+a new encoding, but still has no implementation or measured cost. The counters
+are validated structurally, against eight directed programs, three negative
+controls, four detected harness mutations and a cycle accounting identity
+checked per case; RTL cycles still do not establish physical timing. The
+sensitivity question is answered for the row count alone: one group of 32
+elements was measured, so how the comparison moves with K and G is open, and
+the frozen data layout does not currently reach those shapes.
 
 \section{Conclusion}
 Fusion reduces cycles against both factored correction and scalar

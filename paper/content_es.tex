@@ -224,8 +224,13 @@ optimalidad ni elimina la interacción software--arquitectura.
 La distribución sintética no representa necesariamente una red real.
 Con z=0 puede omitirse la corrección separada, sin demostrar igualdad de
 rendimiento. Despachar entre inmediatos permitiría z dinámico sin otro
-encoding, pero sigue sin implementación ni costo medido. Los contadores
-requieren validación; ciclos RTL no demuestran timing físico.
+encoding, pero sigue sin implementación ni costo medido. Los contadores están
+validados estructuralmente, contra ocho programas dirigidos, tres controles
+negativos, cuatro mutaciones del banco detectadas y una identidad de ciclos
+comprobada por caso; los ciclos RTL siguen sin demostrar timing físico. La
+sensibilidad queda contestada solo para el número de filas: se midió un grupo
+de 32 elementos, así que cómo se mueve la comparación con K y G está abierto, y
+el layout de datos congelado no alcanza hoy esas formas.
 
 \section{Conclusiones}
 La fusión reduce ciclos frente a la corrección factorizada y frente a la
