@@ -6,6 +6,7 @@ paper:
 	latexmk -cd -pdf -interaction=nonstopmode -halt-on-error -file-line-error paper/main_es.tex
 	latexmk -cd -pdf -interaction=nonstopmode -halt-on-error -file-line-error paper/main_en.tex
 	latexmk -cd -pdf -interaction=nonstopmode -halt-on-error -file-line-error paper/main.tex
+	python3 scripts/check_paper_layout.py
 
 core-test:
 	python3 kuntur/verification/run.py

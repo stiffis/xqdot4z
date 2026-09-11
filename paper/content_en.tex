@@ -114,15 +114,16 @@ the design under test. Table~\ref{tab:variants} states what separates them and
 Fig.~\ref{fig:comparison} shows what each one does with a single group of four
 weights.
 
-\begin{table}[t]
+\begin{table}[!htbp]
 \caption{The four variants. B marks a point of reference, D the design under
 test. All four read identical packed data and share one code-generation policy,
 so what differs between them is the arithmetic, not the surrounding code.}
 \label{tab:variants}
 \centering
+\footnotesize
 \begin{tabular}{llll}
 \hline
- & Multiplier & Dot product & Zero-point correction \\
+ & Multiplier & Dot product & Correction of $z$ \\
 \hline
 B1 & none & bit decomposition & per term, no multiply \\
 B2 & scalar MUL & one MUL per weight & per term \\
@@ -265,6 +266,23 @@ zero point that varies, so those columns necessarily agree.
 
 \input{ratio_figure}
 
+\begin{table}[!htbp]
+\caption{B3 cycles divided by D cycles, by regime and row count. A value of
+1.00 means the two variants cost exactly the same. Run \CampaignRun,
+\CampaignCases\ cases; regimes are never pooled.}
+\label{tab:ratio}
+\centering
+\begin{tabular}{crrrr}
+\hline
+\(N\) & ZC \(z{=}0\) & ZC \(z{=}8\) & ZC \(z{=}15\) & ZS \\
+\hline
+1 & 1.00 & 1.86 & 1.88 & 1.00 \\
+4 & 1.00 & 1.25 & 1.26 & 1.46 \\
+16 & 1.00 & 1.08 & 1.08 & 1.28 \\
+\hline
+\end{tabular}
+\end{table}
+
 Table~\ref{tab:breakdown} breaks the gap down. Every case in the campaign satisfies
 the identity that cycles equal retired kernel instructions plus the pipeline
 depth, plus load-use stalls, plus twice the taken-control flushes, and the check
@@ -272,7 +290,7 @@ recomputes it rather than reading a recorded total. Applied to sixteen rows
 under a varying zero point, it shows the 164-cycle difference between D and B3
 as 110 retired instructions, 24 stall cycles and 30 cycles of flush.
 
-\begin{table}[t]
+\begin{table}[!htbp]
 \caption{Where the cycles go at \(N{=}16\) with a varying zero point. Cycles are
 the sum of the other columns plus the five-stage depth, recomputed for every
 case rather than recorded. D flushes nothing because it has no loop to close.}
@@ -316,7 +334,7 @@ needs no activation sum and no correction code and can keep a loop. It is only
 when the zero point varies that its text grows with the row count, reaching 516
 words against 72, since the immediate demands one row body per distinct value.
 
-\begin{table}[t]
+\begin{table}[!htbp]
 \caption{Code size in instruction words. Under a constant zero point D is
 smaller than B3 and stays constant; under a varying one it grows linearly with
 the row count while B3 does not move. Both effects follow from the same
@@ -340,23 +358,6 @@ decision. Putting the zero point in an immediate is what makes the correction
 free at run time, what removes the loop, and what makes the text grow. A design
 that reported only the favorable half of that would be describing a different
 instruction.
-
-\begin{table}[t]
-\caption{B3 cycles divided by D cycles, by regime and row count. A value of
-1.00 means the two variants cost exactly the same. Run \CampaignRun,
-\CampaignCases\ cases; regimes are never pooled.}
-\label{tab:ratio}
-\centering
-\begin{tabular}{crrrr}
-\hline
-\(N\) & ZC \(z{=}0\) & ZC \(z{=}8\) & ZC \(z{=}15\) & ZS \\
-\hline
-1 & 1.00 & 1.86 & 1.88 & 1.00 \\
-4 & 1.00 & 1.25 & 1.26 & 1.46 \\
-16 & 1.00 & 1.08 & 1.08 & 1.28 \\
-\hline
-\end{tabular}
-\end{table}
 
 Read together, these numbers answer the question with a condition rather than a
 verdict. Fusion helps most where the correction cannot be amortized: few rows

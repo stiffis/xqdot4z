@@ -120,21 +120,22 @@ Tabla~\ref{tab:variants} indica qué las separa y la
 Fig.~\ref{fig:comparison} muestra qué hace cada una con un solo grupo de cuatro
 pesos.
 
-\begin{table}[t]
+\begin{table}[!htbp]
 \caption{Las cuatro variantes. B marca un punto de referencia y D el diseño en
 estudio. Las cuatro leen datos empacados idénticos y comparten una sola política
 de generación de código, así que lo que difiere entre ellas es la aritmética, no
 el código que la rodea.}
 \label{tab:variants}
 \centering
+\footnotesize
 \begin{tabular}{llll}
 \hline
- & Multiplicador & Producto punto & Corrección del punto cero \\
+ & Multiplicador & Producto punto & Corrección de $z$ \\
 \hline
-B1 & ninguno & descomposición en bits & por término, sin multiplicar \\
+B1 & ninguno & descomposición de bits & por término, sin MUL \\
 B2 & MUL escalar & un MUL por peso & por término \\
-B3 & MUL escalar & empacado, cuatro carriles & factorizada, por fila \\
-D & no requiere & empacado, cuatro carriles & fusionada en la instrucción \\
+B3 & MUL escalar & empacado, 4 carriles & factorizada, por fila \\
+D & no requiere & empacado, 4 carriles & dentro de la instrucción \\
 \hline
 \end{tabular}
 \end{table}
@@ -279,6 +280,24 @@ tener un punto cero que varíe, así que esas columnas coinciden necesariamente.
 
 \input{ratio_figure}
 
+\begin{table}[!htbp]
+\caption{Ciclos de B3 divididos entre ciclos de D, por régimen y número de
+filas. Un valor de 1.00 significa que ambas variantes cuestan exactamente lo
+mismo. Corrida \CampaignRun, \CampaignCases\ casos; los regímenes nunca se
+agregan.}
+\label{tab:ratio}
+\centering
+\begin{tabular}{crrrr}
+\hline
+\(N\) & ZC \(z{=}0\) & ZC \(z{=}8\) & ZC \(z{=}15\) & ZS \\
+\hline
+1 & 1.00 & 1.86 & 1.88 & 1.00 \\
+4 & 1.00 & 1.25 & 1.26 & 1.46 \\
+16 & 1.00 & 1.08 & 1.08 & 1.28 \\
+\hline
+\end{tabular}
+\end{table}
+
 La Tabla~\ref{tab:breakdown} descompone el hueco. Todo caso de la campaña satisface la
 identidad de que los ciclos equivalen a las instrucciones retiradas del núcleo
 más la profundidad del pipeline, más los stalls de uso tras carga, más el doble
@@ -287,7 +306,7 @@ un total registrado. Aplicada a dieciséis filas con punto cero variable, muestr
 los 164 ciclos de diferencia entre D y B3 como 110 instrucciones retiradas, 24
 ciclos de stall y 30 de flush.
 
-\begin{table}[t]
+\begin{table}[!htbp]
 \caption{Adónde van los ciclos con \(N{=}16\) y punto cero variable. Los ciclos
 son la suma de las demás columnas más la profundidad de cinco etapas; la
 identidad se recalcula en cada caso en vez de registrarse. D no paga ningún
@@ -333,7 +352,7 @@ conservar un bucle. Solo cuando el punto cero varía su texto crece con el núme
 de filas, hasta 516 palabras frente a 72, ya que el inmediato exige un cuerpo de
 fila por cada valor distinto.
 
-\begin{table}[t]
+\begin{table}[!htbp]
 \caption{Tamaño de código en palabras de instrucción. Con punto cero constante D
 es menor que B3 y se mantiene fijo; con punto cero variable crece linealmente
 con el número de filas mientras B3 no se mueve. Ambos efectos salen del mismo
@@ -357,24 +376,6 @@ misma decisión de interfaz. Poner el punto cero en un inmediato es lo que vuelv
 gratis la corrección en ejecución, lo que elimina el bucle y lo que hace crecer
 el texto. Un diseño que reportara solo la mitad favorable de eso estaría
 describiendo otra instrucción.
-
-\begin{table}[t]
-\caption{Ciclos de B3 divididos entre ciclos de D, por régimen y número de
-filas. Un valor de 1.00 significa que ambas variantes cuestan exactamente lo
-mismo. Corrida \CampaignRun, \CampaignCases\ casos; los regímenes nunca se
-agregan.}
-\label{tab:ratio}
-\centering
-\begin{tabular}{crrrr}
-\hline
-\(N\) & ZC \(z{=}0\) & ZC \(z{=}8\) & ZC \(z{=}15\) & ZS \\
-\hline
-1 & 1.00 & 1.86 & 1.88 & 1.00 \\
-4 & 1.00 & 1.25 & 1.26 & 1.46 \\
-16 & 1.00 & 1.08 & 1.08 & 1.28 \\
-\hline
-\end{tabular}
-\end{table}
 
 Leídas en conjunto, estas cifras responden la pregunta con una condición y no
 con un veredicto. La fusión ayuda más donde la corrección no puede amortizarse:

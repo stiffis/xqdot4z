@@ -9,6 +9,14 @@
 \usetikzlibrary{arrows.meta,positioning,calc}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
+% Seven floats in a short paper: let more than two reach the top of a
+% column so they land near the text that discusses them instead of piling
+% up at the end. Margins, columns, font sizes and captions stay untouched.
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{4}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.75}
 \usepackage[hidelinks]{hyperref}
 % Standard IEEE presentation: black text, white pages, monochrome figures.
 % No custom palette, themed backgrounds or decorative colour scheme.
