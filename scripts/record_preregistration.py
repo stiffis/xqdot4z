@@ -85,6 +85,48 @@ def build():
              "the registered design and must say so.")
 
 
+def registrations():
+    """The chain in order: the original registration, then each extension.
+
+    A registration file that is not reachable from the chain is refused rather
+    than ignored, since an unlinked record is exactly how a second design would
+    be slipped in without declaring that it followed the first.
+    """
+    chain = [OUTPUT]
+    sequence = 2
+    while (candidate := ROOT / f"docs/PREREGISTRATION_{sequence}.json").exists():
+        chain.append(candidate)
+        sequence += 1
+    stray = sorted(p.name for p in (ROOT / "docs").glob("PREREGISTRATION*.json")
+                   if p not in chain)
+    require(not stray, f"Registration files outside the chain: {stray}")
+    return chain
+
+
+def already_observed():
+    """What had been measured and reported by the time an extension was written.
+
+    Read back from the evidence rather than restated, so an extension cannot
+    describe the results it follows as smaller or less conclusive than they were.
+    """
+    campaign = json.loads((ROOT / "docs/CAMPAIGN_STATE.json").read_text())
+    pilot = json.loads((ROOT / "docs/PILOT_STATE.json").read_text())
+    for state in (campaign, pilot):
+        require(sha(ROOT / state["evidence"]) == state["evidence_sha256"],
+                f"{state['evidence']} does not match its pin")
+    return dict(
+        campaign=dict(run_id=campaign["run_id"], evidence=campaign["evidence"],
+                      evidence_sha256=campaign["evidence_sha256"],
+                      planned_cases=campaign["planned_cases"],
+                      status_counts=campaign["status_counts"]),
+        pilot=dict(evidence=pilot["evidence"], evidence_sha256=pilot["evidence_sha256"],
+                   cases=pilot["cases"]),
+        reported_in=["paper/content_es.tex", "paper/content_en.tex"],
+        note="These results were measured, reported and read before this record "
+             "was written. What it registers in advance is only the part of the "
+             "design they do not cover.")
+
+
 def design_fingerprint():
     """The parts of the manifest that are design, as opposed to status prose."""
     manifest = json.loads((ROOT / "benchmarks/campaign.json").read_text())
@@ -127,8 +169,62 @@ def amend(reason):
     return record
 
 
+def extend(reason):
+    """Register a design that moved, without touching the registration it follows.
+
+    An amendment proves the design stayed put. An extension is the opposite case
+    and needs the opposite proof: the fingerprint must have moved, the record it
+    follows is pinned by its bytes so it cannot be edited afterwards, and what
+    was already measured is declared rather than left implied. A registration
+    written after results exist is not blind, and pretending otherwise is the
+    failure this path is built to prevent.
+    """
+    chain = registrations()
+    previous = chain[-1]
+    prior = json.loads(previous.read_text())
+    fresh = build()
+    current = design_fingerprint()
+    require(current != prior["design_fingerprint"],
+            "The design did not move: that is an amendment, not an extension")
+    changed = {path: dict(was=digest, now=fresh["pinned_states"][path])
+               for path, digest in prior["pinned_states"].items()
+               if fresh["pinned_states"].get(path) != digest}
+    require(changed, "An extension that moves no pinned state is not one")
+    observed = already_observed()
+    record = dict(fresh)
+    record.update(
+        sequence=prior.get("sequence", 1) + 1,
+        extends=dict(file=str(previous.relative_to(ROOT)), sha256=sha(previous),
+                     design_fingerprint=prior["design_fingerprint"],
+                     recorded_on=prior["recorded_on"]),
+        design_fingerprint=current,
+        reason=reason,
+        changed_states=changed,
+        already_observed=observed,
+        note="This registration is not blind and does not claim to be. It was "
+             "written after the results named in already_observed were measured "
+             "and reported; what it fixes in advance is only what those results "
+             "do not cover.")
+    return record, ROOT / f"docs/PREREGISTRATION_{record['sequence']}.json"
+
+
 def main():
-    reason = " ".join(sys.argv[1:]).strip()
+    arguments = sys.argv[1:]
+    if arguments and arguments[0] == "--extend":
+        reason = " ".join(arguments[1:]).strip()
+        require(reason, "An extension must say why")
+        record, target = extend(reason)
+        target.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n")
+        observed = record["already_observed"]["campaign"]
+        print(f"extension {record['sequence']} recorded in {target.relative_to(ROOT)}")
+        print(f"extends {record['extends']['file']} pinned at "
+              f"{record['extends']['sha256'][:12]}, which stays untouched")
+        print(f"{len(record['changed_states'])} pinned states moved and so did the design "
+              "fingerprint, which is what makes it an extension and not an amendment")
+        print(f"declares {observed['planned_cases']} cases of run {observed['run_id']} "
+              "as already observed")
+        return 0
+    reason = " ".join(arguments).strip()
     if reason:
         record = amend(reason)
         print(f"amended: {len(record['amendments'])} amendment(s); "

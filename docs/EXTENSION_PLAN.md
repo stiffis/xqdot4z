@@ -107,23 +107,29 @@ registro** que declare explícitamente qué estaba ya observado cuando se redact
 Sus hipótesis sobre K sí serían genuinamente previas, porque K no se ha medido
 bajo registro; sus afirmaciones sobre N no lo serían, y debe decirlo.
 
-Eso exige tres cosas del mecanismo, que hoy no tiene:
+Eso exigía tres cosas del mecanismo. **Las tres están hechas** (2026-09-11):
 
-1. `record_preregistration.py` escribe a un único `OUTPUT`. Necesita poder
-   registrar una extensión sin sobrescribir la anterior.
-2. El registro nuevo debe enlazar al anterior por hash y nombrar qué resultados
-   ya se habían observado, igual que `post_observation_decisions` hace con las
-   decisiones.
-3. `check_project.py` debe comprobar la cadena: que el primer registro sigue
-   intacto y que el segundo declara su propia posterioridad en vez de ocultarla.
+1. `record_preregistration.py --extend "<razón>"` escribe
+   `docs/PREREGISTRATION_<n>.json` sin tocar el registro anterior.
+2. Cada eslabón fija los **bytes** del anterior en `extends.sha256`, así que
+   reescribir un registro previo rompe el enlace de forma visible. La extensión
+   declara en `already_observed` qué campaña y qué piloto ya estaban medidos,
+   releídos de su propia evidencia y no reescritos de memoria.
+3. `check_project.py` recorre la cadena: comprueba la secuencia, el enlace por
+   hash, que la huella de diseño **sí se movió** —si no, es enmienda— y que la
+   evidencia declarada como ya observada coincide con su archivo. Solo el último
+   registro debe corresponder a los archivos en disco; los anteriores describen
+   su propio momento y los sostiene la cadena.
 
-Hasta que eso esté escrito y comprobado, la extensión no debe ejecutarse. Medir
-primero y arreglar el registro después sería exactamente el orden que este
-proyecto declina.
+Extensión y enmienda son afirmaciones opuestas sobre el mismo hecho: una dice
+que el diseño se movió, la otra que no. Cada camino rechaza el caso del otro, y
+`tests/benchmarks/test_registration_chain.py` lo comprueba con ocho pruebas. Dos
+mutaciones inyectadas al mecanismo las hacen fallar, que es la única forma de
+saber que pueden.
 
 ## Orden propuesto
 
-1. Extender el mecanismo de registro (puntos 1 a 3 de arriba) y comprobarlo.
+1. ~~Extender el mecanismo de registro y comprobarlo.~~ **Hecho.**
 2. Versionar la política a v3 con su razón, arreglar el layout y cerrar D44.
 3. Registrar la extensión, con las hipótesis sobre K y su posterioridad
    declarada.

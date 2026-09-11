@@ -663,27 +663,48 @@ def check_pilot():
 def check_preregistration():
     """A registered design changes only by saying so; this is what makes that bind."""
     sys.path.insert(0, str(ROOT / "scripts"))
-    from record_preregistration import PINNED_STATES, POST_OBSERVATION_DECISIONS, hypotheses, sha
-    record = json.loads((ROOT / "docs/PREREGISTRATION.json").read_text())
-    assert record["campaign_executed"] is record["pilot_executed"] is False
-    assert record["results_reported"] is False
+    from record_preregistration import (PINNED_STATES, POST_OBSERVATION_DECISIONS,
+                                        hypotheses, sha, design_fingerprint, registrations)
+    files = registrations()
+    chain = [json.loads(path.read_text()) for path in files]
     advice = "; changing a registered state means amending the registration, not editing it"
-    assert set(record["pinned_states"]) == set(PINNED_STATES)
+    for position, (path, record) in enumerate(zip(files, chain), start=1):
+        assert record.get("sequence", 1) == position, f"{path.name}: out of sequence"
+        assert record["campaign_executed"] is record["pilot_executed"] is False
+        assert record["results_reported"] is False
+        assert set(record["pinned_states"]) == set(PINNED_STATES)
+        for amendment in record.get("amendments", []):
+            assert amendment["hypotheses_unchanged"] is True
+            assert amendment["design_unchanged"] is True
+            assert bool(amendment["reason"].strip()), "An amendment must say why"
+            assert amendment["changed_states"], "An amendment that changed nothing is not one"
+            for pinned, move in amendment["changed_states"].items():
+                assert pinned in PINNED_STATES and move["was"] != move["now"]
+        if position == 1:
+            continue
+        # Each link pins the bytes of the one before it, so an earlier
+        # registration cannot be rewritten to look like it said something else.
+        link = record["extends"]
+        assert link["file"] == str(files[position - 2].relative_to(ROOT))
+        assert link["sha256"] == sha(files[position - 2]), (
+            f"{path.name} extends a registration that has been edited since")
+        assert record["design_fingerprint"] != link["design_fingerprint"], (
+            "An extension whose design did not move is an amendment")
+        assert bool(record["reason"].strip()), "An extension must say why"
+        assert record["changed_states"], "An extension that moved nothing is not one"
+        # An extension follows results that already exist, and has to name them
+        # against their own evidence rather than describe them from memory.
+        observed = record["already_observed"]["campaign"]
+        assert sha(ROOT / observed["evidence"]) == observed["evidence_sha256"], (
+            f"{path.name} declares observed results that do not match their evidence")
+        assert observed["planned_cases"] > 0
+    # Only the newest registration describes the design in force; the earlier
+    # ones describe the state at their own time and are held by the chain.
+    record = chain[-1]
     for path, digest in record["pinned_states"].items():
         assert sha(ROOT / path) == digest, f"{path} changed after registration" + advice
     assert record["charter_hypotheses_sha256"] == hypotheses(), "Hypotheses edited after registration" + advice
-    # A registration may be corrected, but an amendment has to prove it changed
-    # documentation and not design: the hypotheses and the design fingerprint
-    # must be where they were, and every earlier entry is kept.
-    from record_preregistration import design_fingerprint
     assert record["design_fingerprint"] == design_fingerprint(), "The design moved after registration" + advice
-    for amendment in record.get("amendments", []):
-        assert amendment["hypotheses_unchanged"] is True
-        assert amendment["design_unchanged"] is True
-        assert bool(amendment["reason"].strip()), "An amendment must say why"
-        assert amendment["changed_states"], "An amendment that changed nothing is not one"
-        for path, move in amendment["changed_states"].items():
-            assert path in PINNED_STATES and move["was"] != move["now"]
     assert record["post_observation_decisions"] == POST_OBSERVATION_DECISIONS
     decisions = (ROOT / "docs/DECISIONS.md").read_text()
     for identifier in POST_OBSERVATION_DECISIONS:
@@ -703,6 +724,9 @@ def check_preregistration():
     assert timings["arms"] == len(report["cases"])
     print(f"OK: design registered after {record['parent_git_revision'][:7]}; "
           f"{len(PINNED_STATES)} states, hypotheses and {timings['arms']} observed arms bound.")
+    if len(chain) > 1:
+        print(f"OK: {len(chain)} registrations chained, each pinning the bytes of the one "
+              "before it; every extension declares what it already knew.")
     print("Registration fixes where measuring may begin; nothing has been measured.")
     return len(PINNED_STATES)
 
