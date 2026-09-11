@@ -8,5 +8,7 @@
   "research_branch": "research/core-corrections",
   "created_on": "2026-09-08",
   "policy": "Research corrections live only in this clone; preserve original and ../baseline/upstream.",
-  "scope": "Teaching-core corrections and verification; XQDot4Z is not implemented."
+  "scope": "Teaching-core corrections and verification; XQDot4Z is not implemented.",
+  "authorship": "Sole author of kirky-arqui and therefore of Kuntur; no co-authors.",
+  "textbook_relation": "Structure and naming conventions learned from Harris & Harris; no code from the book was used. The historical export keeps the original wording and is not edited, being hash-pinned."
 }

@@ -38,10 +38,7 @@ print(f"0x{bits:08X}")     # 0xFFFFFFF1
 - Casos documentados, controles exhaustivos de un término y pruebas aleatorias.
 - Vectores reutilizados en el testbench RTL de M2.
 
-La guía externa `stuff/ai_review/verify_examples.py` sirvió como punto de
-partida para los ejemplos y se conserva intacta. Es material complementario
-fuera de este repositorio, no una dependencia de sus pruebas. La API actual es
-más estricta: exige ocho pesos al empacar y half entero 0/1, no bool.
+La API es estricta: exige ocho pesos al empacar y half entero 0/1, no bool.
 
 La unidad aislada ya se verifica por separado en [M2](../rtl/README.md).
 La interfaz inmediata y la integración opcional se verifican en

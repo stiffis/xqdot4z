@@ -132,10 +132,6 @@ Costo en ciclos: **cero** (todo combinacional).
   algoritmo sumloop, comparativa tamaño/performance. **Fuente de verdad del
   contenido** — la presentación reutiliza sus figuras y tablas.
 
-- **Memoria global** en `~/.claude/projects/-home-stiff-class-notes/memory/`
-  (se carga sola cada sesión vía `MEMORY.md`): `no-comentarios-codigo`,
-  `riscy-vs-verilog-boundary`, `obsidian-tikzjax-diagramas`, etc.
-
 ---
 
 ## 5. Diagramas TikZ (`/home/stiff/graphics-processor/`)

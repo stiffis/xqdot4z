@@ -31,7 +31,11 @@ y debe leerse junto con el registro de correcciones anterior.
 ## Descripción del proyecto docente original
 
 Procesador RISC-V de 5 etapas (Fetch, Decode, Execute, Memory, Writeback) con
-unidad de riesgos (forwarding, stall, flush), basado en Harris & Harris.
+unidad de riesgos (forwarding, stall, flush). La estructura y las convenciones
+de nomenclatura se aprendieron de Harris & Harris; **no se utilizó código del
+libro**. El RTL lo escribió el autor, que es autor único de kirky-arqui y por
+tanto de Kuntur. La exportación histórica en `baseline/upstream/` conserva la
+redacción original y no se modifica: está fijada por hash.
 Proyecto 2 de Arquitectura de Computadoras.
 
 ## Estructura

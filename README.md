@@ -113,8 +113,7 @@ make paper            # genera main_es.pdf, main_en.pdf y main.pdf (alias ES)
 
 Herramientas: Python 3, Icarus Verilog/vvp, Verilator y binutils RISC-V para
 pruebas; pdfLaTeX, latexmk, BibTeX, IEEEtran y TikZ para artículos.
-No se necesita red ni shell-escape para compilar. El repaso de IA en
-`../ai_review/` no se ha modificado.
+No se necesita red ni shell-escape para compilar.
 
 M2/M3a, MUL y B3 requieren también make y C++ para el segundo simulador.
 `make audit` comprueba la ejecución histórica, no conformidad: conserva los
