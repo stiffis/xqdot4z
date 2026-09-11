@@ -1,4 +1,4 @@
-.PHONY: all paper audit baseline-check check core-test model-test rtl-test integration-test scalar-test packed-test packed-integration-test benchmark-plan-test measurement-test kernel-test freeze-policies materialize pilot
+.PHONY: all paper audit baseline-check check core-test model-test rtl-test integration-test scalar-test packed-test packed-integration-test benchmark-plan-test measurement-test kernel-test freeze-policies materialize pilot campaign
 
 all: check paper
 
@@ -27,6 +27,9 @@ packed-test:
 
 packed-integration-test:
 	python3 scripts/verify_packed_integration.py
+
+campaign:
+	python3 scripts/run_campaign.py
 
 pilot:
 	python3 scripts/run_pilot.py

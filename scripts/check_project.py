@@ -583,6 +583,50 @@ def check_kernels():
     return len(report["cases"])
 
 
+def check_campaign_results():
+    """Every planned case ran, kept its status, and no regime was pooled."""
+    state = json.loads((ROOT / "docs/CAMPAIGN_STATE.json").read_text())
+    assert state["status"] == "campaign_executed"
+    assert state["speedup_computed"] is False
+    assert state["global_speedup_across_z_profiles"] is None
+    assert state["grid_reduced"] is False, "The reduction gate is a revision, not a result"
+    evidence = ROOT / state["evidence"]
+    assert hashlib.sha256(evidence.read_bytes()).hexdigest() == state["evidence_sha256"]
+    report = json.loads(evidence.read_text())
+    inventory = json.loads((ROOT / "benchmarks/inventory.json").read_text())
+    # The case list came from the inventory, so the campaign can neither invent
+    # a case nor drop one: absence would make an incomplete run look finished.
+    assert set(report["cases"]) == set(inventory["cases"]), "Campaign and inventory disagree"
+    assert report["missing_cases"] == [] and report["completeness"] == "complete"
+    assert report["planned_cases"] == len(inventory["cases"]) == 2280
+    assert report["status_counts"] == state["status_counts"] == {"pass": 2280}
+    assert report["speedup_computed"] is False
+    assert report["global_speedup_across_z_profiles"] is None
+    manifest = json.loads((ROOT / "benchmarks/campaign.json").read_text())
+    for case_id, case in report["cases"].items():
+        entry = inventory["cases"][case_id]
+        assert case["input_sha256"] == entry["sha256"], case_id
+        assert case["variant"] == entry["variant"], case_id
+        assert case["status"] in manifest["reporting"]["terminal_statuses"], case_id
+        group = inventory["groups"][entry["group"]]
+        assert case["effective_z_histogram"] == group["effective_z_histogram"], case_id
+        counters = case["counters"]
+        assert counters["cycles"] == (counters["retired_kernel"] + 3 + counters["stall_load_use"]
+                                      + 2*counters["flush_taken_control"]), case_id
+        assert counters["stall_fault_hold"] == 0, case_id
+    # Seed and phase invariance is a finding, not a licence to run fewer cases.
+    collapsed = {}
+    for case in report["cases"].values():
+        key = (case["variant"], case["rows"], case["profile"], case["setting"])
+        collapsed.setdefault(key, set()).add(case["counters"]["cycles"])
+    assert all(len(v) == 1 for v in collapsed.values()), "Cycles vary with the seed somewhere"
+    assert len(collapsed) == 228
+    print(f"OK: campaign complete, {report['planned_cases']} planned cases all passing, "
+          f"no case missing and no regime pooled.")
+    print("Cycles recorded per profile and phase; no speedup is computed and the grid is unchanged.")
+    return report["planned_cases"]
+
+
 def check_pilot():
     """The pilot compared signals under held-fixed conditions; nothing more."""
     sys.path.insert(0, str(ROOT / "scripts"))
@@ -831,6 +875,7 @@ def main():
     check_inventory()
     check_preregistration()
     check_pilot()
+    check_campaign_results()
     check_freeze()
     from check_campaign import check as check_campaign
     check_campaign()
