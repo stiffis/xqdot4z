@@ -80,11 +80,29 @@ row, so it can be computed once and reused across all \(N\) of them. This is
 precisely why a fair comparison cannot simply count the subtractions in
 \eqref{eq:dot}: a competent implementation never pays them.
 
-XpulpNN and Dustin are precedents for low-precision and mixed-precision
-instruction-set extensions on RISC-V~\cite{xpulpnn,dustin}. Low-bit dot
-products are therefore not a new idea and are not claimed as one here. The
-question examined is narrower: given that a packed dot product already exists,
-does the zero-point correction belong inside the instruction or outside it?
+The choice of where the zero point lives is not a detail of this design. Surveys
+of quantization treat symmetric and asymmetric schemes as a standing trade-off:
+forcing the zero point to zero removes the correction entirely and is cheaper in
+hardware, while keeping it uses the integer range better on skewed
+distributions~\cite{gholami}. Weights are commonly quantized symmetrically for
+exactly that reason, which is what makes the asymmetric weight case worth
+pricing rather than assuming. The format studied here, four-bit weights against
+eight-bit activations, is the one production systems for quantized serving have
+converged on~\cite{qserve}.
+
+Low-bit instruction-set extensions on RISC-V are an established line of work.
+XpulpNN adds nibble and crumb SIMD instructions to a microcontroller-class core
+and Dustin carries flexible bit precision across a parallel
+cluster~\cite{xpulpnn,dustin}; Sparq extends the vector ISA with a
+multiply-shift-accumulate instruction for sub-byte inference~\cite{sparq}.
+Low-bit dot products are therefore not a new idea and are not claimed as one
+here. What none of that work isolates is the cost of the zero-point correction
+itself, because the correction is bundled into a larger kernel where it cannot
+be separated from packing, from vector width, or from the surrounding loop.
+
+The question examined here is narrower and, as a result, answerable: given that
+a packed dot product already exists, does the zero-point correction belong
+inside the instruction or outside it?
 
 \section{Research Question and Scope}
 \textit{Under what conditions does fusing zero-point correction into a
@@ -217,6 +235,11 @@ tests that implement it, is frozen before the campaign runs. The policy
 explicitly permits omitting work that a particular zero point makes
 unnecessary, which is how B3 comes to drop its correction entirely when the
 zero point is zero.
+
+All four variants are assembled without compressed
+instructions~\cite{riscvc}, so a code-size comparison counts the same kind of
+word in every case rather than rewarding whichever variant happens to compress
+better.
 
 The grid, the seeds, the zero-point profiles and the reporting rules are
 registered in advance, and the registration pins the hypotheses by hash so that
@@ -367,8 +390,14 @@ where it helps most in cycles under a varying zero point, it costs most in
 code.
 
 \subsection{Threats to Validity}
-The shared skeleton reduces optimization bias but does not establish optimality
-or remove the interaction between software and architecture. The synthetic
+The comparison is against baselines built for this study, not against the
+published extensions in Section~II. Those target wider vectors, different
+precisions and whole convolution kernels, so a cycle count taken here would not
+be commensurable with one taken there; the consequence is that this work
+establishes where fusion helps relative to its own alternatives and not where it
+stands against the state of the art. The shared skeleton reduces optimization
+bias but does not establish optimality or remove the interaction between
+software and architecture. The synthetic
 distribution does not necessarily represent a real network. With \(z{=}0\) the
 separate correction can be omitted, which does not establish equal performance
 in general. Dispatching among immediates would support a dynamic zero point

@@ -85,12 +85,30 @@ reutilizarse en las \(N\) filas. Esa es justamente la razón por la que una
 comparación justa no puede limitarse a contar las restas de \eqref{eq:dot}:
 una implementación competente nunca las paga.
 
-XpulpNN y Dustin son precedentes de extensiones de instrucciones de baja
-precisión y precisión mixta sobre RISC-V~\cite{xpulpnn,dustin}. Los productos
-punto de pocos bits no son, por tanto, una idea nueva, ni se reclaman como tal
-aquí. La pregunta examinada es más estrecha: dado que un producto punto empacado
-ya existe, ¿la corrección del punto cero pertenece dentro de la instrucción o
-fuera de ella?
+Dónde vive el punto cero no es un detalle de este diseño. Los estudios sobre
+cuantización tratan los esquemas simétrico y asimétrico como un compromiso
+permanente: forzar el punto cero a cero elimina la corrección por completo y
+sale más barato en hardware, mientras que conservarlo aprovecha mejor el rango
+entero en distribuciones sesgadas~\cite{gholami}. Los pesos suelen cuantizarse
+de forma simétrica justamente por eso, que es lo que vuelve digno de cotizar
+—en vez de dar por supuesto— el caso de pesos asimétricos. El formato estudiado
+aquí, pesos de cuatro bits contra activaciones de ocho, es aquel sobre el que
+han convergido los sistemas de servicio cuantizado en producción~\cite{qserve}.
+
+Las extensiones de instrucciones de baja precisión sobre RISC-V son una línea de
+trabajo asentada. XpulpNN añade instrucciones SIMD de nibble y crumb a un núcleo
+de clase microcontrolador, y Dustin lleva precisión de bits flexible a un
+clúster paralelo~\cite{xpulpnn,dustin}; Sparq extiende el ISA vectorial con una
+instrucción de multiplicación, desplazamiento y acumulación para inferencia
+sub-byte~\cite{sparq}. Los productos punto de pocos bits no son, por tanto, una
+idea nueva, ni se reclaman como tal aquí. Lo que ninguno de esos trabajos aísla
+es el costo de la corrección del punto cero en sí, porque la corrección va
+embebida en un núcleo mayor donde no puede separarse del empacado, del ancho
+vectorial ni del bucle que la rodea.
+
+La pregunta examinada aquí es más estrecha y, por eso mismo, contestable: dado
+que un producto punto empacado ya existe, ¿la corrección del punto cero
+pertenece dentro de la instrucción o fuera de ella?
 
 \section{Pregunta de investigación y alcance}
 \textit{¿Bajo qué condiciones fusionar la corrección del punto cero en un
@@ -230,6 +248,11 @@ política, junto con los generadores y las pruebas que la implementan, se congel
 antes de correr la campaña. La política permite explícitamente omitir trabajo
 que un punto cero determinado vuelve innecesario, que es como B3 termina
 eliminando su corrección por completo cuando el punto cero es cero.
+
+Las cuatro variantes se ensamblan sin instrucciones
+comprimidas~\cite{riscvc}, de modo que una comparación de tamaño de código
+cuenta la misma clase de palabra en todos los casos y no premia a la variante
+que por casualidad comprima mejor.
 
 La rejilla, las semillas, los perfiles de punto cero y las reglas de reporte se
 registran de antemano, y el registro fija las hipótesis por hash para que no
@@ -385,8 +408,14 @@ completo. Y donde más ayuda en ciclos, con punto cero variable, es donde más
 cuesta en código.
 
 \subsection{Amenazas a la validez}
-El esqueleto compartido reduce el sesgo de optimización pero no demuestra
-optimalidad ni elimina la interacción entre software y arquitectura. La
+La comparación es contra alternativas construidas para este estudio, no contra
+las extensiones publicadas de la Sección~II. Aquellas apuntan a vectores más
+anchos, a otras precisiones y a núcleos de convolución completos, así que un
+conteo de ciclos tomado aquí no sería conmensurable con uno tomado allá; la
+consecuencia es que este trabajo establece dónde ayuda la fusión frente a sus
+propias alternativas, y no dónde queda frente al estado del arte. El esqueleto
+compartido reduce el sesgo de optimización pero no demuestra optimalidad ni
+elimina la interacción entre software y arquitectura. La
 distribución sintética no representa necesariamente una red real. Con \(z{=}0\)
 puede omitirse la corrección separada, lo que no demuestra igualdad de
 rendimiento en general. Despachar entre inmediatos sostendría un punto cero
