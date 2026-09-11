@@ -672,6 +672,18 @@ def check_preregistration():
     for path, digest in record["pinned_states"].items():
         assert sha(ROOT / path) == digest, f"{path} changed after registration" + advice
     assert record["charter_hypotheses_sha256"] == hypotheses(), "Hypotheses edited after registration" + advice
+    # A registration may be corrected, but an amendment has to prove it changed
+    # documentation and not design: the hypotheses and the design fingerprint
+    # must be where they were, and every earlier entry is kept.
+    from record_preregistration import design_fingerprint
+    assert record["design_fingerprint"] == design_fingerprint(), "The design moved after registration" + advice
+    for amendment in record.get("amendments", []):
+        assert amendment["hypotheses_unchanged"] is True
+        assert amendment["design_unchanged"] is True
+        assert bool(amendment["reason"].strip()), "An amendment must say why"
+        assert amendment["changed_states"], "An amendment that changed nothing is not one"
+        for path, move in amendment["changed_states"].items():
+            assert path in PINNED_STATES and move["was"] != move["now"]
     assert record["post_observation_decisions"] == POST_OBSERVATION_DECISIONS
     decisions = (ROOT / "docs/DECISIONS.md").read_text()
     for identifier in POST_OBSERVATION_DECISIONS:

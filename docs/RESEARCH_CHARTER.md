@@ -44,7 +44,14 @@ se buscará esa tendencia sin forzar monotonicidad ni ocultar contraejemplos.
 observada con constantes; se comparan regímenes explícitos, no se asume gratis.
 H1–H3 son expectativas de trabajo, no hallazgos ni pruebas de significancia.
 
-La revisión del [protocolo 0.4](EXPERIMENT_PROTOCOL.md) trata valores,
+Ejecutados el piloto y la campaña, H2 se sostiene donde tiene sentido: la
+ventaja de D sobre B3 se estrecha al crecer N y se anula con z=0, donde B3 elide
+la corrección. Bajo ZS parte del hueco es estructural y se descuenta. H1 y H3 no
+cambian: H1 se contrasta por caso y H3 sigue sin evidencia, porque el régimen ZR
+no es expresable con esta interfaz. **Las hipótesis no se han editado desde su
+formulación**, y el preregistro lo comprueba por hash.
+
+La revisión del [protocolo 0.7](EXPERIMENT_PROTOCOL.md) trata valores,
 distribución y repetición de z como factores, separa especialización estática
 de ZR y declara amenazas a la validez. H3 no implica una cota superior de
 ventaja. El [manifiesto inicial](../benchmarks/campaign.json) conserva el
@@ -94,9 +101,9 @@ Un resultado negativo bien explicado también responde la pregunta.
 | M1 | Contrato v0.1 y referencia Python: realizado | Packing, signo, límites, selector y ejemplos comprobados; evidencia en `docs/MODEL_STATE.json`. No valida RTL |
 | M2 | RTL aislado y testbench: realizado | 556 734 comparaciones por simulador, ocho controles por simulador y cuatro mutaciones detectadas; evidencia en `docs/RTL_STATE.json`. No valida integración ni rendimiento |
 | M3a | Interfaz inmediata e integración opcional: realizado | 25 programas en dos simuladores, encoding, retiro/writeback, stores, hazards, flush, reset y mutaciones; `docs/INTEGRATION_STATE.json` |
-| M3b | Base común y comparadores: parcial | MUL y B3 aislado/integrado verificados (`docs/SCALAR_STATE.json`, `docs/PACKED_STATE.json`, `docs/PACKED_INTEGRATION_STATE.json`), con cuatro pares de fixtures en CPU; faltan cierre de configuraciones y política de metadatos antes de M4 |
-| M4 | B1/B2/B3/D y kernels | Resultados enteros iguales; medición pareada y costos completos |
-| M5 | Resultados y análisis | Todas las configuraciones, explicaciones y límites; artículo actualizado |
+| M3b | Base común y comparadores: realizado | Las cuatro variantes tienen kernels verificados bajo la política común v2, con 24 acuerdos a cuatro bandas en dos simuladores y lista blanca de opcodes por variante; evidencia en `docs/KERNEL_STATE.json`. Eventos de medida y contadores fijados y verificados con oráculo estructural (`docs/MEASUREMENT_STATE.json`) |
+| M4 | B1/B2/B3/D y kernels: realizado | Inventario de 2280 casos materializado y recomputable, políticas congeladas y revisión previa registrada; campaña completa con 2280/2280 en `pass`, costos por caso y ningún caso ausente. Sin speedup agregado ni rejilla reducida. `docs/CAMPAIGN_STATE.json`, `docs/PILOT_STATE.json` |
+| M5 | Resultados y análisis: realizado | Artículo ES/EN con la comparación central por régimen y fase, la descomposición del hueco bajo ZS, el costo en tamaño de código y tres límites explícitos. Cifras ancladas por macro y comprobadas contra la evidencia |
 | M6 | Síntesis/FPGA | Herramientas, dispositivo y restricciones acordados; evidencia física separada |
 
 M1/M2 se desarrollaron sin modificar el core. M3a añade la instrucción sin

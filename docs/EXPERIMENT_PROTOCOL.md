@@ -21,8 +21,32 @@ Revisión 0.6, 2026-09-09: la política común pasa a `shared_tile_resident_skel
 por contradicción interna e inviabilidad en K=128/512; el recorrido de filas se
 deriva del ISA y aparece `required_row_bodies`. El comprobador gana invariantes
 cruzados entre campos congelados.
-El core corregido Kuntur está en `kuntur/`; aún no están completos los
-comparadores B2/B3/D con sus kernels y fronteras de medida.
+Revisión 0.7, 2026-09-11: se pone al día el estado tras ejecutar el piloto y la
+campaña. Las notas de revisión anteriores se conservan **tal como se
+escribieron**: describen lo que era cierto en su momento y reescribirlas
+falsificaría el registro. Lo que sí se corrige son las afirmaciones que se leían
+en presente y hoy son falsas. Esta revisión **enmienda el preregistro**, que fija
+este documento; la enmienda está declarada en `docs/PREREGISTRATION.json` y
+comprueba que solo cambió la narrativa de estado, no el diseño.
+
+## Estado actual (2026-09-11)
+
+El piloto preregistrado se ejecutó: 32 casos, 16 pares de semillas, las seis
+señales declaradas iguales en todos mientras las salidas difieren.
+La campaña registrada se ejecutó completa: **2280 de 2280 casos en `pass`**, en
+dos simuladores, sin ninguno ausente. Los ciclos resultan idénticos entre las
+diez semillas en las 228 combinaciones y entre las dieciséis fases ZS. La
+rejilla **no se ha reducido** y **no se ha calculado ningún speedup**; agregar
+regímenes sigue prohibido. Los resultados están en el artículo con sus costos y
+sus límites, y en `docs/CAMPAIGN_STATE.json`.
+
+Sigue pendiente M6 —síntesis, área, frecuencia y energía—, el régimen ZR con
+zero-points leídos en ejecución, que esta interfaz no expresa, y el núcleo
+aritmético como medición adicional con su propia frontera, que nunca se prometió
+para M4.
+
+El core corregido Kuntur está en `kuntur/`; los comparadores B1/B2/B3/D están
+completos y medidos.
 
 Actualización M3a: existe una integración inmediata `xqdot4zi`, con interfaz
 en `isa/SPEC.md` y verificación en `docs/INTEGRATION_STATE.json`. No incluye
@@ -50,7 +74,7 @@ de fixtures N=2, K=G=8 ejecutan Sa, acumulación y corrección en Kuntur,
 con resultados iguales a D. No son kernels optimizados ni pruebas ZR.
 Los parámetros (MUL, XQDot4Zi, XQDot4) permiten B1=(0,0,0), B2=(1,0,0),
 B3=(1,0,1) y D=(1,1,0). (1,1,1) prueba convivencia, no es D causal.
-Falta cerrar kernels, memoria común y eventos de medición antes de comparar.
+Kernels, memoria común y eventos de medición quedaron cerrados; ver el estado actual.
 
 Actualización de kernels (2026-09-09): existen las **cuatro** variantes bajo la
 política v2, con evidencia en `docs/KERNEL_STATE.json`. Cada caso corre su brazo
@@ -169,17 +193,18 @@ algo más favorable, y la campaña no puede presentarse como si se hubiera
 diseñado a ciegas.
 
 Con este registro el manifiesto pasa a `registered` y su lista de bloqueadores
-queda vacía. **Registrado no es ejecutado**: significa que todo lo que la
-campaña necesita está fijado y que el punto de partida está fechado. No se ha
-medido nada, el piloto no ha corrido y no se ha calculado ningún speedup.
+queda vacía. **Registrado no es ejecutado**: significa que todo lo que la campaña
+necesita está fijado y que el punto de partida está fechado. En el momento de
+registrar no se había medido nada; el piloto y la campaña se ejecutaron después,
+desde este punto, y su estado está arriba.
 
 Al desarrollarlos se observaron contadores de esas corridas de corrección; se
 registran como tiempos de desarrollo observados, no como resultados, y no se ha
-comparado ni calculado ningún speedup. Falta materializar tensores e inventario
-con hashes, congelar las dos políticas y registrar la revisión previa antes de
-medir: la campaña sigue bloqueada.
+comparado ni calculado ningún speedup. Materializar tensores, congelar las dos
+políticas y registrar la revisión previa se completaron después, en ese orden, y
+con ello la campaña quedó desbloqueada y se ejecutó.
 
-Estado: planificación. No existen aún mediciones de XQDot4Z.
+Las secciones siguientes fijan el método; el estado de ejecución está arriba.
 Las configuraciones siguientes son propuestas concretas; cualquier revisión
 se registra antes de comparar resultados.
 

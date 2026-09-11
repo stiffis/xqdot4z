@@ -1,0 +1,11 @@
+00000000 T _start
+00000150 t kernel_begin
+0000103c t kernel_end
+00001048 t kernel_text_end
+0000204c T __BSS_END__
+0000204c T __bss_start
+0000204c T __DATA_BEGIN__
+0000204c T _edata
+0000204c T _end
+0000204c T __SDATA_BEGIN__
+0000284c A __global_pointer$

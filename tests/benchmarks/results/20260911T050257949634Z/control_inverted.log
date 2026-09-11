@@ -1,0 +1,2 @@
+FATAL: /tmp/xqdot4z-measure-j77enl8a/tb_measure_battery.sv:57: MEASURE_FAIL inconsistent window
+       Time: 0  Scope: tb_measure

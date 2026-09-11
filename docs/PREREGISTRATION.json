@@ -1,6 +1,34 @@
 {
+  "amendments": [
+    {
+      "amended_on": "2026-09-11",
+      "changed_states": {
+        "docs/EXPERIMENT_PROTOCOL.md": {
+          "now": "a0e9101b24893ba1e24b14ea35289641f0adb51f35fb155be5220fe111f7a541",
+          "was": "246d0bf12ea7a1747076f00e584858ddd7c615a38e60512ff4c33c5cefd0ed36"
+        },
+        "docs/KERNEL_STATE.json": {
+          "now": "dbbbd5d92e7d276e1b64a42e9331b04ead041907a9b8227751bf686170ccae01",
+          "was": "0dea7ec48d36a752a747c42f9c5c040cf092560742cf6b5b5d2fe2c1a78f6191"
+        },
+        "docs/MEASUREMENT_STATE.json": {
+          "now": "b34135a97b7851446f253a72f36bfdf1560ea50d3a1bbf377cafb0d2a68cfcd5",
+          "was": "2f173ba8d05601d296a94da82007cc8150d6695392e728760082318dda92cacf"
+        },
+        "docs/POLICY_FREEZE.json": {
+          "now": "11297f08ca03e3d7771d24356bff1c268d780c459f71020ac7f6de0a8548ae13",
+          "was": "147138fec3fbc17e2f35efe67bd2c32abd1a1283019018b9ebcf5c1f11f75f59"
+        }
+      },
+      "design_unchanged": true,
+      "hypotheses_unchanged": true,
+      "parent_git_revision": "c54be5413095a8c397b8c54f5009b769422856d0",
+      "reason": "Puesta al d\u00eda del estado documental tras ejecutar piloto y campa\u00f1a, y re-fijado de la evidencia que el protocolo declara como fuente. El protocolo actualiza narrativa de estado, no m\u00e9todo. Medici\u00f3n y kernels se re-ejecutaron dos veces cada uno y coinciden campo por campo: mismos 8 programas dirigidos, mismos 188 brazos, mismos contadores y controles. El congelamiento solo repunta a la corrida nueva: sus 236 brazos hashean identico en ensamblado y texto, y su fecha, politica, generadores y listados no se tocan."
+    }
+  ],
   "campaign_executed": false,
   "charter_hypotheses_sha256": "13e17e6e898217f60024ee0a73e00d1971b3e579afe8eeb8869b770028d281b6",
+  "design_fingerprint": "f7e5920210ffe867f31ee7cf46214adfe45dd74bd2819bb88745766da198939a",
   "measurement_may_begin_after": "this record is committed with the files it pins",
   "note": "Recording this does not run anything. It fixes the point measurement may start from, so any later change to a pinned state is a change to the registered design and must say so.",
   "observed_development_timings": {
@@ -359,19 +387,19 @@
       "D_headline_n4_s20260909_zc_controls_15": 11,
       "D_headline_n4_s20260909_zc_controls_8": 11
     },
-    "source": "tests/benchmarks/kernel_results/20260911T005048236950Z/summary.json",
-    "source_sha256": "26f0780ab0d7511181cf0451a53a07e490485bb57dc2d014612145656545bcee",
+    "source": "tests/benchmarks/kernel_results/20260911T050900348423Z/summary.json",
+    "source_sha256": "9bbed702c6fe3bd4986668df365e96dc7edf9f6be94cc9a694dd2842d2134592",
     "speedup_computed": false
   },
   "parent_git_revision": "456d60852c1b50ee93eb58583904bd55060e9c1b",
   "pilot_executed": false,
   "pinned_states": {
     "benchmarks/campaign.json": "18e939a68c526a0781c8cad3f1622991e131035f3c18f6ade924a431345155d6",
-    "docs/EXPERIMENT_PROTOCOL.md": "246d0bf12ea7a1747076f00e584858ddd7c615a38e60512ff4c33c5cefd0ed36",
+    "docs/EXPERIMENT_PROTOCOL.md": "a0e9101b24893ba1e24b14ea35289641f0adb51f35fb155be5220fe111f7a541",
     "docs/INVENTORY_STATE.json": "c5ef222bee032384edec59613b48aa90b0791852d3c7b6f2006540921a2a7862",
-    "docs/KERNEL_STATE.json": "0dea7ec48d36a752a747c42f9c5c040cf092560742cf6b5b5d2fe2c1a78f6191",
-    "docs/MEASUREMENT_STATE.json": "2f173ba8d05601d296a94da82007cc8150d6695392e728760082318dda92cacf",
-    "docs/POLICY_FREEZE.json": "147138fec3fbc17e2f35efe67bd2c32abd1a1283019018b9ebcf5c1f11f75f59"
+    "docs/KERNEL_STATE.json": "dbbbd5d92e7d276e1b64a42e9331b04ead041907a9b8227751bf686170ccae01",
+    "docs/MEASUREMENT_STATE.json": "b34135a97b7851446f253a72f36bfdf1560ea50d3a1bbf377cafb0d2a68cfcd5",
+    "docs/POLICY_FREEZE.json": "11297f08ca03e3d7771d24356bff1c268d780c459f71020ac7f6de0a8548ae13"
   },
   "post_observation_decisions": [
     "D33",

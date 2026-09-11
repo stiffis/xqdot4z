@@ -85,10 +85,61 @@ def build():
              "the registered design and must say so.")
 
 
+def design_fingerprint():
+    """The parts of the manifest that are design, as opposed to status prose."""
+    manifest = json.loads((ROOT / "benchmarks/campaign.json").read_text())
+    design = {key: manifest[key] for key in
+              ("grid", "zero_point_profiles", "zero_point_strata", "pairing",
+               "reporting", "optimization", "b1_freeze", "common_policy_freeze")}
+    design["seed_policy"] = manifest["seed_policy"]
+    return hashlib.sha256(json.dumps(design, sort_keys=True).encode()).hexdigest()
+
+
+def amend(reason):
+    """Amend an existing registration instead of overwriting it.
+
+    A registered design may be corrected, but not silently: the original entry
+    and every previous amendment are kept, the new hashes are recorded beside
+    the old ones, and the amendment must demonstrate that the hypotheses and the
+    design fingerprint did not move. An amendment that changed either of those
+    would be a new design, not a correction, and is refused here.
+    """
+    require(OUTPUT.exists(), "There is no registration to amend")
+    record = json.loads(OUTPUT.read_text())
+    fresh = build()
+    require(fresh["charter_hypotheses_sha256"] == record["charter_hypotheses_sha256"],
+            "The hypotheses moved: that is a new design, not an amendment")
+    baseline = record.get("design_fingerprint")
+    current = design_fingerprint()
+    if baseline is not None:
+        require(current == baseline, "The design moved: amend by registering again, not by editing")
+    changed = {path: dict(was=digest, now=fresh["pinned_states"][path])
+               for path, digest in record["pinned_states"].items()
+               if fresh["pinned_states"][path] != digest}
+    require(changed, "Nothing changed; there is nothing to amend")
+    record.setdefault("amendments", []).append(dict(
+        amended_on=fresh["recorded_on"], parent_git_revision=fresh["parent_git_revision"],
+        reason=reason, changed_states=changed,
+        hypotheses_unchanged=True, design_unchanged=True))
+    record["pinned_states"] = fresh["pinned_states"]
+    record["design_fingerprint"] = current
+    record["observed_development_timings"] = fresh["observed_development_timings"]
+    return record
+
+
 def main():
-    record = build()
+    reason = " ".join(sys.argv[1:]).strip()
+    if reason:
+        record = amend(reason)
+        print(f"amended: {len(record['amendments'])} amendment(s); "
+              f"{len(record['amendments'][-1]['changed_states'])} pinned states updated")
+        print("Hypotheses and design fingerprint unchanged, which is what makes it an amendment.")
+    else:
+        record = build()
+        record["design_fingerprint"] = design_fingerprint()
     OUTPUT.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n")
     timings = record["observed_development_timings"]
+    if reason: return 0
     print(f"registered after {record['parent_git_revision'][:7]}: "
           f"{len(record['pinned_states'])} states pinned, "
           f"{timings['arms']} observed arms, "

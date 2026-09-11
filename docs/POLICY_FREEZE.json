@@ -27,8 +27,8 @@
         "tests/benchmarks/test_b1_arithmetic.py": "4d96200b4ee8aa5958b25c91d8a5d17630092847fe940666540b10aed9ef89f2"
       },
       "frozen_files_committed_with_this_record": true,
-      "kernel_evidence": "tests/benchmarks/kernel_results/20260911T005048236950Z/summary.json",
-      "kernel_evidence_sha256": "26f0780ab0d7511181cf0451a53a07e490485bb57dc2d014612145656545bcee",
+      "kernel_evidence": "tests/benchmarks/kernel_results/20260911T050900348423Z/summary.json",
+      "kernel_evidence_sha256": "9bbed702c6fe3bd4986668df365e96dc7edf9f6be94cc9a694dd2842d2134592",
       "variants": [
         "B1"
       ],
@@ -300,8 +300,8 @@
         "tests/benchmarks/test_campaign.py": "197930bbd5d8129d887fc8286b4b06ef62a021cbda4acc76ce9b83cc2b133d3e"
       },
       "frozen_files_committed_with_this_record": true,
-      "kernel_evidence": "tests/benchmarks/kernel_results/20260911T005048236950Z/summary.json",
-      "kernel_evidence_sha256": "26f0780ab0d7511181cf0451a53a07e490485bb57dc2d014612145656545bcee",
+      "kernel_evidence": "tests/benchmarks/kernel_results/20260911T050900348423Z/summary.json",
+      "kernel_evidence_sha256": "9bbed702c6fe3bd4986668df365e96dc7edf9f6be94cc9a694dd2842d2134592",
       "variants": [
         "B1",
         "B2",
@@ -1251,5 +1251,12 @@
         }
       }
     }
+  },
+  "kernel_evidence_repointed": {
+    "on": "2026-09-11",
+    "was": "tests/benchmarks/kernel_results/20260911T005048236950Z/summary.json",
+    "now": "tests/benchmarks/kernel_results/20260911T050900348423Z/summary.json",
+    "why": "The protocol is a declared source of the kernel run, so updating it made that run stale and it was executed twice again. Only the pointer moved: all 236 frozen arms hash identically in the new evidence, assembly and text alike. The freeze date, the policy text, the generators and the arm listings are untouched.",
+    "arms_rehashed_identical": 236
   }
 }
