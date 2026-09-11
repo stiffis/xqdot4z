@@ -1,0 +1,48 @@
+{
+  "status": "pilot_executed",
+  "executed_on": "2026-09-10",
+  "runner": "scripts/run_pilot.py",
+  "evidence": "tests/benchmarks/pilot_results/20260911T025228194405Z/summary.json",
+  "evidence_sha256": "72aa89bd31ee1205845fc7d178ae134f027b721796d368cbc5aa0c18e4ef95c1",
+  "cases": 32,
+  "seed_pairs": 16,
+  "rows": 4,
+  "k": 32,
+  "g": 32,
+  "seeds": [
+    20260908,
+    20260909
+  ],
+  "signals_compared": [
+    "cycles",
+    "retired_instructions",
+    "retired_pc_opcode_trace",
+    "branch_outcomes",
+    "stall_breakdown",
+    "data_address_trace"
+  ],
+  "held_fixed": [
+    "text_hash",
+    "data_layout",
+    "zero_point_matrix",
+    "core_configuration",
+    "memory_model",
+    "measurement_events"
+  ],
+  "signals_equal_in_every_pair": [
+    "branch_outcomes",
+    "cycles",
+    "data_address_trace",
+    "retired_instructions",
+    "retired_pc_opcode_trace",
+    "stall_breakdown"
+  ],
+  "signals_differing_somewhere": [],
+  "outputs_differ_in_every_pair": true,
+  "equal_totals_prove_input_independence": false,
+  "grid_reduced": false,
+  "finding": "Changing the tensor seed moved none of the six declared signals in any of the sixteen pairs, while the outputs differed in every pair. The tensors demonstrably changed and the timing and control did not.",
+  "limit": "This does not prove independence from all data: it is one shape, one seed pair and four of nineteen settings. Reducing the grid needs the manifest's reduction gate, which is a deliberate revision and has not been taken.",
+  "campaign_executed": false,
+  "speedup_computed": false
+}

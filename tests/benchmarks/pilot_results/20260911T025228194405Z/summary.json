@@ -1,0 +1,2499 @@
+{
+  "artifacts_sha256": {
+    "B1_n4_s20260908_zc_controls_0.S": "7ffd2c9ec3c6c255e647986d9e9dedf1e5ca9e0b11df0d95041ff86a30404cfc",
+    "B1_n4_s20260908_zc_controls_0.bin": "a3f1ad49039f0718b4ca06f396feebe0edad3201cd978f9a5ba13551b69acf82",
+    "B1_n4_s20260908_zc_controls_0.elf": "1cf53cfe1f63b60f9f15bc439f1232ad81ab7e77095c454b51609ebd3cef60ae",
+    "B1_n4_s20260908_zc_controls_0.mem": "fb7ca8bbb67d11c9c91884230832d1784518f93b06df1e67fa79e3c4dd29269f",
+    "B1_n4_s20260908_zc_controls_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260908_zc_controls_0_iverilog.log": "43ffde6ec275aa4d745e931a2a0f60b56313b28d58d70e820d4ac4473b1983f0",
+    "B1_n4_s20260908_zc_controls_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260908_zc_controls_0_nm.log": "92f8c4403562d31ba9397e550c95f9eba82103f0188f2ba96123bbb6d83799ea",
+    "B1_n4_s20260908_zc_controls_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260908_zc_controls_0_verilator.log": "ca02d4da95841e84975d948bf905ffbb7a9d5edc765199ea72c3a120b1e5051c",
+    "B1_n4_s20260908_zc_controls_15.S": "ab77d00ab809f0882fc488e20359749224ac498aeca3f72de82cc94983d23ac6",
+    "B1_n4_s20260908_zc_controls_15.bin": "32176de22312e02af0f06cbdd174e0faaa5374c0be88e888d0b83f3012a5e1eb",
+    "B1_n4_s20260908_zc_controls_15.elf": "83077fb1a87587c0a09ef60f6e404c2606662d3680098fab8df67223fc9f1a16",
+    "B1_n4_s20260908_zc_controls_15.mem": "88ee0f628bf62e87119c1b53866b10b1c6a9e29e004674f02f203570d93532b3",
+    "B1_n4_s20260908_zc_controls_15_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260908_zc_controls_15_iverilog.log": "f801475de5c25dc48e413261375614cafb92c0c66b5a0387d8e2654931abb35d",
+    "B1_n4_s20260908_zc_controls_15_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260908_zc_controls_15_nm.log": "dcbfe73d359db965c97a6e8371ac7c5ba7a82804544b5970c727db316b5ceb82",
+    "B1_n4_s20260908_zc_controls_15_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260908_zc_controls_15_verilator.log": "d8f192ac1032bde304d56ddac07d25cc79c7ada3e96769e95d6fdc4466658bf6",
+    "B1_n4_s20260908_zc_controls_8.S": "17fc1203661920e1a702207ba937101ab9e1f2d2d1535b652b081b45f6e9c660",
+    "B1_n4_s20260908_zc_controls_8.bin": "3fd08e3b959d237833f572bc7063bc350dc2973c7d652d46741c6ae6dda97779",
+    "B1_n4_s20260908_zc_controls_8.elf": "99816c515d1efdc7e7a9902706e98a14c88305f00054c9322b3f3ce65674c1f9",
+    "B1_n4_s20260908_zc_controls_8.mem": "cffeffedd67eeb06c0eb8a827a4915a3f335b890baba198ca5568a7676636a48",
+    "B1_n4_s20260908_zc_controls_8_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260908_zc_controls_8_iverilog.log": "eea7729d9ccc2d2cf8fc888f957a5d6a44047e80f21b43b0d5d3bca1283d2799",
+    "B1_n4_s20260908_zc_controls_8_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260908_zc_controls_8_nm.log": "6f7ae2646e978e5848787d3090b58903c68d3228d99960a595e591c16d72147c",
+    "B1_n4_s20260908_zc_controls_8_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260908_zc_controls_8_verilator.log": "9030660cbb6b08bc4befeb90d53e63bf2bc6422545111b154b610ca3adabf843",
+    "B1_n4_s20260908_zs_balanced_u4_0.S": "59465eec67ff66cd57a3a22360c87ebac3c93d5f7c6f4d8b29d3016b44a0f95c",
+    "B1_n4_s20260908_zs_balanced_u4_0.bin": "1325002e57c7a2093b11dc22770687ac79929ff7618ca8b4c205c1302c964e6e",
+    "B1_n4_s20260908_zs_balanced_u4_0.elf": "48c2d9f248e82d6987331cf8c281731de5a43bd31dd2bef8643145a6e8048721",
+    "B1_n4_s20260908_zs_balanced_u4_0.mem": "c33627150b3007fe01f4d6c26d64e256dce9f03f4bc681e19cb7175f4c213778",
+    "B1_n4_s20260908_zs_balanced_u4_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260908_zs_balanced_u4_0_iverilog.log": "2d37de6e3f02de38d281501372205b59c089d35de31feab7ff5930ed7e07542f",
+    "B1_n4_s20260908_zs_balanced_u4_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260908_zs_balanced_u4_0_nm.log": "674f69f2f5e2fbf0209b65034f583ad5d834677a414e27ad75d32b97593d0444",
+    "B1_n4_s20260908_zs_balanced_u4_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260908_zs_balanced_u4_0_verilator.log": "a08e61dc08893c505376e871745b8c1c64a88bb211507331f82d234e7f87ab54",
+    "B1_n4_s20260909_zc_controls_0.S": "d0745360f1c2850f71e19b03cf91aaa5a6a78647f749bdefdf2e5c2c4f4744f7",
+    "B1_n4_s20260909_zc_controls_0.bin": "728e3f62492c3ab6058594e679fb154c1178af021ba35e40d85a54993110ad08",
+    "B1_n4_s20260909_zc_controls_0.elf": "bddb2935d841d446c30dafdb73857ded3915019662ac517df46f8e92e008bdc1",
+    "B1_n4_s20260909_zc_controls_0.mem": "35d28dd488a06f2304aea157a7e669c3aacda2661d40790d8eb1f9f152b37970",
+    "B1_n4_s20260909_zc_controls_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260909_zc_controls_0_iverilog.log": "c748e4ff8e9f64069aa54ade2ac32727976b5d67ed6c07f292853e56108157d9",
+    "B1_n4_s20260909_zc_controls_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260909_zc_controls_0_nm.log": "92f8c4403562d31ba9397e550c95f9eba82103f0188f2ba96123bbb6d83799ea",
+    "B1_n4_s20260909_zc_controls_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260909_zc_controls_0_verilator.log": "6ce67c2378e7d09c10f0830e4a712a53c9c5ee5955a617f19fa0748e582a0091",
+    "B1_n4_s20260909_zc_controls_15.S": "5625ed342b382d7897b352e9b866ccf200ef3a7a8d1fc55b8f83898adb6f7a5b",
+    "B1_n4_s20260909_zc_controls_15.bin": "79c7f0fef46490a1eb7d3aefdf3ca50a4464bcdef2e90ea68061d49f51ce63bd",
+    "B1_n4_s20260909_zc_controls_15.elf": "b7f44488a49c03a41d53abc05fbd309876e2a7b3d2a6a8c10097a14a44cd31fd",
+    "B1_n4_s20260909_zc_controls_15.mem": "3141846fb3a2aafc977a55bba79496f087b719a2f3b8029acc57c9821051cde9",
+    "B1_n4_s20260909_zc_controls_15_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260909_zc_controls_15_iverilog.log": "e6f213bb05a82e4fcdbec87d7c08af48376fbb45df1c166ab158b0302c3944bd",
+    "B1_n4_s20260909_zc_controls_15_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260909_zc_controls_15_nm.log": "dcbfe73d359db965c97a6e8371ac7c5ba7a82804544b5970c727db316b5ceb82",
+    "B1_n4_s20260909_zc_controls_15_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260909_zc_controls_15_verilator.log": "d8e8ca4406c2796b5ccd9a09d879007ade69693dd8c844fd8c4511436dc3327f",
+    "B1_n4_s20260909_zc_controls_8.S": "4f38522f883edc283936632e2d9b88aafc72a6597f5e382f9761370477b68be8",
+    "B1_n4_s20260909_zc_controls_8.bin": "39bd9004d49599b0e0552730c0bbb151c0cf27786627d139818ac031f19c1c30",
+    "B1_n4_s20260909_zc_controls_8.elf": "93838a40ab63f4aad98eb3d8b05dc85ea9cad91bbe569490da3871f87148b646",
+    "B1_n4_s20260909_zc_controls_8.mem": "81f897f2aae182551a9495fb52ec792c12cb0d0ace06a04c9a707ca6a47fcd16",
+    "B1_n4_s20260909_zc_controls_8_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260909_zc_controls_8_iverilog.log": "e325aaf1ba0fc18c0689331ab6b8eb1c718df0a5de9be8e50963e272a6e14d96",
+    "B1_n4_s20260909_zc_controls_8_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260909_zc_controls_8_nm.log": "6f7ae2646e978e5848787d3090b58903c68d3228d99960a595e591c16d72147c",
+    "B1_n4_s20260909_zc_controls_8_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260909_zc_controls_8_verilator.log": "a85349c7f6d29eca60dacd9e88dd26da3967170d4047ee77e84fc8a2986719a1",
+    "B1_n4_s20260909_zs_balanced_u4_0.S": "502f02b81bd0e2d235e2dc8df61a08feb8c34aaf1ce388226433bf9910e6d785",
+    "B1_n4_s20260909_zs_balanced_u4_0.bin": "454d6db0ff977315189a7eab52552ad703652a927b91962ddd6f4c109e03f3cc",
+    "B1_n4_s20260909_zs_balanced_u4_0.elf": "09ef8bb9f64303d4148d5e236f1014301c3214da67124bab8d4fff4bc76463dc",
+    "B1_n4_s20260909_zs_balanced_u4_0.mem": "d095f07478463d38d4641889ac7acb520916c777bca33bd3cddcc7439b857511",
+    "B1_n4_s20260909_zs_balanced_u4_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260909_zs_balanced_u4_0_iverilog.log": "d09387ec0d345585de9d8abe45cd8db1038cced45e2080136b5775faadae9fbf",
+    "B1_n4_s20260909_zs_balanced_u4_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260909_zs_balanced_u4_0_nm.log": "674f69f2f5e2fbf0209b65034f583ad5d834677a414e27ad75d32b97593d0444",
+    "B1_n4_s20260909_zs_balanced_u4_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B1_n4_s20260909_zs_balanced_u4_0_verilator.log": "36af9d2272a53e5de8092fb04c056198240835b2450a6c0d4d7df1c58de01f14",
+    "B2_n4_s20260908_zc_controls_0.S": "5213967bb28297b2ecc8fe3a48ccb8f6c20b108f63f082304351fb46fcea99d8",
+    "B2_n4_s20260908_zc_controls_0.bin": "6796f60bed0ec1bff7d2d548c6a2c8c4fe43d75724306b4e918df76a29c9a509",
+    "B2_n4_s20260908_zc_controls_0.elf": "d89981d1befcf28109b312a99d222af05e12a8a776ac88f2dcf79aba1449eb09",
+    "B2_n4_s20260908_zc_controls_0.mem": "6c475de6d76d324eee5622a94b039b76396b95e225652c27cd204072d9b0599d",
+    "B2_n4_s20260908_zc_controls_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260908_zc_controls_0_iverilog.log": "720eb3c5a6356ed834638ce0735bd413c6a2625c26c3b381c456b3334146b63e",
+    "B2_n4_s20260908_zc_controls_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260908_zc_controls_0_nm.log": "d9363d5503675564077b22a51ee514720df933f8145dddf385c13ed2a3a003d1",
+    "B2_n4_s20260908_zc_controls_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260908_zc_controls_0_verilator.log": "46bdd2eec318a5718df40d1ada90a8ddf0967453971d67b56ef46f2b3688a04f",
+    "B2_n4_s20260908_zc_controls_15.S": "52ea1a0d4a1cb561ec860ee06f86c30c1b86dbba76f6ba1725331af544253722",
+    "B2_n4_s20260908_zc_controls_15.bin": "f73c42498478753d34cb946db87a40702246a5b87df9d5375126ea7101a16c67",
+    "B2_n4_s20260908_zc_controls_15.elf": "6b03cb2e8a62644a38c42d348dbeb4eef70a153f38373f07f62bbc3adaaa8694",
+    "B2_n4_s20260908_zc_controls_15.mem": "9dce532933aa6b923a32ec7946a605246cb701f1e030d002af76f8899f988042",
+    "B2_n4_s20260908_zc_controls_15_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260908_zc_controls_15_iverilog.log": "376c2f944bf1d320b92c76627cafcc71aec125ec019ebf461eb0f3162e92c014",
+    "B2_n4_s20260908_zc_controls_15_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260908_zc_controls_15_nm.log": "ae542dfe6ae2ebc8b9d3e953da47d238c643c83463d0dc5aa008d33c8b9d319a",
+    "B2_n4_s20260908_zc_controls_15_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260908_zc_controls_15_verilator.log": "99ab16a3ff38b41c93d77e2beaf34ca9609f5a44b711adb3a0560bcb82203f3b",
+    "B2_n4_s20260908_zc_controls_8.S": "25d6bf3c53932b195e40ce80eb958859c239af0b192f403c4ffa84582fc204d5",
+    "B2_n4_s20260908_zc_controls_8.bin": "75287312537e0cdd84dff3c13c19499e7c166e68b8ad0705866515348fbd8aec",
+    "B2_n4_s20260908_zc_controls_8.elf": "6c6d05d587d759a3976f58de8344162a62bb9e8426e771ab41d47a4b2a4649b3",
+    "B2_n4_s20260908_zc_controls_8.mem": "8cc84a82060e165743ea1a8cc2a3ec4a9b64ef7c68194017545b57130e2df270",
+    "B2_n4_s20260908_zc_controls_8_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260908_zc_controls_8_iverilog.log": "bbeae3d830c494a0e05568a5d6cdda650e73150a27075135d2fab29be2992755",
+    "B2_n4_s20260908_zc_controls_8_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260908_zc_controls_8_nm.log": "ae542dfe6ae2ebc8b9d3e953da47d238c643c83463d0dc5aa008d33c8b9d319a",
+    "B2_n4_s20260908_zc_controls_8_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260908_zc_controls_8_verilator.log": "c230be9fec59127f0000e21a1ecf95080c05c17438503c71d2fd8d3eb96a42b5",
+    "B2_n4_s20260908_zs_balanced_u4_0.S": "b4a25198171bba832a4aa493a277f29ec9063abbbd8b6575642e580b0f04c7d6",
+    "B2_n4_s20260908_zs_balanced_u4_0.bin": "bec031d2d58568971615566e58d81cbd3ec1baeb8c9254c4280f5c487861931b",
+    "B2_n4_s20260908_zs_balanced_u4_0.elf": "138acd323bd0d136d1c72d175c8cb1105ee567c60c0e026782d69b767d9f7f66",
+    "B2_n4_s20260908_zs_balanced_u4_0.mem": "52bb49f63bbffd659b1c025ef1fde1c78aa86a3ed6667fd5ff3f26ee7d44fe1c",
+    "B2_n4_s20260908_zs_balanced_u4_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260908_zs_balanced_u4_0_iverilog.log": "c894464815508309f52d763cc0993f9d222c223dd834d44efea6cf5420ef6c45",
+    "B2_n4_s20260908_zs_balanced_u4_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260908_zs_balanced_u4_0_nm.log": "43f65e2c3de4be11e3d9b09ac4fdc7aed40ee0f0c29f03232e5f7989b3094340",
+    "B2_n4_s20260908_zs_balanced_u4_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260908_zs_balanced_u4_0_verilator.log": "c2ede05169e37fb07abf6ce6892f006c160640889ff767ff12ebdaaf952a384b",
+    "B2_n4_s20260909_zc_controls_0.S": "8213c1ad228d80ba80ff7788056e8fade59bec03427b91c87776c14321d935ab",
+    "B2_n4_s20260909_zc_controls_0.bin": "59f9c02e502eaca10db6f318e145ebfbf6fb79c12c913c0e8a37af463cb562d1",
+    "B2_n4_s20260909_zc_controls_0.elf": "190a2450a0794286a119a5e62a4fc9fa8041caa82e7e024cdbcbc3f13ae67b88",
+    "B2_n4_s20260909_zc_controls_0.mem": "79fb63b61fe75370fd560001adfbb43ca4f8e036cc3ae8974a6552bc671a6692",
+    "B2_n4_s20260909_zc_controls_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260909_zc_controls_0_iverilog.log": "abbe644f8055004242c346048d6b682c0cebcef9a72216980ca2101ff1967e95",
+    "B2_n4_s20260909_zc_controls_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260909_zc_controls_0_nm.log": "d9363d5503675564077b22a51ee514720df933f8145dddf385c13ed2a3a003d1",
+    "B2_n4_s20260909_zc_controls_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260909_zc_controls_0_verilator.log": "e82a6dd3e5cd7868fc73fd92377776454008bf0a50bc80e10d8da90a751e6f9b",
+    "B2_n4_s20260909_zc_controls_15.S": "58369618e6fa7faab800389f14a080f43e0b04788a5d3410b625127010bc9b31",
+    "B2_n4_s20260909_zc_controls_15.bin": "cca1c7f4dcbf72c5c85aa24b93721c087d8734f0511fb8a1e0e8e6dee0424b53",
+    "B2_n4_s20260909_zc_controls_15.elf": "6d4f5e910dc82beb990a53222d8c4acf93403e4eafc49b41e901e6624f1f9624",
+    "B2_n4_s20260909_zc_controls_15.mem": "b68aa23ad338fa6e14efb789d69df0f0cf227ae914beffc1b8d84962168cb16b",
+    "B2_n4_s20260909_zc_controls_15_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260909_zc_controls_15_iverilog.log": "15b5c4f045143772a3eb31f2e712c9fb4633e3683d1d47cfc40653aaf1799d46",
+    "B2_n4_s20260909_zc_controls_15_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260909_zc_controls_15_nm.log": "ae542dfe6ae2ebc8b9d3e953da47d238c643c83463d0dc5aa008d33c8b9d319a",
+    "B2_n4_s20260909_zc_controls_15_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260909_zc_controls_15_verilator.log": "9d7844d3cf5afdd466dee2b105a3a77f88ea30b66e8f252e3f746c1c3335f787",
+    "B2_n4_s20260909_zc_controls_8.S": "d9bcd314490c3f5db0e91560a57af30b4066e5bf7a2ecac09f222e2958ead7dc",
+    "B2_n4_s20260909_zc_controls_8.bin": "34bc9ee72170cce311520b60c2da18cda350c572cead907db38fb069a68a45b3",
+    "B2_n4_s20260909_zc_controls_8.elf": "7225479e029df8e32ce78266691bb4e1b5bf30039f93aff9dc0b8911821c4dd6",
+    "B2_n4_s20260909_zc_controls_8.mem": "01132ada4634abd7d5d5fe8cdf84367df066cf43bea4c140ec2f16c5e47cbbaf",
+    "B2_n4_s20260909_zc_controls_8_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260909_zc_controls_8_iverilog.log": "cb34089cdd4a88806f06f30008802ace6aaccd8c088c24be32702c9ed8fa08da",
+    "B2_n4_s20260909_zc_controls_8_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260909_zc_controls_8_nm.log": "ae542dfe6ae2ebc8b9d3e953da47d238c643c83463d0dc5aa008d33c8b9d319a",
+    "B2_n4_s20260909_zc_controls_8_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260909_zc_controls_8_verilator.log": "44484c65963c1af9c29457d9aef1225f455b7ec3b356037a8c0862586d889b53",
+    "B2_n4_s20260909_zs_balanced_u4_0.S": "e822d632dd5d517d7de5521341f6ebb799140a3e71006842976180e88b063d3d",
+    "B2_n4_s20260909_zs_balanced_u4_0.bin": "484cf5582d5166553662470684e5ba2bd794d4838c3fc523cd366bea7ec4817e",
+    "B2_n4_s20260909_zs_balanced_u4_0.elf": "72e7d69f3feefffff7525e207c29c67fc7838fc3ae11c20207f8676c49d64b2b",
+    "B2_n4_s20260909_zs_balanced_u4_0.mem": "9ce11e6bbe659ef821862914617a103bad5900be3049e408ae8c6f73732ee6fe",
+    "B2_n4_s20260909_zs_balanced_u4_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260909_zs_balanced_u4_0_iverilog.log": "f7f0fe8d727a66415ab15652b334881c35df6c25d85e663443453e105b0d31c1",
+    "B2_n4_s20260909_zs_balanced_u4_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260909_zs_balanced_u4_0_nm.log": "43f65e2c3de4be11e3d9b09ac4fdc7aed40ee0f0c29f03232e5f7989b3094340",
+    "B2_n4_s20260909_zs_balanced_u4_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B2_n4_s20260909_zs_balanced_u4_0_verilator.log": "96fd7c585c9aca08d4f0d9255e23b06007c8565206bd9e1b43a55b4308e2d2d1",
+    "B3_n4_s20260908_zc_controls_0.S": "291bfbc2258145bd0e280500a28417714add16f69b230cfa3c4dc441366a05ba",
+    "B3_n4_s20260908_zc_controls_0.bin": "0ef1344a3f3f94fbd0c9438538410e3a5998f03aa342f47f711e7a52e4554103",
+    "B3_n4_s20260908_zc_controls_0.elf": "fedd92c7b493705ad7eb7059e6c9f9173f528210363ad754e535840c3f89bfdb",
+    "B3_n4_s20260908_zc_controls_0.mem": "2c9feaa905432f214ff9275598acf37af5120d8be9b7a5cc6e60f560e5da8a08",
+    "B3_n4_s20260908_zc_controls_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260908_zc_controls_0_iverilog.log": "acf39d4f184c828abd641cf817a04fcaaa500405a7d7936cb0a609c6c0aae150",
+    "B3_n4_s20260908_zc_controls_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260908_zc_controls_0_nm.log": "eb8331cd8a9f4385b69adbcf819f1afebd4c1446b8a9847f63954ef3bdc8e88c",
+    "B3_n4_s20260908_zc_controls_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260908_zc_controls_0_verilator.log": "16d61f4d4d7b96f05bd91904bc75b644b50231203b727c553bc98132970faf96",
+    "B3_n4_s20260908_zc_controls_15.S": "5c902e913b3bd1a61a8991d65ea210383c16740885059da7d07689fbfa82648c",
+    "B3_n4_s20260908_zc_controls_15.bin": "c056ca80e20171ae43b7bba4f0133af8a3be6f90c0a3fc4efb99b56dba69c5f1",
+    "B3_n4_s20260908_zc_controls_15.elf": "2b96b30eeedab9a139e335096edafd2189ebca6052296d53cac3efa3556f9846",
+    "B3_n4_s20260908_zc_controls_15.mem": "67d587d814210521f48838bc5aefe5ed7054f3ca23dcda3c737a5f0c04d40345",
+    "B3_n4_s20260908_zc_controls_15_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260908_zc_controls_15_iverilog.log": "b15f5814fa64eedd03d46e4fcda0b15ffa1b2b55d1793180d91febbd9a5c379a",
+    "B3_n4_s20260908_zc_controls_15_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260908_zc_controls_15_nm.log": "a87d80ab1e9900215831a4c945652875a782073ea4758df1fe12c4b8bccf73dd",
+    "B3_n4_s20260908_zc_controls_15_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260908_zc_controls_15_verilator.log": "41bc1010cb3f2153472a27412c6cdaf64235ce96c404b7c1ea9a4caed3188a8c",
+    "B3_n4_s20260908_zc_controls_8.S": "74b7349ad70ba7f452707bb34b93c3ab178f67538cc4bd6a2afadd354b519a75",
+    "B3_n4_s20260908_zc_controls_8.bin": "dc7c6dae792df9069406da575a3df9c9564fd59b958f6db0c3b8e0fa8b3d6a5b",
+    "B3_n4_s20260908_zc_controls_8.elf": "0d0bafba85f9a672261de3b14c49bf1409b774085c65711288de97204b3544bb",
+    "B3_n4_s20260908_zc_controls_8.mem": "93bb12082193c9de8d98aee4eceeac45b2198f88f49714f938b4bb2d335ef350",
+    "B3_n4_s20260908_zc_controls_8_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260908_zc_controls_8_iverilog.log": "ed72ade841ba29f647424a4f4a53f106bec33c1eb065007f18802cf5fb4efaed",
+    "B3_n4_s20260908_zc_controls_8_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260908_zc_controls_8_nm.log": "7b75346a91cefbf761614f9474c46fb91bd557c662b0d837aff930e6edb26de9",
+    "B3_n4_s20260908_zc_controls_8_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260908_zc_controls_8_verilator.log": "1c43c3efbde2ee88fea3896597df90f3c5d5c395465e499cc1ffb5d5da653aee",
+    "B3_n4_s20260908_zs_balanced_u4_0.S": "0d7d8146923cad4d4ae026b890335dbd960fead3f6b09838b0cd8ed3aeb95f04",
+    "B3_n4_s20260908_zs_balanced_u4_0.bin": "d7d1239c174b99df8df907d4ba0eba58b93ca4b4b6cadefa66739ffb72c89b7b",
+    "B3_n4_s20260908_zs_balanced_u4_0.elf": "8101f9ebb9299ceaf7273c4490346ab90135bc47dd78f475c8387921c0c8b2ef",
+    "B3_n4_s20260908_zs_balanced_u4_0.mem": "fcccf9d310680a4251d081cfa2c2de8d0afdde383c5a792ed41cf2da37fa8628",
+    "B3_n4_s20260908_zs_balanced_u4_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260908_zs_balanced_u4_0_iverilog.log": "f0c6662686be5a8daafceda3f8ec8b130f2eb37f998daed209bc63eebe73b690",
+    "B3_n4_s20260908_zs_balanced_u4_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260908_zs_balanced_u4_0_nm.log": "627ef6b386811c56c709a45ac5374ac938ee99b8d884b448afcc58b35c3314b7",
+    "B3_n4_s20260908_zs_balanced_u4_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260908_zs_balanced_u4_0_verilator.log": "6218944118cbaf7ae55e25a7615164dac97c82d85523d6d60ce15488ec2837d7",
+    "B3_n4_s20260909_zc_controls_0.S": "ace9e04fc6a5b867dff90f651e6be3226b05b119d63f5f9efb4ca71502c0c94b",
+    "B3_n4_s20260909_zc_controls_0.bin": "beb337bf0a67d009be41df3e156d42a111a53cbdff8507f1a443843c6e7b02f5",
+    "B3_n4_s20260909_zc_controls_0.elf": "d83a961cf9a4b0b38ec555e5a7dfe73bd31168fd891c2a346be835923fc901b1",
+    "B3_n4_s20260909_zc_controls_0.mem": "e0ff5c9f7ae26981856e0157629200e753a5a804cefbe637ea5acef881791552",
+    "B3_n4_s20260909_zc_controls_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260909_zc_controls_0_iverilog.log": "8887252f2865ee6780b675336c67405cf003cb43114f6f10b739dfaf93cd0bff",
+    "B3_n4_s20260909_zc_controls_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260909_zc_controls_0_nm.log": "eb8331cd8a9f4385b69adbcf819f1afebd4c1446b8a9847f63954ef3bdc8e88c",
+    "B3_n4_s20260909_zc_controls_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260909_zc_controls_0_verilator.log": "38a9999c4b225aad90fa39ee1de0e25b1345de99fc5ff653d4a7574775d8e4b0",
+    "B3_n4_s20260909_zc_controls_15.S": "289a9b2e59894731c73a95bb30e183a8ab0a382fbe94ba3c985a930ae5b398e9",
+    "B3_n4_s20260909_zc_controls_15.bin": "dfcab696703c54f682c064c6d7f6d43d04bda23abfcf7b219917f2c47e250dc4",
+    "B3_n4_s20260909_zc_controls_15.elf": "14d963a094394c72016d437c0f27b2758522bd8204d6deb0df7538b8d082a91c",
+    "B3_n4_s20260909_zc_controls_15.mem": "4c3f720b563b3994b1c15e53a722abfc499c642970342d9d0b84c6c3bce78720",
+    "B3_n4_s20260909_zc_controls_15_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260909_zc_controls_15_iverilog.log": "cd992ca6f2662a2f56e0e0a41a77d5691673513ce2b2ecdab3c99dcb325709ef",
+    "B3_n4_s20260909_zc_controls_15_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260909_zc_controls_15_nm.log": "a87d80ab1e9900215831a4c945652875a782073ea4758df1fe12c4b8bccf73dd",
+    "B3_n4_s20260909_zc_controls_15_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260909_zc_controls_15_verilator.log": "6b80d50eaaed42cca212e90693bdf3cbb55d2f5ff0a675ccd06f5f84c5ca774e",
+    "B3_n4_s20260909_zc_controls_8.S": "fbf3c58558beb1c7d21a7f067f9800f105d3d4cdaf1acb5f70b10a045b4001d8",
+    "B3_n4_s20260909_zc_controls_8.bin": "a94082ee484664e9f8d6ef75bf45fea0e9035f473c4e7489c016576102a1dd8f",
+    "B3_n4_s20260909_zc_controls_8.elf": "8136cdf3a24c119f62a5d29a54a1a124d4fcfaa68478a7cfb7fc145c8fee169b",
+    "B3_n4_s20260909_zc_controls_8.mem": "0cadccc94fa009fc59bb29db12bc0dba90ad5c0f3a3f5a0686f8f2e9673b62ef",
+    "B3_n4_s20260909_zc_controls_8_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260909_zc_controls_8_iverilog.log": "6f12fab8d03dba5e1c7f95fd45d222a1e910f2ff21966326ac2049248fc8f881",
+    "B3_n4_s20260909_zc_controls_8_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260909_zc_controls_8_nm.log": "7b75346a91cefbf761614f9474c46fb91bd557c662b0d837aff930e6edb26de9",
+    "B3_n4_s20260909_zc_controls_8_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260909_zc_controls_8_verilator.log": "6cd5e166c2ec6535170ecea0ad9d859fc93e65d9a5232823e8564312f59c3d3f",
+    "B3_n4_s20260909_zs_balanced_u4_0.S": "374ab8f9898cf0a8013a56661b81bd71850b8c31122561883b1a03007cdcf452",
+    "B3_n4_s20260909_zs_balanced_u4_0.bin": "a6a36a2d311ed16c78544864cebf9af5909b19de1be7c9bb44f69abee35e41a1",
+    "B3_n4_s20260909_zs_balanced_u4_0.elf": "cbbd2606570e019d87c72ca01e38fbdc6241279d4aa7be865069cff917604e85",
+    "B3_n4_s20260909_zs_balanced_u4_0.mem": "a34306f9f8f264620cdf10bfa6ef5cdb9d13509cba82545702f450a4631ecf4c",
+    "B3_n4_s20260909_zs_balanced_u4_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260909_zs_balanced_u4_0_iverilog.log": "a777012244171ee993e1dc6465593afefe8c3ca4ab81bb2f0edc8f28d9af5b77",
+    "B3_n4_s20260909_zs_balanced_u4_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260909_zs_balanced_u4_0_nm.log": "627ef6b386811c56c709a45ac5374ac938ee99b8d884b448afcc58b35c3314b7",
+    "B3_n4_s20260909_zs_balanced_u4_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "B3_n4_s20260909_zs_balanced_u4_0_verilator.log": "87c437eca0d1a08e0108e0b64b5621ff6cb4a27c9ae276d719d0b66ca255714b",
+    "D_n4_s20260908_zc_controls_0.S": "460ece45a1b815e1ec80b01b24ad5d4a1acf1e290da9c5073bc315fd1648583c",
+    "D_n4_s20260908_zc_controls_0.bin": "53a950c37c3dbbfd776cf0fabc75cfea7a907204f858ca78de760295efa787d8",
+    "D_n4_s20260908_zc_controls_0.elf": "3117238a6a6ae0c46778072d7eb80b36ac05dbedc4c31eb824f0d2b6c5e01e69",
+    "D_n4_s20260908_zc_controls_0.mem": "5568aab2c71a9b6c290cb7e3ec20a506f195da763a168cea9bd9eae81dd74c9c",
+    "D_n4_s20260908_zc_controls_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260908_zc_controls_0_iverilog.log": "acf39d4f184c828abd641cf817a04fcaaa500405a7d7936cb0a609c6c0aae150",
+    "D_n4_s20260908_zc_controls_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260908_zc_controls_0_nm.log": "92e6b0c1ca4cd1874eaf5789a73d41eeba5cd49ef6e7ac65ca641c5583ab665d",
+    "D_n4_s20260908_zc_controls_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260908_zc_controls_0_verilator.log": "8c738de855c495c39512dffd2824cdc2afafd4e525230744e2d16b2990c6aef0",
+    "D_n4_s20260908_zc_controls_15.S": "da217e50a5e4aa82d3dc9642787b08d80eafd6f54872eed1775e850641d40cf5",
+    "D_n4_s20260908_zc_controls_15.bin": "529dbce47bfdb59e14b51fdfa499e764f58cf3386153f1d575e3d507096793f9",
+    "D_n4_s20260908_zc_controls_15.elf": "2622104f9aa44ed51cb1d4748fdcea4830da189062953dc17e37d964b2093f2c",
+    "D_n4_s20260908_zc_controls_15.mem": "3dc876af6e5e7bd75261f18cbc3fdbfda3c1ee6b8bf72b5a169fff80e9d7a438",
+    "D_n4_s20260908_zc_controls_15_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260908_zc_controls_15_iverilog.log": "31c8859db76cb7a1ec49970e18b8488c5390f56f3687704cc3cb39f07c7e196f",
+    "D_n4_s20260908_zc_controls_15_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260908_zc_controls_15_nm.log": "92e6b0c1ca4cd1874eaf5789a73d41eeba5cd49ef6e7ac65ca641c5583ab665d",
+    "D_n4_s20260908_zc_controls_15_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260908_zc_controls_15_verilator.log": "11f4917eda910c446111671c7299d6a114b313e093e9dd5f1962668bf290d3bf",
+    "D_n4_s20260908_zc_controls_8.S": "85f036319600ca0d3cbbf9de2d98c18ac5cdcbf91cc48b9d9e7f08ec9d8ff0de",
+    "D_n4_s20260908_zc_controls_8.bin": "38722874c73ad8cc769a616e2771aa965a02fec9b37bdb2b7d62c36a8a8c8dab",
+    "D_n4_s20260908_zc_controls_8.elf": "7c09e571eb2b8f9a421790a0aa9f95ce313ba7fe49f446cfa34e611c531d3e76",
+    "D_n4_s20260908_zc_controls_8.mem": "9790493dd57054b27598d5d4ba77aee8a861e6f524aa763df4050164b0f4bb90",
+    "D_n4_s20260908_zc_controls_8_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260908_zc_controls_8_iverilog.log": "d9c0b44a6c773a7b64fa72620ab3be645f3c5f5b92a631ea5a8eeebe9e3ebd3f",
+    "D_n4_s20260908_zc_controls_8_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260908_zc_controls_8_nm.log": "92e6b0c1ca4cd1874eaf5789a73d41eeba5cd49ef6e7ac65ca641c5583ab665d",
+    "D_n4_s20260908_zc_controls_8_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260908_zc_controls_8_verilator.log": "86ff8e86c1a2ba7ee88d672f35be4f66de9cc20a47d7c5dfee7a8e1898c74413",
+    "D_n4_s20260908_zs_balanced_u4_0.S": "f605f517cf6bd07da09ac165cb712770ce0858a80edadfdfc6528c829cd327fc",
+    "D_n4_s20260908_zs_balanced_u4_0.bin": "ec97f1a6d026cfa8401c863b978517d83bdd7f2065e8a03bc480ba863d698cea",
+    "D_n4_s20260908_zs_balanced_u4_0.elf": "0590f7cbb0b7507b636804a835db8f9b2ba05eaa9fd89a7fbead948b9c307721",
+    "D_n4_s20260908_zs_balanced_u4_0.mem": "f715eaece9b8571d6c045206f0b85c57cf4913e00ae4a79701fa6b8244f40ab8",
+    "D_n4_s20260908_zs_balanced_u4_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260908_zs_balanced_u4_0_iverilog.log": "a9bc15032ce94c4e9dc288af19c282edcb3459dcb72a022d87057d01071d1309",
+    "D_n4_s20260908_zs_balanced_u4_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260908_zs_balanced_u4_0_nm.log": "eb8349ed1f81b1f1b0928e661e95b0773aa1accf327b0b5d512b03b481944b88",
+    "D_n4_s20260908_zs_balanced_u4_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260908_zs_balanced_u4_0_verilator.log": "d5d10e6592a4ba8e832e1b2e2660b696d92018919d2b886417d5dae41c7cb621",
+    "D_n4_s20260909_zc_controls_0.S": "86a19ade9af60f3447227400dbf8f3e16743683393aeda6ded99365c8b659832",
+    "D_n4_s20260909_zc_controls_0.bin": "269fa337252d39bc047c677862d9c60536ce80da1591ef120e0917e5a14c9ec5",
+    "D_n4_s20260909_zc_controls_0.elf": "55694d931ffd7bdea92f47101e17108b7df0504dd67a592eb075c1524e15700f",
+    "D_n4_s20260909_zc_controls_0.mem": "c32c004467f484696fc42161fe11489f7f28681701c1c45da81c352dd15cd1b5",
+    "D_n4_s20260909_zc_controls_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260909_zc_controls_0_iverilog.log": "8887252f2865ee6780b675336c67405cf003cb43114f6f10b739dfaf93cd0bff",
+    "D_n4_s20260909_zc_controls_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260909_zc_controls_0_nm.log": "92e6b0c1ca4cd1874eaf5789a73d41eeba5cd49ef6e7ac65ca641c5583ab665d",
+    "D_n4_s20260909_zc_controls_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260909_zc_controls_0_verilator.log": "048d5c5164a990cf8e406ac43a1a33dc7fa8784ffe64d63843a2cdf8122abdc2",
+    "D_n4_s20260909_zc_controls_15.S": "d8932ede8960adac793b84f21d68711884773fd1f85cc4760057ea00dd49c349",
+    "D_n4_s20260909_zc_controls_15.bin": "bd995dfb02062af7bb08ba80cc2bcc53d7443b967735e92be3e93f79b32f1b7f",
+    "D_n4_s20260909_zc_controls_15.elf": "f78604658303d5d2f30ce20cdee8641f3af304d23cf3d2c15a1b971e62b16bcf",
+    "D_n4_s20260909_zc_controls_15.mem": "541f34bb54c2a0dfa2493dc4974393f6d73feacfff86d74b36e72bd5016fdbf0",
+    "D_n4_s20260909_zc_controls_15_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260909_zc_controls_15_iverilog.log": "e03ebc6f85d0cf49e180efa8b3393ba23c74e3c6b1784b9454bf55cfe95d759b",
+    "D_n4_s20260909_zc_controls_15_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260909_zc_controls_15_nm.log": "92e6b0c1ca4cd1874eaf5789a73d41eeba5cd49ef6e7ac65ca641c5583ab665d",
+    "D_n4_s20260909_zc_controls_15_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260909_zc_controls_15_verilator.log": "556448dde8ec0d2b7cebf7f6fe44afea958dd76f210c5172e72159193df2d2f1",
+    "D_n4_s20260909_zc_controls_8.S": "e2e0bb8ba616be7012f320480998cdfdd3fcbde9fa773106058cc643c8939fe0",
+    "D_n4_s20260909_zc_controls_8.bin": "6583b88d2aa07d33af77c2a3c05d17fcea4515dd0b6493ba4f8a714d1be9afc5",
+    "D_n4_s20260909_zc_controls_8.elf": "206d48d7930ccf0cd539d9b18ee1e0c41929ce5eee0b9675c3bc10352fee8fb7",
+    "D_n4_s20260909_zc_controls_8.mem": "884d99a8ad4a26b98a5b4a599d78e7909ffd05c5ba96b3030a794a68fd63142c",
+    "D_n4_s20260909_zc_controls_8_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260909_zc_controls_8_iverilog.log": "7894bffbdef1272daa21b60af165fe370269b3fc56fb85fce4fc707a24d4471c",
+    "D_n4_s20260909_zc_controls_8_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260909_zc_controls_8_nm.log": "92e6b0c1ca4cd1874eaf5789a73d41eeba5cd49ef6e7ac65ca641c5583ab665d",
+    "D_n4_s20260909_zc_controls_8_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260909_zc_controls_8_verilator.log": "d6e38c42c616584b303792cbc45b723e94ad2be17fbd372ab51470e42a98fafe",
+    "D_n4_s20260909_zs_balanced_u4_0.S": "2cd88c133f6335c2f03862b414836bd572ad6bb5da5846c0579dab4a9018ade6",
+    "D_n4_s20260909_zs_balanced_u4_0.bin": "b7e6a1e711400ab47f253b236805d21332d461aefbd8c4c49c775d9d6b8f5cbb",
+    "D_n4_s20260909_zs_balanced_u4_0.elf": "5fa969d40f075c8ee93a48cc083f61844eac1e59c07fd7d2ce49364f1149f9dd",
+    "D_n4_s20260909_zs_balanced_u4_0.mem": "38a010b4f7be49dcf8422e346f8f78b87864d727973bd0df584a4d899c5f075d",
+    "D_n4_s20260909_zs_balanced_u4_0_as.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260909_zs_balanced_u4_0_iverilog.log": "439ec29f7bc6b97aaa91a55e7f4c2ca2f6edcd30b4228ebb0a4bca653211fc62",
+    "D_n4_s20260909_zs_balanced_u4_0_ld.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260909_zs_balanced_u4_0_nm.log": "eb8349ed1f81b1f1b0928e661e95b0773aa1accf327b0b5d512b03b481944b88",
+    "D_n4_s20260909_zs_balanced_u4_0_objcopy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D_n4_s20260909_zs_balanced_u4_0_verilator.log": "72f43e603b166c97ec1a3f9d4e8f8e83174b3a9917a11fc37dfa65f410b29fc5",
+    "iverilog_B1.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "iverilog_B2.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "iverilog_B3.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "iverilog_D.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "verilator_B1.log": "e551a2dc21356065cc91bd44eea22f1b3f8d71e59cda0eff8e231440324a18ae",
+    "verilator_B2.log": "bafc23343d3404000031905344ea3e88cb385bdb40fdb9f1f6914b25008b9caa",
+    "verilator_B3.log": "bbc4b75ca34bbf8fdb2667a4ff18be63d8e7c69c05e0071524dcb8ae731f2cda",
+    "verilator_D.log": "764b1374087f954afb1e77d1f7fd3e295ec916ecfc20703a70732c18ce2bbae9"
+  },
+  "cases": {
+    "B1_n4_s20260908_zc_controls_0": {
+      "cycles": 4048,
+      "held": {
+        "core_configuration": [
+          0,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          4364,
+          4376
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "e61db03c4b3a16831fdbc2e58ddbcaaca2026a0b13d19ab4be9d3776f3d0657e",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "outputs": [
+        -3114,
+        -2364,
+        757,
+        1858
+      ],
+      "retired_instructions": 4026,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B1_n4_s20260908_zc_controls_15": {
+      "cycles": 4947,
+      "held": {
+        "core_configuration": [
+          0,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          5260,
+          5276
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "e186928b2688b9cd8af22e0d956b71e728c7a5f6a612ea6d39f4c5639308752e",
+        "zero_point_matrix": [
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ]
+        ]
+      },
+      "outputs": [
+        -2919,
+        -2169,
+        952,
+        2053
+      ],
+      "retired_instructions": 4925,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B1_n4_s20260908_zc_controls_8": {
+      "cycles": 4179,
+      "held": {
+        "core_configuration": [
+          0,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          4492,
+          4508
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "f662d200c578a3b316db7c12ab0a5fca8634c533306706100cb06582f1cb3b2f",
+        "zero_point_matrix": [
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ]
+        ]
+      },
+      "outputs": [
+        -3010,
+        -2260,
+        861,
+        1962
+      ],
+      "retired_instructions": 4157,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B1_n4_s20260908_zs_balanced_u4_0": {
+      "cycles": 4957,
+      "held": {
+        "core_configuration": [
+          0,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          5276,
+          5292
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "c06928160c94366f005da4ca7d6dbe232ad30370ccc16e90ab63b60c9741c713",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "outputs": [
+        -3114,
+        -2351,
+        783,
+        1897
+      ],
+      "retired_instructions": 4935,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B1_n4_s20260909_zc_controls_0": {
+      "cycles": 4048,
+      "held": {
+        "core_configuration": [
+          0,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          4364,
+          4376
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "e61db03c4b3a16831fdbc2e58ddbcaaca2026a0b13d19ab4be9d3776f3d0657e",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "outputs": [
+        1954,
+        3245,
+        -2741,
+        3349
+      ],
+      "retired_instructions": 4026,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B1_n4_s20260909_zc_controls_15": {
+      "cycles": 4947,
+      "held": {
+        "core_configuration": [
+          0,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          5260,
+          5276
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "e186928b2688b9cd8af22e0d956b71e728c7a5f6a612ea6d39f4c5639308752e",
+        "zero_point_matrix": [
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ]
+        ]
+      },
+      "outputs": [
+        -461,
+        830,
+        -5156,
+        934
+      ],
+      "retired_instructions": 4925,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B1_n4_s20260909_zc_controls_8": {
+      "cycles": 4179,
+      "held": {
+        "core_configuration": [
+          0,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          4492,
+          4508
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "f662d200c578a3b316db7c12ab0a5fca8634c533306706100cb06582f1cb3b2f",
+        "zero_point_matrix": [
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ]
+        ]
+      },
+      "outputs": [
+        666,
+        1957,
+        -4029,
+        2061
+      ],
+      "retired_instructions": 4157,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B1_n4_s20260909_zs_balanced_u4_0": {
+      "cycles": 4957,
+      "held": {
+        "core_configuration": [
+          0,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          5276,
+          5292
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "c06928160c94366f005da4ca7d6dbe232ad30370ccc16e90ab63b60c9741c713",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "outputs": [
+        1954,
+        3084,
+        -3063,
+        2866
+      ],
+      "retired_instructions": 4935,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B2_n4_s20260908_zc_controls_0": {
+      "cycles": 848,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          1164,
+          1176
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "849c247e222c0f60254966753c8667752cc2f07ea21a823b472708235ed3a347",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "outputs": [
+        -3114,
+        -2364,
+        757,
+        1858
+      ],
+      "retired_instructions": 826,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B2_n4_s20260908_zc_controls_15": {
+      "cycles": 976,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          1292,
+          1304
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "04cd46f976a7937ed1fc191dbe7f74495fbe95822e4abc26f6b0e99785205e01",
+        "zero_point_matrix": [
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ]
+        ]
+      },
+      "outputs": [
+        -2919,
+        -2169,
+        952,
+        2053
+      ],
+      "retired_instructions": 954,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B2_n4_s20260908_zc_controls_8": {
+      "cycles": 976,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          1292,
+          1304
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "7b434f8bd119d8279b07c7026b6a57e9e336db60dd5d0aaaf266ceb0bc4571e9",
+        "zero_point_matrix": [
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ]
+        ]
+      },
+      "outputs": [
+        -3010,
+        -2260,
+        861,
+        1962
+      ],
+      "retired_instructions": 954,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B2_n4_s20260908_zs_balanced_u4_0": {
+      "cycles": 986,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          1308,
+          1320
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "9e211ff2999b80dea2baa8da1fd9be38c540995cbd887b056bb396a449b0f949",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "outputs": [
+        -3114,
+        -2351,
+        783,
+        1897
+      ],
+      "retired_instructions": 964,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B2_n4_s20260909_zc_controls_0": {
+      "cycles": 848,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          1164,
+          1176
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "849c247e222c0f60254966753c8667752cc2f07ea21a823b472708235ed3a347",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "outputs": [
+        1954,
+        3245,
+        -2741,
+        3349
+      ],
+      "retired_instructions": 826,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B2_n4_s20260909_zc_controls_15": {
+      "cycles": 976,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          1292,
+          1304
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "04cd46f976a7937ed1fc191dbe7f74495fbe95822e4abc26f6b0e99785205e01",
+        "zero_point_matrix": [
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ]
+        ]
+      },
+      "outputs": [
+        -461,
+        830,
+        -5156,
+        934
+      ],
+      "retired_instructions": 954,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B2_n4_s20260909_zc_controls_8": {
+      "cycles": 976,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          1292,
+          1304
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "7b434f8bd119d8279b07c7026b6a57e9e336db60dd5d0aaaf266ceb0bc4571e9",
+        "zero_point_matrix": [
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ]
+        ]
+      },
+      "outputs": [
+        666,
+        1957,
+        -4029,
+        2061
+      ],
+      "retired_instructions": 954,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B2_n4_s20260909_zs_balanced_u4_0": {
+      "cycles": 986,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          1308,
+          1320
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "9e211ff2999b80dea2baa8da1fd9be38c540995cbd887b056bb396a449b0f949",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "outputs": [
+        1954,
+        3084,
+        -3063,
+        2866
+      ],
+      "retired_instructions": 964,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B3_n4_s20260908_zc_controls_0": {
+      "cycles": 160,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          1
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          476,
+          488
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "d171ec2af0e84592f58d1ceb2353133ceb9ca91b55d9daaf1c490ed04343fe11",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "outputs": [
+        -3114,
+        -2364,
+        757,
+        1858
+      ],
+      "retired_instructions": 138,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B3_n4_s20260908_zc_controls_15": {
+      "cycles": 201,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          1
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          596,
+          608
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "e316bfaa329d384911d881e3ccefbdb6d96ca39dccdbe4ab24eab5955280592a",
+        "zero_point_matrix": [
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ]
+        ]
+      },
+      "outputs": [
+        -2919,
+        -2169,
+        952,
+        2053
+      ],
+      "retired_instructions": 171,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 24
+      }
+    },
+    "B3_n4_s20260908_zc_controls_8": {
+      "cycles": 200,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          1
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          592,
+          604
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "2584200d00aa8ac125bc81f4040fba98f5f71c7b4f6c62172ddff6496154cae8",
+        "zero_point_matrix": [
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ]
+        ]
+      },
+      "outputs": [
+        -3010,
+        -2260,
+        861,
+        1962
+      ],
+      "retired_instructions": 170,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 24
+      }
+    },
+    "B3_n4_s20260908_zs_balanced_u4_0": {
+      "cycles": 217,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          1
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          608,
+          620
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "87a5e028a3e7ed428fe899fd139665a1b77d8eb25292ad4368fb2ca7f31327f9",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "outputs": [
+        -3114,
+        -2351,
+        783,
+        1897
+      ],
+      "retired_instructions": 183,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 28
+      }
+    },
+    "B3_n4_s20260909_zc_controls_0": {
+      "cycles": 160,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          1
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          476,
+          488
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "d171ec2af0e84592f58d1ceb2353133ceb9ca91b55d9daaf1c490ed04343fe11",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "outputs": [
+        1954,
+        3245,
+        -2741,
+        3349
+      ],
+      "retired_instructions": 138,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "B3_n4_s20260909_zc_controls_15": {
+      "cycles": 201,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          1
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          596,
+          608
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "e316bfaa329d384911d881e3ccefbdb6d96ca39dccdbe4ab24eab5955280592a",
+        "zero_point_matrix": [
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ]
+        ]
+      },
+      "outputs": [
+        -461,
+        830,
+        -5156,
+        934
+      ],
+      "retired_instructions": 171,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 24
+      }
+    },
+    "B3_n4_s20260909_zc_controls_8": {
+      "cycles": 200,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          1
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          592,
+          604
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "2584200d00aa8ac125bc81f4040fba98f5f71c7b4f6c62172ddff6496154cae8",
+        "zero_point_matrix": [
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ]
+        ]
+      },
+      "outputs": [
+        666,
+        1957,
+        -4029,
+        2061
+      ],
+      "retired_instructions": 170,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 24
+      }
+    },
+    "B3_n4_s20260909_zs_balanced_u4_0": {
+      "cycles": 217,
+      "held": {
+        "core_configuration": [
+          0,
+          1,
+          1
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          608,
+          620
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "87a5e028a3e7ed428fe899fd139665a1b77d8eb25292ad4368fb2ca7f31327f9",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "outputs": [
+        1954,
+        3084,
+        -3063,
+        2866
+      ],
+      "retired_instructions": 183,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 28
+      }
+    },
+    "D_n4_s20260908_zc_controls_0": {
+      "cycles": 160,
+      "held": {
+        "core_configuration": [
+          1,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          476,
+          488
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "5932cf29ae26642b732b637a6626ce9009bfcd21723f0538325a0ecd8c7bc923",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "outputs": [
+        -3114,
+        -2364,
+        757,
+        1858
+      ],
+      "retired_instructions": 138,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "D_n4_s20260908_zc_controls_15": {
+      "cycles": 160,
+      "held": {
+        "core_configuration": [
+          1,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          476,
+          488
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "157b888a4f1f481a1607d6ba89b79e5f99505f6f7a329dcb26c285b6c7e3d7a5",
+        "zero_point_matrix": [
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ]
+        ]
+      },
+      "outputs": [
+        -2919,
+        -2169,
+        952,
+        2053
+      ],
+      "retired_instructions": 138,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "D_n4_s20260908_zc_controls_8": {
+      "cycles": 160,
+      "held": {
+        "core_configuration": [
+          1,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          476,
+          488
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "abe833c37c37a2ffd2544c6e894a2ad89bab48481d012eeae746ceea7725ed0a",
+        "zero_point_matrix": [
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ]
+        ]
+      },
+      "outputs": [
+        -3010,
+        -2260,
+        861,
+        1962
+      ],
+      "retired_instructions": 138,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "D_n4_s20260908_zs_balanced_u4_0": {
+      "cycles": 149,
+      "held": {
+        "core_configuration": [
+          1,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          852,
+          860
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "a904d1c9668f44a20e04126ae70e656bcfeb50b7a2787c0a42c5e475b6e98cd6",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "outputs": [
+        -3114,
+        -2351,
+        783,
+        1897
+      ],
+      "retired_instructions": 133,
+      "row_bodies": 4,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 0,
+        "load_use": 16
+      }
+    },
+    "D_n4_s20260909_zc_controls_0": {
+      "cycles": 160,
+      "held": {
+        "core_configuration": [
+          1,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          476,
+          488
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "5932cf29ae26642b732b637a6626ce9009bfcd21723f0538325a0ecd8c7bc923",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "outputs": [
+        1954,
+        3245,
+        -2741,
+        3349
+      ],
+      "retired_instructions": 138,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "D_n4_s20260909_zc_controls_15": {
+      "cycles": 160,
+      "held": {
+        "core_configuration": [
+          1,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          476,
+          488
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "157b888a4f1f481a1607d6ba89b79e5f99505f6f7a329dcb26c285b6c7e3d7a5",
+        "zero_point_matrix": [
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ],
+          [
+            15
+          ]
+        ]
+      },
+      "outputs": [
+        -461,
+        830,
+        -5156,
+        934
+      ],
+      "retired_instructions": 138,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "D_n4_s20260909_zc_controls_8": {
+      "cycles": 160,
+      "held": {
+        "core_configuration": [
+          1,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          476,
+          488
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "abe833c37c37a2ffd2544c6e894a2ad89bab48481d012eeae746ceea7725ed0a",
+        "zero_point_matrix": [
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ],
+          [
+            8
+          ]
+        ]
+      },
+      "outputs": [
+        666,
+        1957,
+        -4029,
+        2061
+      ],
+      "retired_instructions": 138,
+      "row_bodies": 1,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 3,
+        "load_use": 16
+      }
+    },
+    "D_n4_s20260909_zs_balanced_u4_0": {
+      "cycles": 149,
+      "held": {
+        "core_configuration": [
+          1,
+          0,
+          0
+        ],
+        "data_layout": {
+          "activation_words": 8,
+          "activations": 0,
+          "outputs": 352,
+          "weight_words_per_row": 4,
+          "weights": 32,
+          "zero_points": 288
+        },
+        "measurement_events": [
+          336,
+          852,
+          860
+        ],
+        "memory_model": {
+          "dmem_words": 1024,
+          "imem_words": 32768
+        },
+        "text_hash": "a904d1c9668f44a20e04126ae70e656bcfeb50b7a2787c0a42c5e475b6e98cd6",
+        "zero_point_matrix": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "outputs": [
+        1954,
+        3084,
+        -3063,
+        2866
+      ],
+      "retired_instructions": 133,
+      "row_bodies": 4,
+      "stall_breakdown": {
+        "fault_hold": 0,
+        "flush_taken_control": 0,
+        "load_use": 16
+      }
+    }
+  },
+  "equal_totals_prove_input_independence": false,
+  "g": 32,
+  "held_fixed": [
+    "text_hash",
+    "data_layout",
+    "zero_point_matrix",
+    "core_configuration",
+    "memory_model",
+    "measurement_events"
+  ],
+  "k": 32,
+  "outputs_differ_in_every_pair": true,
+  "pairs": {
+    "B1_n4_zc_controls_0": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zc_controls",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 0,
+      "variant": "B1"
+    },
+    "B1_n4_zc_controls_15": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zc_controls",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 15,
+      "variant": "B1"
+    },
+    "B1_n4_zc_controls_8": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zc_controls",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 8,
+      "variant": "B1"
+    },
+    "B1_n4_zs_balanced_u4_0": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zs_balanced_u4",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 0,
+      "variant": "B1"
+    },
+    "B2_n4_zc_controls_0": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zc_controls",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 0,
+      "variant": "B2"
+    },
+    "B2_n4_zc_controls_15": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zc_controls",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 15,
+      "variant": "B2"
+    },
+    "B2_n4_zc_controls_8": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zc_controls",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 8,
+      "variant": "B2"
+    },
+    "B2_n4_zs_balanced_u4_0": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zs_balanced_u4",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 0,
+      "variant": "B2"
+    },
+    "B3_n4_zc_controls_0": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zc_controls",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 0,
+      "variant": "B3"
+    },
+    "B3_n4_zc_controls_15": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zc_controls",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 15,
+      "variant": "B3"
+    },
+    "B3_n4_zc_controls_8": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zc_controls",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 8,
+      "variant": "B3"
+    },
+    "B3_n4_zs_balanced_u4_0": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zs_balanced_u4",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 0,
+      "variant": "B3"
+    },
+    "D_n4_zc_controls_0": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zc_controls",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 0,
+      "variant": "D"
+    },
+    "D_n4_zc_controls_15": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zc_controls",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 15,
+      "variant": "D"
+    },
+    "D_n4_zc_controls_8": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zc_controls",
+      "required_row_bodies": 1,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 8,
+      "variant": "D"
+    },
+    "D_n4_zs_balanced_u4_0": {
+      "equal": {
+        "branch_outcomes": true,
+        "cycles": true,
+        "data_address_trace": true,
+        "retired_instructions": true,
+        "retired_pc_opcode_trace": true,
+        "stall_breakdown": true
+      },
+      "outputs_differ": true,
+      "profile": "zs_balanced_u4",
+      "required_row_bodies": 4,
+      "seeds": [
+        20260908,
+        20260909
+      ],
+      "setting": 0,
+      "variant": "D"
+    }
+  },
+  "platform": "Linux-7.1.9-arch1-2-x86_64-with-glibc2.44",
+  "python": "3.14.7 (main, Aug 10 2026, 07:46:56) [GCC 16.1.1 20260728]",
+  "rows": 4,
+  "scope": "Tensor sensitivity of the declared signals, not a comparison between variants",
+  "seeds": [
+    20260908,
+    20260909
+  ],
+  "settings": [
+    [
+      "zc_controls",
+      0
+    ],
+    [
+      "zc_controls",
+      8
+    ],
+    [
+      "zc_controls",
+      15
+    ],
+    [
+      "zs_balanced_u4",
+      0
+    ]
+  ],
+  "signals": [
+    "cycles",
+    "retired_instructions",
+    "retired_pc_opcode_trace",
+    "branch_outcomes",
+    "stall_breakdown",
+    "data_address_trace"
+  ],
+  "signals_differing_somewhere": [],
+  "signals_equal_in_every_pair": [
+    "branch_outcomes",
+    "cycles",
+    "data_address_trace",
+    "retired_instructions",
+    "retired_pc_opcode_trace",
+    "stall_breakdown"
+  ],
+  "sources_sha256": {
+    "benchmarks/campaign.json": "18e939a68c526a0781c8cad3f1622991e131035f3c18f6ade924a431345155d6",
+    "benchmarks/kernels.py": "0224b3263e3dcce7362a78f8a015c75763e412dfdc3c9328f3c91b621f5dc9d7",
+    "benchmarks/tensors.py": "7efd4f545721da0f5ea1b6fce93ed0c0b23188d7e53f4734626a87a6145cef6c",
+    "docs/EXPERIMENT_PROTOCOL.md": "246d0bf12ea7a1747076f00e584858ddd7c615a38e60512ff4c33c5cefd0ed36",
+    "kuntur/rtl/adder.v": "271b639e9f8f68a242393f9556fb89ea49311995cf802b7946bd513d99271991",
+    "kuntur/rtl/alu.v": "83b9a9b7247b50e9c065d0a2778dfe507248ad65ad468d7b584a3dcef83ef2ff",
+    "kuntur/rtl/aludec.v": "93b0a2b06a4040663ba9c6844215b314f0c5f0764004160d367d76b3a684abc5",
+    "kuntur/rtl/controller.v": "86058afd26cb2e7640aa953047c218f2f2fd227d74e799dd05abbfa999649ab2",
+    "kuntur/rtl/datapath.v": "0794e63995a7ff746e05bb929ca9f4f7268bfb238e1523f1d0776c8f2f296e5b",
+    "kuntur/rtl/decompressor.v": "598173f0aae8d95ee21e593f6de8e1c9d9965ef78c3e405fc1c6530916234584",
+    "kuntur/rtl/dmem.v": "ed6e9a8ec07cd7d3b5d597f99c0143d66380cb69141ab60c1493b7c98fe8b61c",
+    "kuntur/rtl/extend.v": "3e2a5006643158bf7ee7e91c2961dc09a1b9402c5278733e60bc45851dd0a51b",
+    "kuntur/rtl/flopenr.v": "dfd976c389215782e875c0624bb268f0ed04eab98420fd0bf04aeec51b738cac",
+    "kuntur/rtl/flopenrc.v": "c4da89bb4027a4053a0db0f658a8e827f74b952919d615109f2936d0ac0224b6",
+    "kuntur/rtl/flopr.v": "5de43c8c8e9c34c8e2379d4ecef22a9904194a58e7c7baf7ea8a0dbc6144470e",
+    "kuntur/rtl/hazardunit.v": "d8e1e51ff1abefb4f9890b9ab779e1fbed8fdfe17ffd8d2ad03a716f6d0d0c0b",
+    "kuntur/rtl/imem.v": "c080ab3be980afbff56dbd3a64e6f1efab4e2bf4c52a6b573bfd831f419ecf0c",
+    "kuntur/rtl/instruction_policy.v": "c964b5faff1a208b1b27efc52c171fe217151e63b2c057c419bea08c1a3dd934",
+    "kuntur/rtl/maindec.v": "b652b44e9d3273ee61072a254a31e49e7f32a15eb483e609e200897ba18a8b7e",
+    "kuntur/rtl/mux2.v": "13bdda83eb966692cbb49e1978067409a52979d8882094a5b0c70098b4d7efb1",
+    "kuntur/rtl/mux3.v": "13ae44fabf17e29d147a243a4006c5da3a1a5e32472987291eb1e91784c2b6e3",
+    "kuntur/rtl/regfile.v": "d7ce1aa44106d220e5f3187f045cf0318420b60ff008c3214d86d45f958f70cb",
+    "kuntur/rtl/riscvpipe.v": "00dc832e897abd2f97e0f20c3234dcf825bbe97e0826bd8e9cbe98a9eb221491",
+    "kuntur/rtl/scalar_mul.v": "220a98f5df5798aa980418d6d09e180b833606e0736befb225e08b6e7c184fb7",
+    "kuntur/rtl/top.v": "5489c0966058e2bf588737415503600292015573b879623f8fe9eea2601de7f9",
+    "rtl/packed/xqdot4.v": "a4b7827d48efbd49270027aff62f2373490bb3f1046c54d772adb61a17c66b75",
+    "rtl/xqdot4z.v": "bd8756402cd7b9e3bb72c353f3cd8f828d1cd1dd38306731d1d3d735615e7e5c",
+    "scripts/run_pilot.py": "c8354dc8dfc6845297b664ff691ba4fb98a77a7418b5d0b00b91398085ef61fa",
+    "tests/benchmarks/tb_measure.sv": "ba8611bb7fecc66abbe68cfc293f97fe43eacf3f6ca39c528f4ec45716688315"
+  },
+  "status": "pass",
+  "timestamp_utc": "20260911T025228194405Z",
+  "tools": {
+    "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0-dirty)",
+    "riscv64-linux-gnu-as": "GNU assembler (GNU Binutils) 2.45",
+    "verilator": "Verilator 5.050 2026-07-01 rev v5.050"
+  },
+  "variants": [
+    "B1",
+    "B2",
+    "B3",
+    "D"
+  ]
+}

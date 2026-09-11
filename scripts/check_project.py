@@ -583,6 +583,39 @@ def check_kernels():
     return len(report["cases"])
 
 
+def check_pilot():
+    """The pilot compared signals under held-fixed conditions; nothing more."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from run_pilot import SIGNALS, HELD_FIXED
+    state = json.loads((ROOT / "docs/PILOT_STATE.json").read_text())
+    assert state["status"] == "pilot_executed"
+    assert state["campaign_executed"] is False and state["speedup_computed"] is False
+    assert state["equal_totals_prove_input_independence"] is False
+    assert state["grid_reduced"] is False, "The reduction gate is a deliberate revision, not a result"
+    evidence = ROOT / state["evidence"]
+    assert hashlib.sha256(evidence.read_bytes()).hexdigest() == state["evidence_sha256"]
+    report = json.loads(evidence.read_text())
+    assert report["status"] == "pass"
+    assert report["signals"] == SIGNALS and report["held_fixed"] == HELD_FIXED
+    assert len(report["cases"]) == state["cases"] == 32
+    assert len(report["pairs"]) == state["seed_pairs"] == 16
+    # The finding is only meaningful because the inputs demonstrably changed:
+    # equal signals over identical tensors would say nothing at all.
+    assert report["outputs_differ_in_every_pair"] is True
+    assert state["outputs_differ_in_every_pair"] is True
+    for pair in report["pairs"].values():
+        assert set(pair["equal"]) == set(SIGNALS)
+        assert pair["outputs_differ"] is True
+    equal = sorted(s for s in SIGNALS if all(p["equal"][s] for p in report["pairs"].values()))
+    assert equal == report["signals_equal_in_every_pair"] == state["signals_equal_in_every_pair"]
+    assert report["signals_differing_somewhere"] == state["signals_differing_somewhere"]
+    assert sorted(equal + report["signals_differing_somewhere"]) == sorted(SIGNALS)
+    print(f"OK: pilot, 32 cases and 16 seed pairs; {len(equal)} of {len(SIGNALS)} signals "
+          f"equal in every pair with outputs differing in all of them.")
+    print("Seed sensitivity only; equal signals do not prove independence and the grid is unchanged.")
+    return len(report["pairs"])
+
+
 def check_preregistration():
     """A registered design changes only by saying so; this is what makes that bind."""
     sys.path.insert(0, str(ROOT / "scripts"))
@@ -797,6 +830,7 @@ def main():
     check_kernels()
     check_inventory()
     check_preregistration()
+    check_pilot()
     check_freeze()
     from check_campaign import check as check_campaign
     check_campaign()
