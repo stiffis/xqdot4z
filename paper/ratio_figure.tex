@@ -1,0 +1,44 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=1.02\columnwidth, height=46mm,
+  ybar, bar width=3.4pt,
+  enlarge x limits=0.28,
+  ymin=0.9, ymax=2.05,
+  ytick={1.0,1.2,1.4,1.6,1.8,2.0},
+  symbolic x coords={1,4,16},
+  xtick=data,
+  xlabel={\ifSpanish Filas $N$\else Rows $N$\fi},
+  ylabel={\ifSpanish Ciclos B3 / ciclos D\else B3 cycles / D cycles\fi},
+  tick label style={font=\scriptsize},
+  label style={font=\scriptsize},
+  legend style={font=\scriptsize,at={(0.5,1.03)},anchor=south,
+                legend columns=4,draw=none,column sep=3pt},
+  ymajorgrids, grid style={gray!25},
+  axis line style={black}, tick style={black},
+]
+\addplot[fill=white,draw=black] coordinates {(1,1.00) (4,1.00) (16,1.00)};
+\addplot[fill=gray!35,draw=black] coordinates {(1,1.86) (4,1.25) (16,1.08)};
+\addplot[fill=gray!70,draw=black] coordinates {(1,1.88) (4,1.26) (16,1.08)};
+\addplot[fill=black,draw=black] coordinates {(1,1.00) (4,1.46) (16,1.28)};
+\legend{$z{=}0$, $z{=}8$, $z{=}15$, ZS}
+\draw[dashed,gray] ({rel axis cs:0,0}|-{axis cs:1,1.0})
+                -- ({rel axis cs:1,0}|-{axis cs:1,1.0});
+\end{axis}
+\end{tikzpicture}
+\caption{\ifSpanish Ventaja de la fusión por régimen y número de filas. La línea
+punteada en 1.0 marca la ausencia de ventaja. Los tres primeros grupos son
+puntos cero constantes; ZS los hace variar por fila. La ventaja se estrecha al
+crecer $N$ porque B3 amortiza su corrección entre más filas, y en $z{=}0$ no
+existe en absoluto porque B3 la omite. En $N{=}1$ un punto cero variable es
+degenerado: una sola fila no puede tener un $z$ que varíe. Corrida
+\CampaignRun.
+\else Advantage of fusion by regime and row count. The dashed line at 1.0 marks
+the absence of any advantage. The first three groups are constant zero points;
+ZS makes them vary per row. The advantage narrows as $N$ grows because B3
+amortizes its correction over more rows, and at $z{=}0$ there is none at all
+because B3 omits it. At $N{=}1$ a varying zero point is degenerate: a single row
+cannot have a $z$ that varies. Run \CampaignRun.\fi}
+\label{fig:ratio}
+\end{figure}

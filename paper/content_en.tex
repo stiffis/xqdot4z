@@ -1,23 +1,27 @@
 \title{XQDot4Z: Quantized Dot Products\\on a RISC-V Processor}
-\author{\IEEEauthorblockN{Steve Andy Ildefonso Santos}
-\IEEEauthorblockA{Computer Science student\\
-Working draft v\PaperVersion\ --- not for submission}}
+\author{\IEEEauthorblockN{Steve Andy Ildefonso Santos}}
 \maketitle
 \begin{abstract}
-Low-bit-weight storage reduces data size, but processing these weights may
-require extraction, conversion, and correction of the numerical origin.
-This work proposes studying an operation that combines four products of
-unsigned four-bit weights and signed eight-bit activations with zero-point
-correction. The question is when this fusion is useful compared with scalar
-multiplication and with a packed dot product followed by separate correction.
-A teaching-oriented thirty-two-bit processor is proposed as the platform,
-first to verify the operation and then to evaluate dot products and
-matrix--vector multiplication. This document is an initial draft: it presents
-the question and reports a registered campaign of 2280 simulated cases. Fusion
-reduces cycles against both alternatives, by a margin that narrows as the row
-count grows and that vanishes when the zero point is zero. With a varying zero
-point the advantage is paid for in code size, because the immediate forces
-specialization. These are simulated cycles: not physical time, energy or area.
+Storing neural-network weights at four bits saves memory, but a processor must
+still take them apart, and affine quantization adds a cost that is easy to
+overlook: a weight code is not a weight but an offset from a zero point that has
+to be subtracted first. This work asks whether that subtraction is worth
+building into the dot-product instruction. A fused four-term instruction is
+added to Kuntur, a teaching five-stage RISC-V core, and compared against three
+points of reference under one frozen code-generation policy: software
+multiplication without a multiplier, scalar multiply, and a packed dot product
+whose correction is factored so the activation sum is computed once per group
+and reused across rows. A registered campaign of 2280 simulated cases, all
+passing in two independent simulators, yields a map of conditions rather than a
+single speedup. Fusion reduces cycles against both alternatives, but the margin
+narrows as the row count grows, because the factored baseline spreads its
+correction over more rows, and vanishes when the zero point is zero, where that
+baseline omits the correction entirely. Where the zero point varies per row the
+advantage is paid for in code size: the zero point travels as an immediate, so
+each distinct value needs its own row body, and the fused variant occupies 516
+instruction words against 72. Part of the raw gap is loop control rather than
+arithmetic, separated here by measuring a structural twin. These are simulated
+cycles, not physical time, energy or area.
 \end{abstract}
 \begin{IEEEkeywords}
 quantized inference, low-precision arithmetic, instruction-set extensions,
@@ -27,171 +31,219 @@ hardware verification
 \suppressfloats[t]
 
 \section{Introduction}
-Neural network layers perform products and sums involving weights and
-activations. Quantization allows part of this computation to be represented
-using integers and scale parameters~\cite{jacob}. However, storing more weights
-per word does not eliminate the work needed to consume them on a processor.
-Field extraction and operand preparation can be relevant costs.
+A neural-network layer is, underneath, a great many dot products between
+weights and activations. Quantization lets both sides be held as small integers
+with a scale factor~\cite{jacob}, and the saving in storage is dramatic: eight
+four-bit weights fit in one 32-bit word. But that is a saving in memory, not in
+work. The processor still has to pull the word apart before it can multiply
+anything, and the unpacking is not free.
 
-We propose studying XQDot4Z on Kuntur, a teaching-oriented RISC-V processor
-with a five-stage pipeline. The aim is
-to investigate a bounded operation and its costs, rather than to develop
-a complete accelerator or execute a large language model at this stage.
+Affine quantization adds a second cost that is easier to overlook. A four-bit
+weight code is not the weight. It is an offset from a zero point shared by a
+group of weights, so what the arithmetic actually needs is the code minus that
+zero point. One subtraction is nothing. Four subtractions on every group of
+every dot product in every row of a layer is not nothing.
+
+This work asks a deliberately narrow question about that subtraction: is it
+worth building into the instruction that computes the dot product? Such an
+instruction is added to Kuntur, a teaching five-stage RISC-V core, and measured
+against three points of reference that handle the same arithmetic in different
+ways. The goal is not an accelerator, and not a complete inference stack. It is
+a map of the conditions under which fusing the correction pays for itself,
+including the conditions under which it plainly does not.
 
 \input{comparison_figure}
+
 \section{Background and Related Work}
-In affine quantization, an integer code \(q\) approximately represents
-\(r=s(q-z)\), where \(s>0\) is the scale and \(z\) the zero-point.
-With activations whose zero-point is zero, the arithmetic kernel under
-study is
+Under affine quantization an integer code \(q\) stands for \(r=s(q-z)\), with
+\(s>0\) a scale and \(z\) a zero point. Taking activations whose zero point is
+zero, the kernel under study is
 \begin{equation}
 d=\sum_{i=0}^{3}(q_{w,i}-z_w)q_{a,i}.
 \label{eq:dot}
 \end{equation}
-Weights are stored as U4 (unsigned four-bit integers) and activations as
-S8 (signed eight-bit integers). The proposed output is an INT32 subtotal
-(a signed 32-bit integer); scales, bias, and accumulation of other
-subtotals remain outside this operation.
+Weights are stored as U4, unsigned four-bit integers in \([0,15]\), and
+activations as S8, signed eight-bit integers in \([-128,127]\). The result is
+an INT32 subtotal in \([-7680,7680]\); scales, bias and the accumulation of
+other subtotals stay outside the operation.
 
-XpulpNN and Dustin provide precedents for low-precision instructions and
-mixed-precision arithmetic on RISC-V~\cite{xpulpnn,dustin}. Low-bit dot
-products are therefore not treated as a new concept. The specific
-contribution must be established through a more detailed comparison with
-prior work and the project's own results.
-
-An important alternative to fusion is
+Read literally, \eqref{eq:dot} spends four subtractions before any product is
+formed. It can be rearranged, however, into
 \begin{equation}
 d=\sum_i q_{w,i}q_{a,i}-z_w\sum_i q_{a,i}.
 \label{eq:factor}
 \end{equation}
-The activation sum can be reused across matrix rows. A valid comparison
-must allow this optimization.
+The first term is an ordinary dot product over the raw codes. The second is the
+zero point times the sum of the activations, and that sum does not depend on
+the weights at all. In a matrix--vector product the same activations meet every
+row, so it can be computed once and reused across all \(N\) of them. This is
+precisely why a fair comparison cannot simply count the subtractions in
+\eqref{eq:dot}: a competent implementation never pays them.
+
+XpulpNN and Dustin are precedents for low-precision and mixed-precision
+instruction-set extensions on RISC-V~\cite{xpulpnn,dustin}. Low-bit dot
+products are therefore not a new idea and are not claimed as one here. The
+question examined is narrower: given that a packed dot product already exists,
+does the zero-point correction belong inside the instruction or outside it?
 
 \section{Research Question and Scope}
 \textit{Under what conditions does fusing zero-point correction into a
 U4-by-S8 dot product reduce execution cost compared with scalar multiplication
-and factored correction, accounting for activation reuse and zero-point
-delivery?}
+and with factored correction, accounting for activation reuse and for the cost
+of delivering the zero point?}
 
-The initial scope is one core, batch size one, and small dot-product and
-matrix--vector kernels. The first phase will evaluate correctness and
-simulation cycles. Synthesis and board-level evaluation are later stages.
-Energy or physical execution time will not be inferred solely from
-instruction or cycle counts.
+Scope is one core, batch size one, and small dot-product and matrix--vector
+kernels. Cost means cycles of a simulated in-order pipeline, reported alongside
+instruction counts and code size. Synthesis, area, frequency and energy belong
+to a later stage with a different methodology, and nothing measured here is
+extrapolated to them.
 
-\section{Proposed Method}
+One distinction runs through everything that follows. A zero point may be
+constant across a layer (ZC), vary per row but be known when the code is
+generated (ZS), or be read from memory at run time (ZR). The instruction
+proposed here carries the zero point as a four-bit immediate, which covers the
+first two regimes and not the third. ZR is therefore declared out of scope
+rather than estimated, since an immediate cannot stand in for a runtime value
+at no cost.
+
+\section{Method}
+\subsection{The Four Variants}
+Four implementations produce the same outputs from the same packed data. Three
+are points of reference, named with a leading B for baseline; the fourth, D, is
+the design under test. Table~\ref{tab:variants} states what separates them and
+Fig.~\ref{fig:comparison} shows what each one does with a single group of four
+weights.
+
+\begin{table}[t]
+\caption{The four variants. B marks a point of reference, D the design under
+test. All four read identical packed data and share one code-generation policy,
+so what differs between them is the arithmetic, not the surrounding code.}
+\label{tab:variants}
+\centering
+\begin{tabular}{llll}
+\hline
+ & Multiplier & Dot product & Zero-point correction \\
+\hline
+B1 & none & bit decomposition & per term, no multiply \\
+B2 & scalar MUL & one MUL per weight & per term \\
+B3 & scalar MUL & packed, four lanes & factored, reused per row \\
+D & not needed & packed, four lanes & fused into the instruction \\
+\hline
+\end{tabular}
+\end{table}
+
+B1 has no multiplier at all and builds each product by bounded masked bit
+decomposition. It is context rather than a claim about optimal software: it
+answers what this operation costs on a core with no multiplication hardware,
+and its implementation is frozen before measurement so that it cannot be tuned
+after seeing results. B2 is the straightforward version with a scalar multiply.
+
+B3 is the serious competitor. It runs a packed four-lane unit over the raw
+codes and applies the correction in the factored form of \eqref{eq:factor},
+computing the activation sum once per group and reusing it across rows. D uses
+a four-lane unit that subtracts the zero point inside each lane, so it yields
+the corrected subtotal directly and never forms an activation sum at all.
+
+The comparison that answers the question is D against B3. B1 and B2 bound the
+space around it; they do not settle it.
+
 \subsection{Platform and Verification}
-The original processor is preserved, and development takes place in an
-independent clone. Core corrections are verified separately and will form
-a common baseline for the variants. Unimplemented instructions must be
-detected, without claiming full conformance to an instruction set that
-the processor does not yet cover.
+The original teaching core is preserved and all development happens in an
+independent clone, so the baseline cannot drift under the experiment. Each
+piece is verified on its own before being combined.
 
-The v0.1 numerical contract defines a 32-bit word \(W\) containing eight U4
-weights and a word \(A\) containing four S8 activations. A selector \(h\)
-chooses the lower or upper four weights of \(W\), without changing the
-activations. Index zero occupies the least significant bits, and \(z_w\)
-is shared by all four terms. The subtotal lies in \([-7680,7680]\) and is
-represented in 32-bit two's complement, without implicit accumulation.
+The isolated XQDot4Z unit passes 556\,734 comparisons per simulator against a
+Python reference using unbounded integers, together with eight negative
+controls and four injected mutations that the tests are required to detect;
+lint needs no waivers. Exhaustiveness covers single-term tuples only. Folding
+it into the pipeline as the immediate-form XQDot4Zi adds 25 directed programs
+across two simulators, comparing retirement, writeback, stores and operands,
+and detecting two further mutations.
 
-A Python reference using unbounded integers is available, checked through
-examples, packing tests, exhaustive single-term tuples, and random dot
-products compared with~\eqref{eq:factor}. The isolated RTL unit is combinational,
-with four lanes, S13 products, and an adder tree with explicit sign extension.
-It is verified in Icarus Verilog and Verilator. The experimental XQDot4Zi
-interface optionally integrates it into Kuntur, using two source registers
-and immediate \(z_w,h\). It reuses forwarding and carries metadata with the
-instruction. It adds no dedicated wait in E, but physical timing has not been
-checked. Runtime-loaded zero-points remain unresolved; an immediate cannot
-replace them at no cost.
+The optional scalar MUL used by B2 is independent of that work and returns the
+low 32 bits of the product~\cite{riscvm}; it implements neither the full M
+extension nor Zmmul. It passes 86\,704 vectors per simulator and 49 programs
+over four configurations. The packed unit behind B3, which omits the zero-point
+subtraction, passes 67\,910 vectors per simulator; XQDot4 integration passes
+123 programs in both simulators across all eight configurations of the three
+optional instructions.
 
-The baseline includes optional scalar MUL, independent of XQDot4Zi, returning
-the low 32 bits of the product~\cite{riscvm}. It does not implement full M or
-Zmmul. It is combinational, reuses forwarding, and is cancelled by flush/reset;
-functional availability does not establish physical timing.
+Every milestone is pinned by SHA-256 in a state file, every run is repeated to
+show that it is deterministic, and mutations are injected deliberately to prove
+the tests can fail. Two independent simulators, Icarus Verilog and Verilator,
+must agree exactly on every counter before a case is recorded as passing.
 
-The packed comparator (B3) has a four-lane unit without zero-point
-subtraction, using the same packing and selector as the fused XQDot4Z
-variant (D).
-Its subtotal lies in \([-7680,7620]\); the correction in~\eqref{eq:factor}
-is outside this unit. The optional XQDot4 instruction integrates it using
-two source GPRs, immediate \(h\), and the same forwarding. With weights set
-to one, it also computes activation sums that can be reused across rows.
+\subsection{Making the Comparison Fair}
+A comparison between an instruction and its absence is easy to rig, so the
+degrees of freedom are removed before any measurement. Unrolling, register
+allocation, scheduling and correction reuse are fixed by one written policy
+shared by all four variants, and that policy, together with the generators and
+tests that implement it, is frozen before the campaign runs. The policy
+explicitly permits omitting work that a particular zero point makes
+unnecessary, which is how B3 comes to drop its correction entirely when the
+zero point is zero.
 
-\subsection{Planned Comparison}
-D will be compared with scalar MUL (B2) and, centrally, B3 with the correction
-in~\eqref{eq:factor} (Fig.~\ref{fig:comparison}). B1 provides context without MUL:
-it will use bounded-width masked bit decomposition, with its policy and code
-frozen before the pilot. It does not represent optimal software. All variants
-will share data and core corrections. Loads, loops, correction, and metadata
-will be counted in addition to the arithmetic kernel.
+The grid, the seeds, the zero-point profiles and the reporting rules are
+registered in advance, and the registration pins the hypotheses by hash so that
+they cannot be edited afterwards. Regimes are never pooled into a single
+number, and every planned case is retained, failures included, because a case
+that is merely absent would make an incomplete campaign look finished.
 
-The initial manifest sweeps row counts with one group of 32 elements and
-separates constant controls from U4 codes balanced across phases. It distinguishes
-zero, one, other powers of two, and remaining codes; mixed-program times are
-not apportioned to these strata by frequency. It evaluates static specialization,
-without extrapolation to dynamic metadata. Unrolling, register allocation,
-scheduling, and correction reuse are fixed before measurement and shared by all
-four variants. Under that schedule B3 corrects with one subtraction per row when
-z repeats and with a multiply and a subtraction when it varies: the difference
-comes from policy and schedule, not architecture. All cases,
-including failures and slowdowns, will be reported. All four variants now have
-verified kernels: row traversal is derived from each encoding, and only D is
-forced to emit one row body per row when the zero point varies, which is
-reported as a required floor rather than a choice.
-Seeds cover inputs, not statistical repetitions; the pilot will examine
-control, addresses, and stalls, not only equal cycle totals.
+One subtlety deserves its own mechanism. Because D carries the zero point as an
+immediate, a zero point that varies per row forces it to emit one row body per
+row, while B3 can keep a loop. Part of any measured gap is therefore loop
+control rather than correction. To separate the two, each variant is also
+measured as a structural twin: the same loop body replicated without the back
+edge. Subtracting the twin prices loop control exactly, so what remains is
+attributable to the arithmetic.
 
 \balance
 \section{Results and Discussion}
-Isolated XQDot4Z passes 556\,734 comparisons per simulator, eight negative
-controls, and four Icarus mutations; lint requires no waivers. Exhaustiveness
-only covers single-term tuples. Immediate integration passes 25 programs,
-including 1056 numerical operations, comparing retirement, writeback, stores,
-and operands, and detecting two mutations. MUL passes 86\,704 vectors per
-simulator and 49 programs with four configurations, eight negative controls
-per simulator, and four Icarus mutations. Artifacts, logs, and hashes of these
-test suites are retained.
-
 The registered campaign ran \CampaignCases\ cases, all passing in both
 simulators with none missing. Cycles are identical across the ten seeds in all
-\CampaignCombos\ variant, shape and setting combinations, and across the sixteen
-ZS phases, while the outputs differ in every one. That does not prove
-independence from arbitrary data, nor does it reduce the grid: the reduction
-gate is a deliberate revision and has not been taken.
+\CampaignCombos\ combinations of variant, shape and setting, and across the
+sixteen phases of the varying-zero-point profile, while the outputs differ in
+every one. That is a statement about this kernel and this data layout, not a
+proof of independence from arbitrary data, and it is explicitly not used to
+justify running a smaller grid.
 
-Table~\ref{tab:ratio} holds the central comparison. D's advantage over B3 falls
-as $N$ grows in every regime where B3 has correction to amortize, which is the
-trend H2 anticipated. At $z{=}0$ there is no advantage at all: B3 omits Sa and
-the correction, and the two variants coincide exactly. At $N{=}1$ a varying
-zero point is degenerate, since a single row cannot have a $z$ that varies.
+Fig.~\ref{fig:ratio} and Table~\ref{tab:ratio} carry the central result. The
+advantage of fusion over B3 falls as the row count grows in every regime where
+B3 has a correction to amortize, which is the trend the work expected. At
+\(z{=}0\) there is no advantage whatsoever: B3 omits both the activation sum
+and the correction, and the two variants coincide cycle for cycle. At
+\(N{=}1\) a varying zero point is degenerate, since a single row cannot have a
+zero point that varies, so those columns necessarily agree.
 
-Under ZS the raw gap mixes two things. D is forced to emit one row body per row
-because its $z$ is an immediate, while B3 loops, so part of the difference is
-control rather than correction. Subtracting the structural twin, of the 164
-cycles at $N{=}16$ some 47 belong to loop control and 117 to the correction:
-the corrected ratio moves from 1.38 to 1.20 rather than 1.46 to 1.28.
+\input{ratio_figure}
 
-Against scalar MUL, D uses between 5.4 and 6.8 times fewer cycles at $N{=}16$,
-the low end at $z{=}0$ where D has no correction to save; B1, without a
-multiplier, spends between 26 and 34 times more than D. That forced
-specialization is not free: at $N{=}16$ with a varying $z$, D occupies 516 code
-words against 72 for B3, because its encoding demands sixteen row bodies. The
-cycle advantage and the text cost are the same interface decision.
+Under a varying zero point the raw gap mixes two effects, and the structural
+twin separates them. Of the 164 cycles that separate the variants at
+\(N{=}16\), about 47 belong to loop control and 117 to the correction itself.
+The corrected ratio moves from 1.38 to 1.20 rather than from 1.46 to 1.28.
+Reporting only the raw figure would credit the instruction with work that the
+loop structure did.
 
-These figures are cycles of a simulated in-order pipeline. They are not physical
-time, energy or area, and D's additional hardware is not accounted for here:
-that belongs to synthesis. The scope is static specialization; the regime with
-zero points read at run time remains unresolved.
+Against scalar MUL, D uses between 5.4 and 6.8 times fewer cycles at
+\(N{=}16\), the low end at \(z{=}0\) where D has no correction to save; B1,
+without a multiplier, spends between 26 and 34 times more than D.
+
+That forced specialization is not free, and the cost lands in a different
+currency. At \(N{=}16\) with a varying zero point, D occupies 516 instruction
+words against 72 for B3, because its encoding demands sixteen separate row
+bodies. The cycle advantage and the code-size penalty are two faces of the same
+interface decision: putting the zero point in an immediate is what makes the
+correction free at run time and what makes the code grow.
 
 \begin{table}[t]
-\caption{B3 cycles divided by D cycles, by regime and row count. Run
-\CampaignRun, \CampaignCases\ cases; regimes are never pooled.}
+\caption{B3 cycles divided by D cycles, by regime and row count. A value of
+1.00 means the two variants cost exactly the same. Run \CampaignRun,
+\CampaignCases\ cases; regimes are never pooled.}
 \label{tab:ratio}
 \centering
 \begin{tabular}{crrrr}
 \hline
-$N$ & ZC $z{=}0$ & ZC $z{=}8$ & ZC $z{=}15$ & ZS \\
+\(N\) & ZC \(z{=}0\) & ZC \(z{=}8\) & ZC \(z{=}15\) & ZS \\
 \hline
 1 & 1.00 & 1.86 & 1.88 & 1.00 \\
 4 & 1.00 & 1.25 & 1.26 & 1.46 \\
@@ -200,45 +252,37 @@ $N$ & ZC $z{=}0$ & ZC $z{=}8$ & ZC $z{=}15$ & ZS \\
 \end{tabular}
 \end{table}
 
-The packed unit without correction passes 67\,910 vectors per simulator,
-with ten negative controls per simulator and four Icarus mutations.
-From 1680 RTL responses, 336 row/group outputs are reconstructed across
-24 matrix--vector cases, reusing activation sums across rows.
-In that isolated test suite, accumulation and correction run in the verifier.
-
-XQDot4 integration passes 123 programs in both simulators, covering all eight
-configurations of MUL and the two packed instructions, and detects three
-Icarus mutations. Four paired two-row fixtures produce eight matching outputs
-in B3 and D. In B3, Kuntur computes one activation sum, reuses it, and applies
-MUL/SUB correction; D accumulates fused subtotals. These are correctness tests
-with zero-points known at code-generation time, not optimized benchmarks or
-dynamic-metadata tests.
-
-\textit{Performance evaluation pending.} These results do not establish
-acceleration, resource usage, physical timing, or efficient dynamic metadata delivery.
+Read together, these numbers answer the question with a condition rather than a
+verdict. Fusion helps most where the correction cannot be amortized: few rows
+and a non-zero zero point. It helps least, or not at all, where the alternative
+can either spread the correction across many rows or skip it entirely. And
+where it helps most in cycles under a varying zero point, it costs most in
+code.
 
 \subsection{Threats to Validity}
-The shared skeleton reduces optimization bias but does not establish
-optimality or eliminate software--architecture interaction.
-The synthetic distribution does not necessarily represent a real network.
-With z=0, separate correction can be omitted without establishing equal
-performance. Dispatch among immediates would support dynamic z without
-a new encoding, but still has no implementation or measured cost. The counters
-are validated structurally, against eight directed programs, three negative
-controls, four detected harness mutations and a cycle accounting identity
-checked per case; RTL cycles still do not establish physical timing. The
-sensitivity question is answered for the row count alone: one group of 32
-elements was measured, so how the comparison moves with K and G is open, and
-the frozen data layout does not currently reach those shapes.
+The shared skeleton reduces optimization bias but does not establish optimality
+or remove the interaction between software and architecture. The synthetic
+distribution does not necessarily represent a real network. With \(z{=}0\) the
+separate correction can be omitted, which does not establish equal performance
+in general. Dispatching among immediates would support a dynamic zero point
+without a new encoding, but has no implementation and no measured cost here.
+The counters are validated structurally, against eight directed programs, three
+negative controls, four detected harness mutations and a cycle accounting
+identity checked on every case; RTL cycles still do not establish physical
+timing. The sensitivity question is answered for the row count alone: one group
+of 32 elements was measured, so how the comparison moves with the group count
+and the group size remains open, and the frozen data layout does not currently
+reach those shapes.
 
 \section{Conclusion}
-Fusion reduces cycles against both factored correction and scalar
-multiplication, but not uniformly: the benefit narrows as $N$ grows, vanishes at
-$z{=}0$, and with a varying zero point is charged back in code text. The answer
-to the question is not a number but a map of conditions, which is what this work
-contributes.
+Fusing the zero-point correction into the dot-product instruction reduces
+cycles against both factored correction and scalar multiplication, but not
+uniformly. The benefit narrows as the row count grows, disappears when the zero
+point is zero, and, where the zero point varies, is charged back in code size.
+The answer to the question is not a number but a map of conditions, and that
+map is what this work contributes.
 
 Left outside are the regime with zero points read at run time, which this
-interface cannot express, and physical evidence: area, frequency and energy need
-synthesis and a different methodology. The fused variant's additional hardware
-is not accounted for in these figures.
+interface cannot express, and physical evidence: area, frequency and energy
+need synthesis and a different methodology. The additional hardware that the
+fused variant requires is not accounted for in any figure reported here.

@@ -1,23 +1,28 @@
 \title{XQDot4Z: productos punto cuantizados\\en un procesador RISC-V}
-\author{\IEEEauthorblockN{Steve Andy Ildefonso Santos}
-\IEEEauthorblockA{Estudiante de Ciencias de la Computación\\
-Borrador de trabajo v\PaperVersion\ --- no destinado a envío}}
+\author{\IEEEauthorblockN{Steve Andy Ildefonso Santos}}
 \maketitle
 \begin{abstract}
-El almacenamiento de pesos con pocos bits reduce el tamaño de los datos,
-pero su procesamiento puede requerir extracción, conversión y corrección
-del origen numérico. Este trabajo plantea estudiar una operación que combine
-cuatro productos entre pesos de cuatro bits sin signo y activaciones de ocho
-bits con signo, con corrección del punto cero. La pregunta es cuándo esa
-fusión resulta útil frente a multiplicación escalar y frente a un producto
-punto empacado con corrección separada. Se propone utilizar un procesador
-docente de treinta y dos bits, verificar primero la operación y evaluar
-después productos punto y multiplicaciones matriz--vector. Este documento
-reporta una campaña registrada de 2280 casos en simulación. La fusión reduce
-ciclos frente a ambas alternativas, por un margen que se estrecha al crecer el
-número de filas y que desaparece cuando el punto cero es cero. Con punto cero
-variable la ventaja se paga en tamaño de código, porque el inmediato obliga a
-especializar. Son ciclos simulados: no tiempo físico, energía ni área.
+Guardar pesos de red neuronal en cuatro bits ahorra memoria, pero el procesador
+todavía debe desarmarlos, y la cuantización afín añade un costo fácil de pasar
+por alto: un código de peso no es un peso, sino un desplazamiento respecto de un
+punto cero que hay que restar primero. Este trabajo pregunta si
+esa resta merece construirse dentro de la instrucción de producto punto. Se
+añade una instrucción fusionada de cuatro términos a Kuntur, procesador RISC-V
+docente de cinco etapas, y se compara contra tres referencias bajo una política
+de generación de código congelada: multiplicación por software sin
+multiplicador, multiplicación escalar, y un producto punto empacado cuya
+corrección se factoriza, calculando la suma de activaciones una vez por grupo y
+reutilizándola entre filas. Una campaña registrada de 2280 casos simulados,
+todos exitosos en dos simuladores independientes, produce un mapa de condiciones
+y no una sola cifra de aceleración. La fusión reduce ciclos frente a ambas,
+pero el margen se estrecha al crecer el número de filas, porque la factorizada
+reparte su corrección entre más, y desaparece con punto cero cero, donde esa
+alternativa la omite. Cuando varía por fila,
+la ventaja se paga en tamaño de código: viaja como inmediato, así que cada valor
+distinto necesita su propio cuerpo de fila, y la variante fusionada ocupa 516
+palabras de instrucción frente a 72. Parte del hueco bruto es control de bucle y
+no aritmética, separados midiendo un gemelo estructural. Son ciclos simulados:
+no tiempo físico, energía ni área.
 \end{abstract}
 \begin{IEEEkeywords}
 inferencia cuantizada, aritmética de baja precisión, extensiones de instrucciones,
@@ -27,172 +32,228 @@ verificación de hardware
 \suppressfloats[t]
 
 \section{Introducción}
-Las capas de una red neuronal realizan productos y sumas entre pesos y
-activaciones. La cuantización permite representar parte de ese cálculo con
-enteros y parámetros de escala~\cite{jacob}. Sin embargo, almacenar más pesos
-por palabra no elimina el trabajo necesario para consumirlos en un procesador.
-La extracción de campos y la preparación de los operandos pueden ser relevantes.
+Una capa de red neuronal es, por debajo, una enorme cantidad de productos punto
+entre pesos y activaciones. La cuantización permite guardar ambos lados como
+enteros pequeños con un factor de escala~\cite{jacob}, y el ahorro en
+almacenamiento es notable: ocho pesos de cuatro bits caben en una palabra de 32
+bits. Pero ese es un ahorro de memoria, no de trabajo. El procesador todavía
+tiene que desarmar la palabra antes de poder multiplicar algo, y desempacar no
+sale gratis.
 
-Se propone estudiar XQDot4Z sobre Kuntur, un procesador docente RISC-V
-con un pipeline de cinco etapas. La intención es
-investigar una operación acotada y sus costos, no desarrollar todavía un
-acelerador completo ni ejecutar un modelo de lenguaje de gran tamaño.
+La cuantización afín añade un segundo costo, más fácil de pasar por alto. Un
+código de peso de cuatro bits no es el peso. Es un desplazamiento respecto de un
+punto cero compartido por un grupo de pesos, así que lo que la aritmética
+necesita de verdad es el código menos ese punto cero. Una resta no es nada.
+Cuatro restas en cada grupo de cada producto punto de cada fila de una capa sí
+son algo.
+
+Este trabajo hace una pregunta deliberadamente estrecha sobre esa resta: ¿merece
+construirse dentro de la instrucción que calcula el producto punto? Esa
+instrucción se añade a Kuntur, un procesador RISC-V docente de cinco etapas, y
+se mide contra tres puntos de referencia que resuelven la misma aritmética de
+maneras distintas. El objetivo no es un acelerador, ni una pila de inferencia
+completa. Es un mapa de las condiciones bajo las cuales fusionar la corrección
+se paga sola, incluidas aquellas en las que claramente no lo hace.
 
 \input{comparison_figure}
-\section{Fundamentos y trabajo relacionado}
-En cuantización afín, un código entero \(q\) representa aproximadamente
-\(r=s(q-z)\), donde \(s>0\) es la escala y \(z\) el punto cero o
-\emph{zero-point}. Con activaciones cuyo punto cero es cero, el núcleo
-aritmético estudiado es
+
+\section{Antecedentes y trabajo relacionado}
+Bajo cuantización afín un código entero \(q\) representa \(r=s(q-z)\), donde
+\(s>0\) es una escala y \(z\) un punto cero. Tomando activaciones cuyo punto
+cero es cero, el núcleo aritmético en estudio es
 \begin{equation}
 d=\sum_{i=0}^{3}(q_{w,i}-z_w)q_{a,i}.
 \label{eq:dot}
 \end{equation}
-Los pesos se almacenan como U4 (cuatro bits sin signo) y las activaciones
-como S8 (ocho bits con signo). La salida propuesta es un subtotal INT32
-(entero de 32 bits con signo); escalas, sesgo y acumulación de otros
-subtotales se mantienen fuera de esta operación.
+Los pesos se guardan como U4, enteros sin signo de cuatro bits en \([0,15]\), y
+las activaciones como S8, enteros con signo de ocho bits en \([-128,127]\). El
+resultado es un subtotal INT32 en \([-7680,7680]\); escalas, sesgo y la
+acumulación de otros subtotales quedan fuera de la operación.
 
-Entre los antecedentes están XpulpNN y Dustin, con instrucciones de baja
-precisión y aritmética mixta en RISC-V~\cite{xpulpnn,dustin}. Por ello, no se considera
-inédito el uso de productos punto de pocos bits. La contribución específica
-deberá establecerse mediante una comparación más detallada de antecedentes
-y los resultados propios.
-
-Una alternativa importante a la fusión es
+Leída al pie de la letra, \eqref{eq:dot} gasta cuatro restas antes de formar
+producto alguno. Sin embargo puede reordenarse como
 \begin{equation}
 d=\sum_i q_{w,i}q_{a,i}-z_w\sum_i q_{a,i}.
 \label{eq:factor}
 \end{equation}
-La suma de activaciones puede reutilizarse entre filas de una matriz. Una
-comparación válida debe permitir esa optimización.
+El primer término es un producto punto corriente sobre los códigos crudos. El
+segundo es el punto cero por la suma de las activaciones, y esa suma no depende
+de los pesos en absoluto. En un producto matriz--vector las mismas activaciones
+se encuentran con todas las filas, así que puede calcularse una vez y
+reutilizarse en las \(N\) filas. Esa es justamente la razón por la que una
+comparación honesta no puede limitarse a contar las restas de \eqref{eq:dot}:
+una implementación competente nunca las paga.
 
-\section{Pregunta y alcance}
+XpulpNN y Dustin son precedentes de extensiones de instrucciones de baja
+precisión y precisión mixta sobre RISC-V~\cite{xpulpnn,dustin}. Los productos
+punto de pocos bits no son, por tanto, una idea nueva, ni se reclaman como tal
+aquí. La pregunta examinada es más estrecha: dado que un producto punto empacado
+ya existe, ¿la corrección del punto cero pertenece dentro de la instrucción o
+fuera de ella?
+
+\section{Pregunta de investigación y alcance}
 \textit{¿Bajo qué condiciones fusionar la corrección del punto cero en un
-producto punto U4 por S8 reduce su costo de ejecución frente a multiplicación
-escalar y corrección factorizada, considerando reutilización de activaciones
-y suministro del punto cero?}
+producto punto U4 por S8 reduce el costo de ejecución frente a multiplicación
+escalar y frente a corrección factorizada, considerando la reutilización de
+activaciones y el costo de suministrar el punto cero?}
 
-El alcance inicial es un solo core, batch uno y kernels de producto punto
-y matriz--vector pequeños. La primera fase evaluará corrección y ciclos de
-simulación. La síntesis y la evaluación en una placa se consideran etapas
-posteriores. No se deducirá energía ni tiempo físico únicamente del número
-de instrucciones o ciclos.
+El alcance es un solo núcleo, lote uno, y núcleos pequeños de producto punto y
+matriz--vector. Costo significa ciclos de un pipeline in-order simulado,
+reportados junto con conteos de instrucciones y tamaño de código. Síntesis,
+área, frecuencia y energía pertenecen a una etapa posterior con otra
+metodología, y nada de lo medido aquí se extrapola a ellas.
 
-\section{Método propuesto}
+Una distinción recorre todo lo que sigue. Un punto cero puede ser constante en
+toda una capa (ZC), variar por fila pero conocerse al generar el código (ZS), o
+leerse de memoria en ejecución (ZR). La instrucción propuesta lleva el punto
+cero como inmediato de cuatro bits, lo que cubre los dos primeros regímenes y no
+el tercero. ZR queda entonces declarado fuera de alcance en vez de estimado,
+porque un inmediato no puede sustituir sin costo a un valor leído en ejecución.
+
+\section{Método}
+\subsection{Las cuatro variantes}
+Cuatro implementaciones producen las mismas salidas a partir de los mismos datos
+empacados. Tres son puntos de referencia, nombrados con una B inicial de
+\emph{baseline}; la cuarta, D, es el diseño en estudio. La
+Tabla~\ref{tab:variants} indica qué las separa y la
+Fig.~\ref{fig:comparison} muestra qué hace cada una con un solo grupo de cuatro
+pesos.
+
+\begin{table}[t]
+\caption{Las cuatro variantes. B marca un punto de referencia y D el diseño en
+estudio. Las cuatro leen datos empacados idénticos y comparten una sola política
+de generación de código, así que lo que difiere entre ellas es la aritmética, no
+el código que la rodea.}
+\label{tab:variants}
+\centering
+\begin{tabular}{llll}
+\hline
+ & Multiplicador & Producto punto & Corrección del punto cero \\
+\hline
+B1 & ninguno & descomposición en bits & por término, sin multiplicar \\
+B2 & MUL escalar & un MUL por peso & por término \\
+B3 & MUL escalar & empacado, cuatro carriles & factorizada, por fila \\
+D & no requiere & empacado, cuatro carriles & fusionada en la instrucción \\
+\hline
+\end{tabular}
+\end{table}
+
+B1 no tiene multiplicador alguno y construye cada producto por descomposición en
+bits con máscaras acotadas. Es contexto, no una afirmación sobre software
+óptimo: responde cuánto cuesta esta operación en un núcleo sin hardware de
+multiplicación, y su implementación se congela antes de medir para que no pueda
+ajustarse después de ver resultados. B2 es la versión directa con multiplicación
+escalar.
+
+B3 es el competidor serio. Corre una unidad empacada de cuatro carriles sobre
+los códigos crudos y aplica la corrección en la forma factorizada de
+\eqref{eq:factor}, calculando la suma de activaciones una vez por grupo y
+reutilizándola entre filas. D usa una unidad de cuatro carriles que resta el
+punto cero dentro de cada carril, así que entrega el subtotal ya corregido y
+nunca llega a formar una suma de activaciones.
+
+La comparación que responde la pregunta es D contra B3. B1 y B2 acotan el
+espacio a su alrededor; no la resuelven.
+
 \subsection{Plataforma y verificación}
-Se preserva el procesador original y se trabaja en un clon independiente.
-Las correcciones del core se verifican por separado y formarán una base común
-para las variantes. Las instrucciones no implementadas deberán detectarse,
-sin atribuir al procesador conformidad completa con una ISA que aún no cubre.
+El procesador docente original se conserva y todo el desarrollo ocurre en un
+clon independiente, de modo que la base no puede desplazarse bajo el
+experimento. Cada pieza se verifica por separado antes de combinarse.
 
-El contrato numérico v0.1 fija una palabra \(W\) de 32 bits con ocho pesos U4
-y una palabra \(A\) con cuatro activaciones S8. Un selector \(h\) elige los
-cuatro pesos bajos o altos de \(W\), sin cambiar las activaciones. El índice
-cero ocupa los bits menos significativos y \(z_w\) es común a los cuatro
-términos. El subtotal está en \([-7680,7680]\) y se representa en complemento
-a dos de 32 bits, sin acumulación implícita.
+La unidad XQDot4Z aislada supera 556\,734 comparaciones por simulador contra una
+referencia en Python con enteros no acotados, junto con ocho controles negativos
+y cuatro mutaciones inyectadas que las pruebas están obligadas a detectar; el
+lint no necesita excepciones. La exhaustividad cubre únicamente tuplas de un
+término. Integrarla al pipeline como XQDot4Zi, en su forma con inmediato, añade
+25 programas dirigidos en dos simuladores, comparando retiro, writeback, stores
+y operandos, y detectando dos mutaciones más.
 
-Se dispone de una referencia Python con enteros sin ancho fijo, comprobada
-mediante ejemplos, pruebas de packing, ternas exhaustivas de un término y
-productos punto aleatorios contrastados con~\eqref{eq:factor}. La unidad RTL
-aislada es combinacional, con cuatro vías, productos S13 y un árbol de sumas
-con extensión explícita de signo, verificada en Icarus Verilog y Verilator.
-La interfaz experimental XQDot4Zi la integra opcionalmente en Kuntur, con
-dos registros fuente y \(z_w,h\) inmediatos. Reutiliza el forwarding y
-transporta los metadatos con la instrucción. No añade una espera propia en E,
-pero no se ha comprobado timing físico. El punto cero leído en ejecución
-sigue pendiente; un inmediato no lo sustituye gratuitamente.
+La MUL escalar opcional que usa B2 es independiente de ese trabajo y devuelve
+los 32 bits bajos del producto~\cite{riscvm}; no implementa ni la extensión M
+completa ni Zmmul. Supera 86\,704 vectores por simulador y 49 programas en
+cuatro configuraciones. La unidad empacada detrás de B3, que omite la resta del
+punto cero, supera 67\,910 vectores por simulador; la integración de XQDot4
+supera 123 programas en ambos simuladores, cubriendo las ocho configuraciones de
+las tres instrucciones opcionales.
 
-La base incorpora MUL escalar opcional, independiente de XQDot4Zi, que
-devuelve los 32 bits bajos del producto~\cite{riscvm}. No implementa M ni
-Zmmul completos. Es combinacional, reutiliza forwarding y se cancela con
-flush/reset; su disponibilidad funcional no demuestra timing físico.
+Cada hito queda fijado por SHA-256 en un archivo de estado, cada corrida se
+repite para mostrar que es determinista, y se inyectan mutaciones a propósito
+para demostrar que las pruebas pueden fallar. Dos simuladores independientes,
+Icarus Verilog y Verilator, deben coincidir exactamente en cada contador antes
+de registrar un caso como exitoso.
 
-El comparador empacado (B3) dispone de una unidad de cuatro vías sin
-resta del punto cero, con el mismo packing y selector que la variante
-fusionada XQDot4Z (D).
-Su subtotal está en \([-7680,7620]\); la corrección de~\eqref{eq:factor}
-queda fuera de esa unidad. La instrucción opcional XQDot4 la integra con
-dos GPR fuente, \(h\) inmediato y el mismo forwarding. Con pesos iguales a
-uno, también permite obtener la suma de activaciones reutilizable entre filas.
+\subsection{Cómo se vuelve honesta la comparación}
+Una comparación entre una instrucción y su ausencia es fácil de amañar, así que
+los grados de libertad se eliminan antes de cualquier medición. Desenrollado,
+asignación de registros, planificación y reutilización de la corrección quedan
+fijados por una sola política escrita que comparten las cuatro variantes, y esa
+política, junto con los generadores y las pruebas que la implementan, se congela
+antes de correr la campaña. La política permite explícitamente omitir trabajo
+que un punto cero determinado vuelve innecesario, que es como B3 termina
+eliminando su corrección por completo cuando el punto cero es cero.
 
-\subsection{Comparación prevista}
-Se comparará D con MUL escalar (B2) y, centralmente, con B3 y la corrección
-de~\eqref{eq:factor} (Fig.~\ref{fig:comparison}). B1 aporta contexto sin MUL:
-usará descomposición por bits con máscaras y ancho acotado, cuya política
-y código deben congelarse antes del piloto. No representa software óptimo.
-Todas las variantes compartirán datos y correcciones del core. Se contarán
-cargas, bucles, corrección y metadatos, además del núcleo aritmético.
+La rejilla, las semillas, los perfiles de punto cero y las reglas de reporte se
+registran de antemano, y el registro fija las hipótesis por hash para que no
+puedan editarse después. Los regímenes nunca se agregan en una sola cifra, y
+todo caso planificado se conserva, fallos incluidos, porque un caso meramente
+ausente haría que una campaña incompleta pareciera terminada.
 
-El manifiesto inicial barre filas con un grupo de 32 elementos y separa
-controles constantes de códigos U4 equilibrados entre fases. Distingue cero,
-uno, otras potencias de dos y demás códigos; no atribuye tiempos de programas
-mixtos a esos estratos por frecuencia. Evalúa especialización estática,
-sin extrapolar a metadatos dinámicos. Desenrollado, registros, planificación
-y reutilización de correcciones quedan fijados antes de medir y son comunes a
-las cuatro variantes. Bajo ese calendario, B3 corrige con una resta por fila
-cuando z se repite y con multiplicación más resta cuando varía: la diferencia
-proviene de la política y del calendario, no de la arquitectura. Se reportarán
-todos los casos, incluidos fallos y degradaciones. Las cuatro variantes ya
-tienen kernels verificados: el recorrido de filas se deriva de la codificación
-de cada una, y solo D queda forzada a emitir un cuerpo por fila cuando el punto
-cero varía, lo que se reporta como piso obligatorio y no como elección.
-Las semillas cubren entradas, no repeticiones estadísticas; el piloto revisará
-control, direcciones y stalls, no solo igualdad de ciclos.
+Una sutileza merece mecanismo propio. Como D lleva el punto cero en un
+inmediato, un punto cero que varía por fila lo obliga a emitir un cuerpo de fila
+por cada fila, mientras que B3 puede conservar un bucle. Parte de cualquier
+hueco medido es entonces control de bucle y no corrección. Para separarlos, cada
+variante se mide también como gemelo estructural: el mismo cuerpo de bucle
+replicado sin la arista de retorno. Restar el gemelo cotiza el control de bucle
+con exactitud, y lo que queda es atribuible a la aritmética.
 
 \balance
 \section{Resultados y discusión}
-XQDot4Z aislada supera 556\,734 comparaciones por simulador, ocho controles
-negativos y cuatro mutaciones en Icarus; el lint no requiere excepciones.
-La exhaustividad solo corresponde a ternas de un término. La integración
-inmediata supera 25 programas, incluidas 1056 operaciones numéricas, con
-comparación de retiros, writeback, stores y operandos, y dos mutaciones detectadas.
-MUL supera 86\,704 vectores por simulador y 49 programas con cuatro
-configuraciones, ocho controles negativos por simulador y cuatro mutaciones
-en Icarus. Se conservan artefactos, logs y hashes de estas baterías.
+La campaña registrada corrió \CampaignCases\ casos, todos exitosos en ambos
+simuladores y sin ninguno ausente. Los ciclos son idénticos entre las diez
+semillas en las \CampaignCombos\ combinaciones de variante, forma y ajuste, y
+entre las dieciséis fases del perfil de punto cero variable, mientras que las
+salidas difieren en todas. Eso es una afirmación sobre este núcleo y este
+layout de datos, no una prueba de independencia frente a datos arbitrarios, y
+explícitamente no se usa para justificar una rejilla más pequeña.
 
-La campaña registrada ejecutó \CampaignCases\ casos, todos con estado
-\emph{pass} en ambos simuladores, sin ninguno ausente. Los ciclos resultan
-idénticos entre las diez semillas en las \CampaignCombos\ combinaciones de
-variante, forma y ajuste, y entre las dieciséis fases ZS, mientras las salidas
-difieren en todas. Eso no demuestra independencia respecto de cualquier dato ni
-reduce la rejilla: la compuerta de reducción es una revisión deliberada que no
-se ha tomado.
+La Fig.~\ref{fig:ratio} y la Tabla~\ref{tab:ratio} contienen el resultado
+central. La ventaja de la fusión sobre B3 cae al crecer el número de filas en
+todo régimen donde B3 tiene corrección que amortizar, que es la tendencia que el
+trabajo esperaba. En \(z{=}0\) no hay ventaja alguna: B3 omite tanto la suma de
+activaciones como la corrección, y las dos variantes coinciden ciclo a ciclo. En
+\(N{=}1\) un punto cero variable es degenerado, ya que una sola fila no puede
+tener un punto cero que varíe, así que esas columnas coinciden necesariamente.
 
-La Tabla~\ref{tab:ratio} recoge la comparación central. La ventaja de D sobre B3
-disminuye al crecer $N$ en todo régimen donde B3 tenga corrección que amortizar,
-que es la tendencia que H2 anticipaba. Con $z{=}0$ no hay ventaja alguna: B3
-omite Sa y la corrección, y ambas variantes coinciden exactamente. Con $N{=}1$ y
-zero-point variable el régimen es degenerado, porque una sola fila no puede
-tener un $z$ que varíe.
+\input{ratio_figure}
 
-Bajo ZS el hueco crudo mezcla dos cosas. D está forzada a emitir un cuerpo por
-fila porque su $z$ es inmediato, mientras B3 recorre en bucle, así que parte de
-la diferencia es control y no corrección. Restando el gemelo estructural, de los
-164 ciclos de $N{=}16$ corresponden 47 al control de bucle y 117 a la
-corrección: la relación corregida pasa de 1.38 a 1.20 en lugar de 1.46 a 1.28.
+Con punto cero variable el hueco bruto mezcla dos efectos, y el gemelo
+estructural los separa. De los 164 ciclos que separan a las variantes en
+\(N{=}16\), unos 47 pertenecen al control de bucle y 117 a la corrección misma.
+El cociente corregido pasa de 1.38 a 1.20, no de 1.46 a 1.28. Reportar solo la
+cifra bruta acreditaría a la instrucción un trabajo que hizo la estructura del
+bucle.
 
-Frente a MUL escalar, D emplea entre 5.4 y 6.8 veces menos ciclos con $N{=}16$,
-el extremo bajo en $z{=}0$, donde D no tiene corrección que ahorrar; B1, sin
-multiplicador, entre 26 y 34 veces más que D. Esa especialización
-forzada no es gratuita: con $N{=}16$ y $z$ variable D ocupa 516 palabras de
-código frente a 72 de B3, porque su codificación exige dieciséis cuerpos de
-fila. Ventaja en ciclos y costo en texto son la misma decisión de interfaz.
+Frente a MUL escalar, D emplea entre 5.4 y 6.8 veces menos ciclos con
+\(N{=}16\), con el extremo bajo en \(z{=}0\), donde D no tiene corrección que
+ahorrar; B1, sin multiplicador, gasta entre 26 y 34 veces más que D.
 
-Estas cifras son ciclos de un pipeline in-order simulado. No son tiempo físico,
-energía ni área, y el hardware adicional de D no está contabilizado aquí: eso
-corresponde a síntesis. El alcance es especialización estática; el régimen con
-zero-points leídos en ejecución sigue sin resolverse.
+Esa especialización forzada no es gratuita, y el costo aterriza en otra moneda.
+Con \(N{=}16\) y punto cero variable, D ocupa 516 palabras de instrucción frente
+a 72 de B3, porque su codificación exige dieciséis cuerpos de fila separados. La
+ventaja en ciclos y la penalización en tamaño de código son dos caras de la
+misma decisión de interfaz: poner el punto cero en un inmediato es lo que vuelve
+gratis la corrección en ejecución y lo que hace crecer el código.
 
 \begin{table}[t]
 \caption{Ciclos de B3 divididos entre ciclos de D, por régimen y número de
-filas. Corrida \CampaignRun, \CampaignCases\ casos; sin agregar regímenes.}
+filas. Un valor de 1.00 significa que ambas variantes cuestan exactamente lo
+mismo. Corrida \CampaignRun, \CampaignCases\ casos; los regímenes nunca se
+agregan.}
 \label{tab:ratio}
 \centering
 \begin{tabular}{crrrr}
 \hline
-$N$ & ZC $z{=}0$ & ZC $z{=}8$ & ZC $z{=}15$ & ZS \\
+\(N\) & ZC \(z{=}0\) & ZC \(z{=}8\) & ZC \(z{=}15\) & ZS \\
 \hline
 1 & 1.00 & 1.86 & 1.88 & 1.00 \\
 4 & 1.00 & 1.25 & 1.26 & 1.46 \\
@@ -201,45 +262,37 @@ $N$ & ZC $z{=}0$ & ZC $z{=}8$ & ZC $z{=}15$ & ZS \\
 \end{tabular}
 \end{table}
 
-La unidad empacada sin corrección supera 67\,910 vectores por simulador,
-con diez controles negativos por simulador y cuatro mutaciones en Icarus.
-A partir de 1680 respuestas RTL se reconstruyen 336 salidas por fila/grupo
-en 24 casos matriz--vector, reutilizando la suma de activaciones entre filas.
-En esa batería aislada, la acumulación y corrección se realizan en el verificador.
-
-La integración de XQDot4 supera 123 programas en ambos simuladores, con las
-ocho configuraciones de MUL y las dos instrucciones empacadas, y detecta tres
-mutaciones en Icarus. Cuatro pares de fixtures de dos filas producen ocho
-salidas iguales en B3 y D. En B3, Kuntur calcula una sola suma de activaciones,
-la reutiliza y corrige mediante MUL/SUB; D acumula subtotales fusionados.
-Son pruebas de exactitud con punto cero conocido al generar el código,
-no benchmarks optimizados ni pruebas de metadatos dinámicos.
-
-\textit{Evaluación de rendimiento pendiente.} Estos resultados no prueban
-aceleración, recursos, tiempo físico ni suministro eficiente de metadatos dinámicos.
+Leídas en conjunto, estas cifras responden la pregunta con una condición y no
+con un veredicto. La fusión ayuda más donde la corrección no puede amortizarse:
+pocas filas y punto cero distinto de cero. Ayuda menos, o nada, donde la
+alternativa puede repartir la corrección entre muchas filas o saltársela por
+completo. Y donde más ayuda en ciclos, con punto cero variable, es donde más
+cuesta en código.
 
 \subsection{Amenazas a la validez}
 El esqueleto compartido reduce el sesgo de optimización pero no demuestra
-optimalidad ni elimina la interacción software--arquitectura.
-La distribución sintética no representa necesariamente una red real.
-Con z=0 puede omitirse la corrección separada, sin demostrar igualdad de
-rendimiento. Despachar entre inmediatos permitiría z dinámico sin otro
-encoding, pero sigue sin implementación ni costo medido. Los contadores están
-validados estructuralmente, contra ocho programas dirigidos, tres controles
-negativos, cuatro mutaciones del banco detectadas y una identidad de ciclos
-comprobada por caso; los ciclos RTL siguen sin demostrar timing físico. La
-sensibilidad queda contestada solo para el número de filas: se midió un grupo
-de 32 elementos, así que cómo se mueve la comparación con K y G está abierto, y
-el layout de datos congelado no alcanza hoy esas formas.
+optimalidad ni elimina la interacción entre software y arquitectura. La
+distribución sintética no representa necesariamente una red real. Con \(z{=}0\)
+puede omitirse la corrección separada, lo que no demuestra igualdad de
+rendimiento en general. Despachar entre inmediatos sostendría un punto cero
+dinámico sin otra codificación, pero aquí no tiene implementación ni costo
+medido. Los contadores están validados estructuralmente, contra ocho programas
+dirigidos, tres controles negativos, cuatro mutaciones del banco detectadas y
+una identidad de contabilidad de ciclos comprobada en cada caso; los ciclos RTL
+siguen sin demostrar timing físico. La pregunta de sensibilidad queda contestada
+solo para el número de filas: se midió un grupo de 32 elementos, así que cómo se
+mueve la comparación con la cantidad de grupos y su tamaño sigue abierto, y el
+layout de datos congelado no alcanza hoy esas formas.
 
 \section{Conclusiones}
-La fusión reduce ciclos frente a la corrección factorizada y frente a la
-multiplicación escalar, pero no de forma uniforme: el beneficio se estrecha al
-crecer $N$, se anula con $z{=}0$ y, con punto cero variable, se cobra en texto
-de código. La respuesta a la pregunta no es un número sino un mapa de
-condiciones, que es lo que este trabajo aporta.
+Fusionar la corrección del punto cero en la instrucción de producto punto reduce
+ciclos frente a corrección factorizada y frente a multiplicación escalar, pero
+no de manera uniforme. El beneficio se estrecha al crecer el número de filas,
+desaparece cuando el punto cero es cero y, cuando el punto cero varía, se cobra
+de vuelta en tamaño de código. La respuesta a la pregunta no es un número sino
+un mapa de condiciones, y ese mapa es lo que este trabajo aporta.
 
 Quedan fuera el régimen con puntos cero leídos en ejecución, que esta interfaz
-no expresa, y la evidencia física: área, frecuencia y energía requieren síntesis
-y otra metodología. El hardware adicional de la variante fusionada no está
-contabilizado en estas cifras.
+no puede expresar, y la evidencia física: área, frecuencia y energía requieren
+síntesis y otra metodología. El hardware adicional que exige la variante
+fusionada no está contabilizado en ninguna cifra reportada aquí.

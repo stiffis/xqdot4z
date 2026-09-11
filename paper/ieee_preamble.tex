@@ -7,6 +7,8 @@
 \usepackage{balance}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 \usepackage[hidelinks]{hyperref}
 % Standard IEEE presentation: black text, white pages, monochrome figures.
 % No custom palette, themed backgrounds or decorative colour scheme.
@@ -17,6 +19,5 @@
 \else
   \hypersetup{pdftitle={XQDot4Z: Quantized Dot Products on a RISC-V Processor},pdflang={en}}
 \fi
-\newcommand{\PaperVersion}{0.10}
 % Pinned evidence, so a figure in the text cannot drift from the run it came from.
 \input{metadata}
