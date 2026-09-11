@@ -11,7 +11,7 @@ added to Kuntur, a teaching five-stage RISC-V core, and compared against three
 points of reference under one frozen code-generation policy: software
 multiplication without a multiplier, scalar multiply, and a packed dot product
 whose correction is factored so the activation sum is computed once per group
-and reused across rows. A registered campaign of 2280 simulated cases, all
+and reused across rows. A registered campaign of \CampaignCases\ simulated cases, all
 passing in two independent simulators, yields a map of conditions rather than a
 single speedup. Fusion reduces cycles against both alternatives, but the margin
 narrows as the row count grows, because the factored baseline spreads its
