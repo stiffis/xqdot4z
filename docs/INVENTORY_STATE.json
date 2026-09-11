@@ -1,10 +1,10 @@
 {
   "status": "inventory_materialized",
   "built_on": "2026-09-10",
-  "manifest_version": "0.8",
+  "manifest_version": "0.9",
   "builder": "scripts/materialize_tensors.py",
   "inventory": "benchmarks/inventory.json",
-  "inventory_sha256": "8d1af2fef18f1d287838db78923ce239bd6bacfca2fbc0b78876a2ee31a023f6",
+  "inventory_sha256": "af41f9c419e58ad2f6861b9948f4292dd4d7b3a8b09c8170d6b5a518bf8a3e64",
   "planned_cases": 2280,
   "groups": 570,
   "tensor_sets": 30,

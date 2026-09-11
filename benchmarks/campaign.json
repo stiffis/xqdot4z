@@ -1,7 +1,7 @@
 {
-  "manifest_version": "0.8",
+  "manifest_version": "0.9",
   "campaign_id": "static-z-initial",
-  "status": "design_only",
+  "status": "registered",
   "protocol": "docs/EXPERIMENT_PROTOCOL.md",
   "protocol_version": "0.6",
   "interpretation": "Evaluation under static zero-point specialization; no extrapolation to ZR and no proven upper bound on D's advantage.",
@@ -136,7 +136,5 @@
     "record": ["policy", "generator", "assembly", "disassembly", "text_hash", "tests", "git_revision"],
     "post_measurement_change": "new_version_with_reason_prior_observations_retained_and_affected_pairs_rerun"
   },
-  "execution_blockers": [
-    "record the pre-measurement revision and any observed development timings"
-  ]
+  "execution_blockers": []
 }

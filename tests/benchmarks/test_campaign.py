@@ -18,7 +18,7 @@ class CampaignTests(unittest.TestCase):
     def test_inventory(self):
         self.assertEqual(validate(self.manifest), dict(planned_cases=2280,
                          profile_cases={"zc_controls": 360, "zs_balanced_u4": 1920},
-                         balanced_shape_seed_checks=30, pilot_subset_cases=32, execution_ready=False))
+                         balanced_shape_seed_checks=30, pilot_subset_cases=32, execution_unblocked=True))
 
     def test_explicit_zero_point_schedule(self):
         zc, zs = self.manifest["zero_point_profiles"]
@@ -105,7 +105,7 @@ class CampaignTests(unittest.TestCase):
             lambda m: m["optimization"]["b1_software_multiply_policy"].update(performance_driven_algorithm_search=True),
             lambda m: m["b1_freeze"].update(required_before="after_pilot"),
             lambda m: m["b1_freeze"]["record"].remove("text_hash"),
-            lambda m: m["execution_blockers"].clear(),
+            lambda m: m.update(status="design_only"),
         ]
         self._assert_all_rejected(mutations)
 
@@ -139,9 +139,10 @@ class CampaignTests(unittest.TestCase):
             lambda m: m["common_policy_freeze"]["record"].remove("text_hash"),
             # The last blocker cannot be retired by an unrelated change, and no
             # blocker may be invented either: the list is checked exactly.
-            lambda m: m["execution_blockers"].remove(
-                "record the pre-measurement revision and any observed development timings"),
+            # A registered design cannot grow a blocker back, and a design-only
+            # one cannot pretend to have none.
             lambda m: m["execution_blockers"].append("some other thing to do first"),
+            lambda m: m.update(status="design_only"),
         ]
         self._assert_all_rejected(mutations)
 

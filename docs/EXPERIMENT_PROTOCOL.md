@@ -151,6 +151,28 @@ registrada: congelar un generador sin commitear fijaría algo que nadie más pue
 reproducir. Un cambio posterior exige versión nueva con motivo, conservando las
 observaciones previas y repitiendo los pares afectados.
 
+### Registro previo a medir
+
+`docs/PREREGISTRATION.json` fija la revisión desde la cual se puede empezar a
+medir, y con ella los seis estados de los que depende la campaña, el hash de las
+hipótesis del acta y las decisiones tomadas después de haber visto contadores.
+`check_project` lo vuelve a comprobar todo, así que **editar un estado
+registrado o una hipótesis rompe `make check`**: una campaña registrada se
+enmienda diciéndolo, no editándola.
+
+Registra además, **verbatim y releídos de la evidencia fijada**, los contadores
+de desarrollo que se observaron al escribir y verificar los kernels. Eso era
+trabajo de corrección y no la campaña —dos semillas de diez, cuatro ajustes de
+diecinueve, sin piloto ni registro previo en ese momento— pero se vieron. Al
+quedar escritos y atados a la evidencia, no pueden reformularse después como
+algo más favorable, y la campaña no puede presentarse como si se hubiera
+diseñado a ciegas.
+
+Con este registro el manifiesto pasa a `registered` y su lista de bloqueadores
+queda vacía. **Registrado no es ejecutado**: significa que todo lo que la
+campaña necesita está fijado y que el punto de partida está fechado. No se ha
+medido nada, el piloto no ha corrido y no se ha calculado ningún speedup.
+
 Al desarrollarlos se observaron contadores de esas corridas de corrección; se
 registran como tiempos de desarrollo observados, no como resultados, y no se ha
 comparado ni calculado ningún speedup. Falta materializar tensores e inventario

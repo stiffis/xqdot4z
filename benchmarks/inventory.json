@@ -1,5 +1,5 @@
 {
- "built_on": "2026-09-10",
+ "built_on": "2026-09-11",
  "cases": {
   "B1_n16_s20260908_zc_controls_0": {
    "group": "n16_s20260908_zc_controls_0",
@@ -38226,7 +38226,7 @@
   }
  },
  "k": 32,
- "manifest_version": "0.8",
+ "manifest_version": "0.9",
  "measurements_taken": false,
  "regimes_coincide_at_one_row": {
   "colliding_cases": 120,

@@ -40,8 +40,11 @@ def zero_points(profile, setting, n, groups):
 
 
 def validate(manifest):
-    require(manifest["manifest_version"] == "0.8", "Unsupported manifest version")
-    require(manifest["status"] == "design_only", "This checker does not certify runnable campaigns")
+    require(manifest["manifest_version"] == "0.9", "Unsupported manifest version")
+    # "registered" means every blocker is discharged and the design is recorded.
+    # It does not mean the campaign ran, nor that this checker certifies it can.
+    status = manifest["status"]
+    require(status in ("design_only", "registered"), "Unknown campaign status")
     require(manifest["protocol"] == "docs/EXPERIMENT_PROTOCOL.md" and
             manifest["protocol_version"] == "0.6", "Protocol reference mismatch")
     grid = manifest["grid"]
@@ -216,11 +219,15 @@ def validate(manifest):
             "Both policies must be frozen once their blockers are discharged")
     require(Path(ROOT / "benchmarks/inventory.json").exists(),
             "Every planned case must be materialized once its blocker is discharged")
-    require(manifest["execution_blockers"] == [
-        "record the pre-measurement revision and any observed development timings",
-    ], "Execution blockers changed; selecting the common policies does not unblock measurement")
+    blockers = manifest["execution_blockers"]
+    if status == "registered":
+        require(blockers == [], "A registered design has no execution blockers left")
+        require(Path(ROOT / "docs/PREREGISTRATION.json").exists(),
+                "A registered design must record the revision measuring may begin from")
+    else:
+        require(bool(blockers), "A design-only campaign still has blockers")
     return dict(planned_cases=len(case_ids), profile_cases=dict(profile_cases),
-                balanced_shape_seed_checks=distribution_checks, pilot_subset_cases=len(pilot_ids), execution_ready=False)
+                balanced_shape_seed_checks=distribution_checks, pilot_subset_cases=len(pilot_ids), execution_unblocked=status == "registered")
 
 
 def check():

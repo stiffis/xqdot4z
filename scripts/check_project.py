@@ -583,6 +583,41 @@ def check_kernels():
     return len(report["cases"])
 
 
+def check_preregistration():
+    """A registered design changes only by saying so; this is what makes that bind."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from record_preregistration import PINNED_STATES, POST_OBSERVATION_DECISIONS, hypotheses, sha
+    record = json.loads((ROOT / "docs/PREREGISTRATION.json").read_text())
+    assert record["campaign_executed"] is record["pilot_executed"] is False
+    assert record["results_reported"] is False
+    advice = "; changing a registered state means amending the registration, not editing it"
+    assert set(record["pinned_states"]) == set(PINNED_STATES)
+    for path, digest in record["pinned_states"].items():
+        assert sha(ROOT / path) == digest, f"{path} changed after registration" + advice
+    assert record["charter_hypotheses_sha256"] == hypotheses(), "Hypotheses edited after registration" + advice
+    assert record["post_observation_decisions"] == POST_OBSERVATION_DECISIONS
+    decisions = (ROOT / "docs/DECISIONS.md").read_text()
+    for identifier in POST_OBSERVATION_DECISIONS:
+        assert f"| {identifier} |" in decisions, f"{identifier} is registered but missing from the log"
+    # The observed counters are re-read from the evidence, so they cannot be
+    # quietly restated as something more flattering than what was seen.
+    timings = record["observed_development_timings"]
+    assert timings["speedup_computed"] is False
+    assert timings["hypotheses_changed_after_seeing"] is False
+    kernels = json.loads((ROOT / "docs/KERNEL_STATE.json").read_text())
+    assert timings["source"] == kernels["evidence"]
+    assert timings["source_sha256"] == kernels["evidence_sha256"]
+    report = json.loads((ROOT / kernels["evidence"]).read_text())
+    assert timings["cycles"] == {n: c["counters"]["cycles"] for n, c in report["cases"].items()}
+    assert timings["decomposition"] == report["zs_decomposition"]
+    assert timings["loop_control"] == {n: e["cycles"] for n, e in report["loop_control"].items()}
+    assert timings["arms"] == len(report["cases"])
+    print(f"OK: design registered after {record['parent_git_revision'][:7]}; "
+          f"{len(PINNED_STATES)} states, hypotheses and {timings['arms']} observed arms bound.")
+    print("Registration fixes where measuring may begin; nothing has been measured.")
+    return len(PINNED_STATES)
+
+
 def check_inventory():
     """Recompute every planned case from its seed; the file is a record, not a source."""
     sys.path.insert(0, str(ROOT / "benchmarks"))
@@ -761,6 +796,7 @@ def main():
     check_measurement()
     check_kernels()
     check_inventory()
+    check_preregistration()
     check_freeze()
     from check_campaign import check as check_campaign
     check_campaign()
