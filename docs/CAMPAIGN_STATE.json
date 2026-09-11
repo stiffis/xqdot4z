@@ -2,9 +2,9 @@
   "status": "campaign_executed",
   "executed_on": "2026-09-11",
   "runner": "scripts/run_campaign.py",
-  "evidence": "results/campaign/20260911T030322219373Z/summary.json",
-  "evidence_sha256": "2ead27b41999ef6299cd69c7bf77dcbd41183f86611db3bbb1052d2bc0bd2f07",
-  "run_id": "20260911T030322219373Z",
+  "evidence": "results/campaign/20260911T040655320069Z/summary.json",
+  "evidence_sha256": "83cd8c94456fadea5887f7a0bbf688cf9bbfe92b5b29e8643e596ba0e46d64ef",
+  "run_id": "20260911T040655320069Z",
   "protocol_version": "0.6",
   "manifest_version": "0.9",
   "planned_cases": 2280,
@@ -17,10 +17,5 @@
   "global_speedup_across_z_profiles": null,
   "grid_reduced": false,
   "seed_invariant_cycles": "Cycles are identical across all ten seeds in every one of the 228 variant/shape/setting combinations, and identical across all sixteen ZS phases. This does not license reducing the grid: that needs the manifest's reduction gate, a deliberate revision.",
-  "schema_fields_missing": [
-    "core_revision",
-    "artifacts",
-    "command"
-  ],
-  "schema_note": "results/schema.json predates any measurement and names fields this runner does not emit. Recorded as a gap to close in the next campaign run rather than patched into existing evidence."
+  "schema_note": "results/schema.json predates any measurement. The earlier run omitted core_revision, artifacts and command; the gap was closed by running the campaign again with a conformant runner, not by patching evidence. This summary carries every field the schema requires."
 }

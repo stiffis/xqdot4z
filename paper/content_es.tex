@@ -173,8 +173,9 @@ la diferencia es control y no corrección. Restando el gemelo estructural, de lo
 164 ciclos de $N{=}16$ corresponden 47 al control de bucle y 117 a la
 corrección: la relación corregida pasa de 1.38 a 1.20 en lugar de 1.46 a 1.28.
 
-Frente a MUL escalar, D emplea entre 6.2 y 6.8 veces menos ciclos con $N{=}16$;
-B1, sin multiplicador, entre 31 y 34 veces más que D. Esa especialización
+Frente a MUL escalar, D emplea entre 5.4 y 6.8 veces menos ciclos con $N{=}16$,
+el extremo bajo en $z{=}0$, donde D no tiene corrección que ahorrar; B1, sin
+multiplicador, entre 26 y 34 veces más que D. Esa especialización
 forzada no es gratuita: con $N{=}16$ y $z$ variable D ocupa 516 palabras de
 código frente a 72 de B3, porque su codificación exige dieciséis cuerpos de
 fila. Ventaja en ciclos y costo en texto son la misma decisión de interfaz.

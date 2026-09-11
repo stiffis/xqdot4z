@@ -172,8 +172,9 @@ control rather than correction. Subtracting the structural twin, of the 164
 cycles at $N{=}16$ some 47 belong to loop control and 117 to the correction:
 the corrected ratio moves from 1.38 to 1.20 rather than 1.46 to 1.28.
 
-Against scalar MUL, D uses between 6.2 and 6.8 times fewer cycles at $N{=}16$;
-B1, without a multiplier, between 31 and 34 times more than D. That forced
+Against scalar MUL, D uses between 5.4 and 6.8 times fewer cycles at $N{=}16$,
+the low end at $z{=}0$ where D has no correction to save; B1, without a
+multiplier, spends between 26 and 34 times more than D. That forced
 specialization is not free: at $N{=}16$ with a varying $z$, D occupies 516 code
 words against 72 for B3, because its encoding demands sixteen row bodies. The
 cycle advantage and the text cost are the same interface decision.

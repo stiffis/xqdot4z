@@ -51,7 +51,14 @@ def main():
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%f") + "Z"
     out = ROOT / "results/campaign" / stamp
     out.mkdir(parents=True, exist_ok=True)
+    core_revision = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
+                                   capture_output=True, text=True, check=True).stdout.strip()
+    # results/schema.json named these fields before any measurement existed;
+    # emitting them makes the evidence conform to the shape declared up front.
     report = dict(status="fail", run_id=stamp, timestamp_utc=stamp,
+                  core_revision=core_revision,
+                  command=["python3", "scripts/run_campaign.py"],
+                  artifacts=str((ROOT / "results/campaign" / stamp).relative_to(ROOT)),
                   protocol_version=manifest["protocol_version"],
                   manifest_version=manifest["manifest_version"],
                   campaign_id=manifest["campaign_id"], variant="all",
