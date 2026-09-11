@@ -1,0 +1,64 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,
+ fld/.style={draw,minimum height=4.6mm,inner sep=0pt,font=\tiny,anchor=south west},
+ tick/.style={font=\tiny,anchor=south},
+ name/.style={font=\scriptsize,anchor=west}]
+
+% One cell per bit is 0.21cm wide, so a field from bit H down to bit L starts at
+% 0.21*(31-H) and ends at 0.21*(32-L). The rows share that scale, which is what
+% makes the funct7 split visible.
+\foreach \x/\b in {0/31, 0.84/27, 1.47/24, 2.52/19, 3.57/14, 4.20/11, 5.25/6, 6.72/0}{
+  \node[tick] at (\x,1.60) {\b};
+}
+
+\foreach \y/\label in {1.10/R, 0.50/XQDot4Zi, -0.10/XQDot4}{
+  \node[name] at (6.85,\y+0.23) {\label};
+}
+
+% Generic R-type, for reference: the two additions are ordinary R-type words.
+\node[fld,minimum width=1.47cm] at (0,1.10) {funct7};
+\node[fld,minimum width=1.05cm] at (1.47,1.10) {rs2};
+\node[fld,minimum width=1.05cm] at (2.52,1.10) {rs1};
+\node[fld,minimum width=0.63cm] at (3.57,1.10) {funct3};
+\node[fld,minimum width=1.05cm] at (4.20,1.10) {rd};
+\node[fld,minimum width=1.47cm] at (5.25,1.10) {opcode};
+
+\node[fld,minimum width=0.84cm,very thick] at (0,0.50) {$z$};
+\node[fld,minimum width=0.21cm,very thick] at (0.84,0.50) {$h$};
+\node[fld,minimum width=0.42cm] at (1.05,0.50) {00};
+\node[fld,minimum width=1.05cm] at (1.47,0.50) {rs2};
+\node[fld,minimum width=1.05cm] at (2.52,0.50) {rs1};
+\node[fld,minimum width=0.63cm] at (3.57,0.50) {000};
+\node[fld,minimum width=1.05cm] at (4.20,0.50) {rd};
+\node[fld,minimum width=1.47cm] at (5.25,0.50) {0001011};
+
+\node[fld,minimum width=0.84cm] at (0,-0.10) {0000};
+\node[fld,minimum width=0.21cm,very thick] at (0.84,-0.10) {$h$};
+\node[fld,minimum width=0.42cm] at (1.05,-0.10) {00};
+\node[fld,minimum width=1.05cm] at (1.47,-0.10) {rs2};
+\node[fld,minimum width=1.05cm] at (2.52,-0.10) {rs1};
+\node[fld,minimum width=0.63cm] at (3.57,-0.10) {000};
+\node[fld,minimum width=1.05cm] at (4.20,-0.10) {rd};
+\node[fld,minimum width=1.47cm] at (5.25,-0.10) {0101011};
+
+\node[font=\tiny,anchor=north] at (3.36,-0.30)
+ {\ifSpanish rs2 lleva las activaciones y rs1 los pesos empacados
+  \else rs2 holds the activations and rs1 the packed weights\fi};
+\end{tikzpicture}
+\caption{\ifSpanish Formato de las dos instrucciones añadidas, contra el tipo R
+del ISA base. Ambas son palabras R corrientes en espacio de opcode
+personalizado: no reutilizan ninguna codificación estándar reservada. Lo que las
+distingue cabe dentro de funct7. XQDot4Zi gasta cuatro de esos bits en el punto
+cero $z$, y ese es exactamente el motivo de que la corrección salga gratis en
+ejecución y de que el código deba especializarse. XQDot4 deja esos bits en cero
+y no corrige nada. El bit $h$ elige qué mitad de los ocho pesos se usa.
+\else Format of the two added instructions against the base ISA's R-type. Both
+are ordinary R-type words in custom opcode space and reuse no reserved standard
+encoding. What separates them fits inside funct7: XQDot4Zi spends four of those
+bits on the zero point $z$, which is exactly why its correction is free at run
+time and why its code must be specialized, while XQDot4 leaves them zero and
+corrects nothing. The $h$ bit selects which half of the eight weights is
+used.\fi}
+\label{fig:encoding}
+\end{figure}

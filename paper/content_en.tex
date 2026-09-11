@@ -31,7 +31,7 @@ hardware verification
 \suppressfloats[t]
 
 \section{Introduction}
-A neural-network layer is, underneath, a great many dot products between
+A neural-network layer is, at bottom, a great many dot products between
 weights and activations. Quantization lets both sides be held as small integers
 with a scale factor~\cite{jacob}, and the saving in storage is dramatic: eight
 four-bit weights fit in one 32-bit word. But that is a saving in memory, not in
@@ -67,7 +67,7 @@ activations as S8, signed eight-bit integers in \([-128,127]\). The result is
 an INT32 subtotal in \([-7680,7680]\); scales, bias and the accumulation of
 other subtotals stay outside the operation.
 
-Read literally, \eqref{eq:dot} spends four subtractions before any product is
+Read literally, \eqref{eq:dot} costs four subtractions before any product is
 formed. It can be rearranged, however, into
 \begin{equation}
 d=\sum_i q_{w,i}q_{a,i}-z_w\sum_i q_{a,i}.
@@ -147,6 +147,40 @@ the corrected subtotal directly and never forms an activation sum at all.
 The comparison that answers the question is D against B3. B1 and B2 bound the
 space around it; they do not settle it.
 
+\subsection{Instruction Encoding}
+Both optional instructions are R-type and live in custom opcode space, so
+neither reuses a reserved standard encoding. Written in the notation the base
+integer instructions use, where \texttt{add rd,rs1,rs2} is
+\(X[rd]=X[rs1]+X[rs2]\) and \texttt{lw} is
+\(X[rd]=M[X[rs1]+\mathrm{signext}(\mathit{imm})]\), the two additions read
+\begin{equation}
+X[rd]=\sum_{i=0}^{3}\bigl(\mathrm{U4}(X[rs1],\,i{+}4h)-z\bigr)\cdot\mathrm{S8}(X[rs2],\,i)
+\label{eq:xqdot4zi}
+\end{equation}
+for \texttt{xqdot4zi rd,rs1,rs2,z,h}, and
+\begin{equation}
+X[rd]=\sum_{i=0}^{3}\mathrm{U4}(X[rs1],\,i{+}4h)\cdot\mathrm{S8}(X[rs2],\,i)
+\label{eq:xqdot4}
+\end{equation}
+for \texttt{xqdot4 rd,rs1,rs2,h}. Here \(\mathrm{U4}(w,j)\) is the \(j\)-th
+unsigned four-bit field of a word and \(\mathrm{S8}(a,i)\) the \(i\)-th signed
+byte, \(h\) selects which half of the eight weights is used, and the result is
+sign-extended to 32 bits. Neither touches memory, neither accumulates into the
+previous value of \(rd\), and \(rd=x0\) discards the result as usual.
+
+The whole contribution is the \(-z\) in \eqref{eq:xqdot4zi}. Everything measured
+in this paper follows from where that subtraction lives, and from the fact that
+\(z\) is an immediate: Fig.~\ref{fig:encoding} shows it occupying bits 31:28 of
+the instruction word. That placement is what makes the correction free at run
+time, and equally what forces a separate row body per distinct zero point.
+
+\input{encoding_figure}
+
+XQDot4Zi admits 32 combinations of \(z\) and \(h\); every other funct7 or funct3
+pattern in custom-0 is rejected rather than ignored, and XQDot4 admits only two.
+Rejecting unimplemented patterns matters more than it sounds: a core that
+quietly executed them would make the negative controls meaningless.
+
 \subsection{Platform and Verification}
 The original teaching core is preserved and all development happens in an
 independent clone, so the baseline cannot drift under the experiment. Each
@@ -197,6 +231,20 @@ measured as a structural twin: the same loop body replicated without the back
 edge. Subtracting the twin prices loop control exactly, so what remains is
 attributable to the arithmetic.
 
+\subsection{Reproducibility}
+Every milestone is pinned by SHA-256 in a state file that names the evidence it
+rests on, and the acceptance gate re-derives those hashes rather than trusting
+the claim. Each verification runs twice and the two runs are compared field by
+field, so a result that depended on timing or on ordering would not survive.
+Mutations are injected into the units, the harness and the registration
+mechanism itself, and a mutation that no test detects is treated as a missing
+test. The registration is a chain in which each link pins the bytes of the one
+before it, so a design that changed after measurement cannot be presented as
+though it had been fixed in advance.
+
+The whole record is offline and self-contained: no network, no shell escape, and
+every planned case retained with its terminal status, failures included.
+
 \balance
 \section{Results and Discussion}
 The registered campaign ran \CampaignCases\ cases, all passing in both
@@ -217,6 +265,38 @@ zero point that varies, so those columns necessarily agree.
 
 \input{ratio_figure}
 
+Table~\ref{tab:breakdown} breaks the gap down. Every case in the campaign satisfies
+the identity that cycles equal retired kernel instructions plus the pipeline
+depth, plus load-use stalls, plus twice the taken-control flushes, and the check
+recomputes it rather than reading a recorded total. Applied to sixteen rows
+under a varying zero point, it shows the 164-cycle difference between D and B3
+as 110 retired instructions, 24 stall cycles and 30 cycles of flush.
+
+\begin{table}[t]
+\caption{Where the cycles go at \(N{=}16\) with a varying zero point. Cycles are
+the sum of the other columns plus the five-stage depth, recomputed for every
+case rather than recorded. D flushes nothing because it has no loop to close.}
+\label{tab:breakdown}
+\centering
+\begin{tabular}{lrrrr}
+\hline
+ & Cycles & Retired & Load-use & Flushes \\
+\hline
+D & 581 & 514 & 64 & 0 \\
+B3 & 745 & 624 & 88 & 15 \\
+B2 & 3926 & 3829 & 64 & 15 \\
+B1 & 19813 & 19716 & 64 & 15 \\
+\hline
+\end{tabular}
+\end{table}
+
+The flush column repays careful reading, because it is not a virtue. D
+flushes nothing at sixteen rows only because it has no back edge to take: its
+zero point is an immediate, so the rows are straight-line code. The fifteen
+flushes B3 pays are the price of keeping a loop, and the same choice is what
+keeps its code small. This is the structural difference the twin measurement
+exists to separate from the arithmetic one.
+
 Under a varying zero point the raw gap mixes two effects, and the structural
 twin separates them. Of the 164 cycles that separate the variants at
 \(N{=}16\), about 47 belong to loop control and 117 to the correction itself.
@@ -228,12 +308,38 @@ Against scalar MUL, D uses between 5.4 and 6.8 times fewer cycles at
 \(N{=}16\), the low end at \(z{=}0\) where D has no correction to save; B1,
 without a multiplier, spends between 26 and 34 times more than D.
 
-That forced specialization is not free, and the cost lands in a different
-currency. At \(N{=}16\) with a varying zero point, D occupies 516 instruction
-words against 72 for B3, because its encoding demands sixteen separate row
-bodies. The cycle advantage and the code-size penalty are two faces of the same
-interface decision: putting the zero point in an immediate is what makes the
-correction free at run time and what makes the code grow.
+Specialization is not free, and the cost lands in a different currency.
+Table~\ref{tab:code} gives the full picture, which is less one-sided than a
+single pair of numbers suggests. Under a constant zero point D is the
+\emph{smaller} of the two at any row count, 39 words against 68, because it
+needs no activation sum and no correction code and can keep a loop. It is only
+when the zero point varies that its text grows with the row count, reaching 516
+words against 72, since the immediate demands one row body per distinct value.
+
+\begin{table}[t]
+\caption{Code size in instruction words. Under a constant zero point D is
+smaller than B3 and stays constant; under a varying one it grows linearly with
+the row count while B3 does not move. Both effects follow from the same
+immediate.}
+\label{tab:code}
+\centering
+\begin{tabular}{crrrr}
+\hline
+ & \multicolumn{2}{c}{ZC \(z{=}8\)} & \multicolumn{2}{c}{ZS} \\
+\(N\) & D & B3 & D & B3 \\
+\hline
+1 & 39 & 68 & 39 & 68 \\
+4 & 39 & 68 & 132 & 72 \\
+16 & 39 & 68 & 516 & 72 \\
+\hline
+\end{tabular}
+\end{table}
+
+The cycle advantage and the code-size penalty are two faces of one interface
+decision. Putting the zero point in an immediate is what makes the correction
+free at run time, what removes the loop, and what makes the text grow. A design
+that reported only the favorable half of that would be describing a different
+instruction.
 
 \begin{table}[t]
 \caption{B3 cycles divided by D cycles, by regime and row count. A value of

@@ -2,55 +2,52 @@
 \centering
 \begin{tikzpicture}[
  font=\scriptsize,
- box/.style={draw,minimum height=5.2mm,inner xsep=3pt,align=center},
+ box/.style={draw,minimum height=5.4mm,inner xsep=3pt,align=center},
  lbl/.style={font=\scriptsize\bfseries},
- arr/.style={-{Stealth[length=1.4mm]},shorten >=1pt,shorten <=1pt}]
+ arr/.style={-{Stealth[length=1.4mm]},shorten >=1pt}]
 
-\node[lbl] at (-3.55,0.55) {\ifSpanish Entrada\else Input\fi};
-\node[box,text width=17mm] (in) at (-3.55,0)
- {\ifSpanish 8 pesos U4\\4 activaciones S8\else 8 U4 weights\\4 S8 activations\fi};
+\node[box,align=center] (in) at (0,0.8)
+ {\ifSpanish 8 pesos U4 y 4 activaciones S8, empacados
+  \else 8 U4 weights and 4 S8 activations, packed\fi};
 
-\foreach \y/\name/\code in {-1.25/b1/B1, -2.15/b2/B2, -3.05/b3/B3, -3.95/d/D}{
-  \node[lbl] at (-3.55,\y) {\code};
+\foreach \y/\code in {-0.8/B1, -1.65/B2, -2.5/B3, -3.35/D}{
+  \node[lbl] at (-3.62,\y) {\code};
 }
 
-\node[box,text width=20mm] (b1a) at (-1.35,-1.25)
+\node[box,text width=21mm] (b1a) at (-1.80,-0.8)
  {\ifSpanish desplazar y sumar\else shift and add\fi};
-\node[box,text width=20mm] (b1b) at (1.15,-1.25)
+\node[box,text width=21mm] (b1b) at (0.95,-0.8)
  {\ifSpanish restar 4 veces\else subtract 4 times\fi};
 
-\node[box,text width=20mm] (b2a) at (-1.35,-2.15) {4 $\times$ MUL};
-\node[box,text width=20mm] (b2b) at (1.15,-2.15)
+\node[box,text width=21mm] (b2a) at (-1.80,-1.65) {4 $\times$ MUL};
+\node[box,text width=21mm] (b2b) at (0.95,-1.65)
  {\ifSpanish restar 4 veces\else subtract 4 times\fi};
 
-\node[box,text width=20mm] (b3a) at (-1.35,-3.05) {XQDot4 $\rightarrow P$};
-\node[box,text width=20mm] (b3b) at (1.15,-3.05) {$P - z\,S_a$};
+\node[box,text width=21mm] (b3a) at (-1.80,-2.5) {XQDot4 $\rightarrow P$};
+\node[box,text width=21mm] (b3b) at (0.95,-2.5) {$P - z\,S_a$};
 
-\node[box,text width=20mm,very thick] (da) at (-1.35,-3.95) {XQDot4Zi};
-\node[box,text width=20mm,draw=none] (db) at (1.15,-3.95)
+\node[box,text width=21mm,very thick] (da) at (-1.80,-3.35) {XQDot4Zi};
+\node[text width=21mm,align=center] (db) at (0.95,-3.35)
  {\ifSpanish (ya corregido)\else (already corrected)\fi};
 
-\node[box,text width=12mm] (out) at (3.35,-2.6) {$d$ (INT32)};
+\node[box,text width=11mm] (out) at (3.02,-2.07) {$d$ (INT32)};
 
-\foreach \a/\b in {b1a/b1b, b2a/b2b, b3a/b3b}{\draw[arr] (\a) -- (\b);}
-\draw[arr] (da) -- (db);
-\foreach \n in {b1a,b2a,b3a,da}{\draw[arr] (in.east) -| ($(\n.west)+(-3mm,0)$) -- (\n.west);}
-\foreach \n in {b1b,b2b,b3b,db}{\draw[arr] (\n.east) -- ++(3mm,0) |- (out.west);}
-
-\node[align=left,text width=26mm,anchor=west] at (2.1,-4.75)
- {\ifSpanish $S_a$ se calcula una vez por grupo y se reutiliza en las $N$ filas.
-  \else $S_a$ is computed once per group and reused across the $N$ rows.\fi};
+\foreach \a/\b in {b1a/b1b, b2a/b2b, b3a/b3b, da/db}{\draw[arr] (\a) -- (\b);}
+\draw (in.south) -- (0,0.42) -- (-3.18,0.42);
+\foreach \n in {b1a,b2a,b3a,da}{\draw[arr] (-3.18,0.42) |- (\n.west);}
+\foreach \n in {b1b,b2b,b3b,db}{\draw (\n.east) -| (2.26,-2.07);}
+\draw[arr] (2.26,-2.07) -- (out.west);
 \end{tikzpicture}
 \caption{\ifSpanish Trabajo que hace cada variante sobre un mismo grupo de cuatro
-pesos. B1--B3 son puntos de comparación; D es el diseño en estudio. Las cuatro
-leen los mismos datos empacados. La diferencia no está en el producto sino en
-quién paga la corrección del punto cero: B1 y B2 la restan término a término,
-B3 la factoriza y la amortiza entre filas, y D la absorbe dentro de la propia
-instrucción.
+pesos. B1--B3 son puntos de referencia; D es el diseño en estudio. Las cuatro
+leen los mismos datos empacados, así que la diferencia no está en el producto
+sino en quién paga la corrección del punto cero: B1 y B2 la restan término a
+término, B3 la factoriza y reutiliza $S_a$ entre las $N$ filas, y D la absorbe
+dentro de la propia instrucción.
 \else Work each variant performs on one group of four weights. B1--B3 are points
-of comparison; D is the design under study. All four read the same packed data.
-The difference is not in the product but in who pays for the zero-point
-correction: B1 and B2 subtract it term by term, B3 factors it and amortizes it
-across rows, and D absorbs it inside the instruction itself.\fi}
+of reference; D is the design under study. All four read the same packed data,
+so the difference is not in the product but in who pays for the zero-point
+correction: B1 and B2 subtract it term by term, B3 factors it and reuses $S_a$
+across the $N$ rows, and D absorbs it inside the instruction itself.\fi}
 \label{fig:comparison}
 \end{figure}

@@ -32,7 +32,7 @@ verificación de hardware
 \suppressfloats[t]
 
 \section{Introducción}
-Una capa de red neuronal es, por debajo, una enorme cantidad de productos punto
+Una capa de red neuronal es, en el fondo, una enorme cantidad de productos punto
 entre pesos y activaciones. La cuantización permite guardar ambos lados como
 enteros pequeños con un factor de escala~\cite{jacob}, y el ahorro en
 almacenamiento es notable: ocho pesos de cuatro bits caben en una palabra de 32
@@ -53,7 +53,7 @@ instrucción se añade a Kuntur, un procesador RISC-V docente de cinco etapas, y
 se mide contra tres puntos de referencia que resuelven la misma aritmética de
 maneras distintas. El objetivo no es un acelerador, ni una pila de inferencia
 completa. Es un mapa de las condiciones bajo las cuales fusionar la corrección
-se paga sola, incluidas aquellas en las que claramente no lo hace.
+compensa, incluidas aquellas en las que claramente no compensa.
 
 \input{comparison_figure}
 
@@ -70,18 +70,19 @@ las activaciones como S8, enteros con signo de ocho bits en \([-128,127]\). El
 resultado es un subtotal INT32 en \([-7680,7680]\); escalas, sesgo y la
 acumulación de otros subtotales quedan fuera de la operación.
 
-Leída al pie de la letra, \eqref{eq:dot} gasta cuatro restas antes de formar
+Leída al pie de la letra, la ecuación~\eqref{eq:dot} cuesta cuatro restas antes
+de formar
 producto alguno. Sin embargo puede reordenarse como
 \begin{equation}
 d=\sum_i q_{w,i}q_{a,i}-z_w\sum_i q_{a,i}.
 \label{eq:factor}
 \end{equation}
-El primer término es un producto punto corriente sobre los códigos crudos. El
+El primer término es un producto punto corriente sobre los códigos en bruto. El
 segundo es el punto cero por la suma de las activaciones, y esa suma no depende
 de los pesos en absoluto. En un producto matriz--vector las mismas activaciones
 se encuentran con todas las filas, así que puede calcularse una vez y
 reutilizarse en las \(N\) filas. Esa es justamente la razón por la que una
-comparación honesta no puede limitarse a contar las restas de \eqref{eq:dot}:
+comparación justa no puede limitarse a contar las restas de \eqref{eq:dot}:
 una implementación competente nunca las paga.
 
 XpulpNN y Dustin son precedentes de extensiones de instrucciones de baja
@@ -97,9 +98,9 @@ producto punto U4 por S8 reduce el costo de ejecución frente a multiplicación
 escalar y frente a corrección factorizada, considerando la reutilización de
 activaciones y el costo de suministrar el punto cero?}
 
-El alcance es un solo núcleo, lote uno, y núcleos pequeños de producto punto y
-matriz--vector. Costo significa ciclos de un pipeline in-order simulado,
-reportados junto con conteos de instrucciones y tamaño de código. Síntesis,
+El alcance es un solo procesador, tamaño de lote uno, y núcleos pequeños de
+producto punto y matriz--vector. Costo significa ciclos de un pipeline in-order
+simulado, reportados junto con conteos de instrucciones y tamaño de código. Síntesis,
 área, frecuencia y energía pertenecen a una etapa posterior con otra
 metodología, y nada de lo medido aquí se extrapola a ellas.
 
@@ -140,13 +141,13 @@ D & no requiere & empacado, cuatro carriles & fusionada en la instrucción \\
 
 B1 no tiene multiplicador alguno y construye cada producto por descomposición en
 bits con máscaras acotadas. Es contexto, no una afirmación sobre software
-óptimo: responde cuánto cuesta esta operación en un núcleo sin hardware de
+óptimo: responde cuánto cuesta esta operación en un procesador sin hardware de
 multiplicación, y su implementación se congela antes de medir para que no pueda
 ajustarse después de ver resultados. B2 es la versión directa con multiplicación
 escalar.
 
 B3 es el competidor serio. Corre una unidad empacada de cuatro carriles sobre
-los códigos crudos y aplica la corrección en la forma factorizada de
+los códigos en bruto y aplica la corrección en la forma factorizada de
 \eqref{eq:factor}, calculando la suma de activaciones una vez por grupo y
 reutilizándola entre filas. D usa una unidad de cuatro carriles que resta el
 punto cero dentro de cada carril, así que entrega el subtotal ya corregido y
@@ -154,6 +155,43 @@ nunca llega a formar una suma de activaciones.
 
 La comparación que responde la pregunta es D contra B3. B1 y B2 acotan el
 espacio a su alrededor; no la resuelven.
+
+\subsection{Codificación de la instrucción}
+Las dos instrucciones opcionales son de tipo R y viven en espacio de opcode
+personalizado, así que ninguna reutiliza una codificación estándar reservada.
+Escritas en la notación que usan las instrucciones enteras base, donde
+\texttt{add rd,rs1,rs2} es \(X[rd]=X[rs1]+X[rs2]\) y \texttt{lw} es
+\(X[rd]=M[X[rs1]+\mathrm{signext}(\mathit{imm})]\), las dos añadidas quedan
+\begin{equation}
+X[rd]=\sum_{i=0}^{3}\bigl(\mathrm{U4}(X[rs1],\,i{+}4h)-z\bigr)\cdot\mathrm{S8}(X[rs2],\,i)
+\label{eq:xqdot4zi}
+\end{equation}
+para \texttt{xqdot4zi rd,rs1,rs2,z,h}, y
+\begin{equation}
+X[rd]=\sum_{i=0}^{3}\mathrm{U4}(X[rs1],\,i{+}4h)\cdot\mathrm{S8}(X[rs2],\,i)
+\label{eq:xqdot4}
+\end{equation}
+para \texttt{xqdot4 rd,rs1,rs2,h}. Aquí \(\mathrm{U4}(w,j)\) es el \(j\)-ésimo
+campo de cuatro bits sin signo de una palabra y \(\mathrm{S8}(a,i)\) el
+\(i\)-ésimo byte con signo, \(h\) elige qué mitad de los ocho pesos se usa, y el
+resultado se extiende con signo a 32 bits. Ninguna toca memoria, ninguna acumula
+sobre el valor previo de \(rd\), y \(rd=x0\) descarta el resultado como de
+costumbre.
+
+Toda la contribución es el \(-z\) de \eqref{eq:xqdot4zi}. Todo lo que se mide en
+este artículo se sigue de dónde vive esa resta y de que \(z\) sea un inmediato: la
+Fig.~\ref{fig:encoding} lo muestra ocupando los bits 31:28 de la palabra de
+instrucción. Esa ubicación es lo que vuelve gratis la corrección en ejecución y,
+en la misma medida, lo que obliga a un cuerpo de fila distinto por cada punto
+cero distinto.
+
+\input{encoding_figure}
+
+XQDot4Zi admite 32 combinaciones de \(z\) y \(h\); cualquier otro patrón de
+funct7 o funct3 en custom-0 se rechaza en vez de ignorarse, y XQDot4 admite solo
+dos. Rechazar los patrones no implementados importa más de lo que parece: un
+procesador que los ejecutara en silencio dejaría sin sentido a los controles
+negativos.
 
 \subsection{Plataforma y verificación}
 El procesador docente original se conserva y todo el desarrollo ocurre en un
@@ -206,6 +244,21 @@ variante se mide también como gemelo estructural: el mismo cuerpo de bucle
 replicado sin la arista de retorno. Restar el gemelo cotiza el control de bucle
 con exactitud, y lo que queda es atribuible a la aritmética.
 
+\subsection{Reproducibilidad}
+Cada hito queda fijado por SHA-256 en un archivo de estado que nombra la
+evidencia sobre la que descansa, y la puerta de aceptación vuelve a derivar esos
+hashes en lugar de creerle a la afirmación. Cada verificación corre dos veces y
+las dos corridas se comparan campo por campo, así que un resultado que
+dependiera del reloj o del orden no sobreviviría. Se inyectan mutaciones en las
+unidades, en el banco de pruebas y en el propio mecanismo de registro, y una
+mutación que ninguna prueba detecta se trata como una prueba que falta. El
+registro es una cadena en la que cada eslabón fija los bytes del anterior, de
+modo que un diseño que cambió después de medir no puede presentarse como si
+hubiera estado fijado de antemano.
+
+Todo el registro es offline y autocontenido: sin red, sin escape a shell, y con
+todo caso planificado conservado junto a su estado terminal, fallos incluidos.
+
 \balance
 \section{Resultados y discusión}
 La campaña registrada corrió \CampaignCases\ casos, todos exitosos en ambos
@@ -226,6 +279,40 @@ tener un punto cero que varíe, así que esas columnas coinciden necesariamente.
 
 \input{ratio_figure}
 
+La Tabla~\ref{tab:breakdown} descompone el hueco. Todo caso de la campaña satisface la
+identidad de que los ciclos equivalen a las instrucciones retiradas del núcleo
+más la profundidad del pipeline, más los stalls de uso tras carga, más el doble
+de los flushes por control tomado, y la comprobación la recalcula en vez de leer
+un total registrado. Aplicada a dieciséis filas con punto cero variable, muestra
+los 164 ciclos de diferencia entre D y B3 como 110 instrucciones retiradas, 24
+ciclos de stall y 30 de flush.
+
+\begin{table}[t]
+\caption{Adónde van los ciclos con \(N{=}16\) y punto cero variable. Los ciclos
+son la suma de las demás columnas más la profundidad de cinco etapas; la
+identidad se recalcula en cada caso en vez de registrarse. D no paga ningún
+flush porque no tiene bucle que cerrar.}
+\label{tab:breakdown}
+\centering
+\begin{tabular}{lrrrr}
+\hline
+ & Ciclos & Retiradas & Stalls de carga & Flushes \\
+\hline
+D & 581 & 514 & 64 & 0 \\
+B3 & 745 & 624 & 88 & 15 \\
+B2 & 3926 & 3829 & 64 & 15 \\
+B1 & 19813 & 19716 & 64 & 15 \\
+\hline
+\end{tabular}
+\end{table}
+
+La columna de flushes conviene leerla con cuidado, porque no es una virtud. D no paga
+ningún flush con dieciséis filas únicamente porque no tiene arista de retorno que
+tomar: su punto cero es un inmediato, así que las filas son código recto. Los
+quince flushes que paga B3 son el precio de conservar un bucle, y esa misma
+decisión es la que mantiene pequeño su código. Esta es la diferencia estructural
+que la medición del gemelo existe para separar de la aritmética.
+
 Con punto cero variable el hueco bruto mezcla dos efectos, y el gemelo
 estructural los separa. De los 164 ciclos que separan a las variantes en
 \(N{=}16\), unos 47 pertenecen al control de bucle y 117 a la corrección misma.
@@ -237,12 +324,39 @@ Frente a MUL escalar, D emplea entre 5.4 y 6.8 veces menos ciclos con
 \(N{=}16\), con el extremo bajo en \(z{=}0\), donde D no tiene corrección que
 ahorrar; B1, sin multiplicador, gasta entre 26 y 34 veces más que D.
 
-Esa especialización forzada no es gratuita, y el costo aterriza en otra moneda.
-Con \(N{=}16\) y punto cero variable, D ocupa 516 palabras de instrucción frente
-a 72 de B3, porque su codificación exige dieciséis cuerpos de fila separados. La
-ventaja en ciclos y la penalización en tamaño de código son dos caras de la
-misma decisión de interfaz: poner el punto cero en un inmediato es lo que vuelve
-gratis la corrección en ejecución y lo que hace crecer el código.
+La especialización no es gratuita, y el costo aterriza en otra moneda. La
+Tabla~\ref{tab:code} da el panorama completo, que resulta menos unilateral de lo
+que sugiere un solo par de números. Con punto cero constante D es el
+\emph{menor} de los dos para cualquier número de filas, 39 palabras frente a 68,
+porque no necesita suma de activaciones ni código de corrección y puede
+conservar un bucle. Solo cuando el punto cero varía su texto crece con el número
+de filas, hasta 516 palabras frente a 72, ya que el inmediato exige un cuerpo de
+fila por cada valor distinto.
+
+\begin{table}[t]
+\caption{Tamaño de código en palabras de instrucción. Con punto cero constante D
+es menor que B3 y se mantiene fijo; con punto cero variable crece linealmente
+con el número de filas mientras B3 no se mueve. Ambos efectos salen del mismo
+inmediato.}
+\label{tab:code}
+\centering
+\begin{tabular}{crrrr}
+\hline
+ & \multicolumn{2}{c}{ZC \(z{=}8\)} & \multicolumn{2}{c}{ZS} \\
+\(N\) & D & B3 & D & B3 \\
+\hline
+1 & 39 & 68 & 39 & 68 \\
+4 & 39 & 68 & 132 & 72 \\
+16 & 39 & 68 & 516 & 72 \\
+\hline
+\end{tabular}
+\end{table}
+
+La ventaja en ciclos y la penalización en tamaño de código son dos caras de una
+misma decisión de interfaz. Poner el punto cero en un inmediato es lo que vuelve
+gratis la corrección en ejecución, lo que elimina el bucle y lo que hace crecer
+el texto. Un diseño que reportara solo la mitad favorable de eso estaría
+describiendo otra instrucción.
 
 \begin{table}[t]
 \caption{Ciclos de B3 divididos entre ciclos de D, por régimen y número de
@@ -289,7 +403,7 @@ Fusionar la corrección del punto cero en la instrucción de producto punto redu
 ciclos frente a corrección factorizada y frente a multiplicación escalar, pero
 no de manera uniforme. El beneficio se estrecha al crecer el número de filas,
 desaparece cuando el punto cero es cero y, cuando el punto cero varía, se cobra
-de vuelta en tamaño de código. La respuesta a la pregunta no es un número sino
+en tamaño de código. La respuesta a la pregunta no es un número sino
 un mapa de condiciones, y ese mapa es lo que este trabajo aporta.
 
 Quedan fuera el régimen con puntos cero leídos en ejecución, que esta interfaz
