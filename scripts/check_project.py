@@ -893,6 +893,16 @@ def main():
         assert str(scalar_programs) in body and "MUL" in body, "Paper scalar MUL status missing"
         assert f"{packed_vectors:,}".replace(",", r"\,") in body, "Paper B3 count differs"
         assert str(packed_programs) in body and "XQDot4" in body, "Paper B3 integration status missing"
+        # Campaign figures are pinned as macros and re-checked against the
+        # evidence, so the manuscript cannot drift from what was measured.
+        campaign = json.loads((ROOT / "docs/CAMPAIGN_STATE.json").read_text())
+        assert macro("CampaignRun") == campaign["run_id"], "Paper cites another campaign run"
+        assert int(macro("CampaignCases")) == campaign["planned_cases"], "Paper case count differs"
+        assert r"\CampaignCases" in body and r"\CampaignRun" in body, f"{language}: campaign not cited"
+        assert r"\label{tab:ratio}" in body, f"{language}: the central comparison table is missing"
+        # A reported advantage must carry what it costs and what it is not.
+        for claim in (r"\CampaignCombos", "1.08", "1.28", "516"):
+            assert claim in body, f"{language}: missing reported figure {claim}"
         assert Path(provenance["source_path"]).name.lower() not in body.lower(), (
             f"{language}: use only Kuntur as the processor name in the manuscript")
         bodies.append(body)

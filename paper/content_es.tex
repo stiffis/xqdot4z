@@ -13,9 +13,11 @@ fusión resulta útil frente a multiplicación escalar y frente a un producto
 punto empacado con corrección separada. Se propone utilizar un procesador
 docente de treinta y dos bits, verificar primero la operación y evaluar
 después productos punto y multiplicaciones matriz--vector. Este documento
-es un borrador inicial: presenta la pregunta y el método previsto, pero no
-reporta resultados de aceleración. Las conclusiones se redactarán cuando
-existan implementaciones verificadas y comparaciones reproducibles.
+reporta una campaña registrada de 2280 casos en simulación. La fusión reduce
+ciclos frente a ambas alternativas, por un margen que se estrecha al crecer el
+número de filas y que desaparece cuando el punto cero es cero. Con punto cero
+variable la ventaja se paga en tamaño de código, porque el inmediato obliga a
+especializar. Son ciclos simulados: no tiempo físico, energía ni área.
 \end{abstract}
 \begin{IEEEkeywords}
 inferencia cuantizada, aritmética de baja precisión, extensiones de instrucciones,
@@ -150,6 +152,54 @@ MUL supera 86\,704 vectores por simulador y 49 programas con cuatro
 configuraciones, ocho controles negativos por simulador y cuatro mutaciones
 en Icarus. Se conservan artefactos, logs y hashes de estas baterías.
 
+La campaña registrada ejecutó \CampaignCases\ casos, todos con estado
+\emph{pass} en ambos simuladores, sin ninguno ausente. Los ciclos resultan
+idénticos entre las diez semillas en las \CampaignCombos\ combinaciones de
+variante, forma y ajuste, y entre las dieciséis fases ZS, mientras las salidas
+difieren en todas. Eso no demuestra independencia respecto de cualquier dato ni
+reduce la rejilla: la compuerta de reducción es una revisión deliberada que no
+se ha tomado.
+
+La Tabla~\ref{tab:ratio} recoge la comparación central. La ventaja de D sobre B3
+disminuye al crecer $N$ en todo régimen donde B3 tenga corrección que amortizar,
+que es la tendencia que H2 anticipaba. Con $z{=}0$ no hay ventaja alguna: B3
+omite Sa y la corrección, y ambas variantes coinciden exactamente. Con $N{=}1$ y
+zero-point variable el régimen es degenerado, porque una sola fila no puede
+tener un $z$ que varíe.
+
+Bajo ZS el hueco crudo mezcla dos cosas. D está forzada a emitir un cuerpo por
+fila porque su $z$ es inmediato, mientras B3 recorre en bucle, así que parte de
+la diferencia es control y no corrección. Restando el gemelo estructural, de los
+164 ciclos de $N{=}16$ corresponden 47 al control de bucle y 117 a la
+corrección: la relación corregida pasa de 1.38 a 1.20 en lugar de 1.46 a 1.28.
+
+Frente a MUL escalar, D emplea entre 6.2 y 6.8 veces menos ciclos con $N{=}16$;
+B1, sin multiplicador, entre 31 y 34 veces más que D. Esa especialización
+forzada no es gratuita: con $N{=}16$ y $z$ variable D ocupa 516 palabras de
+código frente a 72 de B3, porque su codificación exige dieciséis cuerpos de
+fila. Ventaja en ciclos y costo en texto son la misma decisión de interfaz.
+
+Estas cifras son ciclos de un pipeline in-order simulado. No son tiempo físico,
+energía ni área, y el hardware adicional de D no está contabilizado aquí: eso
+corresponde a síntesis. El alcance es especialización estática; el régimen con
+zero-points leídos en ejecución sigue sin resolverse.
+
+\begin{table}[t]
+\caption{Ciclos de B3 divididos entre ciclos de D, por régimen y número de
+filas. Corrida \CampaignRun, \CampaignCases\ casos; sin agregar regímenes.}
+\label{tab:ratio}
+\centering
+\begin{tabular}{crrrr}
+\hline
+$N$ & ZC $z{=}0$ & ZC $z{=}8$ & ZC $z{=}15$ & ZS \\
+\hline
+1 & 1.00 & 1.86 & 1.88 & 1.00 \\
+4 & 1.00 & 1.25 & 1.26 & 1.46 \\
+16 & 1.00 & 1.08 & 1.08 & 1.28 \\
+\hline
+\end{tabular}
+\end{table}
+
 La unidad empacada sin corrección supera 67\,910 vectores por simulador,
 con diez controles negativos por simulador y cuatro mutaciones en Icarus.
 A partir de 1680 respuestas RTL se reconstruyen 336 salidas por fila/grupo
@@ -177,8 +227,13 @@ encoding, pero sigue sin implementación ni costo medido. Los contadores
 requieren validación; ciclos RTL no demuestran timing físico.
 
 \section{Conclusiones}
-\textit{Evaluación pendiente.} No puede concluirse aún que la fusión mejore
-el rendimiento. La ventana de medida y sus contadores ya están fijados y
-verificados con oráculo estructural, y las cuatro variantes devuelven las mismas
-salidas enteras que el oráculo y entre sí. Falta cerrar las condiciones de
-comparación antes de medir.
+La fusión reduce ciclos frente a la corrección factorizada y frente a la
+multiplicación escalar, pero no de forma uniforme: el beneficio se estrecha al
+crecer $N$, se anula con $z{=}0$ y, con punto cero variable, se cobra en texto
+de código. La respuesta a la pregunta no es un número sino un mapa de
+condiciones, que es lo que este trabajo aporta.
+
+Quedan fuera el régimen con puntos cero leídos en ejecución, que esta interfaz
+no expresa, y la evidencia física: área, frecuencia y energía requieren síntesis
+y otra metodología. El hardware adicional de la variante fusionada no está
+contabilizado en estas cifras.

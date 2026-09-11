@@ -13,9 +13,11 @@ multiplication and with a packed dot product followed by separate correction.
 A teaching-oriented thirty-two-bit processor is proposed as the platform,
 first to verify the operation and then to evaluate dot products and
 matrix--vector multiplication. This document is an initial draft: it presents
-the question and planned method, but reports no acceleration results.
-Conclusions will be written once verified implementations and reproducible
-comparisons are available.
+the question and reports a registered campaign of 2280 simulated cases. Fusion
+reduces cycles against both alternatives, by a margin that narrows as the row
+count grows and that vanishes when the zero point is zero. With a varying zero
+point the advantage is paid for in code size, because the immediate forces
+specialization. These are simulated cycles: not physical time, energy or area.
 \end{abstract}
 \begin{IEEEkeywords}
 quantized inference, low-precision arithmetic, instruction-set extensions,
@@ -151,6 +153,52 @@ simulator and 49 programs with four configurations, eight negative controls
 per simulator, and four Icarus mutations. Artifacts, logs, and hashes of these
 test suites are retained.
 
+The registered campaign ran \CampaignCases\ cases, all passing in both
+simulators with none missing. Cycles are identical across the ten seeds in all
+\CampaignCombos\ variant, shape and setting combinations, and across the sixteen
+ZS phases, while the outputs differ in every one. That does not prove
+independence from arbitrary data, nor does it reduce the grid: the reduction
+gate is a deliberate revision and has not been taken.
+
+Table~\ref{tab:ratio} holds the central comparison. D's advantage over B3 falls
+as $N$ grows in every regime where B3 has correction to amortize, which is the
+trend H2 anticipated. At $z{=}0$ there is no advantage at all: B3 omits Sa and
+the correction, and the two variants coincide exactly. At $N{=}1$ a varying
+zero point is degenerate, since a single row cannot have a $z$ that varies.
+
+Under ZS the raw gap mixes two things. D is forced to emit one row body per row
+because its $z$ is an immediate, while B3 loops, so part of the difference is
+control rather than correction. Subtracting the structural twin, of the 164
+cycles at $N{=}16$ some 47 belong to loop control and 117 to the correction:
+the corrected ratio moves from 1.38 to 1.20 rather than 1.46 to 1.28.
+
+Against scalar MUL, D uses between 6.2 and 6.8 times fewer cycles at $N{=}16$;
+B1, without a multiplier, between 31 and 34 times more than D. That forced
+specialization is not free: at $N{=}16$ with a varying $z$, D occupies 516 code
+words against 72 for B3, because its encoding demands sixteen row bodies. The
+cycle advantage and the text cost are the same interface decision.
+
+These figures are cycles of a simulated in-order pipeline. They are not physical
+time, energy or area, and D's additional hardware is not accounted for here:
+that belongs to synthesis. The scope is static specialization; the regime with
+zero points read at run time remains unresolved.
+
+\begin{table}[t]
+\caption{B3 cycles divided by D cycles, by regime and row count. Run
+\CampaignRun, \CampaignCases\ cases; regimes are never pooled.}
+\label{tab:ratio}
+\centering
+\begin{tabular}{crrrr}
+\hline
+$N$ & ZC $z{=}0$ & ZC $z{=}8$ & ZC $z{=}15$ & ZS \\
+\hline
+1 & 1.00 & 1.86 & 1.88 & 1.00 \\
+4 & 1.00 & 1.25 & 1.26 & 1.46 \\
+16 & 1.00 & 1.08 & 1.08 & 1.28 \\
+\hline
+\end{tabular}
+\end{table}
+
 The packed unit without correction passes 67\,910 vectors per simulator,
 with ten negative controls per simulator and four Icarus mutations.
 From 1680 RTL responses, 336 row/group outputs are reconstructed across
@@ -178,8 +226,13 @@ a new encoding, but still has no implementation or measured cost. Counters
 require validation; RTL cycles do not establish physical timing.
 
 \section{Conclusion}
-\textit{Evaluation pending.} Whether fusion improves performance remains
-unproven. The measurement window and its counters are now fixed and verified
-against a structural oracle, and all four variants return the same integers as
-the oracle and as each other. The comparison conditions remain to be settled
-before measurement.
+Fusion reduces cycles against both factored correction and scalar
+multiplication, but not uniformly: the benefit narrows as $N$ grows, vanishes at
+$z{=}0$, and with a varying zero point is charged back in code text. The answer
+to the question is not a number but a map of conditions, which is what this work
+contributes.
+
+Left outside are the regime with zero points read at run time, which this
+interface cannot express, and physical evidence: area, frequency and energy need
+synthesis and a different methodology. The fused variant's additional hardware
+is not accounted for in these figures.
