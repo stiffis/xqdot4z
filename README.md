@@ -56,7 +56,7 @@ y calidad de una red completa requerirán otras evidencias. La primera interfaz
 lleva z y h como inmediatos, con dos GPR fuente y sin estado oculto. No resuelve
 el suministro de zero-points leídos en ejecución ni es una extensión estándar.
 
-## Cómo usaremos tu procesador
+## Qué papel cumple cada copia del procesador
 
 - `baseline/upstream/`: exportación histórica de 143 archivos, con commit y
   manifiesto SHA-256. Solo para procedencia y reproducción de defectos.

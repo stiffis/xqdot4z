@@ -10,14 +10,14 @@ Fecha: 2026-09-08. Fuente: commit `d2e62fd127d85ac33fe54c9b98cffa06970b3fd5`.
 Alcance: inspección RTL, regresión histórica y sondas dirigidas de módulos.
 No es una certificación de conformidad RV32IC ni una verificación formal.
 
-## Decisión: sí usaremos tu procesador
+## Decisión: el procesador docente sirve como base
 
 Es una base apropiada para estudiar una extensión escalar: tiene pipeline de
 cinco etapas, dos lecturas de registros, forwarding, manejo de load-use y Fetch
 de instrucciones de 16/32 bits. Conocer su diseño reduce el costo de integración
 y permite explicar cada cambio. No hace falta reemplazarlo por otro core.
 
-Separaremos tres cosas:
+Se separan tres cosas:
 
 1. `baseline/upstream/`: exportación histórica, inmutable por política y comprobada
    mediante `baseline/SHA256SUMS`. Nunca se aplican correcciones aquí.
