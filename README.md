@@ -1,181 +1,201 @@
-# XQDot4Z — productos punto cuantizados en RV32
+# XQDot4Z — quantized dot products on RV32
 
-Estado: **M0 a M5 realizados**. Las cuatro variantes (B1, B2, B3 y D) tienen
-kernels verificados bajo una sola política de generación de código congelada, y
-la campaña registrada corrió **2280 de 2280 casos en `pass`** en dos simuladores
-sin ninguno ausente. Los resultados están en el artículo ES/EN con sus costos y
-sus límites. No se ha calculado ningún speedup agregado ni se ha reducido la
-rejilla; agregar regímenes sigue prohibido por el manifiesto.
+Status: **M0 through M5 done**. The four variants (B1, B2, B3 and D) have
+verified kernels under one frozen code-generation policy, and the registered
+campaign ran **2280 of 2280 cases passing** in two simulators with none missing.
+Results are in the ES/EN paper with their costs and their limits. No aggregate
+speedup is computed and the grid has not been reduced; pooling regimes remains
+forbidden by the manifest.
 
-Pendientes: **M6**, síntesis y evidencia física —área, frecuencia y energía—;
-el régimen **ZR** con puntos cero leídos en ejecución, que esta interfaz no
-puede expresar; y los ejes **K y G** de RQ3, con su costo medido y su plan en
-[docs/EXTENSION_PLAN.md](docs/EXTENSION_PLAN.md).
+Pending: **M6**, synthesis and physical evidence — area, frequency and energy;
+the **ZR** regime with zero points read at run time, which this interface cannot
+express; and the **K and G** axes of RQ3, whose cost is measured and whose plan
+is in [docs/EXTENSION_PLAN.md](docs/EXTENSION_PLAN.md).
 
-El proyecto docente original se conserva intacto fuera de este repositorio; su
-exportación fijada por hash está en `baseline/upstream/`.
+The original teaching project is kept intact outside this repository; its
+hash-pinned export lives in `baseline/upstream/`.
 
-## Por dónde leer
+## Where to start
 
-1. [Artículo en español](paper/main_es.pdf) · [fuente](paper/main_es.tex).
-2. [Artículo en inglés](paper/main_en.pdf) · [fuente](paper/main_en.tex).
-3. [Por qué este formato IEEE](docs/IEEE_FORMAT.md) y [estructura editorial](docs/PAPER_PLAN.md).
-4. [Kuntur: cambios del procesador y límites](kuntur/docs/CORE_CORRECTIONS.md).
-5. [Verificación reproducible](kuntur/verification/README.md) y [evidencia fijada](docs/CORE_STATE.json).
-6. [Contrato numérico de XQDot4Z](model/SPEC.md), [referencia Python](model/xqdot4z.py)
-   y [guía para ejecutar sus pruebas](model/README.md).
-7. [Unidad Verilog y batería M2](rtl/README.md), con [evidencia fijada](docs/RTL_STATE.json).
-8. [Interfaz ISA y decisiones](isa/SPEC.md), [pruebas M3a](tests/integration/README.md)
-   y [evidencia de integración](docs/INTEGRATION_STATE.json).
-9. [MUL común: cambios del core](kuntur/docs/SCALAR_MUL.md),
-   [pruebas escalares](tests/scalar/README.md) y [evidencia](docs/SCALAR_STATE.json).
-10. [Contrato aritmético B3](rtl/packed/SPEC.md),
-    [pruebas de B3 aislado](tests/packed/README.md) y [evidencia](docs/PACKED_STATE.json).
-11. [ISA de B3](isa/packed/SPEC.md), [cambios de integración](kuntur/docs/PACKED_INTEGRATION.md),
-    [pruebas en el procesador](tests/packed_integration/README.md) y
-    [evidencia](docs/PACKED_INTEGRATION_STATE.json).
-12. [Manifiesto inicial y comprobaciones](benchmarks/README.md), con el
-    [protocolo experimental único](docs/EXPERIMENT_PROTOCOL.md).
+1. [Paper in Spanish](paper/main_es.pdf) · [source](paper/main_es.tex).
+2. [Paper in English](paper/main_en.pdf) · [source](paper/main_en.tex).
+3. [Why this IEEE format](docs/IEEE_FORMAT.md) and [editorial structure](docs/PAPER_PLAN.md).
+4. [Kuntur: core changes and limits](kuntur/docs/CORE_CORRECTIONS.md).
+5. [Reproducible verification](kuntur/verification/README.md) and [pinned evidence](docs/CORE_STATE.json).
+6. [XQDot4Z numerical contract](model/SPEC.md), [Python reference](model/xqdot4z.py)
+   and [how to run its tests](model/README.md).
+7. [Verilog unit and the M2 battery](rtl/README.md), with [pinned evidence](docs/RTL_STATE.json).
+8. [ISA interface and decisions](isa/SPEC.md), [M3a tests](tests/integration/README.md)
+   and [integration evidence](docs/INTEGRATION_STATE.json).
+9. [Shared MUL: core changes](kuntur/docs/SCALAR_MUL.md),
+   [scalar tests](tests/scalar/README.md) and [evidence](docs/SCALAR_STATE.json).
+10. [B3 arithmetic contract](rtl/packed/SPEC.md),
+    [isolated B3 tests](tests/packed/README.md) and [evidence](docs/PACKED_STATE.json).
+11. [B3 ISA](isa/packed/SPEC.md), [integration changes](kuntur/docs/PACKED_INTEGRATION.md),
+    [in-core tests](tests/packed_integration/README.md) and
+    [evidence](docs/PACKED_INTEGRATION_STATE.json).
+12. [Campaign manifest and its checks](benchmarks/README.md), with the
+    [single experimental protocol](docs/EXPERIMENT_PROTOCOL.md).
+13. [Registration](docs/PREREGISTRATION.json) and [frozen policies](docs/POLICY_FREEZE.json),
+    which fix where measuring may begin.
+14. [Campaign evidence](docs/CAMPAIGN_STATE.json), [pilot](docs/PILOT_STATE.json),
+    [kernels](docs/KERNEL_STATE.json) and [measurement events](docs/MEASUREMENT_STATE.json).
 
-Los dos artículos son versiones equivalentes del mismo borrador. Usan
-IEEEtran en modo conferencia: dos columnas, fondo blanco y diagrama TikZ
-en blanco y negro, sin temas visuales. La convocatoria sigue abierta. Reportan la
-campaña registrada con sus costos y sus límites; la evidencia física —área,
-frecuencia y energía— sigue pendiente y no se anticipa.
-El informe extenso anterior se conserva en `docs/archive/paper-v0.1/`.
+The two papers are equivalent versions of the same draft. They use IEEEtran in
+conference mode: two columns, white background and monochrome TikZ diagrams, no
+visual theme. The venue is still open. They report the registered campaign with
+its costs and its limits; physical evidence — area, frequency and energy —
+remains pending and is not anticipated. The earlier long-form report is kept in
+`docs/archive/paper-v0.1/`.
 
-## Qué investigamos
+## What this investigates
 
-¿Bajo qué condiciones fusionar la corrección del zero-point en cuatro productos
-U4×S8 reduce el costo de ejecutar productos punto y matriz–vector, frente a
-multiplicación escalar y producto punto empacado con corrección factorizada,
-considerando reutilización de activaciones y suministro del zero-point?
+Under what conditions does fusing zero-point correction into four U4×S8 products
+reduce the cost of running dot products and matrix–vector kernels, compared with
+scalar multiplication and with a packed dot product corrected in factored form,
+accounting for activation reuse and for the cost of delivering the zero point?
 
-Primero exactitud y ciclos RTL, sin placa. Recursos, tiempo físico, energía
-y calidad de una red completa requerirán otras evidencias. La primera interfaz
-lleva z y h como inmediatos, con dos GPR fuente y sin estado oculto. No resuelve
-el suministro de zero-points leídos en ejecución ni es una extensión estándar.
+Correctness and RTL cycles first, with no board. Resources, physical time,
+energy and the accuracy of a complete network need different evidence. The first
+interface carries z and h as immediates, with two source GPRs and no hidden
+state. It does not solve the delivery of zero points read at run time, and it is
+not a standard extension.
 
-## Qué papel cumple cada copia del procesador
+## What each copy of the processor is for
 
-- `baseline/upstream/`: exportación histórica de 143 archivos, con commit y
-  manifiesto SHA-256. Solo para procedencia y reproducción de defectos.
-- `kuntur/`: Kuntur, core de investigación derivado de kirky-arqui,
-  ahora versionado como carpeta normal del repositorio principal.
-  Su historial Git anterior está preservado en un bundle recuperable.
-  Aquí están las correcciones, las pruebas y sus logs. No se hizo push.
-- Las futuras variantes compartirán las correcciones: no se atribuirán a la
-  extensión mejoras que provienen de arreglar bugs del procesador.
-- [CORE_PRE_M3.json](docs/CORE_PRE_M3.json) identifica una copia archivada de
-  las entradas verificadas del core corregido antes de integrar la operación.
-  No es otro core activo ni reemplaza el snapshot del proyecto original.
+- `baseline/upstream/`: historical export of 143 files, with its commit and a
+  SHA-256 manifest. Provenance and defect reproduction only.
+- `kuntur/`: Kuntur, the research core derived from kirky-arqui, versioned as an
+  ordinary folder of this repository. Its previous Git history is preserved in a
+  recoverable bundle. The corrections, the tests and their logs live here.
+- Every variant shares those corrections, so improvements that come from fixing
+  processor bugs are never credited to the extension.
+- [CORE_PRE_M3.json](docs/CORE_PRE_M3.json) identifies an archived copy of the
+  verified inputs of the corrected core, taken before the operation was
+  integrated. It is neither another live core nor a replacement for the snapshot
+  of the original project.
 
-La regresión corregida pasó 26 programas históricos, 28 483 vectores de
-descompresión, 10 036 comparaciones signed, pruebas de política/hazards,
-memoria, registros, cuatro programas de integración y lint.
-Esto **no certifica RV32IC completo**: se delimita y rechaza lo no implementado.
-MUL está disponible con `ENABLE_MUL=1`, apagada por defecto; no es M ni
-Zmmul completos. No hay protocolo multiciclo. Las memorias siguen siendo
-combinacionales, con 256 B cada una por defecto y capacidad parametrizable.
+The corrected regression passes 26 historical programs, 28 483 decompression
+vectors, 10 036 signed comparisons, policy and hazard tests, memory, registers,
+four integration programs and lint. This **does not certify full RV32IC**: what
+is unimplemented is delimited and rejected rather than ignored. MUL is available
+with `ENABLE_MUL=1` and off by default; it is neither full M nor Zmmul. There is
+no multi-cycle protocol. The memories remain combinational, 256 B each by
+default, with parameterizable capacity.
 
-## Organización
+## Layout
 
 ```text
 xqdot4z/
-├── baseline/       # exportación intacta, identidad y hashes
-├── audit/          # auditoría y evidencia del original
-├── kuntur/         # Kuntur: RTL corregido, docs y verification/
-├── docs/           # decisiones, evidencia fijada y archivo del informe anterior
-├── paper/          # IEEE ES/EN, TikZ y bibliografía
-├── model/          # contrato, referencia Python y evidencia numérica
-├── isa/            # contrato ISA inmediato, encoder y macro GNU
-├── rtl/            # unidades XQDot4Z y packed/XQDot4; no otro core
-├── tests/          # pruebas del modelo, unidad y programas de integración
-├── benchmarks/     # manifiesto, kernels de las cuatro variantes e inventario
-├── results/        # esquema y evidencia de campaña; sin speedup agregado
-└── scripts/        # auditoría y comprobaciones del proyecto
+├── baseline/       # untouched export, identity and hashes
+├── audit/          # audit and evidence of the original
+├── kuntur/         # Kuntur: corrected RTL, docs and verification/
+├── docs/           # decisions, pinned evidence and the earlier report
+├── paper/          # IEEE ES/EN, TikZ and bibliography
+├── model/          # contract, Python reference and numerical evidence
+├── isa/            # immediate ISA contract, encoder and GNU macro
+├── rtl/            # XQDot4Z and packed/XQDot4 units; not another core
+├── tests/          # model, unit and integration-program tests
+├── benchmarks/     # manifest, kernels for the four variants and inventory
+├── results/        # schema and campaign evidence; no aggregate speedup
+└── scripts/        # audit and project checks
 ```
 
-## Reproducir
+## Reproducing
 
-Desde este directorio:
+From this directory:
 
 ```sh
-make baseline-check   # integridad del snapshot original
-make audit            # reproduce la auditoría histórica en copia temporal
-make core-test        # regresión ampliada del clon; evidencia nueva
-make model-test       # referencia numérica: pruebas, logs y vectores
-make rtl-test         # unidad aislada, dos simuladores, lint y controles negativos
-make integration-test # ISA inmediata y pipeline, con extensión activada/desactivada
-make scalar-test      # MUL aislada, pipeline y convivencia con XQDot4Zi
-make packed-test      # B3 aislado, comparación aritmética con D y reconstrucción
-make packed-integration-test # ISA B3, ocho configuraciones y corrección en Kuntur
-make check            # identidad, hashes de evidencia y coherencia ES/EN
-make paper            # genera main_es.pdf, main_en.pdf y main.pdf (alias ES)
+make baseline-check   # integrity of the original snapshot
+make audit            # replays the historical audit in a temporary copy
+make core-test        # extended clone regression; fresh evidence
+make model-test       # numerical reference: tests, logs and vectors
+make rtl-test         # isolated unit, two simulators, lint and negative controls
+make integration-test # immediate ISA and pipeline, extension on and off
+make scalar-test      # isolated MUL, pipeline and coexistence with XQDot4Zi
+make packed-test      # isolated B3, arithmetic comparison with D, reconstruction
+make packed-integration-test # B3 ISA, eight configurations, correction in Kuntur
+make kernel-test      # the four variants under the frozen policy, 188 arms
+make measurement-test # measurement window, directed programs and harness mutations
+make materialize      # rebuilds every planned case from its seed
+make freeze-policies  # pins policy text, generators, tests and arm listings
+make pilot            # the pre-registered pilot, 32 cases over 16 seed pairs
+make campaign         # the registered campaign, 2280 cases in two simulators
+make check            # identity, evidence hashes and ES/EN coherence
+make paper            # builds main_es.pdf, main_en.pdf and main.pdf, and checks
+                      # that no float leaves its column or reads out of order
 ```
 
-Herramientas: Python 3, Icarus Verilog/vvp, Verilator y binutils RISC-V para
-pruebas; pdfLaTeX, latexmk, BibTeX, IEEEtran y TikZ para artículos.
-No se necesita red ni shell-escape para compilar.
+Tools: Python 3, Icarus Verilog/vvp, Verilator and RISC-V binutils for the
+tests; pdfLaTeX, latexmk, BibTeX, IEEEtran and TikZ for the papers; pdftotext
+for the layout check. No network and no shell escape are needed to build.
 
-M2/M3a, MUL y B3 requieren también make y C++ para el segundo simulador.
-`make audit` comprueba la ejecución histórica, no conformidad: conserva los
-defectos observados. `make check` comprueba evidencia fijada, no vuelve a
-simular ni reemplaza `make core-test`, `make model-test`, `make rtl-test` o
-`make integration-test`, `make scalar-test`, `make packed-test` o
-`make packed-integration-test`. Tras cambiar el
-RTL, el modelo, su contrato o sus tests se debe volver a verificar y actualizar
-la referencia de evidencia correspondiente deliberadamente.
+M2/M3a, MUL and B3 also need make and C++ for the second simulator. `make audit`
+checks historical execution rather than conformance: it preserves the defects
+that were observed. `make check` verifies pinned evidence; it does not re-run a
+simulation and does not replace the individual test targets above. After
+changing the RTL, the model, its contract or its tests, the corresponding
+evidence reference must be re-verified and updated deliberately.
 
-## Próximo paso, sin ampliar todavía el alcance
+## Evidence by milestone
 
-M1 está realizado: contrato, referencia entera, 15 tests agrupados,
-524 288 inserciones de un término y 20 000 productos punto aleatorios,
-con evidencia fijada en [MODEL_STATE.json](docs/MODEL_STATE.json).
-M2 también está realizado: 556 734 comparaciones por simulador (Icarus y
-Verilator), ocho controles negativos en cada uno, cuatro mutaciones detectadas
-en Icarus y lint estricto sin excepciones. La aritmética es combinacional.
+M1 is done: contract, integer reference, 15 grouped tests, 524 288 single-term
+insertions and 20 000 random dot products, pinned in
+[MODEL_STATE.json](docs/MODEL_STATE.json).
 
-M3a está realizado: 25 programas en ambos simuladores, 1056 operaciones en
-la campaña numérica integrada, encoding contra GNU, decodificación dirigida,
-forwarding, stalls, flush, reset y dos mutaciones detectadas. Se activa con
-`ENABLE_XQDOT4Z=1`; el valor por defecto es 0. La regresión histórica completa
-se volvió a ejecutar con 0. No se ha sintetizado ni medido aceleración.
+M2 is done: 556 734 comparisons per simulator (Icarus and Verilator), eight
+negative controls in each, four mutations detected in Icarus and strict lint
+with no waivers. The arithmetic is combinational.
 
-M3b está parcialmente realizado: MUL escalar opcional, 86 704 vectores por
-simulador, 49 programas en ambos, cuatro configuraciones MUL/XQDot4Zi,
-ocho controles por simulador y cuatro mutaciones (dos aritméticas, dos de
-pipeline) en Icarus. La regresión base y M3a también pasaron sobre el RTL nuevo.
+M3a is done: 25 programs in both simulators, 1056 operations in the integrated
+numerical campaign, encoding checked against GNU, directed decoding, forwarding,
+stalls, flush, reset and two mutations detected. Enabled with
+`ENABLE_XQDOT4Z=1`, which defaults to 0. The full historical regression was
+re-run with 0.
 
-B3 ya tiene unidad aislada: 67 910 vectores por simulador, diez controles
-negativos por simulador y cuatro mutaciones de RTL detectadas. Se reconstruyen
-336 salidas por fila/grupo en 24 fixtures, a partir de 1680 respuestas RTL,
-reutilizando Sa entre filas en el verificador. No son kernels en Kuntur.
+M3b is done. The optional scalar MUL passes 86 704 vectors per simulator, 49
+programs in both and four MUL/XQDot4Zi configurations. Isolated B3 passes 67 910
+vectors per simulator with ten negative controls each, and reconstructs 336
+row/group outputs across 24 fixtures from 1680 RTL responses. Integrated B3
+passes 123 programs in two simulators over eight configurations, with four
+paired two-row fixtures producing eight matching outputs in B3 and D inside
+Kuntur. Those programs check correctness; they are not optimized benchmarks.
 
-B3 también está integrada: `ENABLE_XQDOT4=1`, apagada por defecto e
-independiente de MUL y XQDot4Zi. Se verifican 123 programas en dos simuladores,
-ocho configuraciones y tres mutaciones de integración. Cuatro pares de
-fixtures de dos filas calculan ocho resultados iguales en B3 y D dentro de
-Kuntur. B3 calcula Sa una vez con pesos iguales a uno, la reutiliza y ejecuta
-MUL/SUB para corregir. Estos programas verifican exactitud; no son benchmarks
-optimizados ni proporcionan una medición de aceleración.
+M4 is done: [2280 planned cases](benchmarks/campaign.json) materialized and
+recomputable from their seeds, both policies frozen against the tree, the
+pre-measurement revision registered, and the campaign executed with 2280 of 2280
+passing and no case missing. See [CAMPAIGN_STATE.json](docs/CAMPAIGN_STATE.json)
+and [INVENTORY_STATE.json](docs/INVENTORY_STATE.json).
 
-El siguiente paso es cerrar las configuraciones y el régimen inicial de
-metadatos, implementar kernels B1/B2/B3/D y fijar su frontera de medición.
-La disponibilidad de MUL no completa aún los comparadores. El régimen de metadatos dinámicos
-sigue abierto; no se deducen sus costos a partir de esta interfaz inmediata.
-[Acta](docs/RESEARCH_CHARTER.md),
-[protocolo](docs/EXPERIMENT_PROTOCOL.md) y [decisiones](docs/DECISIONS.md) son
-notas de planificación revisables, no compromisos cerrados.
+M5 is done: the ES/EN paper reports the central comparison per regime and phase,
+decomposes the gap under a varying zero point with a structural twin, gives the
+cost in code size and states three explicit limits. Every figure is pinned by a
+macro and re-checked against the evidence.
 
-Antes de cualquier publicación se acordarán autoría, afiliación, permisos del
-código docente, licencia y convocatoria. No se ha enviado ni publicado nada.
+What remains is M6 — synthesis, area, frequency and energy — the ZR regime,
+which this interface cannot express, and the K and G axes of the sensitivity
+question. None of them is a gap in what is reported; each is declared scope.
 
-## Control de versiones
+## Authorship and licence
 
-Desde 2026-09-09, este directorio es un repositorio Git autocontenido en `main`,
-con un único commit inicial para establecer la base de investigación.
-Los siguientes commits serán pequeños y coherentes, con mensajes Karma en
-inglés: [convención](CONTRIBUTING.md). El
-[registro de organización e historial](docs/VERSION_CONTROL.md) explica cómo
-se conserva el Git anterior de Kuntur sin convertirlo en un submódulo.
+Single author; no affiliation is claimed for now. Code and evidence are under
+the MIT licence ([LICENSE](LICENSE), scope in
+[docs/LICENSING.md](docs/LICENSING.md)), including the historical export, which
+carries no header because it is hash-pinned and must stay byte-identical. The
+**manuscript is deliberately left unlicensed** until a venue is agreed: an open
+licence is easy to add and impossible to withdraw, and a later transfer of
+rights may conflict with one already granted. Structure and naming conventions
+were learned from Harris & Harris; no code from the book was used. Nothing has
+been submitted or published to a venue.
+
+[Charter](docs/RESEARCH_CHARTER.md), [protocol](docs/EXPERIMENT_PROTOCOL.md) and
+[decisions](docs/DECISIONS.md) are revisable planning notes, not closed
+commitments.
+
+## Version control
+
+This directory is a self-contained Git repository on `main`. Commits are small
+and coherent, with Karma messages in English:
+[convention](CONTRIBUTING.md). The
+[organization and history record](docs/VERSION_CONTROL.md) explains how Kuntur's
+earlier Git history is preserved without turning it into a submodule.
