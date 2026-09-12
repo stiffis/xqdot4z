@@ -56,9 +56,7 @@ Costo en ciclos: **cero** (todo combinacional).
 - **Compilar LaTeX**: `pdflatex -interaction=nonstopmode <archivo>.tex` (dos
   pasadas si hay referencias/`\tableofcontents`).
 - **No limpiar los `.aux/.log/.nav/...` tras cada compilación** mientras se está
-  editando (gasta tokens y aún hay ediciones pendientes). Limpiar solo al final.
-- **No leer el PDF tras cada micro-edición** salvo que se necesite verificar algo
-  visual concreto (ahorro de tokens/contexto).
+  editando; limpiar solo al final.
 - Ritmo objetivo de la presentación: **15 min ≈ 15-20 frames** de contenido.
 
 ---
