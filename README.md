@@ -1,17 +1,19 @@
 # XQDot4Z — productos punto cuantizados en RV32
 
-Estado 0.10, 2026-09-09: **B3 integrada en Kuntur
-como XQDot4 opcional, con corrección y reutilización de Sa ejecutadas en el
-procesador en fixtures pequeños**. M3b sigue parcial. M1/M2 y la unidad B3
-aislada se conservan sin cambios; se repitieron las regresiones afectadas.
-Los comparadores completos y los benchmarks todavía no están implementados.
-El protocolo ahora explicita distribución de z, especialización estática y
-amenazas a la validez; el manifiesto inicial es de diseño y no autoriza medir
-mientras sus políticas e instrumentación sigan pendientes.
-B1 tiene una regla aritmética acotada seleccionada antes de medir y comprobada
-en el host; no hay aún ensamblado de rendimiento. Las semillas tienen fin de
-cobertura, con un piloto prefijado pero bloqueado, sin reducir la rejilla.
-El proyecto original `/home/stiff/kirky-arqui` se conserva intacto.
+Estado: **M0 a M5 realizados**. Las cuatro variantes (B1, B2, B3 y D) tienen
+kernels verificados bajo una sola política de generación de código congelada, y
+la campaña registrada corrió **2280 de 2280 casos en `pass`** en dos simuladores
+sin ninguno ausente. Los resultados están en el artículo ES/EN con sus costos y
+sus límites. No se ha calculado ningún speedup agregado ni se ha reducido la
+rejilla; agregar regímenes sigue prohibido por el manifiesto.
+
+Pendientes: **M6**, síntesis y evidencia física —área, frecuencia y energía—;
+el régimen **ZR** con puntos cero leídos en ejecución, que esta interfaz no
+puede expresar; y los ejes **K y G** de RQ3, con su costo medido y su plan en
+[docs/EXTENSION_PLAN.md](docs/EXTENSION_PLAN.md).
+
+El proyecto docente original se conserva intacto fuera de este repositorio; su
+exportación fijada por hash está en `baseline/upstream/`.
 
 ## Por dónde leer
 
@@ -37,8 +39,9 @@ El proyecto original `/home/stiff/kirky-arqui` se conserva intacto.
 
 Los dos artículos son versiones equivalentes del mismo borrador. Usan
 IEEEtran en modo conferencia: dos columnas, fondo blanco y diagrama TikZ
-en blanco y negro, sin temas visuales. La convocatoria sigue abierta. El rendimiento
-y las conclusiones están pendientes; no se anticipan hallazgos para aparentar un paper terminado.
+en blanco y negro, sin temas visuales. La convocatoria sigue abierta. Reportan la
+campaña registrada con sus costos y sus límites; la evidencia física —área,
+frecuencia y energía— sigue pendiente y no se anticipa.
 El informe extenso anterior se conserva en `docs/archive/paper-v0.1/`.
 
 ## Qué investigamos
@@ -88,8 +91,8 @@ xqdot4z/
 ├── isa/            # contrato ISA inmediato, encoder y macro GNU
 ├── rtl/            # unidades XQDot4Z y packed/XQDot4; no otro core
 ├── tests/          # pruebas del modelo, unidad y programas de integración
-├── benchmarks/     # manifiesto y aritmética B1 en host; kernels pendientes
-├── results/        # esquema; sin mediciones de aceleración
+├── benchmarks/     # manifiesto, kernels de las cuatro variantes e inventario
+├── results/        # esquema y evidencia de campaña; sin speedup agregado
 └── scripts/        # auditoría y comprobaciones del proyecto
 ```
 
